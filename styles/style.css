@@ -404,7 +404,6 @@ table {
 }
 
 
-
 .centered {
     display: flex;
     justify-content: center;
@@ -877,4 +876,74 @@ md-fab-extended {
     --_container-height: 40px;
     --_label-text-color: rgba(87, 86, 86, 0.911);
     --_label-text-weight: 400;
+}
+
+.client_list_item {
+    background-color: #fff;
+    border-radius: 15px;
+    height: 6%;
+    margin-left: 0;
+    width: 90%;
+}
+
+.list_item_user_icon_initials{
+    background-color: #c1cff5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 36px;
+    margin-left: 1.3vw;
+}
+
+.list_item_user_icon_initials p{
+    color: #001158;
+    font-weight: 500;
+}
+
+.list_item_user_name p{
+    font-weight: normal;
+    color: rgb(27, 27, 31);
+}
+
+.list_item_user_debt p{
+    font-weight: 500;
+    color: rgb(70, 70, 79);
+}
+
+.list_item_user_buttons{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .client_list_item{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 596px) {
+    .list_item_empty_block{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 596px) {
+    .list_item_user_buttons{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 596px) {
+    .client_list_item {
+        background-color: #fff;
+        border-radius: 15px;
+        height: 6vh;
+        margin-left: 0;
+        width: 100%;
+    }
 }
