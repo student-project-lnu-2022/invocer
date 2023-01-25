@@ -947,3 +947,7 @@ md-fab-extended {
         width: 100%;
     }
 }
+
+.client_list_item{
+    margin-bottom: 10px;
+}
