@@ -1,6 +1,6 @@
 html {
     --md-sys-color-primary: rgb(0, 68, 255);
-    --md-sys-color-secondary: #018786;
+    --md-sys-color-shadow: rgba(0, 68, 255, 0);
     --md-sys-color-tertiary: #fff;
     --md-sys-color-tertiary-container: #fff;
     --md-sys-color-background: #fff;
@@ -403,6 +403,8 @@ table {
     border-bottom: 1px solid rgba(0, 68, 255, 0.11);
 }
 
+
+
 .centered {
     display: flex;
     justify-content: center;
@@ -416,15 +418,6 @@ table {
 .input_field {
     margin-top: 0.1vh;
     margin-bottom: 1.5vh;
-}
-
-#additional_item_button {
-    --md-sys-color-shadow: rgba(0, 68, 255, 0);
-    --_container-height: 40px;
-    --_label-text-color: rgba(87, 86, 86, 0.911);
-    --_label-text-weight: 400;
-    display: flex;
-    justify-content: center;
 }
 
 .md-fab {
@@ -687,7 +680,7 @@ table {
     margin: 0px;
 }
 
-.change_password>.content>.item {
+.change_password > .content > .item {
     display: flex;
     text-align: left;
     justify-content: flex-start;
@@ -757,7 +750,7 @@ table {
     padding-bottom: 10px;
 }
 
-.last_row_change_pass>.grid_last_row>.item {
+.last_row_change_pass > .grid_last_row > .item {
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -833,8 +826,7 @@ ul {
 
 .submenuItems {
     display: none;
-    background: #ffffff;
-;
+    background: #ffffff;;
     transition: all 2s ease-in-out;
     overflow: hidden;
     /* padding-top: 20px; */
@@ -846,7 +838,7 @@ ul {
     display: block;
 }
 
-.submenuItems>.item {
+.submenuItems > .item {
     display: flex;
     text-align: left;
     justify-content: flex-start;
@@ -873,7 +865,16 @@ ul {
     border: none;
 }
 
-.background_settings_page{
+.background_settings_page {
     background-color: #EDEFF6;
+}
 
+md-fab-extended {
+    --_label-text-color: #000;
+}
+
+#additional_item_button {
+    --_container-height: 40px;
+    --_label-text-color: rgba(87, 86, 86, 0.911);
+    --_label-text-weight: 400;
 }
