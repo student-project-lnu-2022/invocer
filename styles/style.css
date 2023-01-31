@@ -951,3 +951,50 @@ md-fab-extended {
 .client_list_item{
     margin-bottom: 10px;
 }
+
+
+/* Forgot Password Page */
+
+#forgot_password_text {
+    font-size: 32px;
+    font-family: Roboto, serif;
+    font-weight: 500;
+    padding-bottom: 1.5vh;
+    padding-top: 1.5vh;
+}
+
+#forgot_password_page {
+    background-color: rgba(233, 236, 246, 1)
+}
+
+#logo_invoicer_big_forgot_password_page {
+    margin-top: 8vh;
+}
+
+#input_forgot_password_page {
+    margin-top: 0.1vh;
+}
+
+#password_input_forgot_password_page{
+    margin-top: 0.1vh;
+    margin-bottom: 1.5vh;
+}
+
+#send_code_button_forgot_password_page {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+#background_input_forgot_password_page {
+    background-color: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+#confirmation_text {
+    display: none;
+    font-size: 20px;
+    font-family: Roboto, serif;
+    color: #979799;
+}
