@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html>
 <head>
     <meta charset="utf-8">
@@ -8,11 +9,8 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block">
-<!--    <script type="module"-->
-<!--            src="https://unpkg.com/@material/web@1.0.0-pre.1/textfield/outlined-text-field?module"></script>-->
-<!--    <script type="module" src="https://unpkg.com/@material/web@1.0.0-pre.1/button/filled-button.js?module"></script>-->
-    <link rel="stylesheet" href="styles/style.css">
-    <link href="styles/normalize.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <link href="{% static 'css/normalize.css' %}" rel="stylesheet"/>
 </head>
 <body id="log_in_page">
 <div class="container-fluid">
@@ -61,7 +59,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
-<script type="module" src="index.js"></script>
+<script type="module" src="{% static 'js/bundle.js' %}"></script>
 </body>
 </html>
 
