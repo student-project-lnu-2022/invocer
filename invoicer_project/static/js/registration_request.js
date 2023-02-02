@@ -1,3 +1,4 @@
+const host = "http://127.0.0.1:8000";
 csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 const sendData = async (url, dataToSend) => {
     if (dataToSend.get('password') !== dataToSend.get('repeat_password')) {
@@ -23,6 +24,7 @@ const sendDataWrap = async (url, dataToSend) => {
         document.getElementById("repeat_password_input_registration_page").value = "";
 
         console.log('Sent successfully: ', result);
+        window.location = host + '/clients/list/';
     } catch (error) {
         console.error('Error:', error);
     }

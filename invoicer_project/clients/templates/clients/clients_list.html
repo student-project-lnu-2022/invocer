@@ -63,7 +63,7 @@
 
     </div>
     <div class="col-2" id="user_name_and_icon_column">
-        <p id="user_name">John Smith</p>
+        <p id="user_name">{{first_name}} {{last_name}}</p>
         <i class="material-icons" style="font-size:36px; color: #767680">account_circle</i>
     </div>
 </nav>
@@ -73,23 +73,23 @@
         <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
             <li>
                 <a href="#"><span class="fa-stack fa-lg pull-left invoices_icon"><img class="icon_menu"
-                                                                                      src="./img/invoice.png"></span>Invoices</a>
+                                                                                      src="{% static 'img/invoice.png' %}"></span>Invoices</a>
             </li>
             <li class="active">
                 <a href="#"><span class="fa-stack fa-lg pull-left clients_icon"><img class="icon_menu"
-                                                                                     src="./img/clients.png"></span>Clients</a>
+                                                                                     src="{% static 'img/clients.png' %}"></span>Clients</a>
             </li>
             <li>
                 <a href="#"><span class="fa-stack fa-lg pull-left"><img class="icon_menu"
-                                                                        src="./img/list-items.png"></span>Items</a>
+                                                                        src="{% static 'img/list-items.png' %}"></span>Items</a>
             </li>
             <li>
                 <a href="#"> <span class="fa-stack fa-lg pull-left"><img class="icon_menu"
-                                                                         src="./img/statistics.png"></span>Statistics</a>
+                                                                         src="{% static 'img/statistics.png' %}"></span>Statistics</a>
             </li>
             <li>
                 <a href="#"><span class="fa-stack fa-lg pull-left"><img class="icon_menu"
-                                                                        src="./img/settings.png"></span>Settings</a>
+                                                                        src="{% static 'img/settings.png' %}"></span>Settings</a>
             </li>
         </ul>
     </div>

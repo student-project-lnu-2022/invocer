@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
     <link href="{% static 'css/normalize.css' %}" rel="stylesheet"/>
-
-<!---->
-
 </head>
 <body id="registration_page">
 <div class="container-fluid>">
@@ -67,7 +64,7 @@
                           label="Create profile"></md-filled-button>
     </div>
     <div class="row text-center">
-        <a href="login.html"><p class="hint_text_registration_page">I have an account. Log in.</p></a>
+        <a href="{% url 'login' %}"><p class="hint_text_registration_page">I have an account. Log in.</p></a>
     </div>
 </div>
 
