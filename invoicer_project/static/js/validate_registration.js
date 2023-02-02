@@ -5,8 +5,6 @@ function validateRegistration() {
     validate_name_and_surname();
     checkAndSetNormalHeightNameAndSurnameInput();
     checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
-
-
 }
 
 function setNormalStateNameInput() {
@@ -20,19 +18,20 @@ function setNormalStateSurnameInput() {
     document.getElementById("surname_input_registration_page").removeAttribute("errorText");
     document.getElementById("surname_input_registration_page").removeAttribute("error");
     removeMaxHeightAttribute();
-    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
+    checkAndSetNormalHeightNameAndSurnameInput();
 }
 
 function setNormalStatePasswordInput() {
-    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
     document.getElementById("password_input_registration_page").removeAttribute("errorText");
     document.getElementById("password_input_registration_page").removeAttribute("error");
+    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
+
 }
 
 function setNormalStateRepeatPasswordInput() {
-    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
     document.getElementById("repeat_password_input_registration_page").removeAttribute("errorText");
     document.getElementById("repeat_password_input_registration_page").removeAttribute("error");
+    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
 }
 
 function setNormalStateEmailInput() {
