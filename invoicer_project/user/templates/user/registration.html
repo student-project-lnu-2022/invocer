@@ -41,19 +41,19 @@
                 <div class="row justify-content-between row-input">
                     {% csrf_token %}
                     <md-outlined-text-field class="col-6" id="name_input_registration_page"
-                                            label="Name"></md-outlined-text-field>
+                                            label="Name" oninput="setNormalStateNameInput()"></md-outlined-text-field>
                     <md-outlined-text-field class="col-6" id="surname_input_registration_page"
-                                            label="Surname"></md-outlined-text-field>
+                                            label="Surname" oninput="setNormalStateSurnameInput()"></md-outlined-text-field>
                 </div>
                 <div class="row row-input">
                     <md-outlined-text-field class="col-12" id="email_input_registration_page"
-                                            label="Email"></md-outlined-text-field>
+                                            label="Email" oninput="setNormalStateEmailInput()"></md-outlined-text-field>
                 </div>
                 <div class="row justify-content-between row-input">
                     <md-outlined-text-field class="col-6" id="password_input_registration_page" type="password"
-                                            label="Password"></md-outlined-text-field>
+                                            label="Password" oninput="setNormalStatePasswordInput()"></md-outlined-text-field>
                     <md-outlined-text-field class="col-6" id="repeat_password_input_registration_page" type="password"
-                                            label="Repeat password"></md-outlined-text-field>
+                                            label="Repeat password" oninput="setNormalStateRepeatPasswordInput()"></md-outlined-text-field>
                 </div>
             </div>
         </div>
