@@ -38,7 +38,6 @@ const sendDataWrap = async (url, dataToSend) => {
     const repeat_password = document.getElementById("repeat_password_input_registration_page").value;
     const formData = new FormData();
 
-    formData.set("first_name", name);
     formData.append('first_name', name);
     formData.append('last_name', surname);
     formData.append('email', email);
