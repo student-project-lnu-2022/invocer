@@ -189,6 +189,9 @@ function validate_name_and_surname() {
     } else if (!(/^[a-z]+$/i.test(nameInput))) {
         nameForm.setAttribute("error", "true");
         nameForm.setAttribute("errorText", "Only latin letters are allowed");
+    } else if(!(/[A-Z]/.test(nameInput.charAt(0)))){
+        nameForm.setAttribute("error", "true");
+        nameForm.setAttribute("errorText", "Name must start with uppercase letter!");
     } else {
         nameForm.removeAttribute("errorText");
         nameForm.removeAttribute("error");
@@ -207,6 +210,9 @@ function validate_name_and_surname() {
     } else if (!(/^[a-z]+$/i.test(surnameInput))) {
         surnameForm.setAttribute("error", "true");
         surnameForm.setAttribute("errorText", "Only latin letters are allowed");
+    } else if(!(/[A-Z]/.test(nameInput.charAt(0)))) {
+        nameForm.setAttribute("error", "true");
+        nameForm.setAttribute("errorText", "Surname must start with upper case letter!");
     } else {
         surnameForm.removeAttribute("errorText");
         surnameForm.removeAttribute("error");
