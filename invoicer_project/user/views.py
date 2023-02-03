@@ -14,7 +14,7 @@ def RegisterView(request):
             user = newuser.save()
             auth.login(request, user)
         except:
-            return JsonResponse({"msg": "Fail"}, status=400)
+            return JsonResponse({"message": "Invalid credentials"}, status=400)
         return JsonResponse(newuser.data, status=200)
     else:
         return render(request, 'user/registration.html', {})
