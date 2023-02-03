@@ -1,128 +1,198 @@
-function validateRegistration() {
-    removeMaxHeightAttribute();
-    validate_email();
-    validate_password();
-    validate_name_and_surname();
-    checkAndSetNormalHeightNameAndSurnameInput();
-    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
-}
+// const passwordMinLength = 8;
+// const passwordMaxLength = 15;
+// const nameSurnMaxLength = 35;
 
-function setNormalStateNameInput() {
-    document.getElementById("name_input_registration_page").removeAttribute("errorText");
-    document.getElementById("name_input_registration_page").removeAttribute("error");
-    removeMaxHeightAttribute();
-    checkAndSetNormalHeightNameAndSurnameInput();
-}
+// const emailForm = document.getElementById("email_input_registration_page");
+// const nameForm = document.getElementById("name_input_registration_page");
+// const surnameForm = document.getElementById("surname_input_registration_page");
+// const passForm = document.getElementById("password_input_registration_page");
+// const repeatPassForm = document.getElementById("repeat_password_input_registration_page");
 
-function setNormalStateSurnameInput() {
-    document.getElementById("surname_input_registration_page").removeAttribute("errorText");
-    document.getElementById("surname_input_registration_page").removeAttribute("error");
-    removeMaxHeightAttribute();
-    checkAndSetNormalHeightNameAndSurnameInput();
-}
 
-function setNormalStatePasswordInput() {
-    document.getElementById("password_input_registration_page").removeAttribute("errorText");
-    document.getElementById("password_input_registration_page").removeAttribute("error");
-    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
+// function validateRegistration() {
+//     removeMaxHeightAttribute();
+    
+//     let email = validate_email();
+//     let passwords = validate_passwords();
+//     let names = validate_name_and_surname();
+//     checkAndSetNormalHeightNameAndSurnameInput();
+//     checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
+   
+//     return (email && passwords && names)
+// }
 
-}
+// function setNormalStateNameInput() {
+//     nameForm.removeAttribute("errorText");
+//     nameForm.removeAttribute("error");
+//     removeMaxHeightAttribute();
+//     checkAndSetNormalHeightNameAndSurnameInput();
+// }
 
-function setNormalStateRepeatPasswordInput() {
-    document.getElementById("repeat_password_input_registration_page").removeAttribute("errorText");
-    document.getElementById("repeat_password_input_registration_page").removeAttribute("error");
-    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
-}
+// function setNormalStateSurnameInput() {
+//     surnameForm.removeAttribute("errorText");
+//     surnameForm.removeAttribute("error");
+//     removeMaxHeightAttribute();
+//     checkAndSetNormalHeightNameAndSurnameInput();
+// }
 
-function setNormalStateEmailInput() {
-    document.getElementById("email_input_registration_page").removeAttribute("errorText");
-    document.getElementById("email_input_registration_page").removeAttribute("error");
-}
+// function setNormalStatePasswordInput() {
+//     passForm.removeAttribute("errorText");
+//     passForm.removeAttribute("error");
+//     checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
+// }
 
-function checkAndSetNormalHeightNameAndSurnameInput() {
-    if (document.getElementById("name_input_registration_page").hasAttribute("error") && !(document.getElementById("surname_input_registration_page").hasAttribute("error"))) {
-        document.getElementById("surname_input_registration_page").style.maxHeight = "56px";
-    }
-    if (!(document.getElementById("name_input_registration_page").hasAttribute("error")) && document.getElementById("surname_input_registration_page").hasAttribute("error")) {
-        document.getElementById("name_input_registration_page").style.maxHeight = "56px";
-    }
-}
+// function setNormalStateRepeatPasswordInput() {
+//     repeatPassForm.removeAttribute("errorText");
+//     repeatPassForm.removeAttribute("error");
+//     checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
+// }
 
-function checkAndSetNormalHeightPasswordAndRepeatPasswordInput() {
-    if (document.getElementById("password_input_registration_page").hasAttribute("error") && !(document.getElementById("repeat_password_input_registration_page").hasAttribute("error"))) {
-        document.getElementById("repeat_password_input_registration_page").style.maxHeight = "56px";
-    }
-    if (!(document.getElementById("password_input_registration_page").hasAttribute("error")) && document.getElementById("repeat_password_input_registration_page").hasAttribute("error")) {
-        document.getElementById("password_input_registration_page").style.maxHeight = "56px";
-    }
-}
+// function setNormalStateEmailInput() {
+//     emailForm.removeAttribute("errorText");
+//     emailForm.removeAttribute("error");
+// }
 
-function removeMaxHeightAttribute() {
-    document.getElementById("surname_input_registration_page").style.maxHeight = null;
-    document.getElementById("name_input_registration_page").style.maxHeight = null;
-    document.getElementById("password_input_registration_page").style.maxHeight = null;
-    document.getElementById("repeat_password_input_registration_page").style.maxHeight = null;
-}
+// function checkAndSetNormalHeightNameAndSurnameInput() {
+//     if (nameForm.hasAttribute("error") && !(surnameForm.hasAttribute("error"))) {
+//         surnameForm.style.maxHeight = "56px";
+//     }
+//     if (!(nameForm.hasAttribute("error")) && surnameForm.hasAttribute("error")) {
+//         nameForm.style.maxHeight = "56px";
+//     }
+// }
 
-function validate_email() {
-    var user_email = document.getElementById("email_input_registration_page").value;
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_email))) {
-        document.getElementById("email_input_registration_page").setAttribute("errorText", "You entered an invalid email!");
-        document.getElementById("email_input_registration_page").setAttribute("error", "true");
-    } else {
-        document.getElementById("email_input_registration_page").removeAttribute("errorText");
-        document.getElementById("email_input_registration_page").removeAttribute("error");
-    }
-}
+// function checkAndSetNormalHeightPasswordAndRepeatPasswordInput() {
+//     if (passForm.hasAttribute("error") && !(repeatPassForm.hasAttribute("error"))) {
+//         repeatPassForm.style.maxHeight = "56px";
+//     }
+//     if (!(passForm.hasAttribute("error")) && repeatPassForm.hasAttribute("error")) {
+//         passForm.style.maxHeight = "56px";
+//     }
+// }
 
-function validate_password() {
-    var user_password = document.getElementById("password_input_registration_page").value;
-    var user_password_repeat = document.getElementById("repeat_password_input_registration_page").value;
-    if (user_password_repeat !== user_password) {
-        document.getElementById("repeat_password_input_registration_page").setAttribute("errorText", "Your passwords don't match");
-        document.getElementById("repeat_password_input_registration_page").setAttribute("error", "true");
-    } else {
-        document.getElementById("password_input_registration_page").removeAttribute("errorText");
-        document.getElementById("password_input_registration_page").removeAttribute("error");
-        document.getElementById("repeat_password_input_registration_page").removeAttribute("errorText");
-        document.getElementById("repeat_password_input_registration_page").removeAttribute("error");
-    }
-    if (user_password.toString() === "") {
-        document.getElementById("password_input_registration_page").setAttribute("error", "true");
-        document.getElementById("password_input_registration_page").setAttribute("errorText", "This field can't be empty");
-    }
-    if (user_password_repeat.toString() === "") {
-        document.getElementById("repeat_password_input_registration_page").setAttribute("error", "true");
-        document.getElementById("repeat_password_input_registration_page").setAttribute("errorText", "This field can't be empty");
-    }
-}
+// function removeMaxHeightAttribute() {
+//     surnameForm.style.maxHeight = null;
+//     nameForm.style.maxHeight = null;
+//     passForm.style.maxHeight = null;
+//     repeatPassForm.style.maxHeight = null;
+// }
 
-function validate_name_and_surname() {
-    var user_name_input = document.getElementById("name_input_registration_page").value;
-    var user_surname_input = document.getElementById("surname_input_registration_page").value;
 
-    if (user_name_input.toString() === "") {
-        document.getElementById("name_input_registration_page").setAttribute("error", "true");
-        document.getElementById("name_input_registration_page").setAttribute("errorText", "This field can't be empty");
-    } else {
-        if (user_name_input.toString().length > 35) {
-            document.getElementById("name_input_registration_page").setAttribute("errorText", "Your name is too long!");
-            document.getElementById("name_input_registration_page").setAttribute("error", "true");
-        } else {
-            document.getElementById("name_input_registration_page").removeAttribute("errorText");
-            document.getElementById("name_input_registration_page").removeAttribute("error");
-        }
-    }
-    if (user_surname_input.toString() === "") {
-        document.getElementById("surname_input_registration_page").setAttribute("error", "true");
-        document.getElementById("surname_input_registration_page").setAttribute("errorText", "This field can't be empty");
-    } else {
-        if (user_surname_input.toString().length > 35) {
-            document.getElementById("surname_input_registration_page").setAttribute("errorText", "Your surname is too long!");
-            document.getElementById("surname_input_registration_page").setAttribute("error", "true");
-        } else {
-            document.getElementById("surname_input_registration_page").removeAttribute("errorText");
-            document.getElementById("surname_input_registration_page").removeAttribute("error");
-        }
-    }
-}
+// function validate_email() {
+//     let user_email = emailForm.value;
+//     if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_email))) {
+//         emailForm.setAttribute("errorText", "You entered an invalid email!");
+//         emailForm.setAttribute("error", "true");
+//         return true;
+//     } else {
+//         emailForm.removeAttribute("errorText");
+//         emailForm.removeAttribute("error");
+//         return false;
+//     }
+// }
+
+// function validate_passwords() {
+//     let userPassword = passForm.value;
+//     let userPasswordRepeat = repeatPassForm.value;
+    
+//     let passwordResult = false;
+//     let repeatPasswordResult = false;
+//     let match = true;
+
+    
+//     if (userPassword.length < passwordMinLength) {
+//         passForm.setAttribute("error", "true");
+//         passForm.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
+//     } else if (userPassword.length > passwordMaxLength) {
+//         passForm.setAttribute("error", "true");
+//         passForm.setAttribute("errorText", `Password must have at most ${passwordMaxLength} characters`);
+//     } else if (!(/^[a-z0-9]+$/i.test(userPassword))) {
+//         passForm.setAttribute("error", "true");
+//         passForm.setAttribute("errorText", "Only latin letters and numbers are allowed");
+//     }
+//     else if (!(/\d/.test(userPassword))) {
+//         passForm.setAttribute("error", "true");
+//         passForm.setAttribute("errorText", "Password must contain number");
+//     } else if (!(/[A-Z]/.test(userPassword))) {
+//         passForm.setAttribute("error", "true");
+//         passForm.setAttribute("errorText", "Password must contain capital letter");
+//     } else {
+//         passForm.removeAttribute("errorText");
+//         passForm.removeAttribute("error");
+//         passwordResult = true;
+//     }
+    
+//     if (userPasswordRepeat.length < passwordMinLength) {
+//         repeatPassForm.setAttribute("error", "true");
+//         repeatPassForm.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
+//     } else if (userPasswordRepeat.length > passwordMaxLength) {
+//         repeatPassForm.setAttribute("error", "true");
+//         repeatPassForm.setAttribute("errorText", `Password must have at most ${passwordMaxLength} characters`);
+//     } else if (!(/^[a-z0-9]+$/i.test(userPasswordRepeat))) {
+//         repeatPassForm.setAttribute("error", "true");
+//         repeatPassForm.setAttribute("errorText", "Only latin letters and numbers are allowed");
+//     } else if (!(/\d/.test(userPasswordRepeat))) {
+//         repeatPassForm.setAttribute("error", "true");
+//         repeatPassForm.setAttribute("errorText", "Password must contain number");
+//     } else if (!(/[A-Z]/.test(userPasswordRepeat))) {
+//         repeatPassForm.setAttribute("error", "true");
+//         repeatPassForm.setAttribute("errorText", "Password must contain capital letter");
+//     } else {
+//         repeatPassForm.removeAttribute("errorText");
+//         repeatPassForm.removeAttribute("error");
+//         repeatPasswordResult = true;
+//     }
+//     if (userPassword !== userPasswordRepeat) { 
+//         match = false;
+//         passForm.setAttribute("error", "true");
+//         passForm.setAttribute("errorText", "Passwords don't match");
+       
+//         repeatPassForm.setAttribute("error", "true");
+//         repeatPassForm.setAttribute("errorText", "Passwords don't match");
+//         console.log(userPassword, userPasswordRepeat);
+//     }
+
+//     // console.log("match:", match);
+//     // console.log("pass", passwordResult);
+//     // console.log("repeat", repeatPasswordResult);
+//     return (match && passwordResult && repeatPasswordResult) 
+// }
+
+// function validate_name_and_surname() {
+//     let nameInput = nameForm.value;
+//     let surnameInput = surnameForm.value;
+//     let nameResult = false;
+//     let surnameResult = false;
+
+//     if (!nameInput) {
+//         nameForm.setAttribute("error", "true");
+//         nameForm.setAttribute("errorText", "This field can't be empty");
+//     } else if (nameInput.length > nameSurnMaxLength) {
+//         nameForm.setAttribute("error", "true");
+//         nameForm.setAttribute("errorText", `Name can't be longer than ${nameSurnMaxLength} characters`);
+//     } else if (!(/^[a-z]+$/i.test(nameInput))) {
+//         nameForm.setAttribute("error", "true");
+//         nameForm.setAttribute("errorText", "Only latin letters are allowed");
+//     } else {
+//         nameForm.removeAttribute("errorText");
+//         nameForm.removeAttribute("error");
+//         nameResult = true;
+//     }
+
+//     if (!surnameInput) {
+//         surnameForm.setAttribute("error", "true");
+//         surnameForm.setAttribute("errorText", "This field can't be empty");
+//     } else if (surnameInput.length > nameSurnMaxLength) {
+//         surnameForm.setAttribute("error", "true");
+//         surnameForm.setAttribute("errorText", `Surname can't be longer than ${nameSurnMaxLength} characters`);
+//     } else if (!(/^[a-z]+$/i.test(surnameInput))) {
+//         surnameForm.setAttribute("error", "true");
+//         surnameForm.setAttribute("errorText", "Only latin letters are allowed");
+//     } else {
+//         surnameForm.removeAttribute("errorText");
+//         surnameForm.removeAttribute("error");
+//         surnameResult = true;
+//     }
+//     return (nameResult && surnameResult)
+// }
+

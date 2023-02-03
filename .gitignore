@@ -4714,3 +4714,4 @@ invoicer_project/clients/migrations
 invoicer_project/invoicer_project/__pycache__
 invoicer_project/user/migrations
 invoicer_project/user/__pycache__
+invoicer_project/db.sqlite3
