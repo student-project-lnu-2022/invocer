@@ -191,7 +191,7 @@ function validate_name_and_surname() {
         nameForm.setAttribute("errorText", "Only latin letters are allowed");
     } else if(!(/[A-Z]/.test(nameInput.charAt(0)))){
         nameForm.setAttribute("error", "true");
-        nameForm.setAttribute("errorText", "Name must start with uppercase letter!");
+        nameForm.setAttribute("errorText", "First letter has to be capital");
     } else {
         nameForm.removeAttribute("errorText");
         nameForm.removeAttribute("error");
@@ -210,9 +210,9 @@ function validate_name_and_surname() {
     } else if (!(/^[a-z]+$/i.test(surnameInput))) {
         surnameForm.setAttribute("error", "true");
         surnameForm.setAttribute("errorText", "Only latin letters are allowed");
-    } else if(!(/[A-Z]/.test(nameInput.charAt(0)))) {
-        nameForm.setAttribute("error", "true");
-        nameForm.setAttribute("errorText", "Surname must start with upper case letter!");
+    } else if(!(/[A-Z]/.test(surnameInput.charAt(0)))) {
+        surnameForm.setAttribute("error", "true");
+        surnameForm.setAttribute("errorText", "First letter has to be capital");
     } else {
         surnameForm.removeAttribute("errorText");
         surnameForm.removeAttribute("error");
@@ -234,9 +234,10 @@ console.log(dataToSend);
 }
 
 const sendDataWrap = async (url, dataToSend) => {
+    
     try {
         const result = await sendData(url, dataToSend);
-        console.log('Sent successfully: ', result);
+        
         window.location = host + 'clients/list/';
     } catch (error) {
         console.error('Error:', error);
@@ -271,6 +272,5 @@ const sendDataWrap = async (url, dataToSend) => {
             formData.append('csrfmiddlewaretoken', csrf_token);
 
             sendDataWrap(host + 'user/register/', formData);
-            setTimeout(console.log('Success!!'), 7000);
         }
 });
