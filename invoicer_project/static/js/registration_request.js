@@ -86,7 +86,7 @@ function validate_email() {
     if (user_email.includes(' ')) {
         emailForm.setAttribute("errorText", "Email can't contain whitespace");
         emailForm.setAttribute("error", "true");
-    } else if (!(/^[a-zA-Z0-9]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
+    } else if (!(/^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
         emailForm.setAttribute("errorText", "You entered an invalid email!");
         emailForm.setAttribute("error", "true");
     } else {
