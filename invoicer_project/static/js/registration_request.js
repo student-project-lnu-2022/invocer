@@ -228,21 +228,24 @@ console.log(dataToSend);
         method: 'POST',
         body: dataToSend
     })
-
+    const status_code = res.status
     const jsonResponce = await res.json()
-    return jsonResponce
+    return [jsonResponce, status_code]
 }
 
 const sendDataWrap = async (url, dataToSend) => {
-    
     try {
         const result = await sendData(url, dataToSend);
-        
+        if (result[1] === 400) {
+        throw new Error(result[0]["message"]);
+        }
+        else {
         window.location = host + 'clients/list/';
-    } catch (error) {
-        console.error('Error:', error);
+        }
+        }
+     catch (error) {
+        console.error('Error:', error.message);
     }
-
 }
 
     document.getElementById("sign_up_confirmation_button_registration_page").addEventListener("click", function (event) {
@@ -263,7 +266,6 @@ const sendDataWrap = async (url, dataToSend) => {
             repeatPassForm.value = '';
 
 
-            formData.set("first_name", name);
             formData.append('first_name', name);
             formData.append('last_name', surname);
             formData.append('email', email);
