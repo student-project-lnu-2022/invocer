@@ -2,7 +2,7 @@ const passwordMinLength = 8;
 const passwordMaxLength = 15;
 const nameSurnMaxLength = 35;
 const host = "http://127.0.0.1:8000/";
-const csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+let csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 const emailForm = document.getElementById("email_input_registration_page");
 const nameForm = document.getElementById("name_input_registration_page");
@@ -228,22 +228,34 @@ console.log(dataToSend);
         method: 'POST',
         body: dataToSend
     })
-    const status_code = res.status
+    const statusCode = res.status;
     const jsonResponce = await res.json()
-    return [jsonResponce, status_code]
+    return [jsonResponce, statusCode]
 }
 
 const sendDataWrap = async (url, dataToSend) => {
     try {
         const result = await sendData(url, dataToSend);
-        if (result[1] === 400) {
-        throw new Error(result[0]["message"]);
+        if (result[1] === 200) {
+            window.location = host + 'clients/list/';
+            nameForm.value = '';
+            surnameForm.value = '';
+            emailForm.value = '';
+            passForm.value = '';
+            repeatPassForm.value = '';
+        }
+        else if (result[1] === 400) {
+            emailForm.setAttribute("errorText", "User with such email already exists");
+            emailForm.setAttribute("error", "true");
+            emailForm.value = '';
         }
         else {
-        window.location = host + 'clients/list/';
+            emailForm.setAttribute("error", "true");
+            passwordForm.setAttribute("error", "true");
+            passwordForm.setAttribute("errorText", "Unknown error"); 
         }
-        }
-     catch (error) {
+    }
+    catch (error) {
         console.error('Error:', error.message);
     }
 }
@@ -259,13 +271,9 @@ const sendDataWrap = async (url, dataToSend) => {
             const password = passForm.value;
             const repeat_password = repeatPassForm.value;
             const formData = new FormData();
-            nameForm.value = '';
-            surnameForm.value = '';
-            emailForm.value = '';
-            passForm.value = '';
-            repeatPassForm.value = '';
+           
 
-
+            
             formData.append('first_name', name);
             formData.append('last_name', surname);
             formData.append('email', email);
@@ -275,4 +283,4 @@ const sendDataWrap = async (url, dataToSend) => {
 
             sendDataWrap(host + 'user/register/', formData);
         }
-});
+    });
