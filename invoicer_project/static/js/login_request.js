@@ -15,7 +15,7 @@ function validatePassword() {
 function validateEmail() {
     let user_email = emailForm.value;
     let result = false;
-    
+
     if (user_email.includes(' ')) {
         emailForm.setAttribute("errorText", "You entered an invalid email!");
         emailForm.setAttribute("error", "true");
@@ -50,13 +50,14 @@ const sendData = async (url, dataToSend) => {
 const sendDataWrap = async (url, dataToSend) => {
     try {
         const result = await sendData(url, dataToSend);
-        console.log(result);
-        console.log(result[1]);
-       
-         if (result[1] === 200) {
-             emailForm.value = "";
-             passwordForm.value = "";
-             window.location = host + '/clients/list/';        
+
+        if (result[1] === 200) {
+            localStorage.setItem('refreshToken', result[0]['refresh']);
+            localStorage.setItem('accessToken', result[0]['access']);
+            emailForm.value = "";
+            passwordForm.value = "";
+            window.location = host + '/clients/list/';
+            
         } else if (result[1] === 400) {
             emailForm.setAttribute("error", "true");
             passwordForm.setAttribute("error", "true");
@@ -64,15 +65,15 @@ const sendDataWrap = async (url, dataToSend) => {
         } else {
             emailForm.setAttribute("error", "true");
             passwordForm.setAttribute("error", "true");
-            passwordForm.setAttribute("errorText", "Unknown error"); 
-        } 
+            passwordForm.setAttribute("errorText", "Unknown error");
+        }
     } catch (error) {
         console.error('Error:', error);
     }
 
 }
 
-    document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", function (e) {
+document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", function (e) {
     e.preventDefault();
     if (validateLoginDataOnFrontEnd()) {
         const csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
