@@ -1,6 +1,6 @@
 function onSendCodeClick() {
-    var user_email = document.getElementById("input_forgot_password_page").value;
-    var span_user_email =  document.getElementById("user_email_forgot_password_page");
+    const user_email = document.getElementById("input_forgot_password_page").value;
+    const span_user_email = document.getElementById("user_email_forgot_password_page");
     span_user_email.textContent=user_email
     document.getElementById("confirmation_text").style.display="inline"
     document.getElementById("input_email").innerHTML = `
