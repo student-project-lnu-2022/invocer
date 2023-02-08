@@ -4,34 +4,32 @@ const passwordForm = document.getElementById("password_input_log_in_page");
 
 
 function validatePassword() {
-    if (passwordForm.value === '') {
-        passwordForm.setAttribute("error", "true");
-        passwordForm.setAttribute("errorText", "Incorrect credentials!");
-        return false;
-    } else {
-        passwordForm.removeAttribute("errorText");
-        passwordForm.removeAttribute("error");
-        return true;
-    }
+    return passwordForm.value !== '';
 }
 
 function validateEmail() {
     let user_email = emailForm.value;
-    let result = false;
+    return !(user_email.includes(' ') || !(/^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) 
 
-    if (user_email.includes(' ')) {
-        emailForm.setAttribute("errorText", "You entered an invalid email!");
-        emailForm.setAttribute("error", "true");
-    } else if (!(/^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
-        passwordForm.setAttribute("errorText", "Incorrect credentials!");
-        emailForm.setAttribute("error", "true");
-    } else {
-        emailForm.removeAttribute("errorText");
-        emailForm.removeAttribute("error");
-        result = true;
-    }
-    return result;
 }
+
+// function validateEmail() {
+//     let user_email = emailForm.value;
+//     let result = false;
+
+//     if (user_email.includes(' ')) {
+//         emailForm.setAttribute("errorText", "You entered an invalid email!");
+//         emailForm.setAttribute("error", "true");
+//     } else if (!(/^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
+//         passwordForm.setAttribute("errorText", "Incorrect credentials!");
+//         emailForm.setAttribute("error", "true");
+//     } else {
+//         emailForm.removeAttribute("errorText");
+//         emailForm.removeAttribute("error");
+//         result = true;
+//     }
+//     return result;
+// }
 
 function validateLoginDataOnFrontEnd() {
     const emailRes = validateEmail();
@@ -40,11 +38,24 @@ function validateLoginDataOnFrontEnd() {
 }
 
 
+function visualEffects() {
+    emailForm.setAttribute('error', 'true');
+    passwordForm.setAttribute('error', 'true');
+    passwordForm.setAttribute('errorText', 'Invalid data');
+}
+
+function cancelVisualEffects() {
+    emailForm.removeAttribute('error');
+    passwordForm.removeAttribute('error');
+    passwordForm.removeAttribute('errorText');
+}
+
 
 //click on a button 
 document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", async function (e) {
     e.preventDefault();
     if (validateLoginDataOnFrontEnd()) {
+        cancelVisualEffects();
         const csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
         const email = emailForm.value;
         const password = passwordForm.value;
@@ -59,9 +70,9 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
             if (await authorization()) {
                 console.log('GOT INSIDE!');
             }
-        }
-       
-        
+        } 
+    } else {
+        visualEffects();
     }
 });
 
@@ -109,8 +120,10 @@ async function authorization() {
         headers: headers
         })
         response = result.status;
+        console.log(result);    
     } catch (error) {
         console.error(error);
     }
     return response === 200;
 }
+

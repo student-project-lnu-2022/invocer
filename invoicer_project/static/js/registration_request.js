@@ -1,7 +1,7 @@
 const passwordMinLength = 8;
 const passwordMaxLength = 15;
 const nameSurnMaxLength = 35;
-const host = "http://127.0.0.1:8000/";
+const host = "http://127.0.0.1:8000";
 let csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 const emailForm = document.getElementById("email_input_registration_page");
@@ -82,8 +82,11 @@ function removeMaxHeightAttribute() {
 function validate_email() {
     let user_email = emailForm.value;
     let result = false;
-    
-    if (user_email.includes(' ')) {
+    console.log(user_email === '');
+    if (user_email === '') {
+        emailForm.setAttribute("errorText", "This field can\'t be empty");
+        emailForm.setAttribute("error", "true");
+    } else if (user_email.includes(' ')) {
         emailForm.setAttribute("errorText", "Email can't contain whitespace");
         emailForm.setAttribute("error", "true");
     } else if (!(/^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
@@ -221,66 +224,80 @@ function validate_name_and_surname() {
     return (nameResult && surnameResult)
 }
 
-const sendData = async (url, dataToSend) => {
-    
-console.log(dataToSend);
-    const res = await fetch(url, {
-        method: 'POST',
-        body: dataToSend
-    })
-    const statusCode = res.status;
-    const jsonResponce = await res.json()
-    return [jsonResponce, statusCode]
-}
 
-const sendDataWrap = async (url, dataToSend) => {
+
+
+
+
+//////////////////////////////////////FETCHING FUNCTIONS
+const checkAndSaveTokens = async (url, dataToSend) => {
+    let flag = false, statusCode;
     try {
-        const result = await sendData(url, dataToSend);
-        if (result[1] === 200) {
-            window.location = host + 'clients/list/';
-            nameForm.value = '';
-            surnameForm.value = '';
-            emailForm.value = '';
-            passForm.value = '';
-            repeatPassForm.value = '';
-        }
-        else if (result[1] === 400) {
-            emailForm.setAttribute("errorText", "User with such email already exists");
-            emailForm.setAttribute("error", "true");
-            emailForm.value = '';
-        }
-        else {
+         const res = await fetch(url, {
+             method: 'POST',
+             body: dataToSend
+         })
+        const jsonResponce = await res.json(); 
+        console.log(jsonResponce);
+        statusCode = res.status;
+        
+        if (statusCode === 200) {
+            console.log('TokenChange');
+            window.localStorage.setItem('accessToken', jsonResponce['access']);
+            window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
+            return true;
+        } else if (statusCode === 400) {
             emailForm.setAttribute("error", "true");
             passForm.setAttribute("error", "true");
-            passForm.setAttribute("errorText", "Unknown error"); 
+            passForm.setAttribute("errorText", "Incorrect credentianls!");
+        } else {
+            emailForm.setAttribute("error", "true");
+            passForm.setAttribute("error", "true");
+            passForm.setAttribute("errorText", "Unknown error");
         }
+    } catch (error) {
+        console.error(error);
     }
-    catch (error) {
-        console.error('Error:', error.message);
-    }
+    return flag;
 }
 
-    document.getElementById("sign_up_confirmation_button_registration_page").addEventListener("click", function (event) {
-        event.preventDefault();
-       
-        let result = validateRegistration();
-        if (result) {
-            const name = nameForm.value;
-            const surname = surnameForm.value;
-            const email = emailForm.value;
-            const password = passForm.value;
-            const repeat_password = repeatPassForm.value;
-            const formData = new FormData();
+async function authorization() {
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${window.localStorage.getItem('accessToken')}`);
+    let response
+    try {
+        const result = await fetch(host + '/clients/list/', {
+        method: "GET",
+        headers: headers
+        })
+        response = result.status;
+        console.log(result);    
+    } catch (error) {
+        console.error(error);
+    }
+    return response === 200;
+}
+
+document.getElementById("sign_up_confirmation_button_registration_page").addEventListener("click", async function (event) {
+    event.preventDefault();
+    if (validateRegistration()) {
+        const name = nameForm.value;
+        const surname = surnameForm.value;
+        const email = emailForm.value;
+        const password = passForm.value;
+        const repeat_password = repeatPassForm.value;
+        const formData = new FormData();
            
 
             
-            formData.append('first_name', name);
-            formData.append('last_name', surname);
-            formData.append('email', email);
-            formData.append('password', password);
-            formData.append('repeat_password', repeat_password);
-            formData.append('csrfmiddlewaretoken', csrf_token);
-
-            sendDataWrap(host + 'user/register/', formData);
+        formData.append('first_name', name);
+        formData.append('last_name', surname);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('repeat_password', repeat_password);
+        formData.append('csrfmiddlewaretoken', csrf_token);
+        if (await checkAndSaveTokens(host + '/user/register/', formData)) {
+            authorization();
+        }
         }
     });
