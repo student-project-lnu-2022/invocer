@@ -66,7 +66,7 @@ def RefreshView(request):
     data = request.data
     decoded = decode_jwt_token(data["refresh"])
     if decoded["token_type"] != "refresh":
-        return Response({'error': 'not proper token!'}, status=401)
+        return JsonResponse({'error': 'not proper token!'}, status=401)
     else:
         my_user = decoded["user_refr"]
         refresh = RefreshToken.for_user(my_user)

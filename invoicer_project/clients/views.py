@@ -8,5 +8,8 @@ from django.http import JsonResponse
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def ClientsListView(request):
-    # return JsonResponse({"msg": "Success"}, status=200)
-    return render(request, 'clients/clients_list.html', context={"first_name": "John", "last_name": "Smith"})
+    #return JsonResponse({'name': 'NAMEINFO'}, status=200)
+    print('We are inside in here!!!') #render page doesn't work (but user is authenticated)
+    return render(request, 'clients/clients_list.html', context={"first_name": "John", "last_name": "Smith"}, status=200)
+
+

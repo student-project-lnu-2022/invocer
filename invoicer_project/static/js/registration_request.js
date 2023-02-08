@@ -251,8 +251,8 @@ const sendDataWrap = async (url, dataToSend) => {
         }
         else {
             emailForm.setAttribute("error", "true");
-            passwordForm.setAttribute("error", "true");
-            passwordForm.setAttribute("errorText", "Unknown error"); 
+            passForm.setAttribute("error", "true");
+            passForm.setAttribute("errorText", "Unknown error"); 
         }
     }
     catch (error) {

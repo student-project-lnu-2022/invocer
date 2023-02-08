@@ -6,10 +6,13 @@ const passwordForm = document.getElementById("password_input_log_in_page");
 function validatePassword() {
     if (passwordForm.value === '') {
         passwordForm.setAttribute("error", "true");
-        passwordForm.setAttribute("errorText", "Password can't be empty");
+        passwordForm.setAttribute("errorText", "Incorrect credentials!");
         return false;
+    } else {
+        passwordForm.removeAttribute("errorText");
+        passwordForm.removeAttribute("error");
+        return true;
     }
-    return true;
 }
 
 function validateEmail() {
@@ -20,7 +23,7 @@ function validateEmail() {
         emailForm.setAttribute("errorText", "You entered an invalid email!");
         emailForm.setAttribute("error", "true");
     } else if (!(/^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
-        emailForm.setAttribute("errorText", "You entered an invalid email!");
+        passwordForm.setAttribute("errorText", "Incorrect credentials!");
         emailForm.setAttribute("error", "true");
     } else {
         emailForm.removeAttribute("errorText");
@@ -36,44 +39,10 @@ function validateLoginDataOnFrontEnd() {
     return emailRes && passwordRes;
 }
 
-const sendData = async (url, dataToSend) => {
-    const res = await fetch(url, {
-        method: 'POST',
-        body: dataToSend
-    })
-    console.log(res);
-    const statusCode = res.status;
-    const jsonResponce = await res.json()
-    return [jsonResponce, statusCode]
-}
 
-const sendDataWrap = async (url, dataToSend) => {
-    try {
-        const result = await sendData(url, dataToSend);
 
-        if (result[1] === 200) {
-            localStorage.setItem('refreshToken', result[0]['refresh']);
-            localStorage.setItem('accessToken', result[0]['access']);
-            emailForm.value = "";
-            passwordForm.value = "";
-            window.location = host + '/clients/list/';
-            
-        } else if (result[1] === 400) {
-            emailForm.setAttribute("error", "true");
-            passwordForm.setAttribute("error", "true");
-            passwordForm.setAttribute("errorText", "Incorrect credentials!")
-        } else {
-            emailForm.setAttribute("error", "true");
-            passwordForm.setAttribute("error", "true");
-            passwordForm.setAttribute("errorText", "Unknown error");
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-
-}
-
-document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", function (e) {
+//click on a button 
+document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", async function (e) {
     e.preventDefault();
     if (validateLoginDataOnFrontEnd()) {
         const csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
@@ -84,6 +53,64 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         formData.append('password', password);
         formData.append('csrfmiddlewaretoken', csrf_token);
 
-        sendDataWrap(host + '/user/login/', formData);
+        
+        const gotToken = await checkAndSaveTokens(host + '/user/login/', formData);
+        if (gotToken) {
+            if (await authorization()) {
+                console.log('GOT INSIDE!');
+            }
+        }
+       
+        
     }
 });
+
+
+const checkAndSaveTokens = async (url, dataToSend) => {
+    let flag = false, statusCode;
+    try {
+         const res = await fetch(url, {
+             method: 'POST',
+             body: dataToSend
+         })
+        const jsonResponce = await res.json(); //tokens here (if status ok), else error message
+        console.log(jsonResponce);
+        statusCode = res.status;
+        
+        if (statusCode === 200) {
+            console.log('TokenChange');
+            window.localStorage.setItem('accessToken', jsonResponce['access']);
+            window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
+            return true;
+        } else if (statusCode === 400) {
+            emailForm.setAttribute("error", "true");
+            passwordForm.setAttribute("error", "true");
+            passwordForm.setAttribute("errorText", "Incorrect credentianls!");
+        } else {
+            emailForm.setAttribute("error", "true");
+            passwordForm.setAttribute("error", "true");
+            passwordForm.setAttribute("errorText", "Unknown error");
+        }
+    } catch (error) {
+        console.error(error);
+    }
+   
+   
+    return flag;
+}
+
+async function authorization() {
+    const headers = new Headers();
+    headers.append('Authorization', `Bearer ${window.localStorage.getItem('accessToken')}`);
+    let response
+    try {
+        const result = await fetch(host + '/clients/list/', {
+        method: "GET",
+        headers: headers
+        })
+        response = result.status;
+    } catch (error) {
+        console.error(error);
+    }
+    return response === 200;
+}
