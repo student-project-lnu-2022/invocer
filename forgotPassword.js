@@ -1,8 +1,8 @@
 function onSendCodeClick() {
     const user_email = document.getElementById("input_forgot_password_page").value;
     const span_user_email = document.getElementById("user_email_forgot_password_page");
-    span_user_email.textContent=user_email
-    document.getElementById("confirmation_text").style.display="inline"
+    span_user_email.textContent = user_email
+    document.getElementById("confirmation_text").style.display = "inline"
     document.getElementById("input_email").innerHTML = `
             <div class="row justify-content-center">
                 <div class="d-flex flex-wrap flex-column align-items-center col-xxl-4 col-xl-5 col-lg-6 col-md-6 col-sm-10 col-10"
@@ -19,7 +19,7 @@ function onSendCodeClick() {
 }
 
 function onCodeConfirmClick() {
-    document.getElementById("confirmation_text").style.display="none"
+    document.getElementById("confirmation_text").style.display = "none"
     document.getElementById("input_email").innerHTML = `
             <div class="row justify-content-center">
                 <div class="d-flex flex-wrap flex-column align-items-center col-xxl-4 col-xl-5 col-lg-6 col-md-6 col-sm-10 col-10"
