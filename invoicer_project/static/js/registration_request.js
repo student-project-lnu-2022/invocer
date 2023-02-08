@@ -250,6 +250,9 @@ const checkAndSaveTokens = async (url, dataToSend) => {
             emailForm.setAttribute("error", "true");
             passForm.setAttribute("error", "true");
             passForm.setAttribute("errorText", "Incorrect credentianls!");
+        } else if (statusCode === 409) {
+            emailForm.setAttribute("error", "true");
+            emailForm.setAttribute("errorText", "User with such email already exists!");
         } else {
             emailForm.setAttribute("error", "true");
             passForm.setAttribute("error", "true");
