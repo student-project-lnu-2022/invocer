@@ -956,7 +956,7 @@ md-fab-extended {
 /* Forgot Password Page */
 
 #forgot_password_text {
-    font-size: 32px;
+    font-size: 2em;
     font-family: Roboto, serif;
     font-weight: 500;
     padding-bottom: 1.5vh;
@@ -994,7 +994,7 @@ md-fab-extended {
 
 #confirmation_text {
     display: none;
-    font-size: 20px;
+    font-size: 1.25em;
     font-family: Roboto, serif;
     color: #979799;
 }
