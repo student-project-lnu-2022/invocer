@@ -1,10 +1,10 @@
 document.getElementById("send_code_button_forgot_password_page").addEventListener("click", onSendCodeClick);
-
+document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", onCodeConfirmClick);
 function onSendCodeClick() {
     const user_email = document.getElementById("input_forgot_password_page").value;
     const span_user_email = document.getElementById("user_email_forgot_password_page");
-    span_user_email.textContent = user_email
-    document.getElementById("confirmation_text").style.display = "inline"
+    span_user_email.textContent = user_email;
+    document.getElementById("confirmation_text").classList.add("inline_class");
     document.getElementById("input_email").innerHTML = `
             <div class="row justify-content-center">
                 <div class="d-flex flex-wrap flex-column align-items-center col-xxl-4 col-xl-5 col-lg-6 col-md-6 col-sm-10 col-10"
@@ -13,7 +13,7 @@ function onSendCodeClick() {
                 </div>
             </div>
              <div class="row justify-content-center">
-                <md-filled-button onclick='onCodeConfirmClick()' id="log_in_confirmation_button_log_in_page"
+                <md-filled-button id="log_in_confirmation_button_log_in_page"
                                   class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-8 col-8"
                                   label="Confirm"></md-filled-button>
             </div>

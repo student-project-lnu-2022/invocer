@@ -998,3 +998,7 @@ md-fab-extended {
     font-family: Roboto, serif;
     color: #979799;
 }
+
+.inline_class{
+    display: inline;
+}
