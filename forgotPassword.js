@@ -1,3 +1,5 @@
+document.getElementById("send_code_button_forgot_password_page").addEventListener("click", onSendCodeClick);
+
 function onSendCodeClick() {
     const user_email = document.getElementById("input_forgot_password_page").value;
     const span_user_email = document.getElementById("user_email_forgot_password_page");
