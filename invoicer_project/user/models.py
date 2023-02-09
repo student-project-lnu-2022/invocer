@@ -27,7 +27,7 @@ class UserManager(auth_models.BaseUserManager):
 class User(auth_models.AbstractUser):
     first_name = models.CharField(max_length=35, validators=[RegexValidator(regex=r'^[A-Z][a-z]+')])
     last_name = models.CharField(max_length=35, validators=[RegexValidator(regex=r'^[A-Z][a-z]+')])
-    email = models.EmailField(max_length=35, validators=[RegexValidator(regex=r'^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$')], unique=True)
+    email = models.EmailField(max_length=35, validators=[RegexValidator(regex=r'^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$')], unique=True)
     password = models.CharField(max_length=100, blank=False, validators=[RegexValidator(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,15}$')])
     company_name = models.CharField(max_length=35, validators=[RegexValidator(regex=r'^[A-Z][a-z]+')])
     country = models.CharField(max_length=35, validators=[RegexValidator(regex=r'^[A-Z][a-z]+')])

@@ -9,7 +9,7 @@ function validatePassword() {
 
 function validateEmail() {
     let user_email = emailForm.value;
-    return !(user_email.includes(' ') || !(/^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) 
+    return !(user_email.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) 
 
 }
 
@@ -65,7 +65,7 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         formData.append('csrfmiddlewaretoken', csrf_token);
 
         
-        const gotToken = await checkAndSaveTokens(host + '/user/login/', formData);
+        const gotToken = await checkAndSaveTokens(host + '/user/authentication/', formData);
         if (gotToken) {
             if (await authorization()) {
                 console.log('GOT INSIDE!');
@@ -104,9 +104,7 @@ const checkAndSaveTokens = async (url, dataToSend) => {
         }
     } catch (error) {
         console.error(error);
-    }
-   
-   
+    }   
     return flag;
 }
 

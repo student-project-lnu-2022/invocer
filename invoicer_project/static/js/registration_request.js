@@ -89,7 +89,7 @@ function validate_email() {
     } else if (user_email.includes(' ')) {
         emailForm.setAttribute("errorText", "Email can't contain whitespace");
         emailForm.setAttribute("error", "true");
-    } else if (!(/^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
+    } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
         emailForm.setAttribute("errorText", "You entered an invalid email!");
         emailForm.setAttribute("error", "true");
     } else {
@@ -225,7 +225,34 @@ function validate_name_and_surname() {
 }
 
 
-
+const login = async (url, dataToSend) => {
+    let flag = false, statusCode;
+    try {
+         const res = await fetch(url, {
+             method: 'POST',
+             body: dataToSend
+         })
+        const jsonResponce = await res.json(); //tokens here (if status ok), else error message
+        statusCode = res.status;
+        
+        if (statusCode === 200) {
+            window.localStorage.setItem('accessToken', jsonResponce['access']);
+            window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
+            return true;
+        } else if (statusCode === 400) {
+            emailForm.setAttribute("error", "true");
+            passwordForm.setAttribute("error", "true");
+            passwordForm.setAttribute("errorText", "Incorrect credentianls!");
+        } else {
+            emailForm.setAttribute("error", "true");
+            passwordForm.setAttribute("error", "true");
+            passwordForm.setAttribute("errorText", "Unknown error");
+        }
+    } catch (error) {
+        console.error(error);
+    }   
+    return flag;
+}
 
 
 
@@ -237,14 +264,11 @@ const checkAndSaveTokens = async (url, dataToSend) => {
              method: 'POST',
              body: dataToSend
          })
-        const jsonResponce = await res.json(); 
-        console.log(jsonResponce);
+        await res.json(); 
         statusCode = res.status;
         
         if (statusCode === 200) {
-            console.log('TokenChange');
-            window.localStorage.setItem('accessToken', jsonResponce['access']);
-            window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
+            await login(host + '/user/authentication/', dataToSend);
             return true;
         } else if (statusCode === 400) {
             emailForm.setAttribute("error", "true");
