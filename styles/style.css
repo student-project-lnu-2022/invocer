@@ -64,6 +64,7 @@ a {
     margin-bottom: 2vh;
 }
 
+
 #background_input_log_in_page {
     background-color: white;
     border-radius: 15px;
@@ -886,7 +887,7 @@ md-fab-extended {
     width: 90%;
 }
 
-.list_item_user_icon_initials{
+.list_item_user_icon_initials {
     background-color: #c1cff5;
     border-radius: 50%;
     display: flex;
@@ -897,22 +898,22 @@ md-fab-extended {
     margin-left: 1.3vw;
 }
 
-.list_item_user_icon_initials p{
+.list_item_user_icon_initials p {
     color: #001158;
     font-weight: 500;
 }
 
-.list_item_user_name p{
+.list_item_user_name p {
     font-weight: normal;
     color: rgb(27, 27, 31);
 }
 
-.list_item_user_debt p{
+.list_item_user_debt p {
     font-weight: 500;
     color: rgb(70, 70, 79);
 }
 
-.list_item_user_buttons{
+.list_item_user_buttons {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -921,19 +922,19 @@ md-fab-extended {
 }
 
 @media screen and (max-width: 768px) {
-    .client_list_item{
+    .client_list_item {
         width: 100%;
     }
 }
 
 @media screen and (max-width: 596px) {
-    .list_item_empty_block{
+    .list_item_empty_block {
         display: none;
     }
 }
 
 @media screen and (max-width: 596px) {
-    .list_item_user_buttons{
+    .list_item_user_buttons {
         display: none;
     }
 }
@@ -948,7 +949,7 @@ md-fab-extended {
     }
 }
 
-.client_list_item{
+.client_list_item {
     margin-bottom: 10px;
 }
 
@@ -963,42 +964,46 @@ md-fab-extended {
     padding-top: 1.5vh;
 }
 
-#forgot_password_page {
+body {
     background-color: rgba(233, 236, 246, 1)
 }
 
-#logo_invoicer_big_forgot_password_page {
+
+#invoicer_logo_fp_pg {
     margin-top: 8vh;
 }
 
-#input_forgot_password_page {
+
+#em_input_fp_pg {
     margin-top: 0.1vh;
 }
 
-#password_input_forgot_password_page{
+#password_input_fp_pg {
     margin-top: 0.1vh;
     margin-bottom: 1.5vh;
 }
 
-#send_code_button_forgot_password_page {
+
+#send_code_btn_fp_pg {
     margin-top: 2vh;
     margin-bottom: 2vh;
 }
 
-#background_input_forgot_password_page {
+.bg_input_fp_pg {
     background-color: white;
     border-radius: 15px;
     padding: 15px;
     margin-top: 15px;
 }
 
-#confirmation_text {
+#confirm_txt {
     display: none;
     font-size: 1.25em;
     font-family: Roboto, serif;
     color: #979799;
 }
 
-.inline_class{
-    display: inline;
+#confirm_btn_fp_pg {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
 }
