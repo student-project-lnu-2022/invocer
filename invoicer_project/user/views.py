@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework import exceptions
 
 from .userserializers import UserSerializer
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view
 from django.contrib.auth.models import auth
 from .models import User
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -19,7 +18,7 @@ def RegisterView(request):
         newuser = UserSerializer(data=request.POST)
         user = User.objects.filter(email=newuser.initial_data["email"]).first()
         if user is not None:
-            return JsonResponse({"message": "User with such email already exists"}, status=400)
+            return JsonResponse({"message": "User with such email already exists"}, status=409)
         try:
             newuser.is_valid(raise_exception=True)
             user = newuser.save()
@@ -27,7 +26,6 @@ def RegisterView(request):
             return JsonResponse({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=200)
         except:
             return JsonResponse({"message": "Invalid credentials"}, status=400)
-        return JsonResponse(newuser.data, status=200)
     else:
         return render(request, 'user/registration.html', {})
 

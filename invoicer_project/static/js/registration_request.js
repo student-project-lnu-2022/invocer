@@ -22,36 +22,36 @@ function validateRegistration() {
     return (email && passwords && names)
 }
 
-function setNormalStateNameInput() {
+nameForm.addEventListener('input', () => {
     nameForm.removeAttribute("errorText");
     nameForm.removeAttribute("error");
     removeMaxHeightAttribute();
     checkAndSetNormalHeightNameAndSurnameInput();
-}
+});
 
-function setNormalStateSurnameInput() {
+surnameForm.addEventListener('input', () => {
     surnameForm.removeAttribute("errorText");
     surnameForm.removeAttribute("error");
     removeMaxHeightAttribute();
     checkAndSetNormalHeightNameAndSurnameInput();
-}
+});
 
-function setNormalStatePasswordInput() {
+passForm.addEventListener('input', () => {
     passForm.removeAttribute("errorText");
     passForm.removeAttribute("error");
     checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
-}
+});
 
-function setNormalStateRepeatPasswordInput() {
+repeatPassForm.addEventListener('input', () => {
     repeatPassForm.removeAttribute("errorText");
     repeatPassForm.removeAttribute("error");
     checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
-}
+});
 
-function setNormalStateEmailInput() {
+emailForm.addEventListener('input', () => {
     emailForm.removeAttribute("errorText");
     emailForm.removeAttribute("error");
-}
+});
 
 function checkAndSetNormalHeightNameAndSurnameInput() {
     if (nameForm.hasAttribute("error") && !(surnameForm.hasAttribute("error"))) {
@@ -250,6 +250,9 @@ const checkAndSaveTokens = async (url, dataToSend) => {
             emailForm.setAttribute("error", "true");
             passForm.setAttribute("error", "true");
             passForm.setAttribute("errorText", "Incorrect credentianls!");
+        } else if (statusCode === 409) {
+            emailForm.setAttribute("error", "true");
+            emailForm.setAttribute("errorText", "User with such email already exists!");
         } else {
             emailForm.setAttribute("error", "true");
             passForm.setAttribute("error", "true");

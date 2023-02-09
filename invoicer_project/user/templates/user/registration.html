@@ -57,41 +57,35 @@
                             <md-outlined-text-field
                                 class="col-6"
                                 id="name_input_registration_page"
-                                label="Name"
-                                oninput="setNormalStateNameInput()"></md-outlined-text-field>
+                                label="Name"></md-outlined-text-field>
                             <md-outlined-text-field
                                 class="col-6"
                                 id="surname_input_registration_page"
-                                label="Surname"
-                                oninput="setNormalStateSurnameInput()"></md-outlined-text-field>
+                                label="Surname"></md-outlined-text-field>
                         </div>
                         <div class="row row-input">
                             <md-outlined-text-field
                                 class="col-12"
                                 id="email_input_registration_page"
-                                label="Email"
-                                oninput="setNormalStateEmailInput()"></md-outlined-text-field>
+                                label="Email"></md-outlined-text-field>
                         </div>
                         <div class="row justify-content-between row-input">
                             <md-outlined-text-field
                                 class="col-6"
                                 id="password_input_registration_page"
                                 type="password"
-                                label="Password"
-                                oninput="setNormalStatePasswordInput()"></md-outlined-text-field>
+                                label="Password"></md-outlined-text-field>
                             <md-outlined-text-field
                                 class="col-6"
                                 id="repeat_password_input_registration_page"
                                 type="password"
-                                label="Repeat password"
-                                oninput="setNormalStateRepeatPasswordInput()"></md-outlined-text-field>
+                                label="Repeat password"></md-outlined-text-field>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center">
                 <md-filled-button
-                    onclick="validateRegistration()"
                     id="sign_up_confirmation_button_registration_page"
                     class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-8 col-8"
                     label="Create profile"></md-filled-button>
@@ -107,6 +101,5 @@
             crossorigin="anonymous"></script>
         <script type="module" src="{% static 'js/bundle.js' %}"></script>
         <script type="module" src="{% static 'js/registration_request.js' %}"></script>
-        <script type="module" src=""></script>
     </body>
 </html>
