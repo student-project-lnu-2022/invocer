@@ -1,8 +1,9 @@
 document.getElementById("send_code_btn_fp_pg").addEventListener("click", onSendCodeClick);
 
 function onSendCodeClick() {
+
     const user_email = document.getElementById("em_input_fp_pg").value;
-    const span_user_email = document.getElementById("user_email_fp_pg");
+    const span_user_email = document.querySelector("#confirm_txt span");
     document.getElementById("confirm_txt").style.display = "inline";
     document.getElementById("confirm_txt").classList.add("animate__animated");
     document.getElementById("confirm_txt").classList.add("animate__fadeInLeft");
