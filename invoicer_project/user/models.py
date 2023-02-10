@@ -1,4 +1,3 @@
-from django.contrib.auth.base_user import BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth import models as auth_models
@@ -39,3 +38,6 @@ class User(auth_models.AbstractUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["first_name", "last_name", "password"]
+
+    def to_dict(self):
+        return {'first_name': self.first_name, 'last_name': self.last_name}

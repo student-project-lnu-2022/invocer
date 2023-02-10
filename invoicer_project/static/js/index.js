@@ -1,13 +1,10 @@
-// Menu
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
-    console.log("menu_toggle")
     $("#wrapper").toggleClass("toggled");
 });
 
 $("#menu-toggle-2").click(function (e) {
     e.preventDefault();
-    console.log("menu_toggle_2")
     $("#wrapper").toggleClass("toggled-2");
     $('#menu ul').hide();
 });
@@ -31,6 +28,5 @@ function initMenu() {
     );
 }
 $(document).ready(function () {
-    console.log("Init menu")
     initMenu();
 });

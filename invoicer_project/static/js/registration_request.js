@@ -296,7 +296,7 @@ document.getElementById("sign_up_confirmation_button_registration_page").addEven
         formData.append('repeat_password', repeat_password);
         formData.append('csrfmiddlewaretoken', csrfToken);
         if (await checkAndSaveTokens(host + '/user/register/', formData)) {
-            authorization();
+            window.location.href = host + '/clients/home/';
         }
     }
 });
