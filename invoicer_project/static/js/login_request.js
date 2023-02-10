@@ -10,26 +10,7 @@ function validatePassword() {
 function validateEmail() {
     let user_email = emailForm.value;
     return !(user_email.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) 
-
 }
-
-// function validateEmail() {
-//     let user_email = emailForm.value;
-//     let result = false;
-
-//     if (user_email.includes(' ')) {
-//         emailForm.setAttribute("errorText", "You entered an invalid email!");
-//         emailForm.setAttribute("error", "true");
-//     } else if (!(/^[a-zA-Z0-9.]{6,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
-//         passwordForm.setAttribute("errorText", "Incorrect credentials!");
-//         emailForm.setAttribute("error", "true");
-//     } else {
-//         emailForm.removeAttribute("errorText");
-//         emailForm.removeAttribute("error");
-//         result = true;
-//     }
-//     return result;
-// }
 
 function validateLoginDataOnFrontEnd() {
     const emailRes = validateEmail();
@@ -51,7 +32,7 @@ function cancelVisualEffects() {
 }
 
 
-//click on a button 
+
 document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", async function (e) {
     e.preventDefault();
     if (validateLoginDataOnFrontEnd()) {
@@ -67,9 +48,7 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         
         const gotToken = await checkAndSaveTokens(host + '/user/authentication/', formData);
         if (gotToken) {
-            if (await authorization()) {
-                console.log('GOT INSIDE!');
-            }
+            await authorization();
         } 
     } else {
         visualEffects();
@@ -84,12 +63,10 @@ const checkAndSaveTokens = async (url, dataToSend) => {
              method: 'POST',
              body: dataToSend
          })
-        const jsonResponce = await res.json(); //tokens here (if status ok), else error message
-        console.log(jsonResponce);
+        const jsonResponce = await res.json(); 
         statusCode = res.status;
         
         if (statusCode === 200) {
-            console.log('TokenChange');
             window.localStorage.setItem('accessToken', jsonResponce['access']);
             window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
             return true;
@@ -118,10 +95,8 @@ async function authorization() {
         headers: headers
         })
         response = result.status;
-        console.log(result);    
     } catch (error) {
         console.error(error);
     }
-    return response === 200;
 }
 
