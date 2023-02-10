@@ -48,7 +48,7 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         
         const gotToken = await checkAndSaveTokens(host + '/user/authentication/', formData);
         if (gotToken) {
-            await authorization();
+            window.location.href = host + '/clients/home/';
         } 
     } else {
         visualEffects();
