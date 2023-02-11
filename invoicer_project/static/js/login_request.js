@@ -75,7 +75,7 @@ const checkAndSaveTokens = async (url, dataToSend) => {
         } else if (statusCode === 400) {
             emailForm.setAttribute("error", "true");
             passwordForm.setAttribute("error", "true");
-            passwordForm.setAttribute("errorText", "Incorrect credentianls!");
+            passwordForm.setAttribute("errorText", "Incorrect credentials!");
         } else {
             emailForm.setAttribute("error", "true");
             passwordForm.setAttribute("error", "true");

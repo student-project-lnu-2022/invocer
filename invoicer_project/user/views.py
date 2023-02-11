@@ -29,13 +29,13 @@ def decode_jwt_token(given_token, secret=settings.SECRET_KEY):
 @api_view(['GET', 'POST'])
 def registration_view(request):
     if request.method == 'POST':
-        newuser = UserSerializer(data=request.POST)
-        user = User.objects.filter(email=newuser.initial_data["email"]).first()
+        new_user = UserSerializer(data=request.POST)
+        user = User.objects.filter(email=new_user.initial_data["email"]).first()
         if user is not None:
             return JsonResponse({"message": "User with such email already exists"}, status=409)
         try:
-            newuser.is_valid(raise_exception=True)
-            user = newuser.save()
+            new_user.is_valid(raise_exception=True)
+            user = new_user.save()
             return JsonResponse({"message": "Success"}, status=200)
         except:
             return JsonResponse({"message": "Invalid credentials"}, status=400)
