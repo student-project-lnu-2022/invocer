@@ -46,10 +46,11 @@ for(let i = 0; i < data.length; i++) {
 }
 
 async function obtainNewAccessToken() {
+    let response 
     const formData = new FormData();
     formData.append('refresh', window.localStorage.getItem('refreshToken'));
     try {
-        const response = await fetch(host + '/user/refresh/', {
+        response = await fetch(host + '/user/refresh/', {
             method: "POST",
             body: formData
         });
