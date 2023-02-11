@@ -1,6 +1,29 @@
 const host = "http://127.0.0.1:8000";
 
-function clientListContent(data) {
+async function getUserData() {
+    let jsonResponse, response
+    try {
+        const headers = new Headers();
+        headers.append('Authorization', `Bearer ${window.localStorage.getItem('accessToken')}`);
+        const result = await fetch(host + '/clients/list/', {
+            method: "GET",
+            headers: headers,
+        })
+        response = result.status;
+        jsonResponse = await result.json();
+    } catch (error) {
+        console.error('Going to obtain new access token!');
+    }
+    return { 'responseStatus': response, 'data': jsonResponse }
+} 
+
+function fillInitials(userData) {
+     const userFirstName = userData["first_name"];
+     const userLastName = userData["last_name"];
+     document.getElementById("user_name").textContent = userFirstName + " " + userLastName;
+}
+
+function createClientListContent(data) {
 for(let i = 0; i < data.length; i++) {
     document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-between">
                 <div class="col-xxl-1 col-xl-1 col-1 list_item_user_icon_initials">
@@ -22,30 +45,40 @@ for(let i = 0; i < data.length; i++) {
     }
 }
 
+async function obtainNewAccessToken() {
+    let ifSuccess = true;
+    const formData = new FormData();
+    formData.append('refresh', window.localStorage.getItem('refreshToken'));
+    try {
+        const response = await fetch(host + '/user/refresh/', {
+            method: "POST",
+            body: formData
+        })
+        const newToken = await response.json();
+        window.localStorage.setItem('accessToken', newToken['access']);
+    } catch (error) {
+        ifSuccess = false;
+        console.error(error); 
+    }
+    return ifSuccess;
+}
 
 async function addElementsDynamically() {
-    let response
-    const headers = new Headers();
-    headers.append('Authorization', `Bearer ${window.localStorage.getItem('accessToken')}`);
-    try {
-        const result = await fetch(host + '/clients/list/', {
-        method: "GET",
-        headers: headers,
-        })
-
-        response = result.status;
-        const jsonResponse = await result.json();
-        userFirstName = jsonResponse["first_name"];
-        userLastName = jsonResponse["last_name"];
-
-        if(response === 200) {
-            document.getElementById("user_name").textContent = userFirstName + " " + userLastName;
-            clientListContent(jsonResponse["content"])
-        } else {
+    let responseFromServer = await getUserData();
+    const response = responseFromServer["responseStatus"];
+    if (response === 200) {
+        fillInitials(responseFromServer["data"]);
+        createClientListContent(responseFromServer["data"]["content"]);
+    } else if (response === 401) {
+        if (!await obtainNewAccessToken()) {
             window.location.href = host + '/user/login/';
+        } else {
+            responseFromServer = await getUserData();
+            fillInitials(responseFromServer["data"]);
+            createClientListContent(responseFromServer["data"]["content"]);
         }
-    } catch (error) {
-        console.error(error);
+    } else {
+        window.location.href = host + '/user/login/';
     }
 }
 

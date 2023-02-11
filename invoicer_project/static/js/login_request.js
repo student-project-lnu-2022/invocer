@@ -8,8 +8,8 @@ function validatePassword() {
 }
 
 function validateEmail() {
-    let user_email = emailForm.value;
-    return !(user_email.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) 
+    let userEmail = emailForm.value;
+    return !(userEmail.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(userEmail))) 
 }
 
 function validateLoginDataOnFrontEnd() {
