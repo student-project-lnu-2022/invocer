@@ -72,14 +72,14 @@ async function addElementsDynamically() {
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
-            window.location.href = host + '/user/login/';
+            window.location.replace(host + '/user/login/');
         } else {
             responseFromServer = await getUserData();
             fillInitials(responseFromServer["data"]);
             createClientListContent(responseFromServer["data"]["content"]);
         }
     } else {
-        window.location.href = host + '/user/login/';
+        window.location.replace(host + '/user/login/');
     }
 }
 

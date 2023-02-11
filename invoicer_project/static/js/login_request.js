@@ -50,7 +50,7 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         if (gotToken) {
             emailForm.value = '';
             passwordForm.value = '';
-            window.location.href = host + '/clients/home/';
+            window.location.replace(host + '/clients/home/');
         } 
     } else {
         visualEffects();
