@@ -27,9 +27,6 @@ html {
     padding-top: 1.5vh;
 }
 
-#log_in_page {
-    background-color: rgba(233, 236, 246, 1)
-}
 
 a {
     text-decoration: none;
@@ -72,10 +69,6 @@ a {
 
 
 /* Registration Page */
-
-#registration_page {
-    background-color: rgba(233, 236, 246, 1)
-}
 
 #sign_up_text_registration_page {
     font-size: 2.1em;
