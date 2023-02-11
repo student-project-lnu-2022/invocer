@@ -7,8 +7,8 @@ let csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 const emailForm = document.getElementById("email_input_registration_page");
 const nameForm = document.getElementById("name_input_registration_page");
 const surnameForm = document.getElementById("surname_input_registration_page");
-const passForm = document.getElementById("password_input_registration_page");
-const repeatPassForm = document.getElementById("repeat_password_input_registration_page");
+const passwordField = document.getElementById("password_input_registration_page");
+const repeatPasswordField = document.getElementById("repeat_password_input_registration_page");
 
 
 function validateRegistration() {
@@ -36,15 +36,15 @@ surnameForm.addEventListener('input', () => {
     checkAndSetNormalHeightNameAndSurnameInput();
 });
 
-passForm.addEventListener('input', () => {
-    passForm.removeAttribute("errorText");
-    passForm.removeAttribute("error");
+passwordField.addEventListener('input', () => {
+    passwordField.removeAttribute("errorText");
+    passwordField.removeAttribute("error");
     checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
 });
 
-repeatPassForm.addEventListener('input', () => {
-    repeatPassForm.removeAttribute("errorText");
-    repeatPassForm.removeAttribute("error");
+repeatPasswordField.addEventListener('input', () => {
+    repeatPasswordField.removeAttribute("errorText");
+    repeatPasswordField.removeAttribute("error");
     checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
 });
 
@@ -63,19 +63,19 @@ function checkAndSetNormalHeightNameAndSurnameInput() {
 }
 
 function checkAndSetNormalHeightPasswordAndRepeatPasswordInput() {
-    if (passForm.hasAttribute("error") && !(repeatPassForm.hasAttribute("error"))) {
-        repeatPassForm.style.maxHeight = "56px";
+    if (passwordField.hasAttribute("error") && !(repeatPasswordField.hasAttribute("error"))) {
+        repeatPasswordField.style.maxHeight = "56px";
     }
-    if (!(passForm.hasAttribute("error")) && repeatPassForm.hasAttribute("error")) {
-        passForm.style.maxHeight = "56px";
+    if (!(passwordField.hasAttribute("error")) && repeatPasswordField.hasAttribute("error")) {
+        passwordField.style.maxHeight = "56px";
     }
 }
 
 function removeMaxHeightAttribute() {
     surnameForm.style.maxHeight = null;
     nameForm.style.maxHeight = null;
-    passForm.style.maxHeight = null;
-    repeatPassForm.style.maxHeight = null;
+    passwordField.style.maxHeight = null;
+    repeatPasswordField.style.maxHeight = null;
 }
 
 
@@ -101,62 +101,62 @@ function validateEmail() {
 }
 
 function validatePasswords() {
-    let userPassword = passForm.value;
-    let userPasswordRepeat = repeatPassForm.value;
+    let userPassword = passwordField.value;
+    let userPasswordRepeat = repeatPasswordField.value;
     
     let passwordResult = false;
     let repeatPasswordResult = false;
     let match = true;
 
-    passForm.setAttribute("error", "true");
+    passwordField.setAttribute("error", "true");
     if (userPassword.includes(' ')) {
-        passForm.setAttribute("errorText", "Password can't contain whitespace");
+        passwordField.setAttribute("errorText", "Password can't contain whitespace");
     } else if (userPassword.length < passwordMinLength) {
-        passForm.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
+        passwordField.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
     } else if (userPassword.length > passwordMaxLength) {
-        passForm.setAttribute("errorText", `Password must have at most ${passwordMaxLength} characters`);
+        passwordField.setAttribute("errorText", `Password must have at most ${passwordMaxLength} characters`);
     } else if (!(/^[a-z0-9]+$/i.test(userPassword))) {
-        passForm.setAttribute("errorText", "Only latin letters and numbers are allowed");
+        passwordField.setAttribute("errorText", "Only latin letters and numbers are allowed");
     } else if (!(/\d/.test(userPassword))) {
-        passForm.setAttribute("errorText", "Password must contain number");
+        passwordField.setAttribute("errorText", "Password must contain number");
     } else if (!(/[A-Z]/.test(userPassword))) {
-        passForm.setAttribute("errorText", "Password must contain capital letter");
+        passwordField.setAttribute("errorText", "Password must contain capital letter");
     } else {
-        passForm.removeAttribute("errorText");
-        passForm.removeAttribute("error");
+        passwordField.removeAttribute("errorText");
+        passwordField.removeAttribute("error");
         passwordResult = true;
     }
 
     if (userPasswordRepeat.includes(' ')) {
-        repeatPassForm.setAttribute("error", "true");
-        repeatPassForm.setAttribute("errorText", "Password can't contain whitespace");
+        repeatPasswordField.setAttribute("error", "true");
+        repeatPasswordField.setAttribute("errorText", "Password can't contain whitespace");
     } else if (userPasswordRepeat.length < passwordMinLength) {
-        repeatPassForm.setAttribute("error", "true");
-        repeatPassForm.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
+        repeatPasswordField.setAttribute("error", "true");
+        repeatPasswordField.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
     } else if (userPasswordRepeat.length > passwordMaxLength) {
-        repeatPassForm.setAttribute("error", "true");
-        repeatPassForm.setAttribute("errorText", `Password must have at most ${passwordMaxLength} characters`);
+        repeatPasswordField.setAttribute("error", "true");
+        repeatPasswordField.setAttribute("errorText", `Password must have at most ${passwordMaxLength} characters`);
     } else if (!(/^[a-z0-9]+$/i.test(userPasswordRepeat))) {
-        repeatPassForm.setAttribute("error", "true");
-        repeatPassForm.setAttribute("errorText", "Only latin letters and numbers are allowed");
+        repeatPasswordField.setAttribute("error", "true");
+        repeatPasswordField.setAttribute("errorText", "Only latin letters and numbers are allowed");
     } else if (!(/\d/.test(userPasswordRepeat))) {
-        repeatPassForm.setAttribute("error", "true");
-        repeatPassForm.setAttribute("errorText", "Password must contain number");
+        repeatPasswordField.setAttribute("error", "true");
+        repeatPasswordField.setAttribute("errorText", "Password must contain number");
     } else if (!(/[A-Z]/.test(userPasswordRepeat))) {
-        repeatPassForm.setAttribute("error", "true");
-        repeatPassForm.setAttribute("errorText", "Password must contain capital letter");
+        repeatPasswordField.setAttribute("error", "true");
+        repeatPasswordField.setAttribute("errorText", "Password must contain capital letter");
     } else {
-        repeatPassForm.removeAttribute("errorText");
-        repeatPassForm.removeAttribute("error");
+        repeatPasswordField.removeAttribute("errorText");
+        repeatPasswordField.removeAttribute("error");
         repeatPasswordResult = true;
     }
 
     if (userPassword !== userPasswordRepeat) { 
         match = false;
-        passForm.setAttribute("error", "true");
-        passForm.setAttribute("errorText", "Passwords don't match");
-        repeatPassForm.setAttribute("error", "true");
-        repeatPassForm.setAttribute("errorText", "Passwords don't match");
+        passwordField.setAttribute("error", "true");
+        passwordField.setAttribute("errorText", "Passwords don't match");
+        repeatPasswordField.setAttribute("error", "true");
+        repeatPasswordField.setAttribute("errorText", "Passwords don't match");
     }
     return (match && passwordResult && repeatPasswordResult) 
 }
@@ -216,17 +216,17 @@ const login = async (url, dataToSend) => {
         statusCode = res.status;
         
         emailForm.setAttribute("error", "true");
-        passForm.setAttribute("error", "true");
+        passwordField.setAttribute("error", "true");
         if (statusCode === 200) {
             window.localStorage.setItem('accessToken', jsonResponce['access']);
             window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
             emailForm.removeAttribute("error");
-            passForm.removeAttribute("error");
+            passwordField.removeAttribute("error");
             return true;
         } else if (statusCode === 400) {
-            passForm.setAttribute("errorText", "Incorrect credentianls!");
+            passwordField.setAttribute("errorText", "Incorrect credentianls!");
         } else {
-            passForm.setAttribute("errorText", "Unknown error");
+            passwordField.setAttribute("errorText", "Unknown error");
         }
     } catch (error) {
         console.error(error);
@@ -247,16 +247,16 @@ const checkAndSaveTokens = async (url, dataToSend) => {
         statusCode = res.status;
         
         emailForm.setAttribute("error", "true");
-        passForm.setAttribute("error", "true");
+        passwordField.setAttribute("error", "true");
         if (statusCode === 200) {
             await login(host + '/user/authentication/', dataToSend);
             return true;
         } else if (statusCode === 400) {
-            passForm.setAttribute("errorText", "Incorrect credentianls!");
+            passwordField.setAttribute("errorText", "Incorrect credentianls!");
         } else if (statusCode === 409) {
             emailForm.setAttribute("errorText", "User with such email already exists!");
         } else {
-            passForm.setAttribute("errorText", "Unknown error");
+            passwordField.setAttribute("errorText", "Unknown error");
         }
     } catch (error) {
         console.error(error);
@@ -286,8 +286,8 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         const name = nameForm.value;
         const surname = surnameForm.value;
         const email = emailForm.value;
-        const password = passForm.value;
-        const repeat_password = repeatPassForm.value;
+        const password = passwordField.value;
+        const repeat_password = repeatPasswordField.value;
         const formData = new FormData();
         formData.append('first_name', name);
         formData.append('last_name', surname);

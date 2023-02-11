@@ -1,5 +1,5 @@
 const host = "http://127.0.0.1:8000";
-const emailForm = document.getElementById("email_input_lg_pg");
+const emailInput = document.getElementById("email_input_lg_pg");
 const passwordForm = document.getElementById("password_input_lg_pg");
 
 
@@ -8,25 +8,25 @@ function validatePassword() {
 }
 
 function validateEmail() {
-    let userEmail = emailForm.value;
+    let userEmail = emailInput.value;
     return !(userEmail.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(userEmail))) 
 }
 
 function validateLoginDataOnFrontEnd() {
-    const emailRes = validateEmail();
-    const passwordRes = validatePassword();
-    return emailRes && passwordRes;
+    const emailInputValRes = validateEmail();
+    const passwordInputValRes = validatePassword();
+    return emailInputValRes && passwordInputValRes;
 }
 
 
-function visualEffects() {
-    emailForm.setAttribute('error', 'true');
+function SettingErrorAttributesToInputs() {
+    emailInput.setAttribute('error', 'true');
     passwordForm.setAttribute('error', 'true');
     passwordForm.setAttribute('errorText', 'Invalid data');
 }
 
 function cancelVisualEffects() {
-    emailForm.removeAttribute('error');
+    emailInput.removeAttribute('error');
     passwordForm.removeAttribute('error');
     passwordForm.removeAttribute('errorText');
 }
@@ -38,7 +38,7 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
     if (validateLoginDataOnFrontEnd()) {
         cancelVisualEffects();
         const csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-        const email = emailForm.value;
+        const email = emailInput.value;
         const password = passwordForm.value;
         const formData = new FormData();
         formData.append('email', email);
@@ -48,12 +48,12 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         
         const gotToken = await checkAndSaveTokens(host + '/user/authentication/', formData);
         if (gotToken) {
-            emailForm.value = '';
+            emailInput.value = '';
             passwordForm.value = '';
             window.location.replace(host + '/clients/home/');
         } 
     } else {
-        visualEffects();
+        SettingErrorAttributesToInputs();
     }
 });
 
@@ -73,11 +73,11 @@ const checkAndSaveTokens = async (url, dataToSend) => {
             window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
             return true;
         } else if (statusCode === 400) {
-            emailForm.setAttribute("error", "true");
+            emailInput.setAttribute("error", "true");
             passwordForm.setAttribute("error", "true");
             passwordForm.setAttribute("errorText", "Incorrect credentials!");
         } else {
-            emailForm.setAttribute("error", "true");
+            emailInput.setAttribute("error", "true");
             passwordForm.setAttribute("error", "true");
             passwordForm.setAttribute("errorText", "Unknown error");
         }
