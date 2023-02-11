@@ -12,9 +12,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         password = attrs.get('password')
-        password2 = attrs.get('repeat_password')
-        if password != password2:
-            raise serializers.ValidationError("Password and Confirm Password doesn't match")
+        repeat_password = attrs.get('repeat_password')
+        if password != repeat_password:
+            raise serializers.ValidationError("Password and Confirm Password don't match")
         return attrs
 
     def create(self, validated_data):

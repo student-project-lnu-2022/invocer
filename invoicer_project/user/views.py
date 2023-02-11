@@ -26,27 +26,27 @@ def decode_jwt_token(given_token, secret=settings.SECRET_KEY):
         "token_type": payload["token_type"]
     }
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def registration_view(request):
-    if request.method == 'POST':
-        new_user = UserSerializer(data=request.POST)
-        user = User.objects.filter(email=new_user.initial_data["email"]).first()
-        if user is not None:
-            return JsonResponse({"message": "User with such email already exists"}, status=409)
-        try:
-            new_user.is_valid(raise_exception=True)
-            user = new_user.save()
-            return JsonResponse({"message": "Success"}, status=200)
-        except:
-            return JsonResponse({"message": "Invalid credentials"}, status=400)
-    else:
-        return render(request, 'user/registration.html', {})
+    return render(request, 'user/registration.html', {})
 
 
 @api_view(['GET'])
 def login_view(request):
     return render(request, 'user/login.html', {})
 
+@api_view(['POST'])
+def add_new_user_view(request):
+    new_user = UserSerializer(data=request.POST)
+    user = User.objects.filter(email=new_user.initial_data["email"]).first()
+    if user is not None:
+        return JsonResponse({"message": "User with such email already exists"}, status=409)
+    try:
+        new_user.is_valid(raise_exception=True)
+        user = new_user.save()
+        return JsonResponse({"message": "Success"}, status=200)
+    except:
+        return JsonResponse({"message": "Invalid credentials"}, status=400)
 
 @api_view(['POST'])
 def authentication_view(request):
