@@ -48,6 +48,8 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         
         const gotToken = await checkAndSaveTokens(host + '/user/authentication/', formData);
         if (gotToken) {
+            emailForm.value = '';
+            passwordForm.value = '';
             window.location.href = host + '/clients/home/';
         } 
     } else {
@@ -84,22 +86,4 @@ const checkAndSaveTokens = async (url, dataToSend) => {
     }   
     return flag;
 }
-
-//async function authorization() {
-//    const headers = new Headers();
-//    headers.append('Authorization', `Bearer ${window.localStorage.getItem('accessToken')}`);
-//    let response
-//    try {
-//        const result = await fetch(host + '/clients/list/', {
-//        method: "GET",
-//        headers: headers
-//        })
-//        response = result.status;
-//        if (response === 200) {
-//        console.log(response);
-//        }
-//    } catch (error) {
-//        console.error(error);
-//    }
-//}
 

@@ -46,21 +46,20 @@ for(let i = 0; i < data.length; i++) {
 }
 
 async function obtainNewAccessToken() {
-    let ifSuccess = true;
     const formData = new FormData();
     formData.append('refresh', window.localStorage.getItem('refreshToken'));
     try {
         const response = await fetch(host + '/user/refresh/', {
             method: "POST",
             body: formData
-        })
+        });
         const newToken = await response.json();
         window.localStorage.setItem('accessToken', newToken['access']);
     } catch (error) {
-        ifSuccess = false;
         console.error(error); 
     }
-    return ifSuccess;
+    return response.status === 200;
+    
 }
 
 async function addElementsDynamically() {
@@ -70,7 +69,8 @@ async function addElementsDynamically() {
         fillInitials(responseFromServer["data"]);
         createClientListContent(responseFromServer["data"]["content"]);
     } else if (response === 401) {
-        if (!await obtainNewAccessToken()) {
+        const successfulTokenObtaining = await obtainNewAccessToken();
+        if (!successfulTokenObtaining) {
             window.location.href = host + '/user/login/';
         } else {
             responseFromServer = await getUserData();
