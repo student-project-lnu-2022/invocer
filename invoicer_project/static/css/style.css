@@ -990,3 +990,7 @@ md-fab-extended {
 .client_list_item{
     margin-bottom: 10px;
 }
+
+body {
+    background-color: rgba(233, 236, 246, 1)
+}
