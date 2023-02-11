@@ -21,39 +21,39 @@
                 <img src="{% static 'img/logo.svg' %}" alt="logo" width="412" height="146"/>
             </div>
             <div class="row text-center">
-                <p id="sign_up_text_registration_page">Sign up</p>
+                <p id="sign_up_text_rg_pg">Sign up</p>
             </div>
             <div class="row justify-content-center">
                 <div
                     class="d-flex flex-wrap flex-column align-items-center col-xxl-4 col-xl-5 col-lg-6 col-md-7 col-sm-10 col-10"
-                    id="background_input_registration_page">
+                    id="bg_input_rg_pg">
                     <div class="row col-12 justify-content-center">
                         <div class="row justify-content-between row-input">
                             {% csrf_token %}
                             <md-outlined-text-field
                                 class="col-6"
-                                id="name_input_registration_page"
+                                id="name_input_rg_pg"
                                 label="Name"></md-outlined-text-field>
                             <md-outlined-text-field
                                 class="col-6"
-                                id="surname_input_registration_page"
+                                id="surname_input_rg_pg"
                                 label="Surname"></md-outlined-text-field>
                         </div>
                         <div class="row row-input">
                             <md-outlined-text-field
                                 class="col-12"
-                                id="email_input_registration_page"
+                                id="email_input_rg_pg"
                                 label="Email"></md-outlined-text-field>
                         </div>
                         <div class="row justify-content-between row-input">
                             <md-outlined-text-field
                                 class="col-6"
-                                id="password_input_registration_page"
+                                id="password_input_rg_pg"
                                 type="password"
                                 label="Password"></md-outlined-text-field>
                             <md-outlined-text-field
                                 class="col-6"
-                                id="repeat_password_input_registration_page"
+                                id="repeat_password_input_rg_pg"
                                 type="password"
                                 label="Repeat password"></md-outlined-text-field>
                         </div>
@@ -62,12 +62,12 @@
             </div>
             <div class="row justify-content-center">
                 <md-filled-button
-                    id="sign_up_confirmation_button_registration_page"
+                    id="sign_up_confirm_btn_rg_pg"
                     class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-8 col-8"
                     label="Create profile"></md-filled-button>
             </div>
             <div class="row text-center">
-                <a href="{% url 'login' %}"><p class="hint_text_registration_page">I have an account. Log in.</p></a>
+                <a href="{% url 'login' %}"><p class="hint_text_rg_pg">I have an account. Log in.</p></a>
             </div>
         </div>
 

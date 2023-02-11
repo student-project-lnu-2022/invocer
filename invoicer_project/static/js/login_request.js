@@ -1,6 +1,6 @@
 const host = "http://127.0.0.1:8000";
-const emailForm = document.getElementById("email_input_log_in_page");
-const passwordForm = document.getElementById("password_input_log_in_page");
+const emailForm = document.getElementById("email_input_lg_pg");
+const passwordForm = document.getElementById("password_input_lg_pg");
 
 
 function validatePassword() {

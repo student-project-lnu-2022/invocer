@@ -280,7 +280,7 @@ async function authorization() {
     }
 }
 
-document.getElementById("sign_up_confirmation_button_registration_page").addEventListener("click", async function (event) {
+document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", async function (event) {
     event.preventDefault();
     if (validateRegistration()) {
         const name = nameForm.value;

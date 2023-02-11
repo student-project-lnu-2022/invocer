@@ -34,7 +34,7 @@ a {
     color: black;
 }
 
-.hint_text_log_in_page {
+.hint_text_lg_pg {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     line-height: 24px;
@@ -42,16 +42,16 @@ a {
     font-family: Roboto;
 }
 
-#logo_invoicer_big_log_in_page {
+#invoicer_logo_lg_pg {
     margin-top: 8vh;
 }
 
-#email_input_log_in_page {
+#email_input_lg_pg {
     margin-top: 0.1vh;
     margin-bottom: 1.5vh;
 }
 
-#password_input_log_in_page {
+#password_input_lg_pg {
     /*margin-top: 1.5vh;*/
     margin-bottom: 0.1vh;
 }
@@ -61,7 +61,7 @@ a {
     margin-bottom: 2vh;
 }
 
-#background_input_log_in_page {
+#bg_input_lg_pg {
     background-color: white;
     border-radius: 15px;
     padding: 15px;
@@ -70,7 +70,7 @@ a {
 
 /* Registration Page */
 
-#sign_up_text_registration_page {
+#sign_up_text_rg_pg {
     font-size: 2.1em;
     font-family: Roboto, serif;
     font-weight: 500;
@@ -78,7 +78,7 @@ a {
     padding-top: 1.5vh;
 }
 
-.hint_text_registration_page {
+.hint_text_rg_pg {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     line-height: 24px;
@@ -86,7 +86,7 @@ a {
     font-family: Roboto, serif;
 }
 
-#background_input_registration_page {
+#bg_input_rg_pg {
     background-color: white;
     border-radius: 15px;
     padding-top: 10px;
@@ -95,7 +95,7 @@ a {
     padding-right: 5px;
 }
 
-#sign_up_confirmation_button_registration_page {
+#sign_up_confirm_btn_rg_pg {
     margin-top: 2.5vh;
     margin-bottom: 2vh;
 }
