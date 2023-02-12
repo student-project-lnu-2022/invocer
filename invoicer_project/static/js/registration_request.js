@@ -4,11 +4,11 @@ const nameSurnMaxLength = 35;
 const host = "http://127.0.0.1:8000";
 let csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
-const emailForm = document.getElementById("email_input_registration_page");
-const nameForm = document.getElementById("name_input_registration_page");
-const surnameForm = document.getElementById("surname_input_registration_page");
-const passwordField = document.getElementById("password_input_registration_page");
-const repeatPasswordField = document.getElementById("repeat_password_input_registration_page");
+const emailForm = document.getElementById("email_input_rg_pg");
+const nameForm = document.getElementById("name_input_rg_pg");
+const surnameForm = document.getElementById("surname_input_rg_pg");
+const passwordField = document.getElementById("password_input_rg_pg");
+const repeatPasswordField = document.getElementById("repeat_password_input_rg_pg");
 
 
 function validateRegistration() {
@@ -87,7 +87,7 @@ function validateEmail() {
         emailForm.setAttribute("errorText", "This field can\'t be empty");
         emailForm.setAttribute("error", "true");
     } else if (user_email.includes(' ')) {
-        emailForm.setAttribute("errorText", "Email can't contain whitespace");
+        emailForm.setAttribute("errorText", "Whitespaces aren't allowed");
         emailForm.setAttribute("error", "true");
     } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
         emailForm.setAttribute("errorText", "You entered an invalid email!");
@@ -110,7 +110,7 @@ function validatePasswords() {
 
     passwordField.setAttribute("error", "true");
     if (userPassword.includes(' ')) {
-        passwordField.setAttribute("errorText", "Password can't contain whitespace");
+        passwordField.setAttribute("errorText", "Whitespaces aren't allowed");
     } else if (userPassword.length < passwordMinLength) {
         passwordField.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
     } else if (userPassword.length > passwordMaxLength) {
@@ -129,7 +129,7 @@ function validatePasswords() {
 
     if (userPasswordRepeat.includes(' ')) {
         repeatPasswordField.setAttribute("error", "true");
-        repeatPasswordField.setAttribute("errorText", "Password can't contain whitespace");
+        repeatPasswordField.setAttribute("errorText", "Whitespaces aren't allowed");
     } else if (userPasswordRepeat.length < passwordMinLength) {
         repeatPasswordField.setAttribute("error", "true");
         repeatPasswordField.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
@@ -172,7 +172,7 @@ function validateNameAndSurname() {
     if (!nameInput) {
         nameForm.setAttribute("errorText", "This field can't be empty");
     } else if (nameInput.includes(' ')) { 
-        nameForm.setAttribute("errorText", "Name can't contain whitespace");
+        nameForm.setAttribute("errorText", "Whitespaces aren't allowed");
     } else if (nameInput.length > nameSurnMaxLength) {
         nameForm.setAttribute("errorText", `Name can't be longer than ${nameSurnMaxLength} characters`);
     } else if (!(/^[a-z]+$/i.test(nameInput))) {
@@ -189,7 +189,7 @@ function validateNameAndSurname() {
     if (!surnameInput) {
         surnameForm.setAttribute("errorText", "This field can't be empty");
     } else if (surnameInput.includes(' ')) { 
-        surnameForm.setAttribute("errorText", "Surname can't contain whitespace");
+        surnameForm.setAttribute("errorText", "Whitespaces aren't allowed");
     } else if (surnameInput.length > nameSurnMaxLength) {
         surnameForm.setAttribute("errorText", `Surname can't be longer than ${nameSurnMaxLength} characters`);
     } else if (!(/^[a-z]+$/i.test(surnameInput))) {
