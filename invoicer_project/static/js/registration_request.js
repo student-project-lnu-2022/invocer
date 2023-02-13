@@ -224,6 +224,7 @@ const checkAndSaveTokens = async (url, dataToSend) => {
         } else if (statusCode === 400) {
             passwordField.setAttribute("errorText", "Incorrect credentianls!");
         } else if (statusCode === 409) {
+            passwordField.removeAttribute("error", "true");
             emailField.setAttribute("errorText", "User with such email already exists!");
         } else {
             passwordField.setAttribute("errorText", "Unknown error");
