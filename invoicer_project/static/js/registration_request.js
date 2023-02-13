@@ -4,205 +4,170 @@ const nameSurnMaxLength = 35;
 const host = "http://127.0.0.1:8000";
 let csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
-const emailForm = document.getElementById("email_input_rg_pg");
-const nameForm = document.getElementById("name_input_rg_pg");
-const surnameForm = document.getElementById("surname_input_rg_pg");
+const emailField = document.getElementById("email_input_rg_pg");
+const nameField = document.getElementById("name_input_rg_pg");
+const surnameField = document.getElementById("surname_input_rg_pg");
 const passwordField = document.getElementById("password_input_rg_pg");
 const repeatPasswordField = document.getElementById("repeat_password_input_rg_pg");
 
+const fieldList = [
+    nameField,
+    surnameField,
+    emailField,
+    passwordField,
+    repeatPasswordField
+];
 
-function validateRegistration() {
-    removeMaxHeightAttribute();
-    let names = validateNameAndSurname();
-    let email = validateEmail();
-    let passwords = validatePasswords();
-    
-    checkAndSetNormalHeightNameAndSurnameInput();
-    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
-    return (email && passwords && names)
+function setMaxFieldContainerHeights() {
+    for (field of fieldList) {
+        field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
+    }
 }
 
-nameForm.addEventListener('input', () => {
-    nameForm.removeAttribute("errorText");
-    nameForm.removeAttribute("error");
-    removeMaxHeightAttribute();
-    checkAndSetNormalHeightNameAndSurnameInput();
+function removeAllErrorAttributes() {
+    for (item of fieldList) {
+        item.removeAttribute("error");
+        item.removeAttribute("errorText");
+    }
+}
+
+function allAreFalse(object) {
+    for (key in object) {
+        if (Boolean(object[key]) === true) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function validateNameAndSurnameAsStrings(strToValidate) {
+    let strValidationResult 
+
+    if (!strToValidate) {
+        strValidationResult = "This field can't be empty";
+    } else if (strToValidate.includes(' ')) { 
+        strValidationResult = "Whitespaces aren't allowed";
+    } else if (strToValidate.length > nameSurnMaxLength) {
+        strValidationResult = `Can't be longer than ${nameSurnMaxLength} characters`;
+    } else if (!(/^[a-z]+$/i.test(strToValidate))) {
+        strValidationResult = "Only latin letters are allowed";
+    } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
+        strValidationResult = "First letter has to be capital";
+    } else {
+        strValidationResult = '';
+    }
+    return strValidationResult;
+}
+
+function validateEmail(emailToValidate) {
+    let isEmailValid
+    if (emailToValidate === '') {
+        isEmailValid = "This field can't be empty";
+    } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(emailToValidate))) {
+        isEmailValid = "You entered an invalid email!";
+    } else if (emailToValidate.includes(' ')) {
+        isEmailValid = "Whitespaces aren't allowed";
+    } else {
+        isEmailValid = '';
+    }
+    return isEmailValid;
+}
+
+function validatePasswordAsString(passwordToValidate) {
+    let isPasswordValid
+    if (passwordToValidate.includes(' ')) {
+        isPasswordValid = "Whitespaces aren't allowed";
+    } else if (passwordToValidate.length < passwordMinLength) {
+        isPasswordValid = `Should be at least ${passwordMinLength} characters long`;
+    } else if (passwordToValidate.length > passwordMaxLength) {
+        isPasswordValid = `Should have at most ${passwordMaxLength} characters`;
+    } else if (!(/^[a-z0-9]+$/i.test(passwordToValidate))) {
+        isPasswordValid = "Only latin letters and numbers are allowed";
+    } else if (!(/\d/.test(passwordToValidate))) {
+        isPasswordValid = "Should contain number";
+    } else if (!(/[a-z]/.test(passwordToValidate))) { 
+        isPasswordValid = "Should contain a lowercase letter";
+    } else if (!(/[A-Z]/.test(passwordToValidate))) {
+        isPasswordValid = "Should contain a capital letter";
+    } else {
+        isPasswordValid = '';
+    }
+    return isPasswordValid;
+}
+
+function validateRegistration() {
+    removeAllErrorAttributes();
+    setMaxFieldContainerHeights();
+    let allFieldsValidationResult = {
+        'nameValidationResult': validateNameAndSurnameAsStrings(nameField.value),
+        'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
+        'emailValidationResult': validateEmail(emailField.value),
+        'passwordValidationResult': validatePasswordAsString(passwordField.value),
+        'repeatPasswordValidationResult': validatePasswordAsString(repeatPasswordField.value),
+        'doPasswordsMatch': () => {
+            if (passwordField.value !== repeatPasswordField.value) {
+                return "Passwords don't match!";
+            } else {
+                return '';
+            }
+        }
+    };
+    return allFieldsValidationResult;
+}
+
+function setErrorAttributesToFields(errorsObject) {
+    if (errorsObject['nameValidationResult']) {
+        nameField.setAttribute("error", "true");
+        nameField.setAttribute("errorText", errorsObject['nameValidationResult']);
+    }
+    if (errorsObject['surnameValidationResult']) {
+        surnameField.setAttribute("error", "true");
+        surnameField.setAttribute("errorText", errorsObject['surnameValidationResult']);
+    }
+    if (errorsObject['emailValidationResult']) {
+        emailField.setAttribute("error", "true");
+        emailField.setAttribute("errorText", errorsObject['emailValidationResult']);
+    }
+    if (errorsObject['passwordValidationResult']) {
+        passwordField.setAttribute("error", "true");
+        passwordField.setAttribute("errorText", errorsObject['passwordValidationResult']);
+    }
+    if (errorsObject['repeatPasswordValidationResult']) {
+        repeatPasswordField.setAttribute("error", "true");
+        repeatPasswordField.setAttribute("errorText", errorsObject['repeatPasswordValidationResult']);
+    }
+    if (errorsObject['doPasswordsMatch']) {
+        passwordField.setAttribute("error", "true");
+        passwordField.setAttribute("errorText", errorsObject['passwordValidationResult']);
+        repeatPasswordField.setAttribute("error", "true");
+    }
+}
+
+
+nameField.addEventListener('input', () => {
+    nameField.removeAttribute("errorText");
+    nameField.removeAttribute("error");
 });
 
-surnameForm.addEventListener('input', () => {
-    surnameForm.removeAttribute("errorText");
-    surnameForm.removeAttribute("error");
-    removeMaxHeightAttribute();
-    checkAndSetNormalHeightNameAndSurnameInput();
+surnameField.addEventListener('input', () => {
+    surnameField.removeAttribute("errorText");
+    surnameField.removeAttribute("error");
 });
 
 passwordField.addEventListener('input', () => {
     passwordField.removeAttribute("errorText");
     passwordField.removeAttribute("error");
-    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
 });
 
 repeatPasswordField.addEventListener('input', () => {
     repeatPasswordField.removeAttribute("errorText");
     repeatPasswordField.removeAttribute("error");
-    checkAndSetNormalHeightPasswordAndRepeatPasswordInput();
 });
 
-emailForm.addEventListener('input', () => {
-    emailForm.removeAttribute("errorText");
-    emailForm.removeAttribute("error");
+emailField.addEventListener('input', () => {
+    emailField.removeAttribute("errorText");
+    emailField.removeAttribute("error");
 });
-
-function checkAndSetNormalHeightNameAndSurnameInput() {
-    if (nameForm.hasAttribute("error") && !(surnameForm.hasAttribute("error"))) {
-        surnameForm.style.maxHeight = "56px";
-    }
-    if (!(nameForm.hasAttribute("error")) && surnameForm.hasAttribute("error")) {
-        nameForm.style.maxHeight = "56px";
-    }
-}
-
-function checkAndSetNormalHeightPasswordAndRepeatPasswordInput() {
-    if (passwordField.hasAttribute("error") && !(repeatPasswordField.hasAttribute("error"))) {
-        repeatPasswordField.style.maxHeight = "56px";
-    }
-    if (!(passwordField.hasAttribute("error")) && repeatPasswordField.hasAttribute("error")) {
-        passwordField.style.maxHeight = "56px";
-    }
-}
-
-function removeMaxHeightAttribute() {
-    surnameForm.style.maxHeight = null;
-    nameForm.style.maxHeight = null;
-    passwordField.style.maxHeight = null;
-    repeatPasswordField.style.maxHeight = null;
-}
-
-
-function validateEmail() {
-    let user_email = emailForm.value;
-    let result = false;
-    console.log(user_email === '');
-    if (user_email === '') {
-        emailForm.setAttribute("errorText", "This field can\'t be empty");
-        emailForm.setAttribute("error", "true");
-    } else if (user_email.includes(' ')) {
-        emailForm.setAttribute("errorText", "Whitespaces aren't allowed");
-        emailForm.setAttribute("error", "true");
-    } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(user_email))) {
-        emailForm.setAttribute("errorText", "You entered an invalid email!");
-        emailForm.setAttribute("error", "true");
-    } else {
-        emailForm.removeAttribute("errorText");
-        emailForm.removeAttribute("error");
-        result = true;
-    }
-    return result;
-}
-
-function validatePasswords() {
-    let userPassword = passwordField.value;
-    let userPasswordRepeat = repeatPasswordField.value;
-    
-    let passwordResult = false;
-    let repeatPasswordResult = false;
-    let match = true;
-
-    passwordField.setAttribute("error", "true");
-    if (userPassword.includes(' ')) {
-        passwordField.setAttribute("errorText", "Whitespaces aren't allowed");
-    } else if (userPassword.length < passwordMinLength) {
-        passwordField.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
-    } else if (userPassword.length > passwordMaxLength) {
-        passwordField.setAttribute("errorText", `Password must have at most ${passwordMaxLength} characters`);
-    } else if (!(/^[a-z0-9]+$/i.test(userPassword))) {
-        passwordField.setAttribute("errorText", "Only latin letters and numbers are allowed");
-    } else if (!(/\d/.test(userPassword))) {
-        passwordField.setAttribute("errorText", "Password must contain number");
-    } else if (!(/[A-Z]/.test(userPassword))) {
-        passwordField.setAttribute("errorText", "Password must contain capital letter");
-    } else {
-        passwordField.removeAttribute("errorText");
-        passwordField.removeAttribute("error");
-        passwordResult = true;
-    }
-
-    if (userPasswordRepeat.includes(' ')) {
-        repeatPasswordField.setAttribute("error", "true");
-        repeatPasswordField.setAttribute("errorText", "Whitespaces aren't allowed");
-    } else if (userPasswordRepeat.length < passwordMinLength) {
-        repeatPasswordField.setAttribute("error", "true");
-        repeatPasswordField.setAttribute("errorText", `Password must have at least ${passwordMinLength} characters`);
-    } else if (userPasswordRepeat.length > passwordMaxLength) {
-        repeatPasswordField.setAttribute("error", "true");
-        repeatPasswordField.setAttribute("errorText", `Password must have at most ${passwordMaxLength} characters`);
-    } else if (!(/^[a-z0-9]+$/i.test(userPasswordRepeat))) {
-        repeatPasswordField.setAttribute("error", "true");
-        repeatPasswordField.setAttribute("errorText", "Only latin letters and numbers are allowed");
-    } else if (!(/\d/.test(userPasswordRepeat))) {
-        repeatPasswordField.setAttribute("error", "true");
-        repeatPasswordField.setAttribute("errorText", "Password must contain number");
-    } else if (!(/[A-Z]/.test(userPasswordRepeat))) {
-        repeatPasswordField.setAttribute("error", "true");
-        repeatPasswordField.setAttribute("errorText", "Password must contain capital letter");
-    } else {
-        repeatPasswordField.removeAttribute("errorText");
-        repeatPasswordField.removeAttribute("error");
-        repeatPasswordResult = true;
-    }
-
-    if (userPassword !== userPasswordRepeat) { 
-        match = false;
-        passwordField.setAttribute("error", "true");
-        passwordField.setAttribute("errorText", "Passwords don't match");
-        repeatPasswordField.setAttribute("error", "true");
-        repeatPasswordField.setAttribute("errorText", "Passwords don't match");
-    }
-    return (match && passwordResult && repeatPasswordResult) 
-}
-
-function validateNameAndSurname() {
-    let nameInput = nameForm.value;
-    let surnameInput = surnameForm.value;
-    let nameResult = false;
-    let surnameResult = false;
-
-
-    nameForm.setAttribute("error", "true");
-    if (!nameInput) {
-        nameForm.setAttribute("errorText", "This field can't be empty");
-    } else if (nameInput.includes(' ')) { 
-        nameForm.setAttribute("errorText", "Whitespaces aren't allowed");
-    } else if (nameInput.length > nameSurnMaxLength) {
-        nameForm.setAttribute("errorText", `Name can't be longer than ${nameSurnMaxLength} characters`);
-    } else if (!(/^[a-z]+$/i.test(nameInput))) {
-        nameForm.setAttribute("errorText", "Only latin letters are allowed");
-    } else if(!(/[A-Z]/.test(nameInput.charAt(0)))){
-        nameForm.setAttribute("errorText", "First letter has to be capital");
-    } else {
-        nameForm.removeAttribute("errorText");
-        nameForm.removeAttribute("error");
-        nameResult = true;
-    }
-
-    surnameForm.setAttribute("error", "true");
-    if (!surnameInput) {
-        surnameForm.setAttribute("errorText", "This field can't be empty");
-    } else if (surnameInput.includes(' ')) { 
-        surnameForm.setAttribute("errorText", "Whitespaces aren't allowed");
-    } else if (surnameInput.length > nameSurnMaxLength) {
-        surnameForm.setAttribute("errorText", `Surname can't be longer than ${nameSurnMaxLength} characters`);
-    } else if (!(/^[a-z]+$/i.test(surnameInput))) {
-        surnameForm.setAttribute("errorText", "Only latin letters are allowed");
-    } else if(!(/[A-Z]/.test(surnameInput.charAt(0)))) {
-        surnameForm.setAttribute("errorText", "First letter has to be capital");
-    } else {
-        surnameForm.removeAttribute("errorText");
-        surnameForm.removeAttribute("error");
-        surnameResult = true;
-    }
-    return (nameResult && surnameResult)
-}
 
 
 const login = async (url, dataToSend) => {
@@ -215,12 +180,12 @@ const login = async (url, dataToSend) => {
         const jsonResponce = await res.json();
         statusCode = res.status;
         
-        emailForm.setAttribute("error", "true");
+        emailField.setAttribute("error", "true");
         passwordField.setAttribute("error", "true");
         if (statusCode === 200) {
             window.localStorage.setItem('accessToken', jsonResponce['access']);
             window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
-            emailForm.removeAttribute("error");
+            emailField.removeAttribute("error");
             passwordField.removeAttribute("error");
             return true;
         } else if (statusCode === 400) {
@@ -235,7 +200,6 @@ const login = async (url, dataToSend) => {
 }
 
 
-
 const checkAndSaveTokens = async (url, dataToSend) => {
     let flag = false, statusCode;
     try {
@@ -246,7 +210,7 @@ const checkAndSaveTokens = async (url, dataToSend) => {
         await res.json(); 
         statusCode = res.status;
         
-        emailForm.setAttribute("error", "true");
+        emailField.setAttribute("error", "true");
         passwordField.setAttribute("error", "true");
         if (statusCode === 200) {
             await login(host + '/user/authentication/', dataToSend);
@@ -254,7 +218,7 @@ const checkAndSaveTokens = async (url, dataToSend) => {
         } else if (statusCode === 400) {
             passwordField.setAttribute("errorText", "Incorrect credentianls!");
         } else if (statusCode === 409) {
-            emailForm.setAttribute("errorText", "User with such email already exists!");
+            emailField.setAttribute("errorText", "User with such email already exists!");
         } else {
             passwordField.setAttribute("errorText", "Unknown error");
         }
@@ -282,10 +246,11 @@ async function authorization() {
 
 document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", async function (event) {
     event.preventDefault();
-    if (validateRegistration()) {
-        const name = nameForm.value;
-        const surname = surnameForm.value;
-        const email = emailForm.value;
+    const validationFieldsList = validateRegistration();
+    if (allAreFalse(validationFieldsList)) {
+        const name = nameField.value;
+        const surname = surnameField.value;
+        const email = emailField.value;
         const password = passwordField.value;
         const repeat_password = repeatPasswordField.value;
         const formData = new FormData();
@@ -298,5 +263,7 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         if (await checkAndSaveTokens(host + '/user/create_user/', formData)) {
             window.location.replace(host + '/clients/home/');
         }
+    } else {
+        setErrorAttributesToFields(validationFieldsList);
     }
 });
