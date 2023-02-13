@@ -39,7 +39,7 @@ for(let i = 0; i < data.length; i++) {
                 <div class="col-xxl-2 col-xl-3 col-md-3 col-sm-3 col-3 list_item_user_buttons">
                     <!--TODO MD-FILLED-BUTTON HASN'T BEEN PUBLISHED YET-->
                     <span class="material-symbols-outlined" style="font-size:28px;">delete</span>
-                    <md-checkbox id="list_item_user_delete" checked></md-checkbox>
+                    <md-checkbox id="list_item_user_delete"></md-checkbox>
                 </div>
             </div>`)
     }
