@@ -104,13 +104,13 @@ function validateRegistration() {
         'emailValidationResult': validateEmail(emailField.value),
         'passwordValidationResult': validatePasswordAsString(passwordField.value),
         'repeatPasswordValidationResult': validatePasswordAsString(repeatPasswordField.value),
-        'doPasswordsMatch': () => {
+        'doPasswordsMatch': (() => {
             if (passwordField.value !== repeatPasswordField.value) {
                 return "Passwords don't match!";
             } else {
                 return '';
             }
-        }
+        })()
     };
     return allFieldsValidationResult;
 }
@@ -137,9 +137,11 @@ function setErrorAttributesToFields(errorsObject) {
         repeatPasswordField.setAttribute("errorText", errorsObject['repeatPasswordValidationResult']);
     }
     if (errorsObject['doPasswordsMatch']) {
+        passwordField.removeAttribute("errorText");
+        repeatPasswordField.removeAttribute("errorText");
         passwordField.setAttribute("error", "true");
-        passwordField.setAttribute("errorText", errorsObject['passwordValidationResult']);
         repeatPasswordField.setAttribute("error", "true");
+        passwordField.setAttribute("errorText", errorsObject['doPasswordsMatch']);
     }
 }
 
@@ -157,11 +159,15 @@ surnameField.addEventListener('input', () => {
 passwordField.addEventListener('input', () => {
     passwordField.removeAttribute("errorText");
     passwordField.removeAttribute("error");
+    repeatPasswordField.removeAttribute("errorText");
+    repeatPasswordField.removeAttribute("error");
 });
 
 repeatPasswordField.addEventListener('input', () => {
     repeatPasswordField.removeAttribute("errorText");
     repeatPasswordField.removeAttribute("error");
+    passwordField.removeAttribute("errorText");
+    passwordField.removeAttribute("error");
 });
 
 emailField.addEventListener('input', () => {
@@ -226,22 +232,6 @@ const checkAndSaveTokens = async (url, dataToSend) => {
         console.error(error);
     }
     return flag;
-}
-
-async function authorization() {
-    const headers = new Headers();
-    headers.append('Authorization', `Bearer ${window.localStorage.getItem('accessToken')}`);
-    let response
-    try {
-        const result = await fetch(host + '/clients/list/', {
-        method: "GET",
-        headers: headers
-        })
-        response = result.status;
-        console.log(result);    
-    } catch (error) {
-        console.error(error);
-    }
 }
 
 document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", async function (event) {
