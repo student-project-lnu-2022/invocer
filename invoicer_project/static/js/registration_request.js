@@ -42,17 +42,20 @@ function allAreFalse(object) {
 
 function validateNameAndSurnameAsStrings(strToValidate) {
     let strValidationResult 
-
     if (!strToValidate) {
         strValidationResult = "This field can't be empty";
     } else if (strToValidate.includes(' ')) { 
-        strValidationResult = "Whitespaces aren't allowed";
+        strValidationResult = "No whitespaces";
     } else if (strToValidate.length > nameSurnMaxLength) {
-        strValidationResult = `Can't be longer than ${nameSurnMaxLength} characters`;
+        strValidationResult = `Max length – ${nameSurnMaxLength} chars`;
     } else if (!(/^[a-z]+$/i.test(strToValidate))) {
-        strValidationResult = "Only latin letters are allowed";
+        strValidationResult = "Only latin letters";
     } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
-        strValidationResult = "First letter has to be capital";
+        strValidationResult = "Has to begin with capital";
+    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) { 
+        strValidationResult = "No more than one capital"
+    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) { 
+        strValidationResult = "At least one lowercase";
     } else {
         strValidationResult = '';
     }
@@ -64,9 +67,9 @@ function validateEmail(emailToValidate) {
     if (emailToValidate === '') {
         isEmailValid = "This field can't be empty";
     } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(emailToValidate))) {
-        isEmailValid = "You entered an invalid email!";
+        isEmailValid = "Invalid email format";
     } else if (emailToValidate.includes(' ')) {
-        isEmailValid = "Whitespaces aren't allowed";
+        isEmailValid = "No whitespaces";
     } else {
         isEmailValid = '';
     }
@@ -76,19 +79,19 @@ function validateEmail(emailToValidate) {
 function validatePasswordAsString(passwordToValidate) {
     let isPasswordValid
     if (passwordToValidate.includes(' ')) {
-        isPasswordValid = "Whitespaces aren't allowed";
+        isPasswordValid = "No whitespaces";
     } else if (passwordToValidate.length < passwordMinLength) {
-        isPasswordValid = `Should be at least ${passwordMinLength} characters long`;
+        isPasswordValid = `Min length – ${passwordMinLength} chars`;
     } else if (passwordToValidate.length > passwordMaxLength) {
-        isPasswordValid = `Should have at most ${passwordMaxLength} characters`;
+        isPasswordValid = `Max length – ${passwordMaxLength} chars`;
     } else if (!(/^[a-z0-9]+$/i.test(passwordToValidate))) {
-        isPasswordValid = "Only latin letters and numbers are allowed";
+        isPasswordValid = "Only A-Z, a-z and 0-9";
     } else if (!(/\d/.test(passwordToValidate))) {
-        isPasswordValid = "Should contain number";
+        isPasswordValid = "At least one number";
     } else if (!(/[a-z]/.test(passwordToValidate))) { 
-        isPasswordValid = "Should contain a lowercase letter";
+        isPasswordValid = "At least one lowercase";
     } else if (!(/[A-Z]/.test(passwordToValidate))) {
-        isPasswordValid = "Should contain a capital letter";
+        isPasswordValid = "At least one capital";
     } else {
         isPasswordValid = '';
     }
@@ -144,7 +147,6 @@ function setErrorAttributesToFields(errorsObject) {
         passwordField.setAttribute("errorText", errorsObject['doPasswordsMatch']);
     }
 }
-
 
 nameField.addEventListener('input', () => {
     nameField.removeAttribute("errorText");
@@ -218,12 +220,6 @@ const obtainAndSaveTokens = async (url, dataToSend) => {
          })
         jsonResponse = await res.json();
         statusCode = res.status;
-      
-        // else if (statusCode === 400) {
-        //     passwordField.setAttribute("errorText", "Incorrect credentianls!");
-        // } else {
-        //     passwordField.setAttribute("errorText", "Unknown error");
-        // }
     } catch (error) {
         console.error(error);
     } 
@@ -233,7 +229,6 @@ const obtainAndSaveTokens = async (url, dataToSend) => {
     }
     return statusCode;
 }
-
 
 const registerNewUser = async (url, dataToSend) => {
     let statusCode;
@@ -271,6 +266,4 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         setErrorAttributesToFields(validationFieldsList);
     }
 });
-
-
-       
+   
