@@ -1,4 +1,4 @@
-document.getElementById("send_code_btn_fp_pg").addEventListener("click", onSendCodeClick);
+document.getElementById("send_button_fp").addEventListener("click", onSendCodeClick);
 
 function onSendCodeClick() {
     document.getElementById("input_email").style.display = "none";
