@@ -1,89 +1,124 @@
 const host = "http://127.0.0.1:8000";
-const emailInput = document.getElementById("email_input_lg_pg");
-const passwordForm = document.getElementById("password_input_lg_pg");
+const emailField = document.getElementById("email_input_lg_pg");
+const passwordField = document.getElementById("password_input_lg_pg");
 
+const fieldList = [emailField, passwordField];
 
-function validatePassword() {
-    return passwordForm.value !== '';
+function removeAllErrorAttributes() {
+    for (item of fieldList) {
+        item.removeAttribute("error");
+        item.removeAttribute("errorText");
+    }
 }
 
-function validateEmail() {
-    let userEmail = emailInput.value;
-    return !(userEmail.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(userEmail))) 
+function allAreFalse(object) {
+    for (key in object) {
+        if (Boolean(object[key]) === true) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function validatePassword(valueToValidate) {
+    return ((valueToValidate === '') ? 'Invalid data' : '');
+}
+
+function validateEmail(valueToValidate) {
+    if (valueToValidate.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(valueToValidate))) {
+        return 'Invalid data';
+    } else {
+        return '';
+    }
 }
 
 function validateLoginDataOnFrontEnd() {
-    const emailInputValRes = validateEmail();
-    const passwordInputValRes = validatePassword();
-    return emailInputValRes && passwordInputValRes;
+    removeAllErrorAttributes();
+    let fieldsValidationResult = {
+        'emailValidationResult': validateEmail(emailField.value),
+        'passwordValidationResult': validatePassword(passwordField.value)
+    };
+    return fieldsValidationResult;
 }
 
-
-function SettingErrorAttributesToInputs() {
-    emailInput.setAttribute('error', 'true');
-    passwordForm.setAttribute('error', 'true');
-    passwordForm.setAttribute('errorText', 'Invalid data');
+function setErrorAttributesToFields(errorData) {
+    emailField.setAttribute('error', 'true');
+    passwordField.setAttribute('error', 'true');
+    if (errorData["emailValidationResult"]) {
+        passwordField.setAttribute('errorText', errorData["emailValidationResult"]);
+    } 
+    if (errorData["passwordValidationResult"]) {
+        passwordField.setAttribute('errorText', errorData["passwordValidationResult"]);
+    }
 }
 
-function cancelVisualEffects() {
-    emailInput.removeAttribute('error');
-    passwordForm.removeAttribute('error');
-    passwordForm.removeAttribute('errorText');
+function backEndNegativeResponse(status) {
+     let errorString;
+            emailField.setAttribute('error', 'true');
+            passwordField.setAttribute('error', 'true');
+            if (status === 400) {
+                errorString = "Incorrect credentials";
+            } else {
+                errorString = "Unknown error";
+            }
+            passwordField.setAttribute("errorText", errorString);
 }
 
+emailField.addEventListener('input', () => {
+    emailField.removeAttribute("errorText");
+    emailField.removeAttribute("error");
+    passwordField.removeAttribute("errorText");
+    passwordField.removeAttribute("error");
+});
+
+passwordField.addEventListener('input', () => {
+    emailField.removeAttribute("errorText");
+    emailField.removeAttribute("error");
+    passwordField.removeAttribute("errorText");
+    passwordField.removeAttribute("error");
+});
 
 
-document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", async function (e) {
-    e.preventDefault();
-    if (validateLoginDataOnFrontEnd()) {
-        cancelVisualEffects();
+const checkAndSaveTokens = async (url, dataToSend) => {
+    let statusCode,jsonResponce
+    try {
+        const res = await fetch(url, {
+            method: 'POST',
+            body: dataToSend
+        });
+        jsonResponce = await res.json(); 
+        statusCode = res.status;
+    } catch (error) {
+        console.error(error);
+    } 
+    if (statusCode === 200) {
+            window.localStorage.setItem('accessToken', jsonResponce['access']);
+            window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
+    } 
+    return statusCode;
+}
+
+document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", async function (event) {
+    event.preventDefault();
+    const validationFieldsList = validateLoginDataOnFrontEnd();
+    if (allAreFalse(validationFieldsList)) {
         const csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-        const email = emailInput.value;
-        const password = passwordForm.value;
+        const email = emailField.value;
+        const password = passwordField.value;
         const formData = new FormData();
         formData.append('email', email);
         formData.append('password', password);
         formData.append('csrfmiddlewaretoken', csrf_token);
 
-        
-        const gotToken = await checkAndSaveTokens(host + '/user/authentication/', formData);
-        if (gotToken) {
-            emailInput.value = '';
-            passwordForm.value = '';
+        const responseStatus = await checkAndSaveTokens(host + '/user/authentication/', formData);
+        if (responseStatus === 200) {
+            emailField.value = '';
+            passwordField.value = '';
             window.location.replace(host + '/clients/home/');
-        } 
+        } else {
+            backEndNegativeResponse(responseStatus);
+        }
     } else {
-        SettingErrorAttributesToInputs();
+        setErrorAttributesToFields(validationFieldsList);
     }
 });
-
-
-const checkAndSaveTokens = async (url, dataToSend) => {
-    let flag = false, statusCode;
-    try {
-         const res = await fetch(url, {
-             method: 'POST',
-             body: dataToSend
-         })
-        const jsonResponce = await res.json(); 
-        statusCode = res.status;
-        
-        if (statusCode === 200) {
-            window.localStorage.setItem('accessToken', jsonResponce['access']);
-            window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
-            return true;
-        } else if (statusCode === 400) {
-            emailInput.setAttribute("error", "true");
-            passwordForm.setAttribute("error", "true");
-            passwordForm.setAttribute("errorText", "Incorrect credentials!");
-        } else {
-            emailInput.setAttribute("error", "true");
-            passwordForm.setAttribute("error", "true");
-            passwordForm.setAttribute("errorText", "Unknown error");
-        }
-    } catch (error) {
-        console.error(error);
-    }   
-    return flag;
-}
-
