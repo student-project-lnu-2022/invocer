@@ -30,7 +30,7 @@ for(let i = 0; i < data.length; i++) {
                     <p class="list_item_user_icon_initials_text">${data[i]['initials']}</p>
                 </div>
                 <div class="col-xxl-3 col-xl-3 col-md-3 col-sm-4 col-5 list_item_user_name">
-                    <p class="list_item_user_name_text">${data[i]['name']}</p>
+                    <p class="list_client_username">${data[i]['name']}</p>
                 </div>
                 <div class="col-xxl-4 col-xl-3 col-md-2 col-1 list_item_empty_block"></div>
                 <div class="col-xxl-2 col-xl-2 col-md-3 col-sm-3 col-5 list_item_user_debt">

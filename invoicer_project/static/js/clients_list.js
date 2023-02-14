@@ -1,14 +1,14 @@
-function search_item() {
-    let input = document.getElementById('searchbar').value;
-    input = input.toLowerCase();
-    let x = document.getElementsByClassName('list_item_user_name_text');
-    let y = document.getElementsByClassName('client_list_item');
+function searchClient() {
+    let inputFromSearchbar = document.getElementById('search_bar').value;
+    inputFromSearchbar = inputFromSearchbar.toLowerCase();
+    let clientUsername = document.getElementsByClassName('list_client_username');
+    let clientListItem = document.getElementsByClassName('client_list_item');
 
-    for (i = 0; i < x.length; i++) {
-        if (!x[i].innerHTML.toLowerCase().includes(input)) {
-            y[i].style.display = "none";
+    for (i = 0; i < clientUsername.length; i++) {
+        if (!clientUsername[i].innerHTML.toLowerCase().includes(inputFromSearchbar)) {
+            clientListItem[i].style.display = "none";
         } else {
-            y[i].style.removeProperty("display");
+            clientListItem[i].style.removeProperty("display");
         }
     }
 }
