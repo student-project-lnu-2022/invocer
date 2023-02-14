@@ -175,64 +175,78 @@ emailField.addEventListener('input', () => {
     emailField.removeAttribute("error");
 });
 
+async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
+    if (registerStatusCode === 200) {
+        const tokenObtainStatusCode = await obtainAndSaveTokens(host + '/user/authentication/', dataToSend);
+        if (tokenObtainStatusCode === 200) {
+            window.location.replace(host + '/clients/home/');
+        } else {
+            showBackEndErrorsAtFE(tokenObtainStatusCode);
+        }
+    } else {
+        emailField.setAttribute("error", "true");
+        passwordField.setAttribute("error", "true");
+        repeatPasswordField.setAttribute("error", "true");
+        if (registerStatusCode === 400) {
+            passwordField.setAttribute("errorText", "Invalid credentianls!");
+        } else if (registerStatusCode === 409) {
+            passwordField.removeAttribute("error");
+            repeatPasswordField.removeAttribute("error");
+            emailField.setAttribute("errorText", "User with such email already exists!");
+        } else {
+            passwordField.setAttribute("errorText", "Unknown server error");
+        }
+    }
+}
 
-const login = async (url, dataToSend) => {
-    let flag = false, statusCode;
+function showBackEndErrorsAtFE(status) {
+    emailField.setAttribute("error", "true");
+    passwordField.setAttribute("error", "true");
+    if (status === 400) {
+        passwordField.setAttribute("errorText", "Invalid credentials");
+    } else {
+        passwordField.setAttribute("errorText", "Unknown error");
+    }
+}
+
+const obtainAndSaveTokens = async (url, dataToSend) => {
+    let statusCode, jsonResponse;
     try {
          const res = await fetch(url, {
              method: 'POST',
              body: dataToSend
          })
-        const jsonResponce = await res.json();
+        jsonResponse = await res.json();
         statusCode = res.status;
-        
-        emailField.setAttribute("error", "true");
-        passwordField.setAttribute("error", "true");
-        if (statusCode === 200) {
-            window.localStorage.setItem('accessToken', jsonResponce['access']);
-            window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
-            emailField.removeAttribute("error");
-            passwordField.removeAttribute("error");
-            return true;
-        } else if (statusCode === 400) {
-            passwordField.setAttribute("errorText", "Incorrect credentianls!");
-        } else {
-            passwordField.setAttribute("errorText", "Unknown error");
-        }
+      
+        // else if (statusCode === 400) {
+        //     passwordField.setAttribute("errorText", "Incorrect credentianls!");
+        // } else {
+        //     passwordField.setAttribute("errorText", "Unknown error");
+        // }
     } catch (error) {
         console.error(error);
-    }   
-    return flag;
+    } 
+    if (statusCode === 200) {
+            window.localStorage.setItem('accessToken', jsonResponse['access']);
+            window.localStorage.setItem('refreshToken', jsonResponse['refresh']);
+    }
+    return statusCode;
 }
 
 
-const checkAndSaveTokens = async (url, dataToSend) => {
-    let flag = false, statusCode;
+const registerNewUser = async (url, dataToSend) => {
+    let statusCode;
     try {
-         const res = await fetch(url, {
-             method: 'POST',
-             body: dataToSend
-         })
-        await res.json(); 
+        const res = await fetch(url, {
+            method: 'POST',
+            body: dataToSend
+        });
         statusCode = res.status;
-        
-        emailField.setAttribute("error", "true");
-        passwordField.setAttribute("error", "true");
-        if (statusCode === 200) {
-            await login(host + '/user/authentication/', dataToSend);
-            return true;
-        } else if (statusCode === 400) {
-            passwordField.setAttribute("errorText", "Incorrect credentianls!");
-        } else if (statusCode === 409) {
-            passwordField.removeAttribute("error", "true");
-            emailField.setAttribute("errorText", "User with such email already exists!");
-        } else {
-            passwordField.setAttribute("errorText", "Unknown error");
-        }
     } catch (error) {
         console.error(error);
     }
-    return flag;
+    return statusCode;
 }
 
 document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", async function (event) {
@@ -251,10 +265,12 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         formData.append('password', password);
         formData.append('repeat_password', repeat_password);
         formData.append('csrfmiddlewaretoken', csrfToken);
-        if (await checkAndSaveTokens(host + '/user/create_user/', formData)) {
-            window.location.replace(host + '/clients/home/');
-        }
+        const registerStatusCode = await registerNewUser(host + '/user/create_user/', formData);
+        actionAfterRegisterRequest(registerStatusCode, formData);
     } else {
         setErrorAttributesToFields(validationFieldsList);
     }
 });
+
+
+       
