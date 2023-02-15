@@ -1,4 +1,4 @@
-function searchClient() {
+document.getElementById("search_bar").addEventListener('keyup', () => {
     let inputFromSearchbar = document.getElementById('search_bar').value;
     inputFromSearchbar = inputFromSearchbar.toLowerCase();
     let clientUsername = document.getElementsByClassName('list_client_username');
@@ -11,4 +11,4 @@ function searchClient() {
             clientListItem[i].style.removeProperty("display");
         }
     }
-}
+});
