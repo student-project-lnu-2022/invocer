@@ -1,11 +1,13 @@
 from django.urls import path
-from .views import login_view, registration_view, refresh_view, authentication_view, add_new_user_view
+from .views import RegistrationViewSet, LoginViewSet, RefreshViewSet
 from django.urls import path
 
+register_methods = RegistrationViewSet.as_view({'get': 'registration_page', 'post': 'create'})
+login_methods = LoginViewSet.as_view({'get': 'login_page', 'post': 'create'})
+refresh_methods = RefreshViewSet.as_view({'post': 'create'})
+
 urlpatterns = [
-    path("register/", registration_view, name='register'),
-    path("login/", login_view, name='login'),
-    path("authentication/", authentication_view, name='authentication'),
-    path("create_user/", add_new_user_view, name='create_user'),
-    path('refresh/', refresh_view, name='refresh'),
+    path("register/", register_methods, name='register'),
+    path("login/", login_methods, name='login'),
+    path('refresh/', refresh_methods , name='refresh'),
 ]

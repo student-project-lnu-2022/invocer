@@ -110,7 +110,7 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         formData.append('password', password);
         formData.append('csrfmiddlewaretoken', csrf_token);
 
-        const responseStatus = await checkAndSaveTokens(host + '/user/authentication/', formData);
+        const responseStatus = await checkAndSaveTokens(host + '/user/login/', formData);
         if (responseStatus === 200) {
             emailField.value = '';
             passwordField.value = '';

@@ -179,7 +179,7 @@ emailField.addEventListener('input', () => {
 
 async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
     if (registerStatusCode === 200) {
-        const tokenObtainStatusCode = await obtainAndSaveTokens(host + '/user/authentication/', dataToSend);
+        const tokenObtainStatusCode = await obtainAndSaveTokens(host + '/user/login/', dataToSend);
         if (tokenObtainStatusCode === 200) {
             window.location.replace(host + '/clients/home/');
         } else {
@@ -260,7 +260,7 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         formData.append('password', password);
         formData.append('repeat_password', repeat_password);
         formData.append('csrfmiddlewaretoken', csrfToken);
-        const registerStatusCode = await registerNewUser(host + '/user/create_user/', formData);
+        const registerStatusCode = await registerNewUser(host + '/user/register/', formData);
         actionAfterRegisterRequest(registerStatusCode, formData);
     } else {
         setErrorAttributesToFields(validationFieldsList);
