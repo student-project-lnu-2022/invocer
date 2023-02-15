@@ -35,21 +35,19 @@ class RegistrationViewSet(viewsets.ViewSet):
         return render(request, 'user/registration.html', {})
 
     def create(self, request):
-        new_user = UserSerializer(data=request.POST)
+        new_user = self.serializer_class(data=request.POST)
         user = User.objects.filter(email=new_user.initial_data["email"]).first()
         if user is not None:
             return JsonResponse({"message": "User with such email already exists"}, status=409)
         try:
             new_user.is_valid(raise_exception=True)
-            user = new_user.save()
+            new_user.save()
             return JsonResponse({"message": "Success"}, status=200)
         except:
             return JsonResponse({"message": "Invalid credentials"}, status=400)
 
 
 class LoginViewSet(viewsets.ViewSet):
-    serializer_class = UserSerializer
-
     @action(detail=True, methods=['get'])
     def login_page(self, request):
         return render(request, 'user/login.html', {})
