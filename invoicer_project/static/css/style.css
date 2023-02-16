@@ -1079,3 +1079,8 @@ body {
 .sort_dropdown:hover .sort_dropdown-content {
     display: block;
 }
+
+.material-icons{
+    font-size: 36px;
+    color: #767680;
+}
