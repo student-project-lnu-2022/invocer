@@ -1,8 +1,8 @@
 document.getElementById("search_bar").addEventListener('keyup', () => {
-    let inputFromSearchbar = document.getElementById('search_bar').value;
+    const inputFromSearchbar = document.getElementById('search_bar').value;
     inputFromSearchbar = inputFromSearchbar.toLowerCase();
-    let clientUsername = document.getElementsByClassName('list_client_username');
-    let clientListItem = document.getElementsByClassName('client_list_item');
+    const clientUsername = document.getElementsByClassName('list_client_username');
+    const clientListItem = document.getElementsByClassName('client_list_item');
 
     for (let i = 0; i < clientUsername.length; i++) {
         if (!clientUsername[i].innerHTML.toLowerCase().includes(inputFromSearchbar)) {
