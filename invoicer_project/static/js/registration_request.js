@@ -41,10 +41,10 @@ function allAreFalse(object) {
 }
 
 function validateNameAndSurnameAsStrings(strToValidate) {
-    let strValidationResult 
+    let strValidationResult
     if (!strToValidate) {
         strValidationResult = "This field can't be empty";
-    } else if (strToValidate.includes(' ')) { 
+    } else if (strToValidate.includes(' ')) {
         strValidationResult = "No whitespaces";
     } else if (strToValidate.length > nameSurnMaxLength) {
         strValidationResult = `Max length – ${nameSurnMaxLength} chars`;
@@ -52,9 +52,9 @@ function validateNameAndSurnameAsStrings(strToValidate) {
         strValidationResult = "Only latin letters";
     } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
         strValidationResult = "Has to begin with capital";
-    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) { 
+    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) {
         strValidationResult = "No more than one capital"
-    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) { 
+    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) {
         strValidationResult = "At least one lowercase";
     } else {
         strValidationResult = '';
@@ -88,7 +88,7 @@ function validatePasswordAsString(passwordToValidate) {
         isPasswordValid = "Only A-Z, a-z and 0-9";
     } else if (!(/\d/.test(passwordToValidate))) {
         isPasswordValid = "At least one number";
-    } else if (!(/[a-z]/.test(passwordToValidate))) { 
+    } else if (!(/[a-z]/.test(passwordToValidate))) {
         isPasswordValid = "At least one lowercase";
     } else if (!(/[A-Z]/.test(passwordToValidate))) {
         isPasswordValid = "At least one capital";
@@ -214,18 +214,18 @@ function showBackEndErrorsAtFE(status) {
 const obtainAndSaveTokens = async (url, dataToSend) => {
     let statusCode, jsonResponse;
     try {
-         const res = await fetch(url, {
-             method: 'POST',
-             body: dataToSend
-         })
+        const res = await fetch(url, {
+            method: 'POST',
+            body: dataToSend
+        })
         jsonResponse = await res.json();
         statusCode = res.status;
     } catch (error) {
         console.error(error);
-    } 
+    }
     if (statusCode === 200) {
-            window.localStorage.setItem('accessToken', jsonResponse['access']);
-            window.localStorage.setItem('refreshToken', jsonResponse['refresh']);
+        window.localStorage.setItem('accessToken', jsonResponse['access']);
+        window.localStorage.setItem('refreshToken', jsonResponse['refresh']);
     }
     return statusCode;
 }
@@ -250,31 +250,18 @@ const registerNewUser = async (url, dataToSend) => {
 document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", async function (event) {
     event.preventDefault();
     const validationFieldsList = validateRegistration();
-    if (allAreFalse(validationFieldsList)) {
-        const name = nameField.value;
-        const surname = surnameField.value;
-        const email = emailField.value;
-        const password = passwordField.value;
-        const repeat_password = repeatPasswordField.value;
-        const formData = new FormData();
-        formData.append('first_name', name);
-        formData.append('last_name', surname);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('repeat_password', repeat_password);
-        formData.append('csrfmiddlewaretoken', csrfToken);
-        const user = {
-            'first_name': name,
-            'last_name': surname,
-            email,
-            password,
-            repeat_password,
-            'csrfmiddlewaretoken': csrfToken
-        };
-        const registerStatusCode = await registerNewUser(host + '/user/register/', user);
-        actionAfterRegisterRequest(registerStatusCode, formData);
-    } else {
+    if (!allAreFalse(validationFieldsList)) {
         setErrorAttributesToFields(validationFieldsList);
+        return;
     }
+    const user = {
+        'first_name': nameField.value,
+        'last_name': surnameField.value,
+        email: emailField.value,
+        password: passwordField.value,
+        repeat_password: repeatPasswordField.value,
+        'csrfmiddlewaretoken': csrfToken
+    };
+    const registerStatusCode = await registerNewUser(host + '/user/register/', user);
+    actionAfterRegisterRequest(registerStatusCode, formData);
 });
-   
