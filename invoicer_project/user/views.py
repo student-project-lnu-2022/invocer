@@ -10,6 +10,8 @@ from django.conf import settings
 from jwt import ExpiredSignatureError
 from rest_framework_simplejwt.exceptions import AuthenticationFailed
 from rest_framework import viewsets
+import io
+from rest_framework.parsers import JSONParser
 
 
 def decode_jwt_token(given_token, secret=settings.SECRET_KEY):
@@ -35,7 +37,8 @@ class RegistrationViewSet(viewsets.ViewSet):
         return render(request, 'user/registration.html', {})
 
     def create(self, request):
-        new_user = self.serializer_class(data=request.POST)
+        data = JSONParser().parse(request)
+        new_user = self.serializer_class(data=data)
         user = User.objects.filter(email=new_user.initial_data["email"]).first()
         if user is not None:
             return JsonResponse({"message": "User with such email already exists"}, status=409)

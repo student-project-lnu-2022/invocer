@@ -235,7 +235,10 @@ const registerNewUser = async (url, dataToSend) => {
     try {
         const res = await fetch(url, {
             method: 'POST',
-            body: dataToSend
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataToSend)
         });
         statusCode = res.status;
     } catch (error) {
@@ -260,7 +263,15 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         formData.append('password', password);
         formData.append('repeat_password', repeat_password);
         formData.append('csrfmiddlewaretoken', csrfToken);
-        const registerStatusCode = await registerNewUser(host + '/user/register/', formData);
+        const user = {
+            'first_name': name,
+            'last_name': surname,
+            email,
+            password,
+            repeat_password,
+            'csrfmiddlewaretoken': csrfToken
+        };
+        const registerStatusCode = await registerNewUser(host + '/user/register/', user);
         actionAfterRegisterRequest(registerStatusCode, formData);
     } else {
         setErrorAttributesToFields(validationFieldsList);
