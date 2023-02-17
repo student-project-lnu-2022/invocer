@@ -255,12 +255,12 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         return;
     }
     const user = {
-        'first_name': nameField.value,
-        'last_name': surnameField.value,
+        first_name: nameField.value,
+        last_name: surnameField.value,
         email: emailField.value,
         password: passwordField.value,
         repeat_password: repeatPasswordField.value,
-        'csrfmiddlewaretoken': csrfToken
+        csrfmiddlewaretoken: csrfToken
     };
     const registerStatusCode = await registerNewUser(host + '/user/register/', user);
     actionAfterRegisterRequest(registerStatusCode, formData);
