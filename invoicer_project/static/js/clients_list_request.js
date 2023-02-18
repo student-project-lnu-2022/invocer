@@ -8,13 +8,13 @@ async function getUserData() {
             headers: {
                 'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
             },
-        })
+        });
         response = result.status;
         jsonResponse = await result.json();
     } catch (error) {
         console.error('Going to obtain new access token!');
     }
-    return { 'responseStatus': response, 'data': jsonResponse }
+    return { 'responseStatus': response, 'data': jsonResponse };
 } 
 
 function fillInitials(userData) {
@@ -55,7 +55,8 @@ async function obtainNewAccessToken() {
             body: formData
         });
         const newToken = await response.json();
-        window.localStorage.setItem('accessToken', newToken['access']);
+        const accessToken = newToken['access'];
+        window.localStorage.setItem('accessToken', accessToken);
     } catch (error) {
         console.error(error); 
     }

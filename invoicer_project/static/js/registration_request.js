@@ -10,22 +10,24 @@ const surnameField = document.getElementById("surname_input_rg_pg");
 const passwordField = document.getElementById("password_input_rg_pg");
 const repeatPasswordField = document.getElementById("repeat_password_input_rg_pg");
 
-const fieldList = [
+const getFieldsList = function () {
+    return [
     nameField,
     surnameField,
     emailField,
     passwordField,
     repeatPasswordField
 ];
+}
 
 function setMaxFieldContainerHeights() {
-    for (let field of fieldList) {
+    for (let field of getFieldsList()) {
         field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
     }
 }
 
 function removeAllErrorAttributes() {
-    for (let item of fieldList) {
+    for (let item of getFieldsList()) {
         item.removeAttribute("error");
         item.removeAttribute("errorText");
     }
@@ -101,7 +103,7 @@ function validatePasswordAsString(passwordToValidate) {
 function validateRegistration() {
     removeAllErrorAttributes();
     setMaxFieldContainerHeights();
-    let allFieldsValidationResult = {
+    return {
         'nameValidationResult': validateNameAndSurnameAsStrings(nameField.value),
         'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
         'emailValidationResult': validateEmail(emailField.value),
@@ -115,7 +117,6 @@ function validateRegistration() {
             }
         })()
     };
-    return allFieldsValidationResult;
 }
 
 function setErrorAttributesToFields(errorsObject) {
@@ -148,33 +149,31 @@ function setErrorAttributesToFields(errorsObject) {
     }
 }
 
+const removeError = function (...fields) {
+    for (let field of fields) {
+        field.removeAttribute('error');
+        field.removeAttribute('errorText');
+    }
+}
+
 nameField.addEventListener('input', () => {
-    nameField.removeAttribute("errorText");
-    nameField.removeAttribute("error");
+    removeError(nameField);
 });
 
 surnameField.addEventListener('input', () => {
-    surnameField.removeAttribute("errorText");
-    surnameField.removeAttribute("error");
+    removeError(surnameField);
 });
 
 passwordField.addEventListener('input', () => {
-    passwordField.removeAttribute("errorText");
-    passwordField.removeAttribute("error");
-    repeatPasswordField.removeAttribute("errorText");
-    repeatPasswordField.removeAttribute("error");
+    removeError(passwordField, repeatPasswordField);
 });
 
 repeatPasswordField.addEventListener('input', () => {
-    repeatPasswordField.removeAttribute("errorText");
-    repeatPasswordField.removeAttribute("error");
-    passwordField.removeAttribute("errorText");
-    passwordField.removeAttribute("error");
+    removeError(passwordField, repeatPasswordField);
 });
 
 emailField.addEventListener('input', () => {
-    emailField.removeAttribute("errorText");
-    emailField.removeAttribute("error");
+    removeError(emailField);
 });
 
 async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
@@ -183,7 +182,7 @@ async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
         if (tokenObtainStatusCode === 200) {
             window.location.replace(host + '/clients/home/');
         } else {
-            showBackEndErrorsAtFE(tokenObtainStatusCode);
+            showBackEndErrorsAtFrontEnd(tokenObtainStatusCode);
         }
     } else {
         emailField.setAttribute("error", "true");
@@ -201,7 +200,7 @@ async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
     }
 }
 
-function showBackEndErrorsAtFE(status) {
+function showBackEndErrorsAtFrontEnd(status) {
     emailField.setAttribute("error", "true");
     passwordField.setAttribute("error", "true");
     if (status === 400) {

@@ -2,10 +2,8 @@ const host = "http://127.0.0.1:8000";
 const emailField = document.getElementById("email_input_lg_pg");
 const passwordField = document.getElementById("password_input_lg_pg");
 
-const fieldList = [emailField, passwordField];
-
 function removeAllErrorAttributes() {
-    for (let item of fieldList) {
+    for (let item of [emailField, passwordField]) {
         item.removeAttribute("error");
         item.removeAttribute("errorText");
     }
@@ -25,20 +23,16 @@ function validatePassword(valueToValidate) {
 }
 
 function validateEmail(valueToValidate) {
-    if (valueToValidate.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(valueToValidate))) {
-        return 'Invalid data';
-    } else {
-        return '';
-    }
+    return (valueToValidate.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(valueToValidate))) ?
+        'Invalid data' : '';
 }
 
 function validateLoginDataOnFrontEnd() {
     removeAllErrorAttributes();
-    let fieldsValidationResult = {
+    return {
         'emailValidationResult': validateEmail(emailField.value),
         'passwordValidationResult': validatePassword(passwordField.value)
     };
-    return fieldsValidationResult;
 }
 
 function setErrorAttributesToFields(errorData) {
@@ -64,18 +58,18 @@ function backEndNegativeResponse(status) {
     passwordField.setAttribute("errorText", errorString);
 }
 
+const removeErrorsFromLoginFields = function (...fields) {
+    for (let field of fields) {
+        field.removeAttribute("errorText");
+        field.removeAttribute("error");
+    }
+}
 emailField.addEventListener('input', () => {
-    emailField.removeAttribute("errorText");
-    emailField.removeAttribute("error");
-    passwordField.removeAttribute("errorText");
-    passwordField.removeAttribute("error");
+    removeErrorsFromLoginFields(emailField, passwordField);
 });
 
 passwordField.addEventListener('input', () => {
-    emailField.removeAttribute("errorText");
-    emailField.removeAttribute("error");
-    passwordField.removeAttribute("errorText");
-    passwordField.removeAttribute("error");
+    removeErrorsFromLoginFields(emailField, passwordField);
 });
 
 
