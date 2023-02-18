@@ -68,7 +68,7 @@ class LoginViewSet(viewsets.ViewSet):
 
 class RefreshViewSet(viewsets.ViewSet):
     def create(self, request):
-        data = request.data
+        data = JSONParser().parse(request)
         decoded = decode_jwt_token(data["refresh"])
         if decoded["token_type"] != "refresh":
             return JsonResponse({'error': 'not proper token!'}, status=401)
