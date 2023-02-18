@@ -9,15 +9,6 @@ function removeAllErrorAttributes() {
     }
 }
 
-function allAreFalse(object) {
-    for (let key in object) {
-        if (Boolean(object[key]) === true) {
-            return false;
-        }
-    }
-    return true;
-}
-
 function validatePassword(valueToValidate) {
     return ((valueToValidate === '') ? 'Invalid data' : '');
 }
@@ -95,7 +86,7 @@ const checkAndSaveTokens = async (url, dataToSend) => {
 document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", async function (event) {
     event.preventDefault();
     const validationFieldsList = validateLoginDataOnFrontEnd();
-    if (allAreFalse(validationFieldsList)) {
+    if (!validationFieldsList['emailValidationResult'] && !validationFieldsList['passwordValidationResult']) {
         const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
         const user = {
             email: emailField.value,
