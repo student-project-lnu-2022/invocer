@@ -3,11 +3,11 @@ const host = "http://127.0.0.1:8000";
 async function getUserData() {
     let jsonResponse, response;
     try {
-        const headers = new Headers();
-        headers.append('Authorization', `Bearer ${window.localStorage.getItem('accessToken')}`);
         const result = await fetch(host + '/clients/list/', {
             method: "GET",
-            headers: headers,
+            headers: {
+                'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+            },
         })
         response = result.status;
         jsonResponse = await result.json();
