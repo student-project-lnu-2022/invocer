@@ -60,7 +60,6 @@ async function obtainNewAccessToken() {
         console.error(error); 
     }
     return response.status === 200;
-    
 }
 
 async function addElementsDynamically() {

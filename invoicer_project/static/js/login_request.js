@@ -5,14 +5,14 @@ const passwordField = document.getElementById("password_input_lg_pg");
 const fieldList = [emailField, passwordField];
 
 function removeAllErrorAttributes() {
-    for (item of fieldList) {
+    for (let item of fieldList) {
         item.removeAttribute("error");
         item.removeAttribute("errorText");
     }
 }
 
 function allAreFalse(object) {
-    for (key in object) {
+    for (let key in object) {
         if (Boolean(object[key]) === true) {
             return false;
         }
@@ -53,15 +53,15 @@ function setErrorAttributesToFields(errorData) {
 }
 
 function backEndNegativeResponse(status) {
-     let errorString;
-            emailField.setAttribute('error', 'true');
-            passwordField.setAttribute('error', 'true');
-            if (status === 400) {
-                errorString = "Incorrect credentials";
-            } else {
-                errorString = "Unknown error";
-            }
-            passwordField.setAttribute("errorText", errorString);
+    let errorString;
+    emailField.setAttribute('error', 'true');
+    passwordField.setAttribute('error', 'true');
+    if (status === 400) {
+        errorString = "Incorrect credentials";
+    } else {
+        errorString = "Unknown error";
+    }
+    passwordField.setAttribute("errorText", errorString);
 }
 
 emailField.addEventListener('input', () => {
@@ -80,20 +80,20 @@ passwordField.addEventListener('input', () => {
 
 
 const checkAndSaveTokens = async (url, dataToSend) => {
-    let statusCode,jsonResponce
+    let statusCode,jsonResponse;
     try {
         const res = await fetch(url, {
             method: 'POST',
             body: dataToSend
         });
-        jsonResponce = await res.json(); 
+        jsonResponse = await res.json();
         statusCode = res.status;
     } catch (error) {
         console.error(error);
     } 
     if (statusCode === 200) {
-            window.localStorage.setItem('accessToken', jsonResponce['access']);
-            window.localStorage.setItem('refreshToken', jsonResponce['refresh']);
+            window.localStorage.setItem('accessToken', jsonResponse['access']);
+            window.localStorage.setItem('refreshToken', jsonResponse['refresh']);
     } 
     return statusCode;
 }

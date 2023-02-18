@@ -19,20 +19,20 @@ const fieldList = [
 ];
 
 function setMaxFieldContainerHeights() {
-    for (field of fieldList) {
+    for (let field of fieldList) {
         field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
     }
 }
 
 function removeAllErrorAttributes() {
-    for (item of fieldList) {
+    for (let item of fieldList) {
         item.removeAttribute("error");
         item.removeAttribute("errorText");
     }
 }
 
 function allAreFalse(object) {
-    for (key in object) {
+    for (let key in object) {
         if (Boolean(object[key]) === true) {
             return false;
         }
