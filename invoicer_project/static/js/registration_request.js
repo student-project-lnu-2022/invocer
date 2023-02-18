@@ -41,7 +41,7 @@ function allAreFalse(object) {
 }
 
 function validateNameAndSurnameAsStrings(strToValidate) {
-    let strValidationResult 
+    let strValidationResult;
     if (!strToValidate) {
         strValidationResult = "This field can't be empty";
     } else if (strToValidate.includes(' ')) { 
@@ -63,7 +63,7 @@ function validateNameAndSurnameAsStrings(strToValidate) {
 }
 
 function validateEmail(emailToValidate) {
-    let isEmailValid
+    let isEmailValid;
     if (emailToValidate === '') {
         isEmailValid = "This field can't be empty";
     } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(emailToValidate))) {
@@ -77,7 +77,7 @@ function validateEmail(emailToValidate) {
 }
 
 function validatePasswordAsString(passwordToValidate) {
-    let isPasswordValid
+    let isPasswordValid;
     if (passwordToValidate.includes(' ')) {
         isPasswordValid = "No whitespaces";
     } else if (passwordToValidate.length < passwordMinLength) {

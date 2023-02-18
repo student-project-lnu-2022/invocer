@@ -1,7 +1,7 @@
 const host = "http://127.0.0.1:8000";
 
 async function getUserData() {
-    let jsonResponse, response
+    let jsonResponse, response;
     try {
         const headers = new Headers();
         headers.append('Authorization', `Bearer ${window.localStorage.getItem('accessToken')}`);
@@ -46,7 +46,7 @@ for(let i = 0; i < data.length; i++) {
 }
 
 async function obtainNewAccessToken() {
-    let response 
+    let response;
     const formData = new FormData();
     formData.append('refresh', window.localStorage.getItem('refreshToken'));
     try {
