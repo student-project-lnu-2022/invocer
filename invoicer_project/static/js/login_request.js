@@ -80,11 +80,11 @@ passwordField.addEventListener('input', () => {
 
 
 const checkAndSaveTokens = async (url, dataToSend) => {
-    let statusCode,jsonResponse;
+    let statusCode, jsonResponse;
     try {
         const res = await fetch(url, {
             method: 'POST',
-            body: dataToSend
+            body: JSON.stringify(dataToSend)
         });
         jsonResponse = await res.json();
         statusCode = res.status;
@@ -94,7 +94,7 @@ const checkAndSaveTokens = async (url, dataToSend) => {
     if (statusCode === 200) {
             window.localStorage.setItem('accessToken', jsonResponse['access']);
             window.localStorage.setItem('refreshToken', jsonResponse['refresh']);
-    } 
+    }
     return statusCode;
 }
 
@@ -102,15 +102,13 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
     event.preventDefault();
     const validationFieldsList = validateLoginDataOnFrontEnd();
     if (allAreFalse(validationFieldsList)) {
-        const csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-        const email = emailField.value;
-        const password = passwordField.value;
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('csrfmiddlewaretoken', csrf_token);
-
-        const responseStatus = await checkAndSaveTokens(host + '/user/login/', formData);
+        const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        const user = {
+            email: emailField.value,
+            password: passwordField.value,
+            csrfmiddlewaretoken: csrfToken
+        };
+        const responseStatus = await checkAndSaveTokens(host + '/user/login/', user);
         if (responseStatus === 200) {
             emailField.value = '';
             passwordField.value = '';

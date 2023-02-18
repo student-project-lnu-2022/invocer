@@ -179,7 +179,7 @@ emailField.addEventListener('input', () => {
 
 async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
     if (registerStatusCode === 200) {
-        const tokenObtainStatusCode = await obtainAndSaveTokens(host + '/user/login/', dataToSend);
+        const tokenObtainStatusCode = await obtainAndSaveTokens(host + '/user/login/', JSON.stringify(dataToSend));
         if (tokenObtainStatusCode === 200) {
             window.location.replace(host + '/clients/home/');
         } else {
@@ -235,7 +235,7 @@ const registerNewUser = async (url, dataToSend) => {
     try {
         const res = await fetch(url, {
             method: 'POST',
-            body: dataToSend
+            body: JSON.stringify(dataToSend)
         });
         statusCode = res.status;
     } catch (error) {
@@ -253,15 +253,16 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         const email = emailField.value;
         const password = passwordField.value;
         const repeat_password = repeatPasswordField.value;
-        const formData = new FormData();
-        formData.append('first_name', name);
-        formData.append('last_name', surname);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('repeat_password', repeat_password);
-        formData.append('csrfmiddlewaretoken', csrfToken);
-        const registerStatusCode = await registerNewUser(host + '/user/register/', formData);
-        actionAfterRegisterRequest(registerStatusCode, formData);
+        const user = {
+            first_name: name,
+            last_name: surname,
+            email: email,
+            password: password,
+            repeat_password: repeat_password,
+            csrfmiddlewaretoken: csrfToken
+        };
+        const registerStatusCode = await registerNewUser(host + '/user/register/', user);
+        actionAfterRegisterRequest(registerStatusCode, user);
     } else {
         setErrorAttributesToFields(validationFieldsList);
     }
