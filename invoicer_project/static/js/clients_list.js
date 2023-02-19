@@ -1,5 +1,5 @@
 document.getElementById("search_bar").addEventListener('keyup', () => {
-    const inputFromSearchbar = document.getElementById('search_bar').value;
+    let inputFromSearchbar = document.getElementById('search_bar').value;
     inputFromSearchbar = inputFromSearchbar.toLowerCase();
     const clientUsername = document.getElementsByClassName('list_client_username');
     const clientListItem = document.getElementsByClassName('client_list_item');
