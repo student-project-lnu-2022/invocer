@@ -3,7 +3,7 @@ document.getElementById("send_button_fp").addEventListener("click", onSendCodeCl
 function onSendCodeClick() {
     document.getElementById("input_email").style.display = "none";
     document.getElementById("second_step").style.display = "inline";
-    const userEmail = document.getElementById("email_input_fp").value;
+    const userEmail = document.getElementById("#email_input_fp").value;
     const spanUserEmail = document.querySelector("#confirm_txt span");
     const confirmation_text = document.getElementById("confirm_txt");
     confirmation_text.style.display = "inline";
