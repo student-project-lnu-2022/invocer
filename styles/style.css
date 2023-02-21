@@ -886,7 +886,7 @@ md-fab-extended {
     width: 90%;
 }
 
-.list_item_user_icon_initials{
+.list_item_user_icon_initials {
     background-color: #c1cff5;
     border-radius: 50%;
     display: flex;
@@ -897,22 +897,22 @@ md-fab-extended {
     margin-left: 1.3vw;
 }
 
-.list_item_user_icon_initials p{
+.list_item_user_icon_initials p {
     color: #001158;
     font-weight: 500;
 }
 
-.list_item_user_name p{
+.list_item_user_name p {
     font-weight: normal;
     color: rgb(27, 27, 31);
 }
 
-.list_item_user_debt p{
+.list_item_user_debt p {
     font-weight: 500;
     color: rgb(70, 70, 79);
 }
 
-.list_item_user_buttons{
+.list_item_user_buttons {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -921,19 +921,19 @@ md-fab-extended {
 }
 
 @media screen and (max-width: 768px) {
-    .client_list_item{
+    .client_list_item {
         width: 100%;
     }
 }
 
 @media screen and (max-width: 596px) {
-    .list_item_empty_block{
+    .list_item_empty_block {
         display: none;
     }
 }
 
 @media screen and (max-width: 596px) {
-    .list_item_user_buttons{
+    .list_item_user_buttons {
         display: none;
     }
 }
@@ -948,6 +948,10 @@ md-fab-extended {
     }
 }
 
-.client_list_item{
+.client_list_item {
     margin-bottom: 10px;
+}
+
+body {
+    background-color: rgba(233, 236, 246, 1)
 }
