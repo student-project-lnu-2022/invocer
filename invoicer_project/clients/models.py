@@ -14,7 +14,6 @@ zip_code_regex = RegexValidator(
 )
 
 
-# delete manager?
 class ClientManager(models.Manager):
     def get_by_user_id(self, user_id):
         return self.filter(user_id=user_id)
@@ -37,7 +36,5 @@ class Client(models.Model):
     country = models.CharField(max_length=35, validators=[RegexValidator(regex=r'^[A-Z][a-z]+')])
     city = models.CharField(max_length=35, validators=[RegexValidator(regex=r'^[A-Z][a-z]+')])
     address = models.CharField(max_length=40, validators=[RegexValidator(regex=r'^[#./0-9a-zA-Z\s,-]+$')])
-
-    # REQUIRED_FIELDS = ["first_name", "last_name", "email", "phone"]
 
     objects = ClientManager()

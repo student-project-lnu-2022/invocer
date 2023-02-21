@@ -108,11 +108,11 @@ function addDeleteButtonListeners() {
                     if (response.ok) {
                         location.reload();
                     } else {
-                        console.error('Error deleting client:', response.statusText);
+                        console.error('Error with deleting client:', response.statusText);
                     }
                 })
                 .catch(error => {
-                    console.error('Error deleting client:', error);
+                    console.error('Error with deleting client:', error);
                 });
         });
     });

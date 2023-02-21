@@ -39,7 +39,6 @@ class ClientViewSet(viewsets.ViewSet):
                 {"first_name": user['first_name'], "last_name": user['last_name'], 'message': 'Not found'}, status=200)
         data = {"first_name": user['first_name'], "last_name": user['last_name'], 'content': clients_json.data}
         return JsonResponse(data, status=200, safe=False)
-        # can be problems with JS(safe)
 
     def destroy(self, request, client_id):
         user = get_user_from_jwt(request.headers)
