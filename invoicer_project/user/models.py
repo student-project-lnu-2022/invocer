@@ -41,4 +41,4 @@ class User(auth_models.AbstractUser):
     REQUIRED_FIELDS = ["first_name", "last_name", "password"]
 
     def to_dict(self):
-        return {'first_name': self.first_name, 'last_name': self.last_name}
+        return {'first_name': self.first_name, 'last_name': self.last_name, 'user_id': self.id}
