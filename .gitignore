@@ -4708,5 +4708,6 @@ node_modules/tslib/tslib.html
 node_modules/tslib/tslib.js
 node_modules/tslib/modules/index.js
 node_modules/tslib/modules/package.json
-*__pycache__*
-*.pyc
+invoicer_project/env/
+invoicer_project/db.sqlite3
+.vs/

@@ -27,9 +27,6 @@ html {
     padding-top: 1.5vh;
 }
 
-#log_in_page {
-    background-color: rgba(233, 236, 246, 1)
-}
 
 a {
     text-decoration: none;
@@ -55,7 +52,7 @@ a {
 }
 
 #password_input_lg_pg {
-    margin-top: 1.5vh;
+    /*margin-top: 1.5vh;*/
     margin-bottom: 0.1vh;
 }
 
@@ -72,10 +69,6 @@ a {
 
 
 /* Registration Page */
-
-#registration_page {
-    background-color: rgba(233, 236, 246, 1)
-}
 
 #sign_up_text_rg_pg {
     font-size: 2.1em;
@@ -878,6 +871,52 @@ md-fab-extended {
     --_label-text-weight: 400;
 }
 
+/* Forgot Password Page */
+
+#forgot_password_text {
+    font-size: 32px;
+    font-family: Roboto, serif;
+    font-weight: 500;
+    padding-bottom: 1.5vh;
+    padding-top: 1.5vh;
+}
+
+#forgot_password_page {
+    background-color: rgba(233, 236, 246, 1)
+}
+
+#logo_invoicer_big_forgot_password_page {
+    margin-top: 8vh;
+}
+
+#email_input_forgot_password_page {
+    margin-top: 0.1vh;
+}
+
+#password_input_forgot_password_page{
+    margin-top: 0.1vh;
+    margin-bottom: 1.5vh;
+}
+
+#send_code_button_forgot_password_page {
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+#background_input_forgot_password_page {
+    background-color: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+#confirmation_text {
+    display: none;
+    font-size: 20px;
+    font-family: Roboto, serif;
+    color: #979799;
+}
+
 .client_list_item {
     background-color: #fff;
     border-radius: 15px;
@@ -886,7 +925,7 @@ md-fab-extended {
     width: 90%;
 }
 
-.list_item_user_icon_initials {
+.list_item_user_icon_initials{
     background-color: #c1cff5;
     border-radius: 50%;
     display: flex;
@@ -897,22 +936,22 @@ md-fab-extended {
     margin-left: 1.3vw;
 }
 
-.list_item_user_icon_initials p {
+.list_item_user_icon_initials p{
     color: #001158;
     font-weight: 500;
 }
 
-.list_item_user_name p {
+.list_item_user_name p{
     font-weight: normal;
     color: rgb(27, 27, 31);
 }
 
-.list_item_user_debt p {
+.list_item_user_debt p{
     font-weight: 500;
     color: rgb(70, 70, 79);
 }
 
-.list_item_user_buttons {
+.list_item_user_buttons{
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -921,19 +960,19 @@ md-fab-extended {
 }
 
 @media screen and (max-width: 768px) {
-    .client_list_item {
+    .client_list_item{
         width: 100%;
     }
 }
 
 @media screen and (max-width: 596px) {
-    .list_item_empty_block {
+    .list_item_empty_block{
         display: none;
     }
 }
 
 @media screen and (max-width: 596px) {
-    .list_item_user_buttons {
+    .list_item_user_buttons{
         display: none;
     }
 }
@@ -948,10 +987,100 @@ md-fab-extended {
     }
 }
 
-.client_list_item {
+.client_list_item{
     margin-bottom: 10px;
 }
 
 body {
     background-color: rgba(233, 236, 246, 1)
+}
+
+.search {
+    width: 60%;
+    position: relative;
+    display: flex;
+    background-color: rgba(0, 68, 255, 0.11);
+    border-radius: 10px;
+    height: 50px;
+}
+
+.search_term {
+    height: 47px;
+    background-color: transparent;
+    width: 100%;
+    border: 3px solid transparent;
+    border-right: none;
+    padding: 5px;
+    outline: none;
+    color: #3d3d44;
+}
+
+.search_term:focus {
+    color: #3d3d44;
+}
+
+.search_button {
+    padding: 1px;
+    width: 66px;
+    height: 45px;
+    border: 1px solid transparent;
+    background: transparent;
+    text-align: center;
+    cursor: pointer;
+}
+
+.wrap{
+    width: 30%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.sort_icon {
+    width: 26px;
+    height: 26px;
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+.sort_drop_btn {
+    background-color: transparent;
+    border: none;
+}
+
+.sort_dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.sort_dropdown-content {
+    background-color: #fff;
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.sort_dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.sort_dropdown-content a:hover {
+    cursor: pointer;
+    background-color: #f1efef;
+}
+
+.sort_dropdown:hover .sort_dropdown-content {
+    display: block;
+}
+
+.material-icons{
+    font-size: 36px;
+    color: #767680;
 }
