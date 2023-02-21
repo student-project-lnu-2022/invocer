@@ -10,22 +10,24 @@ const surnameField = document.getElementById("surname_input_rg_pg");
 const passwordField = document.getElementById("password_input_rg_pg");
 const repeatPasswordField = document.getElementById("repeat_password_input_rg_pg");
 
-const fieldList = [
+const getFieldsList = function () {
+    return [
     nameField,
     surnameField,
     emailField,
     passwordField,
     repeatPasswordField
 ];
+}
 
 function setMaxFieldContainerHeights() {
-    for (let field of fieldList) {
+    for (let field of getFieldsList()) {
         field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
     }
 }
 
 function removeAllErrorAttributes() {
-    for (let item of fieldList) {
+    for (let item of getFieldsList()) {
         item.removeAttribute("error");
         item.removeAttribute("errorText");
     }
@@ -44,7 +46,7 @@ function validateNameAndSurnameAsStrings(strToValidate) {
     let strValidationResult;
     if (!strToValidate) {
         strValidationResult = "This field can't be empty";
-    } else if (strToValidate.includes(' ')) { 
+    } else if (strToValidate.includes(' ')) {
         strValidationResult = "No whitespaces";
     } else if (strToValidate.length > nameSurnMaxLength) {
         strValidationResult = `Max length – ${nameSurnMaxLength} chars`;
@@ -52,9 +54,9 @@ function validateNameAndSurnameAsStrings(strToValidate) {
         strValidationResult = "Only latin letters";
     } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
         strValidationResult = "Has to begin with capital";
-    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) { 
+    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) {
         strValidationResult = "No more than one capital"
-    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) { 
+    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) {
         strValidationResult = "At least one lowercase";
     } else {
         strValidationResult = '';
@@ -88,7 +90,7 @@ function validatePasswordAsString(passwordToValidate) {
         isPasswordValid = "Only A-Z, a-z and 0-9";
     } else if (!(/\d/.test(passwordToValidate))) {
         isPasswordValid = "At least one number";
-    } else if (!(/[a-z]/.test(passwordToValidate))) { 
+    } else if (!(/[a-z]/.test(passwordToValidate))) {
         isPasswordValid = "At least one lowercase";
     } else if (!(/[A-Z]/.test(passwordToValidate))) {
         isPasswordValid = "At least one capital";
@@ -101,7 +103,7 @@ function validatePasswordAsString(passwordToValidate) {
 function validateRegistration() {
     removeAllErrorAttributes();
     setMaxFieldContainerHeights();
-    let allFieldsValidationResult = {
+    return {
         'nameValidationResult': validateNameAndSurnameAsStrings(nameField.value),
         'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
         'emailValidationResult': validateEmail(emailField.value),
@@ -115,7 +117,6 @@ function validateRegistration() {
             }
         })()
     };
-    return allFieldsValidationResult;
 }
 
 function setErrorAttributesToFields(errorsObject) {
@@ -148,42 +149,40 @@ function setErrorAttributesToFields(errorsObject) {
     }
 }
 
+const removeError = function (...fields) {
+    for (let field of fields) {
+        field.removeAttribute('error');
+        field.removeAttribute('errorText');
+    }
+}
+
 nameField.addEventListener('input', () => {
-    nameField.removeAttribute("errorText");
-    nameField.removeAttribute("error");
+    removeError(nameField);
 });
 
 surnameField.addEventListener('input', () => {
-    surnameField.removeAttribute("errorText");
-    surnameField.removeAttribute("error");
+    removeError(surnameField);
 });
 
 passwordField.addEventListener('input', () => {
-    passwordField.removeAttribute("errorText");
-    passwordField.removeAttribute("error");
-    repeatPasswordField.removeAttribute("errorText");
-    repeatPasswordField.removeAttribute("error");
+    removeError(passwordField, repeatPasswordField);
 });
 
 repeatPasswordField.addEventListener('input', () => {
-    repeatPasswordField.removeAttribute("errorText");
-    repeatPasswordField.removeAttribute("error");
-    passwordField.removeAttribute("errorText");
-    passwordField.removeAttribute("error");
+    removeError(passwordField, repeatPasswordField);
 });
 
 emailField.addEventListener('input', () => {
-    emailField.removeAttribute("errorText");
-    emailField.removeAttribute("error");
+    removeError(emailField);
 });
 
 async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
     if (registerStatusCode === 200) {
-        const tokenObtainStatusCode = await obtainAndSaveTokens(host + '/user/login/', dataToSend);
+        const tokenObtainStatusCode = await obtainAndSaveTokens(host + '/user/login/', JSON.stringify(dataToSend));
         if (tokenObtainStatusCode === 200) {
             window.location.replace(host + '/clients/home/');
         } else {
-            showBackEndErrorsAtFE(tokenObtainStatusCode);
+            showBackEndErrorsAtFrontEnd(tokenObtainStatusCode);
         }
     } else {
         emailField.setAttribute("error", "true");
@@ -201,7 +200,7 @@ async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
     }
 }
 
-function showBackEndErrorsAtFE(status) {
+function showBackEndErrorsAtFrontEnd(status) {
     emailField.setAttribute("error", "true");
     passwordField.setAttribute("error", "true");
     if (status === 400) {
@@ -222,7 +221,7 @@ const obtainAndSaveTokens = async (url, dataToSend) => {
         statusCode = res.status;
     } catch (error) {
         console.error(error);
-    } 
+    }
     if (statusCode === 200) {
             window.localStorage.setItem('accessToken', jsonResponse['access']);
             window.localStorage.setItem('refreshToken', jsonResponse['refresh']);
@@ -235,7 +234,7 @@ const registerNewUser = async (url, dataToSend) => {
     try {
         const res = await fetch(url, {
             method: 'POST',
-            body: dataToSend
+            body: JSON.stringify(dataToSend)
         });
         statusCode = res.status;
     } catch (error) {
@@ -253,15 +252,16 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         const email = emailField.value;
         const password = passwordField.value;
         const repeat_password = repeatPasswordField.value;
-        const formData = new FormData();
-        formData.append('first_name', name);
-        formData.append('last_name', surname);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('repeat_password', repeat_password);
-        formData.append('csrfmiddlewaretoken', csrfToken);
-        const registerStatusCode = await registerNewUser(host + '/user/register/', formData);
-        actionAfterRegisterRequest(registerStatusCode, formData);
+        const user = {
+            first_name: name,
+            last_name: surname,
+            email: email,
+            password: password,
+            repeat_password: repeat_password,
+            csrfmiddlewaretoken: csrfToken
+        };
+        const registerStatusCode = await registerNewUser(host + '/user/register/', user);
+        actionAfterRegisterRequest(registerStatusCode, user);
     } else {
         setErrorAttributesToFields(validationFieldsList);
     }

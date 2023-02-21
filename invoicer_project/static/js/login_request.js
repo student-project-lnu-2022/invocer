@@ -2,22 +2,11 @@ const host = "http://127.0.0.1:8000";
 const emailField = document.getElementById("email_input_lg_pg");
 const passwordField = document.getElementById("password_input_lg_pg");
 
-const fieldList = [emailField, passwordField];
-
 function removeAllErrorAttributes() {
-    for (let item of fieldList) {
+    for (let item of [emailField, passwordField]) {
         item.removeAttribute("error");
         item.removeAttribute("errorText");
     }
-}
-
-function allAreFalse(object) {
-    for (let key in object) {
-        if (Boolean(object[key]) === true) {
-            return false;
-        }
-    }
-    return true;
 }
 
 function validatePassword(valueToValidate) {
@@ -25,20 +14,16 @@ function validatePassword(valueToValidate) {
 }
 
 function validateEmail(valueToValidate) {
-    if (valueToValidate.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(valueToValidate))) {
-        return 'Invalid data';
-    } else {
-        return '';
-    }
+    return (valueToValidate.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(valueToValidate))) ?
+        'Invalid data' : '';
 }
 
 function validateLoginDataOnFrontEnd() {
     removeAllErrorAttributes();
-    let fieldsValidationResult = {
+    return {
         'emailValidationResult': validateEmail(emailField.value),
         'passwordValidationResult': validatePassword(passwordField.value)
     };
-    return fieldsValidationResult;
 }
 
 function setErrorAttributesToFields(errorData) {
@@ -46,7 +31,7 @@ function setErrorAttributesToFields(errorData) {
     passwordField.setAttribute('error', 'true');
     if (errorData["emailValidationResult"]) {
         passwordField.setAttribute('errorText', errorData["emailValidationResult"]);
-    } 
+    }
     if (errorData["passwordValidationResult"]) {
         passwordField.setAttribute('errorText', errorData["passwordValidationResult"]);
     }
@@ -64,53 +49,51 @@ function backEndNegativeResponse(status) {
     passwordField.setAttribute("errorText", errorString);
 }
 
+const removeErrorsFromLoginFields = function (...fields) {
+    for (let field of fields) {
+        field.removeAttribute("errorText");
+        field.removeAttribute("error");
+    }
+}
 emailField.addEventListener('input', () => {
-    emailField.removeAttribute("errorText");
-    emailField.removeAttribute("error");
-    passwordField.removeAttribute("errorText");
-    passwordField.removeAttribute("error");
+    removeErrorsFromLoginFields(emailField, passwordField);
 });
 
 passwordField.addEventListener('input', () => {
-    emailField.removeAttribute("errorText");
-    emailField.removeAttribute("error");
-    passwordField.removeAttribute("errorText");
-    passwordField.removeAttribute("error");
+    removeErrorsFromLoginFields(emailField, passwordField);
 });
 
 
 const checkAndSaveTokens = async (url, dataToSend) => {
-    let statusCode,jsonResponse;
+    let statusCode, jsonResponse;
     try {
         const res = await fetch(url, {
             method: 'POST',
-            body: dataToSend
+            body: JSON.stringify(dataToSend)
         });
         jsonResponse = await res.json();
         statusCode = res.status;
     } catch (error) {
         console.error(error);
-    } 
+    }
     if (statusCode === 200) {
             window.localStorage.setItem('accessToken', jsonResponse['access']);
             window.localStorage.setItem('refreshToken', jsonResponse['refresh']);
-    } 
+    }
     return statusCode;
 }
 
 document.getElementById("log_in_confirmation_button_log_in_page").addEventListener("click", async function (event) {
     event.preventDefault();
     const validationFieldsList = validateLoginDataOnFrontEnd();
-    if (allAreFalse(validationFieldsList)) {
-        const csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-        const email = emailField.value;
-        const password = passwordField.value;
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('csrfmiddlewaretoken', csrf_token);
-
-        const responseStatus = await checkAndSaveTokens(host + '/user/login/', formData);
+    if (!validationFieldsList['emailValidationResult'] && !validationFieldsList['passwordValidationResult']) {
+        const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        const user = {
+            email: emailField.value,
+            password: passwordField.value,
+            csrfmiddlewaretoken: csrfToken
+        };
+        const responseStatus = await checkAndSaveTokens(host + '/user/login/', user);
         if (responseStatus === 200) {
             emailField.value = '';
             passwordField.value = '';
