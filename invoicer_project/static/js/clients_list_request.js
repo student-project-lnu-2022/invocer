@@ -92,28 +92,25 @@ async function addElementsDynamically() {
 function addDeleteButtonListeners() {
     const deleteButtons = document.querySelectorAll('.delete-client');
     deleteButtons.forEach(span => {
-        span.addEventListener('click', () => {
-            let clientId = span.dataset.clientId;
-
-            const requestOptions = {
-                method: 'DELETE',
-                redirect: 'follow',
-                headers: {
-                    'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
-                }
-            };
-
-            fetch("http://127.0.0.1:8000/clients/client/" + clientId.toString(), requestOptions)
-                .then(response => {
-                    if (response.ok) {
-                        location.reload();
-                    } else {
-                        console.error('Error with deleting client:', response.statusText);
+        span.addEventListener('click', async () => {
+            try {
+                let clientId = span.dataset.clientId;
+                const requestOptions = {
+                    method: 'DELETE',
+                    redirect: 'follow',
+                    headers: {
+                        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
                     }
-                })
-                .catch(error => {
-                    console.error('Error with deleting client:', error);
-                });
+                };
+                const response = await fetch(`http://127.0.0.1:8000/clients/client/${clientId.toString()}`, requestOptions);
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    console.error('Error with deleting client:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error with deleting client:', error);
+            }
         });
     });
 }
