@@ -1,6 +1,7 @@
 const nameSurnMaxLength = 35;
 const countryMaxLength = 35;
 const addressMaxLength = 40;
+const host = "http://127.0.0.1:8000";
 
 const nameField = document.getElementById("name_input_client_edit_page");
 const surnameField = document.getElementById("surname_input_client_edit_page");
@@ -20,6 +21,14 @@ const returnAllFields = function () {
     ];
 }
 
+for (let field of returnAllFields())
+{
+    field.addEventListener('input', () => {
+        field.removeAttribute("error");
+        field.removeAttribute("errorText");
+    })
+}
+
 function setMaxFieldContainerHeights() {
     for (field of returnAllFields()) {
          field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
@@ -31,6 +40,15 @@ function removeAllErrorAttributes() {
         item.removeAttribute("error");
         item.removeAttribute("errorText");
     }
+}
+
+function allAreFalse(object) {
+    for (key in object) {
+        if (Boolean(object[key]) === true) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function validateClientAdd() {
@@ -102,7 +120,7 @@ function validateZip(zipToValidate) {
     let isZipValid
     if (zipToValidate === '') {
         isZipValid = "This field can't be empty";
-    } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(zipToValidate))) {
+    } else if (!(/^[0-9]{5}(?:-[0-9]{4})?$/.test(zipToValidate))) {
         isZipValid = "Invalid zip format";
     } else if (zipToValidate.includes(' ')) {
         isZipValid = "No whitespaces";
@@ -126,3 +144,94 @@ function validateAddress(addressToValidate) {
     }
     return isAddressValid;
 }
+
+function validateCountry(countryToValidate) {
+    let isCountryValid;
+    if (countryToValidate === '') {
+        isCountryValid = "This field can't be empty";
+    } else if (!(/[A-Z]/.test(countryToValidate.charAt(0)))) {
+        isCountryValid = "Has to begin with capital";
+    } else if (countryToValidate.includes(' ')) {
+        isCountryValid = "No whitespaces";
+    } else if (!(/^[a-z]+$/i.test(countryToValidate))) {
+        isCountryValid = "Only latin letters";
+    }
+    else if (countryToValidate.length > countryMaxLength) {
+        isCountryValid = `Max length – ${countryMaxLength} chars`;
+    } else {
+        isCountryValid = '';
+    }
+    return isCountryValid;
+}
+
+function validateCity(cityToValidate) {
+    let isCityValid;
+    if (cityToValidate === '') {
+        isCityValid = "This field can't be empty";
+    } else if (!(/[A-Z]/.test(cityToValidate.charAt(0)))) {
+        isCityValid = "Has to begin with capital";
+    } else if (cityToValidate.includes(' ')) {
+        isCityValid = "No whitespaces";
+    } else if (!(/^[a-z]+$/i.test(cityToValidate))) {
+        isCityValid = "Only latin letters";
+    } else if (cityToValidate.length > countryMaxLength) {
+        isCityValid = `Max length – ${countryMaxLength} chars`;
+    } else {
+        isCityValid = '';
+    }
+    return isCityValid;
+}
+
+function setErrorAttributesToFields(errorsObject) {
+    let k = 0;
+    fields = returnAllFields();
+    for (let error in errorsObject)
+    {
+        if (errorsObject[error]) {
+            fields[k].setAttribute("error", "true");
+            fields[k].setAttribute("errorText", errorsObject[error]);
+        }
+        k++;
+    }
+}
+
+async function sendAddUserRequest(url, data) {
+    let jsonResponse, response;
+    try {
+        response = await fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+        },
+            body: data,
+            method: "POST"
+        });
+        jsonResponse = await response.json();
+        response = response.status;
+
+        console.log(jsonResponse, response);
+
+    } catch (error) {
+        console.error(error);
+    }
+    return response;
+}
+
+document.getElementById("request_sender").addEventListener("click", () => {
+    const validationFieldsList = validateClientAdd();
+    if (allAreFalse(validationFieldsList)) {
+        const data = JSON.stringify({
+            name: nameField.value,
+            surname: surnameField.value,
+            email: emailField.value,
+            telephone: telephoneField.value,
+            zipcode: zipField.value,
+            country: countryField.value,
+            city: cityField.value,
+            address: addressField.value
+        });
+        console.log(data);
+        const result = sendAddUserRequest(host + "/clients/client/", data);
+    } else {
+        setErrorAttributesToFields(validationFieldsList);
+    }
+});
