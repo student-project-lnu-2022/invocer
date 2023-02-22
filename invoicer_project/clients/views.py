@@ -55,3 +55,7 @@ def get_user_from_jwt(headers):
 @api_view(['GET'])
 def home_view(request):
     return render(request, 'clients/clients_list.html', context={"first_name": "", "last_name": ""})
+
+@api_view(['GET'])
+def add_client_page(request):
+    return render(request, 'clients/client_add.html', context={"first_name": "", "last_name": ""})

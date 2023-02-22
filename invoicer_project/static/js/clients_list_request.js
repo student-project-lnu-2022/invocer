@@ -115,7 +115,9 @@ function addDeleteButtonListeners() {
     });
 }
 
-
+document.querySelector('#adder').addEventListener('click', () => {
+    window.location.href = host + "/clients/add";
+})
 addElementsDynamically();
 
 
