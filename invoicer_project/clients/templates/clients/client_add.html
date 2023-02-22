@@ -186,7 +186,10 @@
                             <div class="row" id="save_button_edit_client_page">
                                 <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-10 col-8"></div>
                                 <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-4">
-                                    <md-fab-extended icon="add_circle_outline" label="Add client"></md-fab-extended>
+                                    <md-fab-extended
+                                        icon="add_circle_outline"
+                                        label="Add client"
+                                        id="request_sender"></md-fab-extended>
                                 </div>
                             </div>
                         </div>
@@ -199,5 +202,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
         <script src="{% static 'js/index.js' %}"></script>
         <script src="{% static 'js/bundle.js' %}"></script>
+        <script src="{% static 'js/add_client_request.js' %}"></script>
     </body>
 </html>

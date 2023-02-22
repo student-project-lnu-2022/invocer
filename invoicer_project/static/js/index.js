@@ -8,7 +8,7 @@ document.querySelector("#menu-toggle").addEventListener("click", function(e) {
 document.querySelector("#menu-toggle-2").addEventListener("click", function(e) {
   e.preventDefault();
   document.querySelector("#wrapper").classList.toggle("toggled-2");
-  document.querySelector('#menu ul').style.display = "none";
+  //document.querySelector('#menu ul').style.display = "none";
 });
 
 // Initialize menu
