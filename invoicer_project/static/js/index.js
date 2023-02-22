@@ -1,32 +1,45 @@
-$("#menu-toggle").click(function (e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
+// Menu toggle 1
+document.querySelector("#menu-toggle").addEventListener("click", function(e) {
+  e.preventDefault();
+  document.querySelector("#wrapper").classList.toggle("toggled");
 });
 
-$("#menu-toggle-2").click(function (e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled-2");
-    $('#menu ul').hide();
+// Menu toggle 2
+document.querySelector("#menu-toggle-2").addEventListener("click", function(e) {
+  e.preventDefault();
+  document.querySelector("#wrapper").classList.toggle("toggled-2");
+  document.querySelector('#menu ul').style.display = "none";
 });
 
+// Initialize menu
 function initMenu() {
-    $('#menu ul').hide();
-    $('#menu ul').children('.current').parent().show();
-    $('#menu ul:first').show();
-    $('#menu li a').click(
-        function () {
-            let checkElement = $(this).next();
-            if ((checkElement.is('ul')) && (checkElement.is(':visible'))) {
-                return false;
-            }
-            if ((checkElement.is('ul')) && (!checkElement.is(':visible'))) {
-                $('#menu ul:visible').slideUp('normal');
-                checkElement.slideDown('normal');
-                return false;
-            }
+  const menuUl = document.querySelectorAll('#menu ul');
+  menuUl.forEach(function(menu) {
+    menu.style.display = "none";
+    const current = menu.querySelector('.current');
+    if (current) {
+      current.parentNode.style.display = "block";
+    } else {
+      menu.querySelector(':first-child').style.display = "block";
+    }
+  });
+  const menuLinks = document.querySelectorAll('#menu li a');
+  menuLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      const checkElement = this.nextElementSibling;
+      if (checkElement && checkElement.classList.contains('ul') && checkElement.style.display === 'block') {
+        e.preventDefault();
+      } else if (checkElement && checkElement.classList.contains('ul')) {
+        e.preventDefault();
+        const visibleMenu = document.querySelector('#menu ul:visible');
+        if (visibleMenu) {
+          visibleMenu.style.display = "none";
         }
-    );
+        checkElement.style.display = "block";
+      }
+    });
+  });
 }
-$(document).ready(function () {
-    initMenu();
+document.addEventListener('DOMContentLoaded', function() {
+  initMenu();
 });
