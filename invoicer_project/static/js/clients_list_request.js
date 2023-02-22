@@ -25,7 +25,6 @@ function fillInitials(userData) {
 
 function createClientListContent(data) {
     for (let i = 0; i < data.length; i++) {
-        console.log(data);
         let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
         let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
         let clientID = data[i]['id'];
@@ -84,6 +83,9 @@ async function addElementsDynamically() {
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners();
         }
+    } else if (response === 404) {
+        fillInitials(responseFromServer["data"]);
+        console.log("Not found");
     } else {
         window.location.replace(host + '/user/login/');
     }
