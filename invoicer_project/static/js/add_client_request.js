@@ -30,7 +30,7 @@ for (let field of returnAllFields())
 }
 
 function setMaxFieldContainerHeights() {
-    for (field of returnAllFields()) {
+    for (let field of returnAllFields()) {
          field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
     }
 }
@@ -43,7 +43,7 @@ function removeAllErrorAttributes() {
 }
 
 function allAreFalse(object) {
-    for (key in object) {
+    for (let key in object) {
         if (Boolean(object[key]) === true) {
             return false;
         }
@@ -92,10 +92,10 @@ function validateEmail(emailToValidate) {
     let isEmailValid
     if (emailToValidate === '') {
         isEmailValid = "This field can't be empty";
-    } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(emailToValidate))) {
-        isEmailValid = "Invalid email format";
     } else if (emailToValidate.includes(' ')) {
         isEmailValid = "No whitespaces";
+    } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(emailToValidate))) {
+        isEmailValid = "Invalid email format";
     } else {
         isEmailValid = '';
     }
@@ -106,11 +106,11 @@ function validateTelephone(telephoneToValidate) {
     let isTelephoneValid
     if (telephoneToValidate === '') {
         isTelephoneValid = "This field can't be empty";
-    } else if (!(/^\+?1?\d{9,15}$/.test(telephoneToValidate))) {
-        isTelephoneValid = "Invalid telephone format";
     } else if (telephoneToValidate.includes(' ')) {
         isTelephoneValid = "No whitespaces";
-    } else {
+    } else if (!(/^\+?1?\d{9,15}$/.test(telephoneToValidate))) {
+        isTelephoneValid = "Invalid telephone format";
+    }  else {
         isTelephoneValid = '';
     }
     return isTelephoneValid;
@@ -130,7 +130,6 @@ function validateZip(zipToValidate) {
     return isZipValid;
 }
 
-
 function validateAddress(addressToValidate) {
     let isAddressValid;
     if (addressToValidate === '') {
@@ -149,14 +148,13 @@ function validateCountry(countryToValidate) {
     let isCountryValid;
     if (countryToValidate === '') {
         isCountryValid = "This field can't be empty";
-    } else if (!(/[A-Z]/.test(countryToValidate.charAt(0)))) {
-        isCountryValid = "Has to begin with capital";
     } else if (countryToValidate.includes(' ')) {
         isCountryValid = "No whitespaces";
     } else if (!(/^[a-z]+$/i.test(countryToValidate))) {
         isCountryValid = "Only latin letters";
-    }
-    else if (countryToValidate.length > countryMaxLength) {
+    } else if (!(/[A-Z]/.test(countryToValidate.charAt(0)))) {
+        isCountryValid = "Has to begin with capital";
+    }  else if (countryToValidate.length > countryMaxLength) {
         isCountryValid = `Max length – ${countryMaxLength} chars`;
     } else {
         isCountryValid = '';
@@ -168,12 +166,12 @@ function validateCity(cityToValidate) {
     let isCityValid;
     if (cityToValidate === '') {
         isCityValid = "This field can't be empty";
+    } else if (!(/^[a-z]+$/i.test(cityToValidate))) {
+        isCityValid = "Only latin letters";
     } else if (!(/[A-Z]/.test(cityToValidate.charAt(0)))) {
         isCityValid = "Has to begin with capital";
     } else if (cityToValidate.includes(' ')) {
         isCityValid = "No whitespaces";
-    } else if (!(/^[a-z]+$/i.test(cityToValidate))) {
-        isCityValid = "Only latin letters";
     } else if (cityToValidate.length > countryMaxLength) {
         isCityValid = `Max length – ${countryMaxLength} chars`;
     } else {
@@ -183,54 +181,93 @@ function validateCity(cityToValidate) {
 }
 
 function setErrorAttributesToFields(errorsObject) {
-    let k = 0;
+    let fieldIndex = 0;
     fields = returnAllFields();
     for (let error in errorsObject)
     {
         if (errorsObject[error]) {
-            fields[k].setAttribute("error", "true");
-            fields[k].setAttribute("errorText", errorsObject[error]);
+            fields[fieldIndex].setAttribute("error", "true");
+            fields[fieldIndex].setAttribute("errorText", errorsObject[error]);
         }
-        k++;
+        fieldIndex++;
     }
 }
 
 async function sendAddUserRequest(url, data) {
-    let jsonResponse, response;
+    let response_status;
     try {
-        response = await fetch(url, {
+        const response = await fetch(url, {
         headers: {
-            'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+                'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+                'Content-Type': 'application/json'
         },
             body: data,
             method: "POST"
         });
-        jsonResponse = await response.json();
-        response = response.status;
-
-        console.log(jsonResponse, response);
+        response_status = response.status;
+        console.log(`Status code: ${response_status}`);
 
     } catch (error) {
         console.error(error);
     }
-    return response;
+    return response_status;
 }
 
-document.getElementById("request_sender").addEventListener("click", () => {
+async function actionBasedOnStatusCode(statusCode, data) {
+    if (statusCode === 201) {
+        for (let field of returnAllFields()) {
+            field.value = '';
+        }
+        window.location.href = host + "/clients/home/";
+    } else if (statusCode === 401) {
+        const obtainedNewTokens = await obtainNewAccessToken();
+        if (!obtainedNewTokens) {
+            window.location.href = host + '/user/login/';
+        } else {
+            const status = await sendAddUserRequest(host + "/clients/client/", data);
+            actionBasedOnStatusCode(status, data);
+        }
+        console.log("Updating token");
+    } else if (statusCode === 400) {
+        //backend validation error (currently for testing only)
+        console.log("Backend validation error: 400 status");
+    } else {
+        console.log(`Unknown error: status code = ${statusCode}`);
+    }
+}
+
+async function obtainNewAccessToken() {
+    let response;
+    const data = {refresh: window.localStorage.getItem('refreshToken')};
+    try {
+        response = await fetch(host + '/user/refresh/', {
+            method: "POST",
+            body: JSON.stringify(data)
+        });
+        const newToken = await response.json();
+        const accessToken = newToken['access'];
+        window.localStorage.setItem('accessToken', accessToken);
+    } catch (error) {
+        console.error(error);
+    }
+    return response.status === 200;
+}
+
+document.getElementById("request_sender").addEventListener("click", async () => {
     const validationFieldsList = validateClientAdd();
     if (allAreFalse(validationFieldsList)) {
         const data = JSON.stringify({
-            name: nameField.value,
-            surname: surnameField.value,
+            first_name: nameField.value,
+            last_name: surnameField.value,
             email: emailField.value,
-            telephone: telephoneField.value,
-            zipcode: zipField.value,
+            phone_number: telephoneField.value,
+            zip_code: zipField.value,
             country: countryField.value,
             city: cityField.value,
             address: addressField.value
         });
-        console.log(data);
-        const result = sendAddUserRequest(host + "/clients/client/", data);
+        const serverResponseStatus = await sendAddUserRequest(host + "/clients/client/", data);
+        actionBasedOnStatusCode(serverResponseStatus, data);
     } else {
         setErrorAttributesToFields(validationFieldsList);
     }
