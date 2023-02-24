@@ -294,12 +294,21 @@ async function obtainUserInitials() {
             });
             responseCode = serverReply.status;
             const initials = await serverReply.json();
-            fillInitials(initials);
-            console.log(initials, responseCode);
+            if (responseCode === 200) {
+                fillInitials(initials);
+            } else if (responseCode === 400) {
+                const obtainedNewTokens = await obtainNewAccessToken();
+                if (!obtainedNewTokens) {
+                    window.location.href = host + '/user/login/';
+                } else {
+                    await obtainUserInitials();
+                }
+            } else {
+                window.location.replace(host + '/user/login/');
+            }
         } catch (error) {
             console.error(error);
         }
-        
     }
     else {
         window.location.replace(host + '/user/login/');
