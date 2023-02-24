@@ -283,21 +283,23 @@ document.addEventListener('DOMContentLoaded', () => {
     obtainUserInitials();
 });
 async function obtainUserInitials() {
-    let response;
+    let responseCode;
     if (window.localStorage.getItem('accessToken'))
     {
         const data = {"accessToken": window.localStorage.getItem('accessToken')};
         try {
-            response = await fetch(host + '/user/decode/', {
+            const serverReply = await fetch(host + '/user/decode/', {
                 method: "POST",
                 body: JSON.stringify(data)
             });
-            const initials = await response.json();
+            responseCode = serverReply.status;
+            const initials = await serverReply.json();
             fillInitials(initials);
+            console.log(initials, responseCode);
         } catch (error) {
             console.error(error);
         }
-        return response.status === 200;
+        
     }
     else {
         window.location.replace(host + '/user/login/');

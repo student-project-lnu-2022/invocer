@@ -24,7 +24,7 @@ function fillInitials(userData) {
 }
 
 function createClientListContent(data) {
-    for (let i = 0; i < data.length; i++) {ad
+    for (let i = 0; i < data.length; i++) {
         let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
         let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
         let clientID = data[i]['id'];
