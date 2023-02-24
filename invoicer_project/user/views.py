@@ -67,6 +67,13 @@ class LoginViewSet(viewsets.ViewSet):
 
 
 class RefreshViewSet(viewsets.ViewSet):
+    @action(detail=False, methods=['post'])
+    def decode(self, request):
+        data = JSONParser().parse(request)
+        user = decode_jwt_token(data["accessToken"])["user_refr"]
+        return JsonResponse(user.to_dict(), status=200)
+        
+
     def create(self, request):
         data = JSONParser().parse(request)
         decoded = decode_jwt_token(data["refresh"])

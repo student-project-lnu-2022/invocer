@@ -272,3 +272,34 @@ document.getElementById("request_sender").addEventListener("click", async () => 
         setErrorAttributesToFields(validationFieldsList);
     }
 });
+
+function fillInitials(userData) {
+    const userFirstName = userData["first_name"];
+    const userLastName = userData["last_name"];
+    document.getElementById("user_name").textContent = userFirstName + " " + userLastName;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    obtainUserInitials();
+});
+async function obtainUserInitials() {
+    let response;
+    if (window.localStorage.getItem('accessToken'))
+    {
+        const data = {"accessToken": window.localStorage.getItem('accessToken')};
+        try {
+            response = await fetch(host + '/user/decode/', {
+                method: "POST",
+                body: JSON.stringify(data)
+            });
+            const initials = await response.json();
+            fillInitials(initials);
+        } catch (error) {
+            console.error(error);
+        }
+        return response.status === 200;
+    }
+    else {
+        window.location.replace(host + '/user/login/');
+    }
+}

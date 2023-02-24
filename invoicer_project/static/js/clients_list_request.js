@@ -24,7 +24,7 @@ function fillInitials(userData) {
 }
 
 function createClientListContent(data) {
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {ad
         let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
         let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
         let clientID = data[i]['id'];
@@ -70,7 +70,7 @@ async function addElementsDynamically() {
     let responseFromServer = await getUserData();
     const response = responseFromServer["responseStatus"];
     if (response === 200) {
-        fillInitials(responseFromServer["data"]);
+        // fillInitials(responseFromServer["data"]);
         createClientListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners();
     } else if (response === 401) {
@@ -79,7 +79,7 @@ async function addElementsDynamically() {
             window.location.replace(host + '/user/login/');
         } else {
             responseFromServer = await getUserData();
-            fillInitials(responseFromServer["data"]);
+            // fillInitials(responseFromServer["data"]);
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners();
         }
@@ -120,6 +120,30 @@ function addDeleteButtonListeners() {
 document.querySelector('#adder').addEventListener('click', () => {
     window.location.href = host + "/clients/add";
 })
+
+document.addEventListener('DOMContentLoaded', () => {
+    obtainUserInitials();
+})
+async function obtainUserInitials() {
+    let response;
+    if (window.localStorage.getItem('accessToken')) {
+        const data = {"accessToken": window.localStorage.getItem('accessToken')};
+        try {
+            response = await fetch(host + '/user/decode/', {
+                method: "POST",
+                body: JSON.stringify(data)
+            });
+            const initials = await response.json();
+            fillInitials(initials);
+        } catch (error) {
+            console.error(error);
+        }
+        return response.status === 200;
+    } else {
+        window.location.replace(host + '/user/login/');
+    }
+}
+
 addElementsDynamically();
 
 
