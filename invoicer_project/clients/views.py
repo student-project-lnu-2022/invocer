@@ -51,12 +51,3 @@ def get_user_from_jwt(headers):
     return current_user['user_refr'].to_dict()
 
 
-class ClientRenderingViewSet(viewsets.ViewSet):
-    @action(detail=False, methods=["get"])
-    def home_view(self, request):
-        return render(request, 'clients/clients_list.html', context={"first_name": "", "last_name": ""})
-    
-    @action(detail=False, methods=["get"])
-    def add_client_view(self, request):
-        return render(request, 'clients/client_add.html', context={"first_name": "", "last_name": ""})
-
