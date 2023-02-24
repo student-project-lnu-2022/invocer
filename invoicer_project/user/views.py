@@ -70,8 +70,11 @@ class RefreshViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
     def decode(self, request):
         data = JSONParser().parse(request)
-        user = decode_jwt_token(data["accessToken"])["user_refr"]
-        return JsonResponse(user.to_dict(), status=200)
+        try:
+            user = decode_jwt_token(data["accessToken"])["user_refr"]
+            return JsonResponse(user.to_dict(), status=200)
+        except:
+            return JsonResponse({"message": "Invalid credentials"}, status=400)
         
 
     def create(self, request):
