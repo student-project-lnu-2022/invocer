@@ -23,7 +23,6 @@ class ClientViewSet(viewsets.ViewSet):
     def create(self, request):
         data = deepcopy(JSONParser().parse(request))
         data["user"] = get_user_from_jwt(request.headers)['user_id']
-        print(data)
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()

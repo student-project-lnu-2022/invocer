@@ -56,9 +56,9 @@ function validateClientAdd() {
    return {
         'nameValidationResult': validateNameAndSurnameAsStrings(nameField.value),
         'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
-        'emailValidationResult': validateEmail(emailField.value),
-        'telephoneValidationResult': validateTelephone(telephoneField.value),
-        'zipValidationResult': validateZip(zipField.value),
+        'emailValidationResult': validation(emailField.value, /^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/),
+        'telephoneValidationResult': validation(telephoneField.value, /^\+?1?\d{9,15}$/),
+        'zipValidationResult': validation(zipField.value, /^[0-9]{5}(?:-[0-9]{4})?$/),
         'countryValidationResult': validateCountry(countryField.value),
         'cityValidationResult': validateCity(cityField.value),
         'addressValidationResult': validateAddress(addressField.value),
@@ -87,46 +87,18 @@ function validateNameAndSurnameAsStrings(strToValidate) {
     return strValidationResult;
 }
 
-function validateEmail(emailToValidate) {
-    let isEmailValid;
-    if (emailToValidate === '') {
-        isEmailValid = "This field can't be empty";
-    } else if (emailToValidate.includes(' ')) {
-        isEmailValid = "No whitespaces";
-    } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(emailToValidate))) {
-        isEmailValid = "Invalid email format";
+function validation(fieldToValidate, fieldRegex) {
+     let isFieldValid;
+    if (fieldToValidate === '') {
+        isFieldValid = "This field can't be empty";
+    } else if (fieldToValidate.includes(' ')) {
+        isFieldValid = "No whitespaces";
+    } else if (!(fieldRegex.test(fieldToValidate))) {
+        isFieldValid = "Invalid email format";
     } else {
-        isEmailValid = '';
+        isFieldValid = '';
     }
-    return isEmailValid;
-}
-
-function validateTelephone(telephoneToValidate) {
-    let isTelephoneValid;
-    if (telephoneToValidate === '') {
-        isTelephoneValid = "This field can't be empty";
-    } else if (telephoneToValidate.includes(' ')) {
-        isTelephoneValid = "No whitespaces";
-    } else if (!(/^\+?1?\d{9,15}$/.test(telephoneToValidate))) {
-        isTelephoneValid = "Invalid telephone format";
-    }  else {
-        isTelephoneValid = '';
-    }
-    return isTelephoneValid;
-}
-
-function validateZip(zipToValidate) {
-    let isZipValid;
-    if (zipToValidate === '') {
-        isZipValid = "This field can't be empty";
-    } else if (!(/^[0-9]{5}(?:-[0-9]{4})?$/.test(zipToValidate))) {
-        isZipValid = "Invalid zip format";
-    } else if (zipToValidate.includes(' ')) {
-        isZipValid = "No whitespaces";
-    } else {
-        isZipValid = '';
-    }
-    return isZipValid;
+    return isFieldValid;
 }
 
 function validateAddress(addressToValidate) {
