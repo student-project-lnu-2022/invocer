@@ -117,7 +117,7 @@ function validateTelephone(telephoneToValidate) {
 }
 
 function validateZip(zipToValidate) {
-    let isZipValid
+    let isZipValid;
     if (zipToValidate === '') {
         isZipValid = "This field can't be empty";
     } else if (!(/^[0-9]{5}(?:-[0-9]{4})?$/.test(zipToValidate))) {
