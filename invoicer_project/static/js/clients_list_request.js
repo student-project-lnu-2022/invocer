@@ -99,12 +99,11 @@ function addDeleteButtonListeners() {
                 let clientId = span.dataset.clientId;
                 const requestOptions = {
                     method: 'DELETE',
-                    redirect: 'follow',
                     headers: {
                         'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
                     }
                 };
-                const response = await fetch(`http://127.0.0.1:8000/clients/client/${clientId.toString()}`, requestOptions);
+                const response = await fetch(host + `/clients/client/${clientId.toString()}`, requestOptions);
                 if (response.ok) {
                     location.reload();
                 } else {
