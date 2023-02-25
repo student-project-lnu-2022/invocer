@@ -32,9 +32,6 @@ class ClientViewSet(viewsets.ViewSet):
     def list(self, request):
         user = get_user_from_jwt(request.headers)
         clients = Client.objects.filter(user_id=user['user_id'])
-        if len(clients) == 0:
-            return JsonResponse(
-                {"first_name": user['first_name'], "last_name": user['last_name'], 'message': 'Not found'}, status=404)
         clients_json = ClientSerializer(clients, many=True)
         data = {"first_name": user['first_name'], "last_name": user['last_name'], 'content': clients_json.data}
         return JsonResponse(data, status=200, safe=False)

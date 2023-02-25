@@ -83,9 +83,6 @@ async function addElementsDynamically() {
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners();
         }
-    } else if (response === 404) {
-        fillInitials(responseFromServer["data"]);
-        console.log("Not found");
     } else {
         window.location.replace(host + '/user/login/');
     }
