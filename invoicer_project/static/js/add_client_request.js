@@ -192,7 +192,7 @@ function setErrorAttributesToFields(errorsObject) {
 }
 
 async function sendAddUserRequest(url, data) {
-    let response_status;
+    let responseStatus;
     try {
         const response = await fetch(url, {
         headers: {
@@ -202,13 +202,13 @@ async function sendAddUserRequest(url, data) {
             body: data,
             method: "POST"
         });
-        response_status = response.status;
-        console.log(`Status code: ${response_status}`);
+        responseStatus = response.status;
+        console.log(`Status code: ${responseStatus}`);
 
     } catch (error) {
         console.error(error);
     }
-    return response_status;
+    return responseStatus;
 }
 
 async function actionBasedOnStatusCode(statusCode, data) {
@@ -227,7 +227,6 @@ async function actionBasedOnStatusCode(statusCode, data) {
         }
         console.log("Updating token");
     } else if (statusCode === 400) {
-        //backend validation error (currently for testing only)
         console.log("Backend validation error: 400 status");
     } else {
         console.log(`Unknown error: status code = ${statusCode}`);
