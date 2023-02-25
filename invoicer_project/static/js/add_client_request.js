@@ -89,7 +89,7 @@ function validateNameAndSurnameAsStrings(strToValidate) {
 }
 
 function validateEmail(emailToValidate) {
-    let isEmailValid
+    let isEmailValid;
     if (emailToValidate === '') {
         isEmailValid = "This field can't be empty";
     } else if (emailToValidate.includes(' ')) {
