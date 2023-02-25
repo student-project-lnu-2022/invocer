@@ -21,8 +21,7 @@ const returnAllFields = function () {
     ];
 }
 
-for (let field of returnAllFields())
-{
+for (let field of returnAllFields()) {
     field.addEventListener('input', () => {
         field.removeAttribute("error");
         field.removeAttribute("errorText");
@@ -44,7 +43,7 @@ function removeAllErrorAttributes() {
 
 function allAreFalse(object) {
     for (let key in object) {
-        if (Boolean(object[key]) === true) {
+        if (object[key]) {
             return false;
         }
     }
@@ -183,8 +182,7 @@ function validateCity(cityToValidate) {
 function setErrorAttributesToFields(errorsObject) {
     let fieldIndex = 0;
     fields = returnAllFields();
-    for (let error in errorsObject)
-    {
+    for (let error in errorsObject) {
         if (errorsObject[error]) {
             fields[fieldIndex].setAttribute("error", "true");
             fields[fieldIndex].setAttribute("errorText", errorsObject[error]);
