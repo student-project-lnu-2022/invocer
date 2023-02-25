@@ -67,7 +67,7 @@ function validateClientAdd() {
 }
 
 function validateNameAndSurnameAsStrings(strToValidate) {
-    let strValidationResult
+    let strValidationResult;
     if (!strToValidate) {
         strValidationResult = "This field can't be empty";
     } else if (strToValidate.includes(' ')) {
