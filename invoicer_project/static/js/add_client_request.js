@@ -193,12 +193,13 @@ function setErrorAttributesToFields(errorsObject) {
 
 async function sendAddUserRequest(url, data) {
     let status;
+    headers = {
+       'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+       'Content-Type': 'application/json'
+    }
     try {
         const response = await fetch(url, {
-        headers: {
-                'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
-                'Content-Type': 'application/json'
-        },
+            headers: headers,
             body: data,
             method: "POST"
         });
