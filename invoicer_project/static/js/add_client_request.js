@@ -21,16 +21,19 @@ const returnAllFields = function () {
     ];
 }
 
-for (let field of returnAllFields()) {
-    field.addEventListener('input', () => {
-        field.removeAttribute("error");
-        field.removeAttribute("errorText");
-    })
+
+function clearErrorAttributes() {
+    for (let field of returnAllFields()) {
+        field.addEventListener('input', () => {
+            field.removeAttribute("error");
+            field.removeAttribute("errorText");
+        })
+    }
 }
 
 function setMaxFieldContainerHeights() {
     for (let field of returnAllFields()) {
-         field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
+        field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
     }
 }
 
@@ -53,7 +56,7 @@ function allAreFalse(object) {
 function validateClientAdd() {
     removeAllErrorAttributes();
     setMaxFieldContainerHeights();
-   return {
+    return {
         'nameValidationResult': validateNameAndSurnameAsStrings(nameField.value),
         'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
         'emailValidationResult': validation(emailField.value, /^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/),
@@ -88,7 +91,7 @@ function validateNameAndSurnameAsStrings(strToValidate) {
 }
 
 function validation(fieldToValidate, fieldRegex) {
-     let isFieldValid;
+    let isFieldValid;
     if (fieldToValidate === '') {
         isFieldValid = "This field can't be empty";
     } else if (fieldToValidate.includes(' ')) {
@@ -108,7 +111,7 @@ function validateAddress(addressToValidate) {
     } else if (addressToValidate.length > addressMaxLength) {
         isAddressValid = `Max length – ${addressMaxLength} chars`;
     } else if (!/^[#./0-9a-zA-Z\s,-]+$/.test(addressToValidate)) {
-        isAddressValid = "A-Z, a-z, 0-9 only"; 
+        isAddressValid = "A-Z, a-z, 0-9 only";
     } else {
         isAddressValid = '';
     }
@@ -125,7 +128,7 @@ function validateCountry(countryToValidate) {
         isCountryValid = "Only latin letters";
     } else if (!(/[A-Z]/.test(countryToValidate.charAt(0)))) {
         isCountryValid = "Has to begin with capital";
-    }  else if (countryToValidate.length > countryMaxLength) {
+    } else if (countryToValidate.length > countryMaxLength) {
         isCountryValid = `Max length – ${countryMaxLength} chars`;
     } else {
         isCountryValid = '';
@@ -166,8 +169,8 @@ function setErrorAttributesToFields(errorsObject) {
 async function sendAddUserRequest(url, data) {
     let status;
     headers = {
-       'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
-       'Content-Type': 'application/json'
+        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json'
     }
     try {
         const response = await fetch(url, {
@@ -208,7 +211,7 @@ async function actionBasedOnStatusCode(statusCode, data) {
 
 async function obtainNewAccessToken() {
     let response;
-    const data = {refresh: window.localStorage.getItem('refreshToken')};
+    const data = { refresh: window.localStorage.getItem('refreshToken') };
     try {
         response = await fetch(host + '/user/refresh/', {
             method: "POST",
@@ -250,13 +253,15 @@ function fillInitials(userData) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    clearErrorAttributes();
     obtainUserInitials();
 });
+
 async function obtainUserInitials() {
     let responseCode;
-    if (window.localStorage.getItem('accessToken'))
-    {
-        const data = {"accessToken": window.localStorage.getItem('accessToken')};
+    const token = window.localStorage.getItem('accessToken');
+    if (token) {
+        const data = { "accessToken": token };
         try {
             const serverReply = await fetch(host + '/user/decode/', {
                 method: "POST",
