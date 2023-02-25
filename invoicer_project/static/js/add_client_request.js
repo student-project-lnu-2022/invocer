@@ -103,7 +103,7 @@ function validateEmail(emailToValidate) {
 }
 
 function validateTelephone(telephoneToValidate) {
-    let isTelephoneValid
+    let isTelephoneValid;
     if (telephoneToValidate === '') {
         isTelephoneValid = "This field can't be empty";
     } else if (telephoneToValidate.includes(' ')) {
