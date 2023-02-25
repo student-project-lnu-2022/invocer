@@ -192,7 +192,7 @@ function setErrorAttributesToFields(errorsObject) {
 }
 
 async function sendAddUserRequest(url, data) {
-    let responseStatus;
+    let status;
     try {
         const response = await fetch(url, {
         headers: {
@@ -202,13 +202,13 @@ async function sendAddUserRequest(url, data) {
             body: data,
             method: "POST"
         });
-        responseStatus = response.status;
-        console.log(`Status code: ${responseStatus}`);
+        status = response.status;
+        console.log(`Status code: ${status}`);
 
     } catch (error) {
         console.error(error);
     }
-    return responseStatus;
+    return status;
 }
 
 async function actionBasedOnStatusCode(statusCode, data) {
