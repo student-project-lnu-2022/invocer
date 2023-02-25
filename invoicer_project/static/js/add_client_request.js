@@ -94,7 +94,7 @@ function validation(fieldToValidate, fieldRegex) {
     } else if (fieldToValidate.includes(' ')) {
         isFieldValid = "No whitespaces";
     } else if (!(fieldRegex.test(fieldToValidate))) {
-        isFieldValid = "Invalid email format";
+        isFieldValid = "Invalid format";
     } else {
         isFieldValid = '';
     }
