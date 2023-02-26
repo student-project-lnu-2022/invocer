@@ -118,8 +118,8 @@ document.querySelector('#adder').addEventListener('click', () => {
 
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    obtainUserInitials();
+document.addEventListener('DOMContentLoaded', async () => {
+    await obtainUserInitials();
     addElementsDynamically();
 });
 
