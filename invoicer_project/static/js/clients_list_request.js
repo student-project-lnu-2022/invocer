@@ -101,7 +101,11 @@ function addDeleteButtonListeners() {
                 const response = await fetch(host + `/clients/client/${clientId.toString()}`, requestOptions);
                 if (response.ok) {
                     location.reload();
-                } else {
+                }
+                else if (response.status === 401){
+                    window.location.replace(host + '/user/login/');
+                }
+                else {
                     console.error('Error with deleting client:', response.statusText);
                 }
             } catch (error) {
