@@ -70,7 +70,6 @@ async function addElementsDynamically() {
     let responseFromServer = await getUserData();
     const response = responseFromServer["responseStatus"];
     if (response === 200) {
-        fillInitials(responseFromServer["data"]);
         createClientListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners();
     } else if (response === 401) {
@@ -79,7 +78,6 @@ async function addElementsDynamically() {
             window.location.replace(host + '/user/login/');
         } else {
             responseFromServer = await getUserData();
-            fillInitials(responseFromServer["data"]);
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners();
         }
@@ -117,6 +115,43 @@ document.querySelector('#adder').addEventListener('click', () => {
     window.location.href = host + "/clients/add";
 })
 
-addElementsDynamically();
 
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    obtainUserInitials();
+    addElementsDynamically();
+});
+
+async function obtainUserInitials() {
+    let responseCode;
+    const token = window.localStorage.getItem('accessToken');
+    if (token) {
+        const data = { "accessToken": token };
+        try {
+            const serverReply = await fetch(host + '/user/decode/', {
+                method: "POST",
+                body: JSON.stringify(data)
+            });
+            responseCode = serverReply.status;
+            const initials = await serverReply.json();
+            if (responseCode === 200) {
+                fillInitials(initials);
+            } else if (responseCode === 400) {
+                const obtainedNewTokens = await obtainNewAccessToken();
+                if (!obtainedNewTokens) {
+                    window.location.href = host + '/user/login/';
+                } else {
+                    await obtainUserInitials();
+                }
+            } else {
+                window.location.replace(host + '/user/login/');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    else {
+        window.location.replace(host + '/user/login/');
+    }
+}
