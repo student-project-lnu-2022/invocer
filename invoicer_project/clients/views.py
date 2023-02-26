@@ -39,7 +39,7 @@ class ClientViewSet(viewsets.ViewSet):
     def destroy(self, request, client_id):
         client = get_object_or_404(Client, id=client_id)
         client.delete()
-        return JsonResponse({'message': 'Deleted!'}, status=204)
+        return JsonResponse(status=204)
 
 def get_user_from_jwt(headers):
     token = headers['Authorization'].split()[1]
