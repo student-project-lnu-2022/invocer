@@ -25,7 +25,6 @@ function fillInitials(userData) {
 
 function createClientListContent(data) {
     for (let i = 0; i < data.length; i++) {
-        console.log(data);
         let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
         let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
         let clientID = data[i]['id'];
@@ -71,7 +70,6 @@ async function addElementsDynamically() {
     let responseFromServer = await getUserData();
     const response = responseFromServer["responseStatus"];
     if (response === 200) {
-        fillInitials(responseFromServer["data"]);
         createClientListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners();
     } else if (response === 401) {
@@ -80,7 +78,6 @@ async function addElementsDynamically() {
             window.location.replace(host + '/user/login/');
         } else {
             responseFromServer = await getUserData();
-            fillInitials(responseFromServer["data"]);
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners();
         }
@@ -92,33 +89,73 @@ async function addElementsDynamically() {
 function addDeleteButtonListeners() {
     const deleteButtons = document.querySelectorAll('.delete-client');
     deleteButtons.forEach(span => {
-        span.addEventListener('click', () => {
-            let clientId = span.dataset.clientId;
-
-            const requestOptions = {
-                method: 'DELETE',
-                redirect: 'follow',
-                headers: {
-                    'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
-                }
-            };
-
-            fetch("http://127.0.0.1:8000/clients/client/" + clientId.toString(), requestOptions)
-                .then(response => {
-                    if (response.ok) {
-                        location.reload();
-                    } else {
-                        console.error('Error deleting client:', response.statusText);
+        span.addEventListener('click', async () => {
+            try {
+                let clientId = span.dataset.clientId;
+                const requestOptions = {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
                     }
-                })
-                .catch(error => {
-                    console.error('Error deleting client:', error);
-                });
+                };
+                const response = await fetch(host + `/clients/client/${clientId.toString()}`, requestOptions);
+                if (response.ok) {
+                    location.reload();
+                }
+                else if (response.status === 401){
+                    window.location.replace(host + '/user/login/');
+                }
+                else {
+                    console.error('Error with deleting client:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error with deleting client:', error);
+            }
         });
     });
 }
 
+document.querySelector('#adder').addEventListener('click', () => {
+    window.location.href = host + "/clients/add";
+})
 
-addElementsDynamically();
 
 
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await obtainUserInitials();
+    addElementsDynamically();
+});
+
+async function obtainUserInitials() {
+    let responseCode;
+    const token = window.localStorage.getItem('accessToken');
+    if (token) {
+        const data = { "accessToken": token };
+        try {
+            const serverReply = await fetch(host + '/user/decode/', {
+                method: "POST",
+                body: JSON.stringify(data)
+            });
+            responseCode = serverReply.status;
+            const initials = await serverReply.json();
+            if (responseCode === 200) {
+                fillInitials(initials);
+            } else if (responseCode === 400) {
+                const obtainedNewTokens = await obtainNewAccessToken();
+                if (!obtainedNewTokens) {
+                    window.location.href = host + '/user/login/';
+                } else {
+                    await obtainUserInitials();
+                }
+            } else {
+                window.location.replace(host + '/user/login/');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    else {
+        window.location.replace(host + '/user/login/');
+    }
+}
