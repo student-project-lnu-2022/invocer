@@ -41,6 +41,18 @@ class ClientViewSet(viewsets.ViewSet):
         client.delete()
         return JsonResponse({}, status=204)
 
+    def update(self, request, client_id):
+        try:
+            user = get_user_from_jwt(request.headers)
+            client = self.queryset.get(id=client_id, user_id = user['user_id'])
+        except Client.DoesNotExist:
+            return JsonResponse({'error': 'Client not found'}, status=404)
+        serializer = ClientSerializer(client, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
 def get_user_from_jwt(headers):
     token = headers['Authorization'].split()[1]
     current_user = decode_jwt_token(token)
