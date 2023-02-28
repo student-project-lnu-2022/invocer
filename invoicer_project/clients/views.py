@@ -41,7 +41,7 @@ class ClientViewSet(viewsets.ViewSet):
         client.delete()
         return JsonResponse({}, status=204)
 
-    def update(self, request, client_id):
+    def partial_update(self, request, client_id):
         try:
             user = get_user_from_jwt(request.headers)
             client = self.queryset.get(id=client_id, user_id = user['user_id'])

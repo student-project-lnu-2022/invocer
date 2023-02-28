@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 clients_methods = ClientViewSet.as_view({'post': 'create', 'get': 'list'})
 clients_list = ClientViewSet.as_view({"get": "list"})
 delete_client = ClientViewSet.as_view({'delete': 'destroy'})
-edit_client = ClientViewSet.as_view({'put': 'update'})
+edit_client = ClientViewSet.as_view({'put': 'partial_update'})
 
 
 urlpatterns = [
