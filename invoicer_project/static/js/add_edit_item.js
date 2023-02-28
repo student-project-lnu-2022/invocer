@@ -47,7 +47,7 @@ const input_name_val = document.getElementById("name_val");
 const input_barcode_val = document.getElementById("barcode_val");
 
 num_of_rows = 0;
-const max_num_of_units = 10;
+const max_num_of_units = 5;
 
 
 function addLabels() {
@@ -59,10 +59,13 @@ function addLabels() {
     ++num_of_rows;
     const newLabel1 = document.createElement("md-outlined-text-field");
     const newLabel2 = document.createElement("md-outlined-text-field");
-    newLabel1.setAttribute('label', 'Aditional unit ' + num_of_rows);
-    newLabel2.setAttribute('label', 'Amount in aditional unit ' + num_of_rows);
+    newLabel1.setAttribute('label', 'Additional unit ' + num_of_rows);
+    newLabel2.setAttribute('label', 'Amount in additional unit ' + num_of_rows);
     newLabel1.className = "input_field";
     newLabel2.className = "input_field";
+    newLabel1.className = "additional_unit_field";
+    newLabel2.className = "amount_additional_unit_field";
+
 
     let headerRow = document.createElement("div");
     headerRow.className="row secondary_text";
