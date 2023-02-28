@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Add item</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel='stylesheet' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/172203/font-awesome.min.css'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link href="{% static 'css/normalize.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/items_add.css' %}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-default no-margin no-padding sticky-top">
+        <div class="col-2" id="navigation_hamburger_button_and_logo">
+            <div class="navbar-header fixed-brand">
+                <button
+                    id="menu-toggle-2"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class="material-icons" style="font-size: 36px; color: #767680">menu</i>
+                </button>
+                <a href="index.html">
+                    <img src="{% static 'img/logo.svg' %}" alt="logo" width="146" height="45" />
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <button
+                            class="navbar-toggler"
+                            id="menu-toggle"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap flex-row align-items-center col-8">
+        </div>
+        <div class="col-2" id="user_name_and_icon_column">
+            <p id="user_name">Name Surname</p>
+            <i class="material-icons">account_circle</i>
+        </div>
+    </nav>
+    <div id="wrapper" class="toggled-2">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+                <li>
+                    <a href="#"
+                        ><span class="fa-stack fa-lg pull-left invoices_icon"
+                            ><img class="icon_menu" src="{% static 'img/invoice.png' %}" /></span
+                        >Invoices</a
+                    >
+                </li>
+                <li class="active">
+                    <a href="#"
+                        ><span class="fa-stack fa-lg pull-left clients_icon"
+                            ><img class="icon_menu" src="{% static 'img/clients.png' %}" /></span
+                        >Clients</a
+                    >
+                </li>
+                <li>
+                    <a href="#"
+                        ><span class="fa-stack fa-lg pull-left"
+                            ><img class="icon_menu" src="{% static 'img/list-items.png' %}" /></span
+                        >Items</a
+                    >
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="fa-stack fa-lg pull-left"
+                            ><img class="icon_menu" src="{% static 'img/statistics.png' %}" /></span
+                        >Statistics</a
+                    >
+                </li>
+                <li>
+                    <a href="#"
+                        ><span class="fa-stack fa-lg pull-left"
+                            ><img class="icon_menu" src="{% static 'img/settings.png' %}" /></span
+                        >Settings</a
+                    >
+                </li>
+            </ul>
+        </div>
+            <div id="page-content-wrapper">
+                <div class="container-fluid xyz">
+                    <div class="row text-left">
+                        <p id="new_item_text">New item</p>
+                    </div>
+                    <div class="row d-flex flex-wrap flex-row">
+                        <div class="container-fluid col-xxl-6 col-xl-8 col-lg-8 background_input_item_in_page">
+                            <div class="row">
+                                <div class="d-flex flex-wrap flex-column col-xxl col-xl col-lg">
+                                    <md-outlined-text-field class="input_field" label="Name" id="name" type="text"></md-outlined-text-field>
+                                    <md-outlined-text-field class="input_field" label="Price" id="price" type="text"></md-outlined-text-field>
+                                    <div class="dropdown_list input_field"> 
+                                        <button class="dropdown__button" type="button">Currency</button>
+                                        <ul class="dropdown__list"> 
+                                          <li class="dropdown__list-item" data-value="UAH">UAH</li>
+                                          <li class="dropdown__list-item" data-value="USD">USD</li>
+                                          <li class="dropdown__list-item" data-value="EUR">EUR</li>
+                                        </ul>
+                                        <input class="dropdown__input_hidden" id="currency" type="text" name="select-category" value=""/>
+                                      </div>
+                                      <div class="dropdown_list input_field"> 
+                                          <button class="dropdown__button" type="button">Basic unit</button>
+                                          <ul class="dropdown__list"> 
+                                            <li class="dropdown__list-item" data-value="kg">kg</li>
+                                            <li class="dropdown__list-item" data-value="g">g</li>
+                                            <li class="dropdown__list-item" data-value="mg">mg</li>
+                                          </ul>
+                                          <input class="dropdown__input_hidden" id="basic_unit" type="text" name="select-category" value=""/>
+                                        </div>
+                                    <md-outlined-text-field class="input_field" label="Amount in stock" id="amount_in_stock" type="text"></md-outlined-text-field>
+                                    <md-outlined-text-field class="input_field" label="Barcode" id="barcode" type="text"></md-outlined-text-field>
+                                </div>
+                                <div class="d-flex flex-wrap flex-column col-xxl col-xl col-lg" id="column-2">
+                                    <md-fab-extended icon="add" class="input_field centered" id="additional_item_button" label="Add new additional unit" onclick="addLabels();"></md-fab-extended>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <md-fab-extended class="input_field centered md-fab" icon="add_circle_outline" label="Add new item" id="btn"></md-fab-extended>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap flex-column container-fluid col-xxl col-xl col-lg background_input_item_in_page">
+                            <div class="row text-left">
+                                <h3 style="color:#46464F;" id="name_val">Name of item</h3>
+                            </div>
+                            <div class="row text-left">
+                                <h5 class="secondary_text" id="barcode_val">Barcode: </h5>
+                            </div>
+                            <div class="container-fluid text-left" id="table">
+                                <div class="row">
+                                    <div class="col-6 first_col">Price</div>
+                                    <div class="col-6 second_col" id="price_val"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 first_col">Currency</div>
+                                    <div class="col-6 second_col" id="currency_val"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 first_col">Basic unit</div>
+                                    <div class="col-6 second_col" id="basic_unit_val"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 first_col">Amount in stock</div>
+                                    <div class="col-6 second_col" id="amount_in_stock_val"></div>
+                                </div>
+                                <div class="row" style="border-top: 1px solid rgba(0, 68, 255, 0.11);" id="endline">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="{% static 'js/bundle.js' %}"></script>
+    <script src="{% static 'js/add_edit_item.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>    
+</body>
+</html>
