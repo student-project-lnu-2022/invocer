@@ -14,5 +14,6 @@ urlpatterns = [
     path("client/<int:client_id>", delete_client, name='delete_client'),
     path("client_edit/<int:client_id>", edit_client, name='edit_client'),
     path("client/", clients_methods, name='clients_add'), 
-    path("add/", TemplateView.as_view(template_name="clients/client_add.html"), name='render_add')
+    path("add/", TemplateView.as_view(template_name="clients/client_add.html"), name='render_add'),
+    path("edit/", TemplateView.as_view(template_name="clients/client_edit.html"), name='render_edit')
 ]
