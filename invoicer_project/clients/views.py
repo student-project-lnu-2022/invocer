@@ -54,6 +54,24 @@ class ClientViewSet(viewsets.ViewSet):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
 
+    def get_client_by_id(request, client_id):
+        try:
+            client = Client.objects.get(id=client_id)
+            data = {
+                'id': client.id,
+                'first_name': client.first_name,
+                'last_name': client.last_name,
+                'email': client.email,
+                'phone_number': client.phone_number,
+                'zip_code': client.zip_code,
+                'country': client.country,
+                'city': client.city,
+                'address': client.address
+            }
+            return JsonResponse(data)
+        except Client.DoesNotExist:
+            return JsonResponse({'error': f'Client with id={client_id} does not exist'}, status=404)
+
 def get_user_from_jwt(headers):
     token = headers['Authorization'].split()[1]
     current_user = decode_jwt_token(token)

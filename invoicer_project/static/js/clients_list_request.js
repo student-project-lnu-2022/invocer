@@ -42,6 +42,7 @@ function createClientListContent(data) {
                 </div>
                 <div class="col-xxl-2 col-xl-3 col-md-3 col-sm-3 col-3 list_item_user_buttons">
                     <!--TODO MD-FILLED-BUTTON HASN'T BEEN PUBLISHED YET-->
+                    <span class="material-symbols-outlined client-info edit-client" data-client-id="${clientID}" style="font-size:28px;">edit</span>
                     <span class="material-symbols-outlined client-info delete-client" data-client-id="${clientID}" style="font-size:28px;">delete</span>
                     <md-checkbox id="list_item_user_delete"></md-checkbox>
                 </div>
@@ -72,6 +73,7 @@ async function addElementsDynamically() {
     if (response === 200) {
         createClientListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners();
+        addEditButtonListeners();
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -80,10 +82,36 @@ async function addElementsDynamically() {
             responseFromServer = await getUserData();
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners();
+            addEditButtonListeners();
         }
     } else {
         window.location.replace(host + '/user/login/');
     }
+}
+
+function getClientById(clientId) {
+    return fetch(host + '/clients/client_by_id/' + clientId)
+        .then(response => response.json())
+        .catch(error => console.error(error));
+}
+
+function addEditButtonListeners() {
+    const editButtons = document.querySelectorAll('.edit-client');
+    let responseFromServer, clientId;
+    editButtons.forEach(span => {
+        span.addEventListener('click', async () => {
+            clientId = span.dataset.clientId;
+            responseFromServer = await getClientById(clientId);
+            console.log(responseFromServer);
+            window.location.replace(host + '/clients/edit/' + clientId);
+            <!-- ERROR set data to fields won't be executed -->
+            setDataToFields(responseFromServer)
+        });
+    });
+}
+
+function setDataToFields(responseFromServer){
+        document.getElementById("name_input_client_edit_page").value = responseFromServer['first_name'];
 }
 
 function addDeleteButtonListeners() {
@@ -101,11 +129,9 @@ function addDeleteButtonListeners() {
                 const response = await fetch(host + `/clients/client/${clientId.toString()}`, requestOptions);
                 if (response.ok) {
                     location.reload();
-                }
-                else if (response.status === 401){
+                } else if (response.status === 401) {
                     window.location.replace(host + '/user/login/');
-                }
-                else {
+                } else {
                     console.error('Error with deleting client:', response.statusText);
                 }
             } catch (error) {
@@ -120,8 +146,6 @@ document.querySelector('#adder').addEventListener('click', () => {
 })
 
 
-
-
 document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
     addElementsDynamically();
@@ -131,7 +155,7 @@ async function obtainUserInitials() {
     let responseCode;
     const token = window.localStorage.getItem('accessToken');
     if (token) {
-        const data = { "accessToken": token };
+        const data = {"accessToken": token};
         try {
             const serverReply = await fetch(host + '/user/decode/', {
                 method: "POST",
@@ -154,8 +178,7 @@ async function obtainUserInitials() {
         } catch (error) {
             console.error(error);
         }
-    }
-    else {
+    } else {
         window.location.replace(host + '/user/login/');
     }
 }
