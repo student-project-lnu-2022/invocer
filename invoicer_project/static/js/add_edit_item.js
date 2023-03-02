@@ -46,7 +46,7 @@ const input_amount_in_stock_val = document.getElementById("amount_in_stock_val")
 const input_name_val = document.getElementById("name_val");
 const input_barcode_val = document.getElementById("barcode_val");
 
-num_of_rows = 0;
+let num_of_rows = 0;
 const max_num_of_units = 10;
 
 
@@ -61,8 +61,8 @@ function addLabels() {
     const newLabel2 = document.createElement("md-outlined-text-field");
     newLabel1.setAttribute('label', 'Aditional unit ' + num_of_rows);
     newLabel2.setAttribute('label', 'Amount in aditional unit ' + num_of_rows);
-    newLabel1.className = "input_field";
-    newLabel2.className = "input_field";
+    newLabel1.className = "input_field additional_unit_field";
+    newLabel2.className = "input_field amount_additional_unit_field";
 
     let headerRow = document.createElement("div");
     headerRow.className="row secondary_text";
@@ -105,6 +105,8 @@ function addLabels() {
     button.remove();
     secondCol.appendChild(button);
 }
+
+document.querySelector("#additional_item_button").addEventListener("click", ()=>{addLabels()});
 
 function setTextToTable(inputElement, inputData) {
     inputElement.setAttribute('data-text', inputData);
