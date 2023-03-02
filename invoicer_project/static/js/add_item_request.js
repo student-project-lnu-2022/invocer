@@ -11,22 +11,6 @@ const columnWithData = document.querySelector('#column-2');
 const additionalFieldsContainer = columnWithData.querySelectorAll('.additional_unit_field');
 const amountAdditionalFieldsContainer = columnWithData.querySelectorAll('.amount_additional_unit_field');
 
-function setMaxFieldContainerHeights() {
-    let isFieldValid;
-    for (let field of additionalFieldsContainer) {
-        if (field === '') {
-            isFieldValid = "This field can't be empty";
-        } else if (field.includes(' ')) {
-            isFieldValid = "No whitespaces";
-        } else if (!(/^(\d*([.,](?=\d{3}))?\d+)+((?!\2)[.,]\d\d)?$/.test(priceToValidate))) {
-            isFieldValid = "Invalid format";
-        } else {
-            isFieldValid = '';
-        }
-    }
-    return isFieldValid;
-}
-
 
 const returnAllFields = function () {
     return [
