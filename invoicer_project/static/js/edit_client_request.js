@@ -12,7 +12,7 @@ const countryField = document.getElementById("country_input_client_edit_page");
 const cityField = document.getElementById("city_input_client_edit_page");
 const addressField = document.getElementById("address_input_client_edit_page");
 
-const clientId = window.location.href.match(/(\d+)(?=[^\/]*$)/)[1];
+const clientId = window.location.href.match(/(\d+)(?=[^\/?#]*$)(?![\s\S]*\d{10})/)[1];
 
 const returnAllFields = function () {
     return [
