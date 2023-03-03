@@ -63,7 +63,7 @@ function validateClientAdd() {
         'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
         'emailValidationResult': validation(emailField.value, /^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/),
         'telephoneValidationResult': validation(telephoneField.value, /^\+?1?\d{9,15}$/),
-        'zipValidationResult': validation(zipField.value, /^[0-9]{5}(?:-[0-9]{4})?$/),
+        'zipValidationResult': validation(zipField.value, /^\d{5}(?:-\d{4})?$/),
         'countryValidationResult': validateCountry(countryField.value),
         'cityValidationResult': validateCity(cityField.value),
         'addressValidationResult': validateAddress(addressField.value),
