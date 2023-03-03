@@ -287,3 +287,27 @@ async function obtainUserInitials() {
         window.location.replace(host + '/user/login/');
     }
 }
+
+function getClientById(clientId) {
+    return fetch(host + '/clients/client_by_id/' + clientId, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+        },
+    })
+        .then(response => response.json())
+        .catch(error => console.error(error));
+}
+
+const clientId = window.location.href.match(/(\d+)$/)[1];
+
+async function fillFieldsWithData() {
+    let responseFromServer = await getClientById(clientId);
+
+    document.getElementById("name_input_client_edit_page").value = responseFromServer["first_name"];
+    console.log(responseFromServer);
+}
+fillFieldsWithData();
+console.log("Hello big");
+
+
