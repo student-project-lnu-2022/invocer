@@ -90,7 +90,6 @@ async function addElementsDynamically() {
 }
 
 
-
 function addEditButtonListeners() {
     const editButtons = document.querySelectorAll('.edit-client');
     let clientId;

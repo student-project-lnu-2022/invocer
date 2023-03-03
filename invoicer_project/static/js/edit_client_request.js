@@ -12,6 +12,9 @@ const countryField = document.getElementById("country_input_client_edit_page");
 const cityField = document.getElementById("city_input_client_edit_page");
 const addressField = document.getElementById("address_input_client_edit_page");
 
+const clientId = window.location.href.match(/(\d+)$/)[1];
+
+
 const returnAllFields = function () {
     return [
         nameField, surnameField,
@@ -176,7 +179,7 @@ async function sendEditUserRequest(url, data) {
         const response = await fetch(url, {
             headers: headers,
             body: data,
-            method: "PUT"
+            method: "PATCH"
         });
         status = response.status;
         console.log(`Status code: ${status}`);
@@ -198,7 +201,7 @@ async function actionBasedOnStatusCode(statusCode, data) {
         if (!obtainedNewTokens) {
             window.location.href = host + '/user/login/';
         } else {
-            const status = await sendEditUserRequest(host + "/clients/client_edit/78", data);
+            const status = await sendEditUserRequest(host + "/clients/client_edit/" + clientId, data);
             actionBasedOnStatusCode(status, data);
         }
     } else if (statusCode === 400) {
@@ -209,7 +212,7 @@ async function actionBasedOnStatusCode(statusCode, data) {
 
 async function obtainNewAccessToken() {
     let response;
-    const data = { refresh: window.localStorage.getItem('refreshToken') };
+    const data = {refresh: window.localStorage.getItem('refreshToken')};
     try {
         response = await fetch(host + '/user/refresh/', {
             method: "POST",
@@ -237,7 +240,7 @@ document.getElementById("request_edit_sender").addEventListener("click", async (
             city: cityField.value,
             address: addressField.value
         });
-        const serverResponseStatus = await sendEditUserRequest(host + "/clients/client_edit/78", data);
+        const serverResponseStatus = await sendEditUserRequest(host + "/clients/client_edit/" + clientId, data);
         actionBasedOnStatusCode(serverResponseStatus, data);
     } else {
         setErrorAttributesToFields(validationFieldsList);
@@ -259,7 +262,7 @@ async function obtainUserInitials() {
     let responseCode;
     const token = window.localStorage.getItem('accessToken');
     if (token) {
-        const data = { "accessToken": token };
+        const data = {"accessToken": token};
         try {
             const serverReply = await fetch(host + '/user/decode/', {
                 method: "POST",
@@ -282,10 +285,24 @@ async function obtainUserInitials() {
         } catch (error) {
             console.error(error);
         }
-    }
-    else {
+    } else {
         window.location.replace(host + '/user/login/');
     }
+}
+
+
+fillFieldsWithData();
+
+async function fillFieldsWithData() {
+    let responseFromServer = await getClientById(clientId);
+    document.getElementById("name_input_client_edit_page").value = responseFromServer["first_name"];
+    document.getElementById("surname_input_client_edit_page").value = responseFromServer["last_name"];
+    document.getElementById("email_input_client_edit_page").value = responseFromServer["email"];
+    document.getElementById("telephone_input_client_edit_page").value = responseFromServer["phone_number"];
+    document.getElementById("zip_input_client_edit_page").value = responseFromServer["zip_code"];
+    document.getElementById("country_input_client_edit_page").value = responseFromServer["country"];
+    document.getElementById("city_input_client_edit_page").value = responseFromServer["city"];
+    document.getElementById("address_input_client_edit_page").value = responseFromServer["address"];
 }
 
 function getClientById(clientId) {
@@ -299,24 +316,5 @@ function getClientById(clientId) {
         .catch(error => console.error(error));
 }
 
-const clientId = window.location.href.match(/(\d+)$/)[1];
-
-async function fillFieldsWithData() {
-    let responseFromServer = await getClientById(clientId);
-
-    document.getElementById("name_input_client_edit_page").value = responseFromServer["first_name"];
-    document.getElementById("surname_input_client_edit_page").value = responseFromServer["last_name"];
-    document.getElementById("email_input_client_edit_page").value = responseFromServer["email"];
-    document.getElementById("telephone_input_client_edit_page").value = responseFromServer["phone_number"];
-    document.getElementById("zip_input_client_edit_page").value = responseFromServer["zip_code"];
-    document.getElementById("country_input_client_edit_page").value = responseFromServer["country"];
-    document.getElementById("city_input_client_edit_page").value = responseFromServer["city"];
-    document.getElementById("address_input_client_edit_page").value = responseFromServer["address"];
-
-
-    console.log(responseFromServer);
-}
-fillFieldsWithData();
-console.log("Hello big");
 
 
