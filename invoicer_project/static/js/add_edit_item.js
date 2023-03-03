@@ -1,12 +1,16 @@
 
 document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
+    const dropdownArrow = dropdownWrapper.querySelector(".arrow-up");
     const dropdownList = dropdownWrapper.querySelector('.dropdown__list');
     const dropdownItems = dropdownList.querySelectorAll('.dropdown__list-item');
     const dropdownInput = dropdownWrapper.querySelector('.dropdown__input_hidden')
     dropdownBtn.addEventListener('click', function () {
+      dropdownArrow.classList.toggle("arrow-up");
+      dropdownArrow.classList.toggle("arrow-up-active");
       dropdownList.classList.toggle('dropdown__list_visible');
       this.classList.toggle('dropdown__button_active');
+      this.parentElement.classList.toggle('border_dropdown');
     });
     
     dropdownItems.forEach(function(listItem) {
@@ -19,12 +23,16 @@ document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
         dropdownInput.setAttribute("value", this.dataset.value);
         input_currency_table();
         input_basic_unit_table();
+        dropdownArrow.classList.add("arrow-up");
+        dropdownArrow.classList.remove("arrow-up-active");
         dropdownList.classList.remove('dropdown__list_visible');
       })
     });
     
     document.addEventListener('click', function (e) {
       if ( e.target !== dropdownBtn ){
+        dropdownArrow.classList.add("arrow-up");
+        dropdownArrow.classList.remove("arrow-up-active");
         dropdownBtn.classList.remove('dropdown__button_active');
         dropdownList.classList.remove('dropdown__list_visible');
       }

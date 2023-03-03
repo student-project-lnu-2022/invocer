@@ -9,7 +9,6 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel='stylesheet' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/172203/font-awesome.min.css'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=block">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
@@ -115,7 +114,10 @@
                                     <md-outlined-text-field class="input_field" label="Name" id="name" type="text"></md-outlined-text-field>
                                     <md-outlined-text-field class="input_field" label="Price" id="price" type="text"></md-outlined-text-field>
                                     <div class="dropdown_list input_field"> 
+                                        <div class="d-flex flex-wrap flex-row">
                                         <button class="dropdown__button" type="button">Currency</button>
+                                        <div class="arrow-up"></div>
+                                    </div>
                                         <ul class="dropdown__list"> 
                                           <li class="dropdown__list-item" data-value="UAH">UAH</li>
                                           <li class="dropdown__list-item" data-value="USD">USD</li>
@@ -124,7 +126,10 @@
                                         <input class="dropdown__input_hidden" id="currency" type="text" name="select-category" value=""/>
                                       </div>
                                       <div class="dropdown_list input_field"> 
-                                          <button class="dropdown__button" type="button">Basic unit</button>
+                                            <div class="d-flex flex-wrap flex-row">
+                                            <button class="dropdown__button" type="button">Basic unit</button>
+                                            <div class="arrow-up"></div>
+                                       </div>
                                           <ul class="dropdown__list"> 
                                             <li class="dropdown__list-item" data-value="kg">kg</li>
                                             <li class="dropdown__list-item" data-value="g">g</li>

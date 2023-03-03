@@ -1,12 +1,13 @@
-const nameItemMaxLength = 35;
 const barcodeMaxLength = 13;
 const amountMaxLength = 10;
-import {host, obtainNewAccessToken, obtainUserInitials, fillInitials, clearErrorAttributes, setMaxFieldContainerHeights, removeAllErrorAttributes, allAreFalse} from './utils.js'
+import { host, obtainNewAccessToken, obtainUserInitials, fillInitials, validateName, validation, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse } from './utils.js'
 
 const nameField = document.getElementById("name");
 const priceField = document.getElementById("price");
 const amountInStockField = document.getElementById("amount_in_stock");
 const barcodeField = document.getElementById("barcode");
+const currencyField = document.getElementById("currency").parentElement;
+const basicUnitField = document.getElementById("basic_unit").parentElement;
 let additionalFieldsContainer;
 let amountAdditionalFieldsContainer;
 
@@ -21,8 +22,7 @@ function validateAdditionalUnits() {
 }
 
 function validateAdditionalUnitsAmount() {
-    amountAdditionalFieldsContainer  = document.querySelectorAll('.amount_additional_unit_field');
-    console.log(amountAdditionalFieldsContainer.length)
+    amountAdditionalFieldsContainer = document.querySelectorAll('.amount_additional_unit_field');
     let strValidationResult = [];
     for (let field of amountAdditionalFieldsContainer) {
         let res = validation(field.value, /^[0-9]+$/);
@@ -31,60 +31,37 @@ function validateAdditionalUnitsAmount() {
     return strValidationResult;
 }
 
-const returnAllFields =  [
-        nameField, priceField,
+const returnAllFields = function () {
+    return [
+        nameField, priceField, currencyField, basicUnitField,
         amountInStockField, barcodeField,
     ];
+}
 
 function validateClientAdd() {
-    // removeAllErrorAttributes(returnAllFields);
-    // setMaxFieldContainerHeights(returnAllFields);
-    // removeAllErrorAttributes(additionalFieldsContainer);
+    // setMaxFieldContainerHeights(returnAllFields());
     // setMaxFieldContainerHeights(additionalFieldsContainer);
+    // setMaxFieldContainerHeights(amountAdditionalFieldsContainer);
+    clearErrorAttributes(returnAllFields());
+    clearErrorAttributes(additionalFieldsContainer);
+    clearErrorAttributes(amountAdditionalFieldsContainer);
     return [
         validateName(nameField.value),
         validatePrice(priceField.value),
+        validationDropdown("currency"),
+        validationDropdown("basic_unit"),
         validateAmountInStock(amountInStockField.value),
-         validateBarcode(barcodeField.value),
+        validateBarcode(barcodeField.value),
+
     ];
 }
 
-
-function validateName(strToValidate) {
-    let strValidationResult;
-    if (!strToValidate) {
-        strValidationResult = "This field can't be empty";
-    } else if (strToValidate.includes(' ')) {
-        strValidationResult = "No whitespaces";
-    } else if (strToValidate.length > nameItemMaxLength) {
-        strValidationResult = `Max length – ${nameItemMaxLength} chars`;
-    } else if (!(/^[a-z]+$/.test(strToValidate))) {
-        strValidationResult = "Only latin letters";
-    } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
-        strValidationResult = "Has to begin with capital";
-    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) {
-        strValidationResult = "No more than one capital"
-    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) {
-        strValidationResult = "At least one lowercase";
-    } else {
-        strValidationResult = '';
-    }
-    return strValidationResult;
-}
-
-function validation(fieldToValidate, fieldRegex) {
+function validationDropdown(dropdownId) {
     let isFieldValid;
-    if (fieldToValidate === '') {
+    let dropdownElement = document.querySelector('#' + dropdownId);
+    if (dropdownElement.value === "") {
         isFieldValid = "This field can't be empty";
-    } else if (fieldToValidate.includes(' ')) {
-        isFieldValid = "No whitespaces";
-    } else if (!(fieldRegex.test(fieldToValidate))) {
-        isFieldValid = "Invalid format";
-    } else {
-        isFieldValid = '';
     }
-    console.log(fieldToValidate)
-    console.log(isFieldValid)
     return isFieldValid;
 }
 
@@ -131,16 +108,21 @@ function validateBarcode(barcodeToValidate) {
 }
 
 function setErrorAttributesToFields(fields, errorsObject) {
-    for (let i=0; i<fields.length; i++) {
+    for (let i = 0; i < fields.length; i++) {
         if (errorsObject[i]) {
+            if (fields[i].classList.contains("dropdown_list")) {
+                fields[i].querySelector(".dropdown__button").classList.add("dropdown__button_error");
+            }
             fields[i].setAttribute("error", "true");
             fields[i].setAttribute("errorText", errorsObject[i]);
         }
     }
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
-    clearErrorAttributes(returnAllFields);
+    obtainUserInitials();
+    clearErrorAttributes(returnAllFields());
     clearErrorAttributes(additionalFieldsContainer);
     clearErrorAttributes(amountAdditionalFieldsContainer);
 });
@@ -148,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById("btn").addEventListener("click", async () => {
     const validationFieldAdditionalUnits = validateAdditionalUnits();
     const validationFieldAdditionalUnitsAmount = validateAdditionalUnitsAmount();
-    console.log(validationFieldAdditionalUnitsAmount)
     const validationFieldsList = validateClientAdd();
     if (allAreFalse(validationFieldAdditionalUnitsAmount)) {
     } else {
@@ -160,6 +141,6 @@ document.getElementById("btn").addEventListener("click", async () => {
     }
     if (allAreFalse(validationFieldsList)) {
     } else {
-        setErrorAttributesToFields(returnAllFields, validationFieldsList);
+        setErrorAttributesToFields(returnAllFields(), validationFieldsList);
     }
 });
