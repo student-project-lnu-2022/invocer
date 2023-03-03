@@ -90,7 +90,12 @@ async function addElementsDynamically() {
 }
 
 function getClientById(clientId) {
-    return fetch(host + '/clients/client_by_id/' + clientId)
+    return fetch(host + '/clients/client_by_id/' + clientId, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+        },
+    })
         .then(response => response.json())
         .catch(error => console.error(error));
 }
@@ -103,15 +108,15 @@ function addEditButtonListeners() {
             clientId = span.dataset.clientId;
             responseFromServer = await getClientById(clientId);
             console.log(responseFromServer);
-            window.location.replace(host + '/clients/edit/' + clientId);
+            // window.location.replace(host + '/clients/edit/' + clientId);
             <!-- ERROR set data to fields won't be executed -->
             setDataToFields(responseFromServer)
         });
     });
 }
 
-function setDataToFields(responseFromServer){
-        document.getElementById("name_input_client_edit_page").value = responseFromServer['first_name'];
+function setDataToFields(responseFromServer) {
+    document.getElementById("name_input_client_edit_page").value = responseFromServer['first_name'];
 }
 
 function addDeleteButtonListeners() {
