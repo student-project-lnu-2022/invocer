@@ -13,7 +13,6 @@ const cityField = document.getElementById("city_input_client_edit_page");
 const addressField = document.getElementById("address_input_client_edit_page");
 
 const clientId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-console.log(clientId);
 
 const returnAllFields = function () {
     return [
@@ -159,7 +158,7 @@ function validateCity(cityToValidate) {
 
 function setErrorAttributesToFields(errorsObject) {
     let fieldIndex = 0;
-    fields = returnAllFields();
+    let fields = returnAllFields();
     for (let error in errorsObject) {
         if (errorsObject[error]) {
             fields[fieldIndex].setAttribute("error", "true");
@@ -171,7 +170,7 @@ function setErrorAttributesToFields(errorsObject) {
 
 async function sendEditUserRequest(url, data) {
     let status;
-    headers = {
+    let headers = {
         'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
         'Content-Type': 'application/json'
     }
