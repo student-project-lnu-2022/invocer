@@ -7,7 +7,7 @@ string_validation = RegexValidator(
     message="Item name has to be entered in the format: 'Apple'."
 )
 price_validation = RegexValidator(
-    regex=r'^\d+([., ]?(\d){2}?)?$',
+    regex=r'^\d+([., ]?(\d){1,2}?)?$',
     message="Price has to be entered in the format: '25.55'."
     )
 currency_validation = RegexValidator(
@@ -15,7 +15,7 @@ currency_validation = RegexValidator(
     message="Currency has to be entered in the format: 'UAH'."
 )
 basic_unit_validation = RegexValidator(
-    regex=r'^[A-Z][a-z].+$',
+    regex=r'^[a-zA-Z]*$',
     message="Basic unit has to be entered in the format: 'kg'."
 )
 barcode_validation = RegexValidator(
