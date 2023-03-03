@@ -1,4 +1,5 @@
 export const host = "http://127.0.0.1:8000";
+const nameItemMaxLength = 35;
 
 export async function obtainNewAccessToken() {
     let response;
@@ -60,12 +61,22 @@ export function fillInitials(userData) {
 export function clearErrorAttributes(returnAllFieldsList) {
     if (returnAllFieldsList !== undefined) {
         for (let field of returnAllFieldsList) {
+            if (field.classList.contains("dropdown_list"))
+            {
+                clearErrorToDropdown(field);
+            }
             field.addEventListener('input', () => {
                 field.removeAttribute("error");
                 field.removeAttribute("errorText");
             })
         }
     }
+}
+
+export function clearErrorToDropdown(field) {
+    field.addEventListener('click', () => {
+        field.querySelector(".dropdown__button").classList.remove("dropdown__button_error");
+    });
 }
 
 
@@ -108,4 +119,40 @@ export function search(fieldToSearch, item) {
             clientListItem[i].style.removeProperty("display");
         }
     }
+}
+
+export function validation(fieldToValidate, fieldRegex) {
+    let isFieldValid;
+    if (fieldToValidate === '') {
+        isFieldValid = "This field can't be empty";
+    } else if (fieldToValidate.includes(' ')) {
+        isFieldValid = "No whitespaces";
+    } else if (!(fieldRegex.test(fieldToValidate))) {
+        isFieldValid = "Invalid format";
+    } else {
+        isFieldValid = '';
+    }
+    return isFieldValid;
+}
+
+export function validateName(strToValidate) {
+    let strValidationResult;
+    if (!strToValidate) {
+        strValidationResult = "This field can't be empty";
+    } else if (strToValidate.includes(' ')) {
+        strValidationResult = "No whitespaces";
+    } else if (strToValidate.length > nameItemMaxLength) {
+        strValidationResult = `Max length – ${nameItemMaxLength} chars`;
+    } else if (!(/^[a-z]+$/.test(strToValidate))) {
+        strValidationResult = "Only latin letters";
+    } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
+        strValidationResult = "Has to begin with capital";
+    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) {
+        strValidationResult = "No more than one capital"
+    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) {
+        strValidationResult = "At least one lowercase";
+    } else {
+        strValidationResult = '';
+    }
+    return strValidationResult;
 }
