@@ -109,7 +109,7 @@ function addEditButtonListeners() {
             responseFromServer = await getClientById(clientId);
             console.log(responseFromServer);
             // window.location.replace(host + '/clients/edit/' + clientId);
-            <!-- ERROR set data to fields won't be executed -->
+            // <!-- ERROR set data to fields won't be executed -->
             setDataToFields(responseFromServer)
         });
     });
