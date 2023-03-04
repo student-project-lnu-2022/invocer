@@ -4,7 +4,7 @@ import {obtainUserInitials} from './utils_clients.js';
 async function getUserData() {
     let jsonResponse, response;
     try {
-        const result = await fetch(host + '/clients/list/', {
+        const result = await fetch(host + '/clients/client/', {
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`

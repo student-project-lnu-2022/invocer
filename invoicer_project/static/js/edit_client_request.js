@@ -48,7 +48,7 @@ async function actionBasedOnStatusCode(statusCode, data) {
         if (!obtainedNewTokens) {
             window.location.href = host + '/user/login/';
         } else {
-            const status = await sendEditUserRequest(host + "/clients/client_edit/" + clientId, data);
+            const status = await sendEditUserRequest(host + "/clients/client/" + clientId, data);
             actionBasedOnStatusCode(status, data);
         }
     } else if (statusCode === 400) {
@@ -70,7 +70,7 @@ document.getElementById("request_edit_sender").addEventListener("click", async (
             city: cityField.value,
             address: addressField.value
         });
-        const serverResponseStatus = await sendEditUserRequest(host + "/clients/client_edit/" + clientId, data);
+        const serverResponseStatus = await sendEditUserRequest(host + "/clients/client/" + clientId, data);
         actionBasedOnStatusCode(serverResponseStatus, data);
     } else {
         setErrorAttributesToFields(validationFieldsList);
@@ -97,7 +97,7 @@ async function fillFieldsWithData() {
 }
 
 function getClientById(clientId) {
-    return fetch(host + '/clients/client_by_id/' + clientId, {
+    return fetch(host + '/clients/client/' + clientId, {
         method: "GET",
         headers: {
             'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
