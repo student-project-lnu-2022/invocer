@@ -90,17 +90,18 @@ async function addElementsDynamically() {
     }
 }
 
-
 function addEditButtonListeners() {
-    const editButtons = document.querySelectorAll('.edit-client');
-    let clientId;
-    editButtons.forEach(span => {
-        span.addEventListener('click', async () => {
-            clientId = span.dataset.clientId;
+    const clientsList = document.querySelector('#other_elements');
+    console.log(clientsList);
+    clientsList.addEventListener('click', async (event) => {
+        const clickedElement = event.target;
+        if (clickedElement.classList.contains('edit-client')) {
+            const clientId = clickedElement.dataset.clientId;
             window.location.href = host + "/clients/edit/" + clientId;
-        });
+        }
     });
 }
+
 
 function addDeleteButtonListeners() {
     const deleteButtons = document.querySelectorAll('.delete-client');
