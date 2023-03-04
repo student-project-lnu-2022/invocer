@@ -14,8 +14,8 @@ let amountAdditionalFieldsContainer;
 function validateAdditionalUnits() {
     additionalFieldsContainer = document.querySelectorAll('.additional_unit_field');
     let strValidationResult = [];
-    for (let field of additionalFieldsContainer) {
-        let res = validation(field.value, /^[A-Z][a-z]+$/);
+    for (let i =0; i< num_of_rows; i++) {
+        let res = validationDropdown(`AU${i+1}`);
         strValidationResult.push(res);
     }
     return strValidationResult;

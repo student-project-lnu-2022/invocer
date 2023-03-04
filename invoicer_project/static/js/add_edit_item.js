@@ -6,38 +6,39 @@ document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     const dropdownItems = dropdownList.querySelectorAll('.dropdown__list-item');
     const dropdownInput = dropdownWrapper.querySelector('.dropdown__input_hidden')
     dropdownBtn.addEventListener('click', function () {
-      dropdownArrow.classList.toggle("arrow-up");
-      dropdownArrow.classList.toggle("arrow-up-active");
-      dropdownList.classList.toggle('dropdown__list_visible');
-      this.classList.toggle('dropdown__button_active');
-      this.parentElement.classList.toggle('border_dropdown');
+        dropdownArrow.classList.toggle("arrow-up");
+        dropdownArrow.classList.toggle("arrow-up-active");
+        dropdownList.classList.toggle('dropdown__list_visible');
+        this.classList.toggle('dropdown__button_active');
+        this.parentElement.classList.toggle('border_dropdown');
     });
-    
-    dropdownItems.forEach(function(listItem) {
-      listItem.addEventListener('click', function (e) {
-        dropdownItems.forEach(function(el) {
-          el.classList.remove('dropdown__list-item_active');
+
+    dropdownItems.forEach(function (listItem) {
+        listItem.addEventListener('click', function (e) {
+            dropdownItems.forEach(function (el) {
+                el.classList.remove('dropdown__list-item_active');
+            })
+            e.target.classList.add('dropdown__list-item_active');
+            dropdownBtn.innerText = this.innerText;
+            dropdownInput.setAttribute("value", this.dataset.value);
+            input_currency_table();
+            input_basic_unit_table();
+            input_additionalUnit();
+            dropdownArrow.classList.add("arrow-up");
+            dropdownArrow.classList.remove("arrow-up-active");
+            dropdownList.classList.remove('dropdown__list_visible');
         })
-        e.target.classList.add('dropdown__list-item_active');
-        dropdownBtn.innerText = this.innerText;
-        dropdownInput.setAttribute("value", this.dataset.value);
-        input_currency_table();
-        input_basic_unit_table();
-        dropdownArrow.classList.add("arrow-up");
-        dropdownArrow.classList.remove("arrow-up-active");
-        dropdownList.classList.remove('dropdown__list_visible');
-      })
     });
-    
+
     document.addEventListener('click', function (e) {
-      if ( e.target !== dropdownBtn ){
-        dropdownArrow.classList.add("arrow-up");
-        dropdownArrow.classList.remove("arrow-up-active");
-        dropdownBtn.classList.remove('dropdown__button_active');
-        dropdownList.classList.remove('dropdown__list_visible');
-      }
+        if (e.target !== dropdownBtn) {
+            dropdownArrow.classList.add("arrow-up");
+            dropdownArrow.classList.remove("arrow-up-active");
+            dropdownBtn.classList.remove('dropdown__button_active');
+            dropdownList.classList.remove('dropdown__list_visible');
+        }
     });
-  })
+})
 
 
 const input_price = document.getElementById("price");
@@ -54,67 +55,44 @@ const input_amount_in_stock_val = document.getElementById("amount_in_stock_val")
 const input_name_val = document.getElementById("name_val");
 const input_barcode_val = document.getElementById("barcode_val");
 
-let num_of_rows = 0;
-const max_num_of_units = 10;
 
+let num_of_rows = 0;
+const max_num_of_units = 5;
+
+function input_additionalUnit() {
+    for (let i = 0; i < max_num_of_units; i++) {
+        let data1 = document.querySelector(`#AU${i + 1}`).value;
+        if (data1 !== "") {
+            setTextToTable(document.querySelector(`#Aditional_unit_${i + 1}`), data1);
+        }
+    }
+};
+
+
+const amount_additional_unit_field = document.querySelectorAll(".amount_additional_unit_field");
+console.log(amount_additional_unit_field[i])
+for (let i = 0; i < max_num_of_units; i++) {
+    amount_additional_unit_field[i].addEventListener('input', () => {
+        const input_row_val = document.querySelector(`#AU${i + 1}_val`);
+        data = isFieldEmpty(input_basic_unit, "Basic unit", "");
+        setTextToTable(input_row_val, amount_additional_unit_field[i].value + data);
+    });
+}
 
 function addLabels() {
-    let data;
     if (num_of_rows >= max_num_of_units) {
         alert(`You can't add more than ${max_num_of_units} additional units!`);
         return;
     }
+    document.querySelector(".hidden").classList.remove("hidden");
+    document.querySelector(".hidden").classList.remove("hidden");
+    document.querySelectorAll(".additional_unit_field")[num_of_rows].style.display = "block";
+    document.querySelectorAll(".amount_additional_unit_field")[num_of_rows].style.display = "flex";
     ++num_of_rows;
-    const newLabel1 = document.createElement("md-outlined-text-field");
-    const newLabel2 = document.createElement("md-outlined-text-field");
-    newLabel1.setAttribute('label', 'Aditional unit ' + num_of_rows);
-    newLabel2.setAttribute('label', 'Amount in aditional unit ' + num_of_rows);
-    newLabel1.className = "input_field additional_unit_field";
-    newLabel2.className = "input_field amount_additional_unit_field";
-
-    let headerRow = document.createElement("div");
-    headerRow.className="row secondary_text";
-    headerRow.style.padding = "5px";
-    headerRow.style.borderTop = "1px solid rgba(0, 68, 255, 0.11)";
-    headerRow.innerHTML = newLabel1.label;
-
-    let newRow = document.createElement("div");
-    newRow.className="row";
-    newRow.innerHTML = `<div class="col-6 first_col" id="${newLabel1.label}">${newLabel1.label}</div>
-    <div class="col-6 second_col" id="${newLabel2.label}_val"></div>`;
-    const table = document.getElementById('table');
-    table.insertBefore(headerRow, document.getElementById("endline"));
-    table.insertBefore(newRow, document.getElementById("endline"));
-
-    let idOfNameOfUnit = newLabel1.label;
-    const input_row = document.getElementById(idOfNameOfUnit);
-    newLabel1.addEventListener('input', () => {
-        data = newLabel1.value;
-        if (data === "") {
-            data = newLabel1.label;
-        }
-        setTextToTable(input_row, data);
-    });
-
-    let idOfAmountInUnit = newLabel2.label + "_val";
-    const input_row_val = document.getElementById(idOfAmountInUnit);
-    newLabel2.addEventListener('input', () => {
-        data = input_basic_unit.value;
-        if (data === "Basic unit") {
-            data = "";
-        }
-        setTextToTable(input_row_val, newLabel2.value + " " + data);
-    });
-
-    const secondCol = document.querySelector('#column-2');
-    secondCol.appendChild(newLabel1);
-    secondCol.appendChild(newLabel2);
-    const button = document.getElementById("additional_item_button");
-    button.remove();
-    secondCol.appendChild(button);
+    
 }
 
-document.querySelector("#additional_item_button").addEventListener("click", ()=>{addLabels()});
+document.querySelector("#additional_item_button").addEventListener("click", () => { addLabels() });
 
 function setTextToTable(inputElement, inputData) {
     inputElement.setAttribute('data-text', inputData);
@@ -122,19 +100,18 @@ function setTextToTable(inputElement, inputData) {
 }
 
 
-function isFieldEmpty(input_field, fieldLabel, resultValue)
-{
-let data = input_field.value;
+function isFieldEmpty(input_field, fieldLabel, resultValue) {
+    let data = input_field.value;
     if (data === fieldLabel) {
         data = resultValue;
     }
     return data;
 }
 
-input_price.addEventListener('input', () => {setTextToTable(input_price_val, input_price.value)});
+input_price.addEventListener('input', () => { setTextToTable(input_price_val, input_price.value) });
 
 function input_currency_table() {
-    let data = isFieldEmpty(input_currency,"Currency", "");
+    let data = isFieldEmpty(input_currency, "Currency", "");
     setTextToTable(input_currency_val, data);
 }
 
@@ -145,15 +122,15 @@ input_amount_in_stock.addEventListener('input', () => {
 });
 
 input_name.addEventListener('input', () => {
-    let data = isFieldEmpty(input_name,"", "Name of item");
+    let data = isFieldEmpty(input_name, "", "Name of item");
     setTextToTable(input_name_val, data);
 });
 
-input_barcode.addEventListener('input', () => {setTextToTable(input_barcode_val, `Barcode: ${input_barcode.value}`)});
+input_barcode.addEventListener('input', () => { setTextToTable(input_barcode_val, `Barcode: ${input_barcode.value}`) });
 
 
-function input_basic_unit_table()  {
-    let data1 = isFieldEmpty(input_basic_unit,"Basic unit", "");
+function input_basic_unit_table() {
+    let data1 = isFieldEmpty(input_basic_unit, "Basic unit", "");
 
     setTextToTable(input_basic_unit_val, data1);
     setTextToTable(input_amount_in_stock_val, input_amount_in_stock.value + " " + data1);
@@ -161,12 +138,12 @@ function input_basic_unit_table()  {
     if (num_of_rows > 0) {
         let field, data;
         for (let i = 0; i < num_of_rows; i++) {
-            field = document.getElementById(`Amount in aditional unit ${i + 1}_val`);
+            field = document.getElementById(`AU${i + 1}_val`);
             data = field.getAttribute('data-text');
-            if (data===null) {
-                data="";
+            if (data === null) {
+                data = "";
             } else {
-                data=data.split(" ")[0];
+                data = data.split(" ")[0];
             }
             setTextToTable(field, data + " " + data1);
         }

@@ -160,3 +160,8 @@ md-fab-extended {
   border-right: 5px solid transparent;
   border-top: 5px solid black;
 }
+
+
+.additional_unit_field, .amount_additional_unit_field, .hidden {
+  display: none;
+}

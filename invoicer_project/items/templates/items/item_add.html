@@ -141,6 +141,66 @@
                                     <md-outlined-text-field class="input_field" label="Barcode" id="barcode" type="text"></md-outlined-text-field>
                                 </div>
                                 <div class="d-flex flex-wrap flex-column col-xxl col-xl col-lg" id="column-2">
+                                    <div class="dropdown_list input_field additional_unit_field">
+                                        <div class="d-flex flex-wrap flex-row">
+                                          <button class="dropdown__button" type="button">Aditional unit 1</button>
+                                          <div class="arrow-up"></div>
+                                        </div>
+                                        <ul class="dropdown__list">
+                                            <li class="dropdown__list-item" data-value="Box">Box</li>
+                                            <li class="dropdown__list-item" data-value="Small box">Small box</li>
+                                        </ul>
+                                        <input class="dropdown__input_hidden" id="AU1" type="text" name="select-category" value="">
+                                      </div>
+                                  <md-outlined-text-field label="Amount in aditional unit 1" class="input_field amount_additional_unit_field" type="text" id="amount_AU1"></md-outlined-text-field>
+                                  <div class="dropdown_list input_field additional_unit_field">
+                                    <div class="d-flex flex-wrap flex-row">
+                                      <button class="dropdown__button" type="button">Aditional unit 2</button>
+                                      <div class="arrow-up"></div>
+                                    </div>
+                                    <ul class="dropdown__list">
+                                        <li class="dropdown__list-item" data-value="Box">Box</li>
+                                            <li class="dropdown__list-item" data-value="Small box">Small box</li>
+                                    </ul>
+                                    <input class="dropdown__input_hidden" id="AU2" type="text" name="select-category" value="">
+                                  </div>
+                                  <md-outlined-text-field label="Amount in aditional unit 2" class="input_field amount_additional_unit_field" type="text" id="amount_AU2"></md-outlined-text-field>
+                                  <div class="dropdown_list input_field additional_unit_field">
+                                    <div class="d-flex flex-wrap flex-row">
+                                      <button class="dropdown__button" type="button">Aditional unit 3</button>
+                                      <div class="arrow-up"></div>
+                                    </div>
+                                    <ul class="dropdown__list">
+                                        <li class="dropdown__list-item" data-value="Box">Box</li>
+                                        <li class="dropdown__list-item" data-value="Small box">Small box</li>
+                                    </ul>
+                                    <input class="dropdown__input_hidden" id="AU3" type="text" name="select-category" value="">
+                                  </div>
+                                  <md-outlined-text-field label="Amount in aditional unit 3" class="input_field amount_additional_unit_field" type="text" id="amount_AU3"></md-outlined-text-field>
+                                  <div class="dropdown_list input_field additional_unit_field">
+                                    <div class="d-flex flex-wrap flex-row">
+                                      <button class="dropdown__button" type="button">Aditional unit 4</button>
+                                      <div class="arrow-up"></div>
+                                    </div>
+                                    <ul class="dropdown__list">
+                                        <li class="dropdown__list-item" data-value="Box">Box</li>
+                                            <li class="dropdown__list-item" data-value="Small box">Small box</li>
+                                    </ul>
+                                    <input class="dropdown__input_hidden" id="AU4" type="text" name="select-category" value="">
+                                  </div>
+                                  <md-outlined-text-field label="Amount in aditional unit 4" class="input_field amount_additional_unit_field" type="text" id="amount_AU4"></md-outlined-text-field>
+                                  <div class="dropdown_list input_field additional_unit_field">
+                                    <div class="d-flex flex-wrap flex-row">
+                                      <button class="dropdown__button" type="button">Aditional unit 5</button>
+                                      <div class="arrow-up"></div>
+                                    </div>
+                                    <ul class="dropdown__list">
+                                        <li class="dropdown__list-item" data-value="Box">Box</li>
+                                        <li class="dropdown__list-item" data-value="Small box">Small box</li>
+                                    </ul>
+                                    <input class="dropdown__input_hidden" id="AU5" type="text" name="select-category" value="">
+                                  </div>  
+                                  <md-outlined-text-field label="Amount in aditional unit 5" class="input_field amount_additional_unit_field" type="text" id="amount_AU5"></md-outlined-text-field>
                                     <md-fab-extended icon="add" class="input_field centered" id="additional_item_button" label="Add new additional unit"></md-fab-extended>
                                 </div>
                             </div>
@@ -150,32 +210,56 @@
                         </div>
                         <div class="d-flex flex-wrap flex-column container-fluid col-xxl col-xl col-lg background_input_item_in_page">
                             <div class="row text-left">
-                                <h3 style="color:#46464F;" id="name_val">Name of item</h3>
+                              <h3 style="color:#46464F;" id="name_val">Name of item</h3>
                             </div>
                             <div class="row text-left">
-                                <h5 class="secondary_text" id="barcode_val">Barcode: </h5>
+                              <h5 class="secondary_text" id="barcode_val">Barcode: </h5>
                             </div>
                             <div class="container-fluid text-left" id="table">
-                                <div class="row">
-                                    <div class="col-6 first_col">Price</div>
-                                    <div class="col-6 second_col" id="price_val"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 first_col">Currency</div>
-                                    <div class="col-6 second_col" id="currency_val"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 first_col">Basic unit</div>
-                                    <div class="col-6 second_col" id="basic_unit_val"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 first_col">Amount in stock</div>
-                                    <div class="col-6 second_col" id="amount_in_stock_val"></div>
-                                </div>
-                                <div class="row" style="border-top: 1px solid rgba(0, 68, 255, 0.11);" id="endline">
-                                    </div>
+                              <div class="row">
+                                <div class="col-6 first_col">Price</div>
+                                <div class="col-6 second_col" id="price_val"></div>
+                              </div>
+                              <div class="row">
+                                <div class="col-6 first_col">Currency</div>
+                                <div class="col-6 second_col" id="currency_val"></div>
+                              </div>
+                              <div class="row">
+                                <div class="col-6 first_col">Basic unit</div>
+                                <div class="col-6 second_col" id="basic_unit_val"></div>
+                              </div>
+                              <div class="row">
+                                <div class="col-6 first_col">Amount in stock</div>
+                                <div class="col-6 second_col" id="amount_in_stock_val"></div>
+                              </div>
+                              <div class="row secondary_text hidden" style="padding: 5px; border-top: 1px solid rgba(0, 68, 255, 0.11);">Aditional unit 1</div>
+                              <div class="row hidden">
+                                <div class="col-6 first_col" id="Aditional_unit_1">Aditional unit 1</div>
+                                <div class="col-6 second_col" id="AU1_val"></div>
+                              </div>
+                              <div class="row secondary_text hidden" style="padding: 5px; border-top: 1px solid rgba(0, 68, 255, 0.11);">Aditional unit 2</div>
+                              <div class="row hidden">
+                                <div class="col-6 first_col" id="Aditional_unit_2">Aditional unit 2</div>
+                                <div class="col-6 second_col" id="AU2_val"></div>
+                              </div>
+                              <div class="row secondary_text hidden" style="padding: 5px; border-top: 1px solid rgba(0, 68, 255, 0.11);">Aditional unit 3</div>
+                              <div class="row hidden">
+                                <div class="col-6 first_col" id="Aditional_unit_3">Aditional unit 3</div>
+                                <div class="col-6 second_col" id="AU3_val"></div>
+                              </div>
+                              <div class="row secondary_text hidden" style="padding: 5px; border-top: 1px solid rgba(0, 68, 255, 0.11);">Aditional unit 4</div>
+                              <div class="row hidden">
+                                <div class="col-6 first_col" id="Aditional_unit_4">Aditional unit 4</div>
+                                <div class="col-6 second_col" id="AU4_val"></div>
+                              </div>
+                              <div class="row secondary_text hidden" style="padding: 5px; border-top: 1px solid rgba(0, 68, 255, 0.11);">Aditional unit 5</div>
+                              <div class="row hidden">
+                                <div class="col-6 first_col" id="Aditional_unit_5">Aditional unit 5</div>
+                                <div class="col-6 second_col" id="AU5_val"></div>
+                              </div>
+                              <div class="row" style="border-top: 1px solid rgba(0, 68, 255, 0.11);" id="endline"></div>
                             </div>
-                        </div>
+                          </div>
                     </div>
                 </div>
             </div>
