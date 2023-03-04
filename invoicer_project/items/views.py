@@ -29,3 +29,7 @@ class ItemViewSet(viewsets.ViewSet):
             serializer.save()
             return JsonResponse(serializer.data, status=200)
         return JsonResponse(serializer.errors, status=400)
+    
+    def destroy(self, request, item_id):
+        pass
+        
