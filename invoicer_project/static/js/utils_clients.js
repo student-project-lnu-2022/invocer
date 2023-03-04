@@ -22,7 +22,6 @@ export const returnAllFields = function () {
     ];
 }
 
-
 export async function obtainNewAccessToken() {
     let response;
     const data = {refresh: window.localStorage.getItem('refreshToken')};
@@ -81,31 +80,25 @@ export function fillInitials(userData) {
 
 
 export function clearErrorAttributes(returnAllFieldsList) {
-    if (returnAllFieldsList !== undefined) {
         for (let field of returnAllFieldsList) {
             field.addEventListener('input', () => {
                 field.removeAttribute("error");
                 field.removeAttribute("errorText");
             })
         }
-    }
 }
 
 export function setMaxFieldContainerHeights(returnAllFieldsList) {
-    if (typeof  returnAllFieldsList !== undefined) {
     for (let field of returnAllFieldsList) {
         field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
     }
 }
-}
 
 export function removeAllErrorAttributes(returnAllFieldsList) {
-    if (typeof  returnAllFieldsList !== undefined) {
     for (let item of returnAllFieldsList) {
         item.removeAttribute("error");
         item.removeAttribute("errorText");
     }
-}
 }
 
 export function allAreFalse(object) {

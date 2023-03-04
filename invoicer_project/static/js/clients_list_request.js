@@ -1,4 +1,5 @@
 const host = "http://127.0.0.1:8000";
+import {obtainUserInitials} from './utils_clients.js';
 
 async function getUserData() {
     let jsonResponse, response;
@@ -137,35 +138,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
     addElementsDynamically();
 });
-
-async function obtainUserInitials() {
-    let responseCode;
-    const token = window.localStorage.getItem('accessToken');
-    if (token) {
-        const data = {"accessToken": token};
-        try {
-            const serverReply = await fetch(host + '/user/decode/', {
-                method: "POST",
-                body: JSON.stringify(data)
-            });
-            responseCode = serverReply.status;
-            const initials = await serverReply.json();
-            if (responseCode === 200) {
-                fillInitials(initials);
-            } else if (responseCode === 400) {
-                const obtainedNewTokens = await obtainNewAccessToken();
-                if (!obtainedNewTokens) {
-                    window.location.href = host + '/user/login/';
-                } else {
-                    await obtainUserInitials();
-                }
-            } else {
-                window.location.replace(host + '/user/login/');
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    } else {
-        window.location.replace(host + '/user/login/');
-    }
-}
