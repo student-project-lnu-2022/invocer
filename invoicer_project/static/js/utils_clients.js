@@ -11,7 +11,6 @@ export const zipField = document.getElementById("zip_input_client_edit_page");
 export const countryField = document.getElementById("country_input_client_edit_page");
 export const cityField = document.getElementById("city_input_client_edit_page");
 export const addressField = document.getElementById("address_input_client_edit_page");
-
 export const clientId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
 export const returnAllFields = function () {

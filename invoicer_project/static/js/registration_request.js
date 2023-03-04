@@ -3,6 +3,7 @@ const passwordMaxLength = 15;
 const nameSurnMaxLength = 35;
 const host = "http://127.0.0.1:8000";
 let csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+import {validateNameAndSurnameAsStrings} from './utils_clients.js';
 
 const emailField = document.getElementById("email_input_rg_pg");
 const nameField = document.getElementById("name_input_rg_pg");
@@ -40,28 +41,6 @@ function allAreFalse(object) {
         }
     }
     return true;
-}
-
-function validateNameAndSurnameAsStrings(strToValidate) {
-    let strValidationResult;
-    if (!strToValidate) {
-        strValidationResult = "This field can't be empty";
-    } else if (strToValidate.includes(' ')) {
-        strValidationResult = "No whitespaces";
-    } else if (strToValidate.length > nameSurnMaxLength) {
-        strValidationResult = `Max length – ${nameSurnMaxLength} chars`;
-    } else if (!(/^[a-z]+$/i.test(strToValidate))) {
-        strValidationResult = "Only latin letters";
-    } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
-        strValidationResult = "Has to begin with capital";
-    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) {
-        strValidationResult = "No more than one capital"
-    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) {
-        strValidationResult = "At least one lowercase";
-    } else {
-        strValidationResult = '';
-    }
-    return strValidationResult;
 }
 
 function validateEmail(emailToValidate) {
