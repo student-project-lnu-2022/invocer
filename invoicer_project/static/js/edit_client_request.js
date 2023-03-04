@@ -204,6 +204,7 @@ async function actionBasedOnStatusCode(statusCode, data) {
             actionBasedOnStatusCode(status, data);
         }
     } else if (statusCode === 400) {
+
     } else {
         console.log(`Unknown error: status code = ${statusCode}`);
     }
@@ -291,6 +292,7 @@ async function obtainUserInitials() {
 
 
 fillFieldsWithData();
+hideUnnecessaryElementsInMenu();
 
 async function fillFieldsWithData() {
     let responseFromServer = await getClientById(clientId);
@@ -313,6 +315,13 @@ function getClientById(clientId) {
     })
         .then(response => response.json())
         .catch(error => console.error(error));
+}
+
+function hideUnnecessaryElementsInMenu() {
+  const childElements = document.querySelectorAll('.additional_navigation_elements > *');
+    childElements.forEach(child => {
+        child.style.display = 'none';
+    });
 }
 
 
