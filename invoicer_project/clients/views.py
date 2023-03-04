@@ -33,7 +33,8 @@ class ClientViewSet(viewsets.ViewSet):
         return JsonResponse(data, status=200, safe=False)
 
     def destroy(self, request, client_id):
-        client = get_object_or_404(Client, id=client_id)
+        user = get_user_from_jwt(request.headers)
+        client = get_object_or_404(Client, id=client_id, user_id=user['user_id'])
         client.delete()
         return JsonResponse({}, status=204)
 
