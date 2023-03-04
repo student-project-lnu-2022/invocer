@@ -1,5 +1,3 @@
-const host = "http://127.0.0.1:8000";
-
 document.getElementById("search_bar").addEventListener('keyup', ()=> {
     let input = document.getElementById('search_bar').value;
     input = input.toLowerCase();
