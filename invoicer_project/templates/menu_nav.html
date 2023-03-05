@@ -1,33 +1,33 @@
-{%load static%}
+{% load static %}
 <nav class="navbar navbar-default no-margin no-padding sticky-top">
     <div class="col-2" id="navigation_hamburger_button_and_logo">
         <div class="navbar-header fixed-brand">
             <button
-                id="menu-toggle-2"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
+                    id="menu-toggle-2"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
                 <i class="material-icons" style="font-size: 36px; color: #767680">menu</i>
             </button>
             <a href="index.html">
-                <img src="{% static 'img/logo.svg' %}" alt="logo" width="146" height="45" />
+                <img src="{% static 'img/logo.svg' %}" alt="logo" width="146" height="45"/>
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active">
                     <button
-                        class="navbar-toggler"
-                        id="menu-toggle"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
+                            class="navbar-toggler"
+                            id="menu-toggle"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                 </li>
@@ -37,9 +37,9 @@
     <div class="d-flex flex-wrap flex-row align-items-center additional_navigation_elements col-8">
         <div class="search">
             <button type="submit" class="search_button">
-                <img alt="search_icon" src="{% static 'img/search.svg' %}" />
+                <img alt="search_icon" src="{% static 'img/search.svg' %}"/>
             </button>
-            <input id="search_bar" type="text" class="search_term" placeholder="Search item..." />
+            <input id="search_bar" type="text" class="search_term" placeholder="Search item..."/>
         </div>
         <div class="sort_dropdown">
             <button class="sort_drop_btn"><span class="material-symbols-outlined">sort</span></button>
@@ -48,6 +48,9 @@
             </div>
         </div>
         <md-fab-extended icon="add" label="Add client" id="adder"></md-fab-extended>
+        <span class="material-symbols-outlined client-info" id="delete_many_clients" data-client-id="${clientID}"
+              style="font-size:28px; color: red; display: none;">delete</span>
+
     </div>
     <div class="col-2" id="user_name_and_icon_column">
         <p id="user_name">Name Surname</p>

@@ -45,7 +45,7 @@ function createClientListContent(data) {
                     <!--TODO MD-FILLED-BUTTON HASN'T BEEN PUBLISHED YET-->
                     <span class="material-symbols-outlined client-info edit-client" data-client-id="${clientID}" style="font-size:28px;">edit</span>
                     <span class="material-symbols-outlined client-info delete-client" data-client-id="${clientID}" style="font-size:28px;">delete</span>
-                    <md-checkbox id="list_item_user_delete"></md-checkbox>
+                    <md-checkbox class="delete_clients_checkbox" id="list_item_user_delete" data-client-id="${clientID}"></md-checkbox>
                 </div>
             </div>`)
     }
@@ -75,6 +75,7 @@ async function addElementsDynamically() {
         createClientListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners();
         addEditButtonListeners();
+        addCheckboxesListener();
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -84,6 +85,7 @@ async function addElementsDynamically() {
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners();
             addEditButtonListeners();
+            addCheckboxesListener();
         }
     } else {
         window.location.replace(host + '/user/login/');
@@ -92,7 +94,6 @@ async function addElementsDynamically() {
 
 function addEditButtonListeners() {
     const clientsList = document.querySelector('#other_elements');
-    console.log(clientsList);
     clientsList.addEventListener('click', async (event) => {
         const clickedElement = event.target;
         if (clickedElement.classList.contains('edit-client')) {
@@ -108,14 +109,16 @@ function addDeleteButtonListeners() {
     deleteButtons.forEach(span => {
         span.addEventListener('click', async () => {
             try {
-                let clientId = span.dataset.clientId;
+                let clientIds = span.dataset.clientId;
                 const requestOptions = {
                     method: 'DELETE',
+                    body: JSON.stringify({"clientIds": [parseInt(clientIds)]}),
                     headers: {
-                        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
-                    }
+                        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+                        'Content-Type': 'application/json'
+                    },
                 };
-                const response = await fetch(host + `/clients/client/${clientId.toString()}`, requestOptions);
+                const response = await fetch(host + `/clients/client/`, requestOptions);
                 if (response.ok) {
                     location.reload();
                 } else if (response.status === 401) {
@@ -129,6 +132,60 @@ function addDeleteButtonListeners() {
         });
     });
 }
+
+function addCheckboxesListener() {
+    let dataForServer;
+    const checkboxesContainer = document.querySelector('#other_elements');
+    checkboxesContainer.addEventListener('change', async (event) => {
+        const clickedElement = event.target;
+        if (clickedElement.classList.contains('delete_clients_checkbox')) {
+            dataForServer = getCheckedBoxes();
+            if (getCheckedBoxes().length > 0) {
+                document.querySelector("#delete_many_clients").style.display = "flex";
+            } else {
+                document.querySelector("#delete_many_clients").style.display = "none";
+            }
+        }
+    });
+    document.querySelector("#delete_many_clients").addEventListener('click', async () => {
+        await sendRequestToDeleteClients(dataForServer);
+    })
+}
+
+function getCheckedBoxes() {
+    let allCheckboxes = document.querySelectorAll(".delete_clients_checkbox");
+    let arrayOfCheckedBoxes = [];
+    for (let checkbox of allCheckboxes) {
+        if (checkbox.checked) {
+            arrayOfCheckedBoxes.push(parseInt(checkbox.dataset.clientId));
+        }
+    }
+    return arrayOfCheckedBoxes;
+}
+
+async function sendRequestToDeleteClients(clientsIds) {
+    try {
+        const requestOptions = {
+            method: 'DELETE',
+            body: JSON.stringify({"clientIds": clientsIds}),
+            headers: {
+                'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+                'Content-Type': 'application/json'
+            },
+        };
+        const response = await fetch(host + `/clients/client`, requestOptions);
+        if (response.ok) {
+            location.reload();
+        } else if (response.status === 401) {
+            window.location.replace(host + '/user/login/');
+        } else {
+            console.error('Error with deleting client:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error with deleting client:', error);
+    }
+}
+
 
 document.querySelector('#adder').addEventListener('click', () => {
     window.location.href = host + "/clients/add";
