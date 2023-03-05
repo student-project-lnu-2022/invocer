@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Item
 from .itemserializer import ItemSerializer
 from django.http import JsonResponse
@@ -31,5 +31,8 @@ class ItemViewSet(viewsets.ViewSet):
         return JsonResponse(serializer.errors, status=400)
     
     def destroy(self, request, item_id):
-        pass
+        user = get_user_from_jwt(request.headers)
+        item = get_object_or_404(Item, id=item_id, user_id=user['user_id'])
+        item.delete()
+        return JsonResponse({}, status=204)
         
