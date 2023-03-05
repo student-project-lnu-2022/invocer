@@ -40,28 +40,26 @@ class ClientViewSet(viewsets.ViewSet):
 
         return JsonResponse({}, status=204)
 
+    def partial_update(self, request, client_id):
+        try:
+            user = get_user_from_jwt(request.headers)
+            client = self.queryset.get(id=client_id, user_id=user['user_id'])
+        except Client.DoesNotExist:
+            return JsonResponse({'error': 'Client not found'}, status=404)
+        request.data['user'] = user['user_id']
+        serializer = ClientSerializer(client, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
 
-def partial_update(self, request, client_id):
-    try:
-        user = get_user_from_jwt(request.headers)
-        client = self.queryset.get(id=client_id, user_id=user['user_id'])
-    except Client.DoesNotExist:
-        return JsonResponse({'error': 'Client not found'}, status=404)
-    request.data['user'] = user['user_id']
-    serializer = ClientSerializer(client, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return JsonResponse(serializer.data)
-    return JsonResponse(serializer.errors, status=400)
-
-
-def retrieve(self, request, client_id):
-    client = self.queryset.get(id=client_id)
-    if client is not None:
-        serializer = ClientSerializer(client)
-        return JsonResponse(serializer.data)
-    else:
-        return JsonResponse({'error': 'Client not found'}, status=404)
+    def retrieve(self, request, client_id):
+        client = self.queryset.get(id=client_id)
+        if client is not None:
+            serializer = ClientSerializer(client)
+            return JsonResponse(serializer.data)
+        else:
+            return JsonResponse({'error': 'Client not found'}, status=404)
 
 
 def get_user_from_jwt(headers):
