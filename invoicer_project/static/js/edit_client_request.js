@@ -1,8 +1,6 @@
-import { host, removeAllErrorAttributes, setErrorAttributesToFields, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse,} from './utils_clients.js'
-import { validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings,  returnAllFields, validation,
-         clientId, nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField } from './validation_utils.js'
-import { obtainNewAccessToken, obtainUserInitials } from './request_utils.js'
-
+import { host, removeAllErrorAttributes, returnAllFields, setErrorAttributesToFields, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse, hideUnnecessaryElementsInMenu, nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField} from './utils_clients.js'
+import { validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings, validation,} from './validation_utils.js'
+import { obtainNewAccessToken, obtainUserInitials} from './request_utils.js'
 
 function validateClientEdit() {
     removeAllErrorAttributes(returnAllFields());
@@ -111,9 +109,4 @@ function getClientById(clientId) {
         .catch(error => console.error(error));
 }
 
-function hideUnnecessaryElementsInMenu() {
-  const childElements = document.querySelectorAll('.additional_navigation_elements > *');
-    childElements.forEach(child => {
-        child.style.display = 'none';
-    });
-}
+hideUnnecessaryElementsInMenu();

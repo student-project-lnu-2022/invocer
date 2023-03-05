@@ -1,6 +1,5 @@
-import { host, removeAllErrorAttributes, setErrorAttributesToFields, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse,} from './utils_clients.js'
-import { validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings,  returnAllFields, validation,
-         nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField} from './validation_utils.js'
+import { host, removeAllErrorAttributes, returnAllFields, setErrorAttributesToFields, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse, hideUnnecessaryElementsInMenu, nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField} from './utils_clients.js'
+import { validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings, validation,} from './validation_utils.js'
 import { obtainNewAccessToken, obtainUserInitials} from './request_utils.js'
 
 function validateClientAdd() {
@@ -86,3 +85,5 @@ document.addEventListener('DOMContentLoaded', () => {
     clearErrorAttributes(returnAllFields());
     obtainUserInitials();
 });
+
+hideUnnecessaryElementsInMenu();
