@@ -1,5 +1,8 @@
-import { host, validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings, setErrorAttributesToFields, returnAllFields, obtainNewAccessToken, obtainUserInitials, validation, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse,
-        removeAllErrorAttributes, clientId, nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField} from './utils_clients.js'
+import { host, removeAllErrorAttributes, setErrorAttributesToFields, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse,} from './utils_clients.js'
+import { validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings,  returnAllFields, validation,
+         clientId, nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField } from './validation_utils.js'
+import { obtainNewAccessToken, obtainUserInitials } from './request_utils.js'
+
 
 function validateClientEdit() {
     removeAllErrorAttributes(returnAllFields());

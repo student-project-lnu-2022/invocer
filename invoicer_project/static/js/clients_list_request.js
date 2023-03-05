@@ -1,5 +1,5 @@
 const host = "http://127.0.0.1:8000";
-import {obtainUserInitials} from './utils_clients.js';
+import {obtainUserInitials} from './request_utils.js';
 
 async function getUserData() {
     let jsonResponse, response;
