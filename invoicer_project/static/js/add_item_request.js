@@ -123,8 +123,6 @@ function setErrorAttributesToFields(fields, errorsObject) {
 document.addEventListener('DOMContentLoaded', () => {
     obtainUserInitials();
     clearErrorAttributes(returnAllFields());
-    clearErrorAttributes(additionalFieldsContainer);
-    clearErrorAttributes(amountAdditionalFieldsContainer);
 });
 
 document.getElementById("btn").addEventListener("click", async () => {
