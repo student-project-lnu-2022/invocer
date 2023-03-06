@@ -70,7 +70,6 @@ function input_additionalUnit() {
 
 
 const amount_additional_unit_field = document.querySelectorAll(".amount_additional_unit_field");
-console.log(amount_additional_unit_field[i])
 for (let i = 0; i < max_num_of_units; i++) {
     amount_additional_unit_field[i].addEventListener('input', () => {
         const input_row_val = document.querySelector(`#AU${i + 1}_val`);

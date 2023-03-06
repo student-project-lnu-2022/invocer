@@ -153,7 +153,6 @@ export function removeAllErrorAttributes(returnAllFieldsList) {
 }
 
 export function allAreFalse(object) {
-    console.log(object)
     for (let key in object) {
         if (object[key]) {
             return false;
