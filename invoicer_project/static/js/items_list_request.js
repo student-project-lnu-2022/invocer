@@ -24,10 +24,11 @@ function fillInitials(userData) {
 }
 
 function createItemListContent(data) {
-    for (let i = 0; i < data.length; i++) {
-        let itemName = data[i]['name'];
-        let priceAndCurrency = data[i]['price'] + " " + data[i]['currency'];
-        let itemID = data[i]['id']
+    for (let item of data) {
+        console.log("DKLSJKDJLSKD");
+        let itemName = item['name'];
+        let priceAndCurrency = item['price'] + " " + item['currency'];
+        let itemID = item['id']
 
         document.getElementById("items_container").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around">
                         <div class="col-md-6 col-sm-6 col-7 list_item_name">
