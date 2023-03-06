@@ -73,7 +73,7 @@ document.getElementById("request_edit_sender").addEventListener("click", async (
         const serverResponseStatus = await sendEditUserRequest(host + "/clients/client/" + clientId, data);
         actionBasedOnStatusCode(serverResponseStatus, data);
     } else {
-        setErrorAttributesToFields(validationFieldsList, returnAllFields);
+        setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
 })
 

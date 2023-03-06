@@ -76,7 +76,7 @@ document.getElementById("request_sender").addEventListener("click", async () => 
         const serverResponseStatus = await sendAddUserRequest(host + "/clients/client/", data);
         actionBasedOnStatusCode(serverResponseStatus, data);
     } else {
-        setErrorAttributesToFields(validationFieldsList);
+        setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
 });
 
