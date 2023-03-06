@@ -1,5 +1,3 @@
-import {returnAllFields} from "./utils_clients.js";
-
 const nameSurnMaxLength = 35;
 const countryMaxLength = 35;
 const addressMaxLength = 40;
@@ -90,9 +88,8 @@ export function validateCity(cityToValidate) {
     return isCityValid;
 }
 
-export function setErrorAttributesToFields(errorsObject) {
+export function setErrorAttributesToFields(errorsObject, fields) {
     let fieldIndex = 0;
-    let fields = returnAllFields();
     for (let error in errorsObject) {
         if (errorsObject[error]) {
             fields[fieldIndex].setAttribute("error", "true");
