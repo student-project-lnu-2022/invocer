@@ -925,6 +925,10 @@ md-fab-extended {
     width: 90%;
 }
 
+.client_list_item:hover{
+    cursor: pointer;
+}
+
 .list_item_user_icon_initials {
     background-color: #c1cff5;
     border-radius: 50%;

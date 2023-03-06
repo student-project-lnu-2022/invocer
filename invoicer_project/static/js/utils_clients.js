@@ -24,3 +24,27 @@ export function hideUnnecessaryElementsInMenu() {
         child.style.display = 'none';
     });
 }
+
+
+export async function fillFieldsWithClientsData() {
+    let responseFromServer = await getClientById(clientId);
+    document.getElementById("name_input_client_edit_page").value = responseFromServer["first_name"];
+    document.getElementById("surname_input_client_edit_page").value = responseFromServer["last_name"];
+    document.getElementById("email_input_client_edit_page").value = responseFromServer["email"];
+    document.getElementById("telephone_input_client_edit_page").value = responseFromServer["phone_number"];
+    document.getElementById("zip_input_client_edit_page").value = responseFromServer["zip_code"];
+    document.getElementById("country_input_client_edit_page").value = responseFromServer["country"];
+    document.getElementById("city_input_client_edit_page").value = responseFromServer["city"];
+    document.getElementById("address_input_client_edit_page").value = responseFromServer["address"];
+}
+
+function getClientById(clientId) {
+    return fetch(host + '/clients/client/' + clientId, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+        },
+    })
+        .then(response => response.json())
+        .catch(error => console.error(error));
+}

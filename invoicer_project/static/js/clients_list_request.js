@@ -30,18 +30,18 @@ function createClientListContent(data) {
         let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
         let clientID = data[i]['id'];
 
-        document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-between">
-                <div class="col-xxl-1 col-xl-1 col-1 list_item_user_icon_initials">
-                    <p class="list_item_user_icon_initials_text">${clientInitials}</p>
+        document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item clickable_item align-items-center justify-content-between" data-client-id="${clientID}">
+                <div class="col-xxl-1 col-xl-1 col-1 clickable_item list_item_user_icon_initials">
+                    <p class="list_item_user_icon_initials_text" data-client-id="${clientID}">${clientInitials}</p>
                 </div>
-                <div class="col-xxl-3 col-xl-3 col-md-3 col-sm-4 col-5 list_item_user_name">
-                    <p class="list_client_username">${fullName}</p>
+                <div class="col-xxl-3 col-xl-3 col-md-3 col-sm-4 col-5 clickable_item list_item_user_name">
+                    <p class="list_client_username"  data-client-id="${clientID}" >${fullName}</p>
                 </div>
-                <div class="col-xxl-4 col-xl-3 col-md-2 col-1 list_item_empty_block"></div>
-                <div class="col-xxl-2 col-xl-2 col-md-3 col-sm-3 col-5 list_item_user_debt">
-                    <p class="list_item_user_debt_text">0$</p>
+                <div class="col-xxl-4 col-xl-3 col-md-2 col-1 clickable_item list_item_empty_block"  data-client-id="${clientID}"></div>
+                <div class="col-xxl-2 col-xl-2 col-md-3 col-sm-3 col-5 clickable_item list_item_user_debt">
+                    <p class="list_item_user_debt_text" data-client-id="${clientID}">0$</p>
                 </div>
-                <div class="col-xxl-2 col-xl-3 col-md-3 col-sm-3 col-3 list_item_user_buttons">
+                <div class="col-xxl-2 col-xl-3 col-md-3 col-sm-3 col-3 list_item_user_buttons" data-client-id="${clientID}">
                     <!--TODO MD-FILLED-BUTTON HASN'T BEEN PUBLISHED YET-->
                     <span class="material-symbols-outlined client-info edit-client" data-client-id="${clientID}" style="font-size:28px;">edit</span>
                     <span class="material-symbols-outlined client-info delete-client" data-client-id="${clientID}" style="font-size:28px;">delete</span>

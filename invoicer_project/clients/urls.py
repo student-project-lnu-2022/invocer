@@ -14,4 +14,5 @@ urlpatterns = [
     path("client/", clients_methods),
     path("add/", TemplateView.as_view(template_name="clients/client_add.html")),
     path("edit/<int:client_id>", TemplateView.as_view(template_name="clients/client_edit.html")),
+    path("view/<int:client_id>", TemplateView.as_view(template_name="clients/client_view.html")),
 ]

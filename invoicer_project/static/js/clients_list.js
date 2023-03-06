@@ -1,3 +1,5 @@
+import {host} from "./utils_clients.js";
+
 document.getElementById("search_bar").addEventListener('keyup', () => {
     let inputFromSearchbar = document.getElementById('search_bar').value;
     inputFromSearchbar = inputFromSearchbar.toLowerCase();
@@ -12,3 +14,17 @@ document.getElementById("search_bar").addEventListener('keyup', () => {
         }
     }
 });
+
+addDivClientListener();
+
+function addDivClientListener() {
+    const clientsList = document.querySelector('#other_elements');
+    clientsList.addEventListener('click', async (event) => {
+        const clickedElement = event.target;
+        console.log("Element clicked"+clickedElement);
+        if (clickedElement.classList.contains('clickable_item') || clickedElement.parentNode.classList.contains('clickable_item')) {
+            const clientId = clickedElement.dataset.clientId;
+            window.location.href = host + "/clients/view/" + clientId;
+        }
+    });
+}
