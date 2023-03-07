@@ -111,6 +111,10 @@ a {
 /*Add item and edit item page Nadia and Vitalik*/
 /*Menu*/
 
+.close_btn:hover{
+    cursor: pointer;
+}
+
 .nav-pills > li > a {
     border-radius: 0;
 }
