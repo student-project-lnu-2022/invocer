@@ -24,13 +24,9 @@ export function validateNameAndSurnameAsStrings(strToValidate) {
         strValidationResult = "No whitespaces";
     } else if (strToValidate.length > nameSurnMaxLength) {
         strValidationResult = `Max length – ${nameSurnMaxLength} chars`;
-    } else if (!(/^[a-z]+$/i.test(strToValidate))) {
-        strValidationResult = "Only latin letters";
-    } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
+    } else if (!(/^[A-ZА-Я\u00E0-\u00F6]/.test(strToValidate.charAt(0)))) {
         strValidationResult = "Has to begin with capital";
-    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) {
-        strValidationResult = "No more than one capital"
-    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) {
+    } else if (!/[a-zа-я\u00E0-\u00FF]/.test(strToValidate)) {
         strValidationResult = "At least one lowercase";
     } else {
         strValidationResult = '';
@@ -44,8 +40,8 @@ export function validateAddress(addressToValidate) {
         isAddressValid = "This field can't be empty";
     } else if (addressToValidate.length > addressMaxLength) {
         isAddressValid = `Max length – ${addressMaxLength} chars`;
-    } else if (!/^[#./0-9a-zA-Z\s,-]+$/.test(addressToValidate)) {
-        isAddressValid = "A-Z, a-z, 0-9 only";
+    } else if (!/^[#./0-9a-zA-ZА-Яа-я\u0400-\u04FF\s,-]+$/.test(addressToValidate)) {
+        isAddressValid = "Special characters aren't allowed";
     } else {
         isAddressValid = '';
     }
@@ -56,11 +52,7 @@ export function validateCountry(countryToValidate) {
     let isCountryValid;
     if (countryToValidate === '') {
         isCountryValid = "This field can't be empty";
-    } else if (countryToValidate.includes(' ')) {
-        isCountryValid = "No whitespaces";
-    } else if (!(/^[a-z]+$/i.test(countryToValidate))) {
-        isCountryValid = "Only latin letters";
-    } else if (!(/[A-Z]/.test(countryToValidate.charAt(0)))) {
+    } else if (!(/^[A-ZА-Я\u00E0-\u00F6]/.test(countryToValidate.charAt(0)))) {
         isCountryValid = "Has to begin with capital";
     } else if (countryToValidate.length > countryMaxLength) {
         isCountryValid = `Max length – ${countryMaxLength} chars`;
@@ -74,12 +66,8 @@ export function validateCity(cityToValidate) {
     let isCityValid;
     if (cityToValidate === '') {
         isCityValid = "This field can't be empty";
-    } else if (!(/^[a-z]+$/i.test(cityToValidate))) {
-        isCityValid = "Only latin letters";
-    } else if (!(/[A-Z]/.test(cityToValidate.charAt(0)))) {
+    } else if (!(/^[A-ZА-Я\u00E0-\u00F6]/.test(cityToValidate.charAt(0)))) {
         isCityValid = "Has to begin with capital";
-    } else if (cityToValidate.includes(' ')) {
-        isCityValid = "No whitespaces";
     } else if (cityToValidate.length > countryMaxLength) {
         isCityValid = `Max length – ${countryMaxLength} chars`;
     } else {
@@ -100,12 +88,12 @@ export function setErrorAttributesToFields(errorsObject, fields) {
 }
 
 export function clearErrorAttributes(returnAllFieldsList) {
-        for (let field of returnAllFieldsList) {
-            field.addEventListener('input', () => {
-                field.removeAttribute("error");
-                field.removeAttribute("errorText");
-            })
-        }
+    for (let field of returnAllFieldsList) {
+        field.addEventListener('input', () => {
+            field.removeAttribute("error");
+            field.removeAttribute("errorText");
+        })
+    }
 }
 
 export function setMaxFieldContainerHeights(returnAllFieldsList) {
