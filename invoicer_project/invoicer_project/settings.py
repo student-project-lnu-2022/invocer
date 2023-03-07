@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'user',
     'clients',
 ]
@@ -119,8 +120,8 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/img/'
 
 STATICFILES_DIRS = [
-     BASE_DIR / 'static'
- ]
+    BASE_DIR / 'static'
+]
 
 MEDIA_ROOT = BASE_DIR / 'static/img'
 
