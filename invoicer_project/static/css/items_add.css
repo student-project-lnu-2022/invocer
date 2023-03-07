@@ -162,6 +162,11 @@ md-fab-extended {
 }
 
 
-.additional_unit_field, .amount_additional_unit_field, .hidden {
+.hidden {
   display: none;
+}
+
+.table_header {
+  padding: 5px;
+  border-top: 1px solid rgba(0, 68, 255, 0.11);
 }
