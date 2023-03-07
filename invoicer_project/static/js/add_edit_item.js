@@ -63,7 +63,7 @@ for (let i = 0; i < maxNumOfUnits; i++) {
     amountAdditionalUnitField[i].addEventListener('input', () => {
         const inputRowVal = document.querySelector(`#AU${i + 1}_val`);
         data = isFieldEmpty(inputBasicUnit, "Basic unit", "");
-        setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + data);
+        setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + " " + data);
     });
     additionalUnits[i].addEventListener('input', ()=> {
         let data1 = document.querySelector(`#AU${i + 1}`).value;
