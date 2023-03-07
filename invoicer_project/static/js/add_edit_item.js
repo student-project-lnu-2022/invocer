@@ -22,7 +22,6 @@ document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
             dropdownInput.setAttribute("value", this.dataset.value);
             input_currency_table();
             input_basic_unit_table();
-            input_additionalUnit();
             dropdownArrow.classList.add("arrow-up");
             dropdownArrow.classList.remove("arrow-up-active");
             dropdownList.classList.remove('dropdown__list_visible');
@@ -66,25 +65,27 @@ for (let i = 0; i < maxNumOfUnits; i++) {
         data = isFieldEmpty(inputBasicUnit, "Basic unit", "");
         setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + data);
     });
-}
-
-function input_additionalUnit() {
-    for (let i = 0; i < maxNumOfUnits; i++) {
+    additionalUnits[i].addEventListener('input', ()=> {
         let data1 = document.querySelector(`#AU${i + 1}`).value;
-        if (data1 !== "") {
-            setTextToTable(document.querySelector(`#Aditional_unit_${i + 1}`), data1);
-        }
-    }
-};
+        setTextToTable(document.querySelector(`#Aditional_unit_${i + 1}`), data1);
+});
+}
 
 function addLabels() {
     if (numOfRows >= maxNumOfUnits) {
         alert(`You can't add more than ${maxNumOfUnits} additional units!`);
         return;
     }
-    additionalUnitCell[numOfRows].classList.remove("hidden");
-    additionalUnits[numOfRows].parentNode.classList.remove("d-none");
-    additionalUnits[numOfRows].parentNode.classList.add("d-flex");
+    let index = 0;
+    for (let i = 0; i <= numOfRows; i++) {
+        if (additionalUnitCell[i].classList.contains("hidden")) {
+            index = i;
+            break;
+        }
+    }
+    additionalUnitCell[index].classList.remove("hidden");
+    additionalUnits[index].parentNode.classList.remove("d-none");
+    additionalUnits[index].parentNode.classList.add("d-flex");
     ++numOfRows;
 }
 
@@ -92,6 +93,10 @@ function removeLabels(index) {
     additionalUnitCell[index].classList.add("hidden");
     additionalUnits[index].parentNode.classList.add("d-none");
     additionalUnits[index].parentNode.classList.remove("d-flex");
+    removeTextFromTable(document.querySelector(`#Aditional_unit_${index + 1}`), `Aditional unit ${index + 1}`);
+    removeTextFromTable(document.querySelector(`#AU${index + 1}_val`), "");
+    additionalUnits[index].value = "";
+    amountAdditionalUnitField[index].value = "";
     --numOfRows;
 }
 
@@ -107,6 +112,10 @@ function setTextToTable(inputElement, inputData) {
     inputElement.innerHTML = inputElement.getAttribute('data-text');
 }
 
+function removeTextFromTable(inputElement, data) {
+    inputElement.removeAttribute('data-text');
+    inputElement.innerHTML = data;
+}
 
 function isFieldEmpty(input_field, fieldLabel, resultValue) {
     let data = input_field.value;

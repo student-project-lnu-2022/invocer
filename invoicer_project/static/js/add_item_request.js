@@ -8,24 +8,13 @@ const amountInStockField = document.getElementById("amount_in_stock");
 const barcodeField = document.getElementById("barcode");
 const currencyField = document.getElementById("currency").parentElement;
 const basicUnitField = document.getElementById("basic_unit").parentElement;
-let additionalFieldsContainer;
-let amountAdditionalFieldsContainer;
+let additionalFieldsContainer = document.querySelectorAll('.additional_unit_field');
+let amountAdditionalFieldsContainer = document.querySelectorAll('.amount_additional_unit_field');
 
-function validateAdditionalUnits() {
-    additionalFieldsContainer = document.querySelectorAll('.additional_unit_field');
+function validateAdditionalUnits(container, regex) {
     let strValidationResult = [];
-    for (let i =0; i< num_of_rows; i++) {
-        let res = validationDropdown(`AU${i+1}`);
-        strValidationResult.push(res);
-    }
-    return strValidationResult;
-}
-
-function validateAdditionalUnitsAmount() {
-    amountAdditionalFieldsContainer = document.querySelectorAll('.amount_additional_unit_field');
-    let strValidationResult = [];
-    for (let field of amountAdditionalFieldsContainer) {
-        let res = validation(field.value, /^[0-9]+$/);
+    for (let field of container) {
+        let res = validation(field.value, regex);
         strValidationResult.push(res);
     }
     return strValidationResult;
@@ -126,8 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById("btn").addEventListener("click", async () => {
-    const validationFieldAdditionalUnits = validateAdditionalUnits();
-    const validationFieldAdditionalUnitsAmount = validateAdditionalUnitsAmount();
+    const validationFieldAdditionalUnits = validateAdditionalUnits(additionalFieldsContainer, /^[A-Za-z\s]+$/);
+    const validationFieldAdditionalUnitsAmount = validateAdditionalUnits(amountAdditionalFieldsContainer, /^[0-9]+$/);
     const validationFieldsList = validateClientAdd();
     if (allAreFalse(validationFieldAdditionalUnitsAmount)) {
     } else {
