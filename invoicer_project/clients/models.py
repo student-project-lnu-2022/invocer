@@ -14,7 +14,7 @@ zip_code_regex = RegexValidator(
 )
 
 string_validation = RegexValidator(regex=r'^[A-Za-z\u0080-\u024F\u0400-\u04FF’ʼ′\-\.\| |]+')
-own_names_validation = RegexValidator(regex=r'^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |\'|\'|’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$')
+own_names_validation = RegexValidator(regex=r'^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$')
 
 
 class ClientManager(models.Manager):
