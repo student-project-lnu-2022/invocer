@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Item
-from .itemserializer import ItemSerializer
+from .models import AdditionalUnit, Item
+from .itemserializer import AdditionalUnitSerializer, ItemSerializer
 from django.http import JsonResponse
 from clients.views import get_user_from_jwt
 from rest_framework.permissions import IsAuthenticated
@@ -35,4 +35,18 @@ class ItemViewSet(viewsets.ViewSet):
         item = get_object_or_404(Item, id=item_id, user_id=user['user_id'])
         item.delete()
         return JsonResponse({}, status=204)
-        
+
+class UnitViewSet(viewsets.ViewSet):
+    model = AdditionalUnit
+    queryset = AdditionalUnit.objects.all()
+    serializer_class = AdditionalUnitSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request):
+        data = JSONParser().parse(request)
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=200)
+        return JsonResponse(serializer.errors, status=400)
+

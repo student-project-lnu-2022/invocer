@@ -9,13 +9,13 @@ string_validation = RegexValidator(
 price_validation = RegexValidator(
     regex=r'^\d+([., ]?(\d){1,2}?)?$',
     message="Price has to be entered in the format: '25.55'."
-    )
+)
 currency_validation = RegexValidator(
     regex=r'^[A-Z]+$',
     message="Currency has to be entered in the format: 'UAH'."
 )
-basic_unit_validation = RegexValidator(
-    regex=r'^[a-zA-Z]*$',
+unit_validation = RegexValidator(
+    regex=r'^[a-zA-Z]+$',
     message="Basic unit has to be entered in the format: 'kg'."
 )
 barcode_validation = RegexValidator(
@@ -28,7 +28,15 @@ class Item(models.Model):
     name = models.CharField(max_length=35, validators=[string_validation])
     price = models.FloatField(validators=[price_validation])
     currency = models.CharField(max_length=7, validators=[currency_validation])
-    basic_unit = models.CharField(max_length=10, validators=[basic_unit_validation])
+    basic_unit = models.CharField(max_length=10, validators=[unit_validation])
     amount_in_stock = models.IntegerField()
     barcode = models.CharField(max_length=7, validators=[barcode_validation])
     
+class AdditionalUnit(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='additional_units')
+    additional_unit = models.CharField(max_length=35, validators=[unit_validation])
+    conversion_factor = models.PositiveIntegerField()
+
+    @property
+    def basic(self):
+        return self.item.basic_unit
