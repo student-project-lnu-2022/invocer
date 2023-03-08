@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+
 from .userserializers import UserSerializer
 from rest_framework.decorators import action
 from django.contrib.auth.models import auth
@@ -8,9 +9,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 import jwt
 from django.conf import settings
 from jwt import ExpiredSignatureError
-from rest_framework_simplejwt.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.exceptions import AuthenticationFailed, InvalidToken, TokenError
 from rest_framework import viewsets
-import io
 from rest_framework.parsers import JSONParser
 
 
@@ -65,6 +65,19 @@ class LoginViewSet(viewsets.ViewSet):
             return JsonResponse({'refresh': str(refresh), 'access': str(refresh.access_token)}, status=200)
         return JsonResponse({"message": "Invalid credentials"}, status=400)
 
+    @action(detail=False, methods=['post'])
+    def logout(self, request):
+        current_refresh_token = request.headers['Refresh-Token'].split()[1]
+        if not current_refresh_token:
+            return JsonResponse({'error': 'refresh_token field is required.'}, status=404)
+        try:
+            refresh_token_object = RefreshToken(current_refresh_token)
+            refresh_token_object.blacklist()
+        except (InvalidToken, TokenError) as e:
+            return JsonResponse({'error': 'Invalid token.'}, status=400)
+
+        return JsonResponse({'success': 'User logged out successfully.'}, status=200)
+
 
 class RefreshViewSet(viewsets.ViewSet):
     @action(detail=False, methods=['post'])
@@ -86,3 +99,8 @@ class RefreshViewSet(viewsets.ViewSet):
             my_user = decoded["user_refr"]
             refresh = RefreshToken.for_user(my_user)
             return JsonResponse({'access': str(refresh.access_token)}, status=200)
+
+def get_user_from_jwt(headers):
+    token = headers['Authorization'].split()[1]
+    current_user = decode_jwt_token(token)
+    return current_user['user_refr'].to_dict()

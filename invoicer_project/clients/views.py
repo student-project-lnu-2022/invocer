@@ -1,12 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from rest_framework.decorators import api_view, action
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from user.views import decode_jwt_token
-from user.models import User
 from django.http import JsonResponse
-from rest_framework.decorators import api_view
-
 from .models import Client
 from .clientserializer import ClientSerializer
 from copy import deepcopy
@@ -36,14 +32,37 @@ class ClientViewSet(viewsets.ViewSet):
         data = {'content': clients_json.data}
         return JsonResponse(data, status=200, safe=False)
 
-    def destroy(self, request, client_id):
-        client = get_object_or_404(Client, id=client_id)
-        client.delete()
+    def destroy(self, request):
+        user = get_user_from_jwt(request.headers)
+        client_ids = request.data['clientIds']
+        clients = Client.objects.filter(id__in=client_ids, user_id=user['user_id'])
+        clients.delete()
+
         return JsonResponse({}, status=204)
+
+    def partial_update(self, request, client_id):
+        try:
+            user = get_user_from_jwt(request.headers)
+            client = self.queryset.get(id=client_id, user_id=user['user_id'])
+        except Client.DoesNotExist:
+            return JsonResponse({'error': 'Client not found'}, status=404)
+        request.data['user'] = user['user_id']
+        serializer = ClientSerializer(client, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    def retrieve(self, request, client_id):
+        client = self.queryset.get(id=client_id)
+        if client is not None:
+            serializer = ClientSerializer(client)
+            return JsonResponse(serializer.data)
+        else:
+            return JsonResponse({'error': 'Client not found'}, status=404)
+
 
 def get_user_from_jwt(headers):
     token = headers['Authorization'].split()[1]
     current_user = decode_jwt_token(token)
     return current_user['user_refr'].to_dict()
-
-
