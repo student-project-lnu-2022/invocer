@@ -55,3 +55,45 @@ function fillInitials(userData) {
     const userLastName = userData["last_name"];
     document.getElementById("user_name").textContent = userFirstName + " " + userLastName;
 }
+
+
+export async function sendAddEditRequest(url, data, requestMethod) {
+    let status;
+    let headers = {
+        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json'
+    }
+    try {
+        const response = await fetch(url, {
+            headers: headers,
+            body: data,
+            method: requestMethod
+        });
+        status = response.status;
+        console.log(`Status code: ${status}`);
+
+    } catch (error) {
+        console.error(error);
+    }
+    return status;
+}
+
+export async function actionBasedOnStatusCode(statusCode, successStatusCode, data, returnAllFieldsList, successUrl, requestMethod, requestUrl) {
+    if (statusCode === successStatusCode) {
+        for (let field of returnAllFieldsList) {
+            field.value = '';
+        }
+        window.location.href = host + successUrl;
+    } else if (statusCode === 401) {
+        const obtainedNewTokens = await obtainNewAccessToken();
+        if (!obtainedNewTokens) {
+            window.location.href = host + '/user/login/';
+        } else {
+            const status = await sendAddEditRequest(host + requestUrl, data, requestMethod);
+            actionBasedOnStatusCode(status, successStatusCode, data, returnAllFieldsList, successUrl, requestMethod, requestUrl);
+        }
+    } else if (statusCode === 400) {
+    } else {
+        console.log(`Unknown error: status code = ${statusCode}`);
+    }
+}

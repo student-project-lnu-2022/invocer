@@ -1,6 +1,6 @@
 import { host, returnAllFields, hideUnnecessaryElementsInMenu, nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField} from './utils_clients.js'
 import { removeAllErrorAttributes, setErrorAttributesToFields, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse, validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings, validation,} from './validation_utils.js'
-import { obtainNewAccessToken, obtainUserInitials} from './request_utils.js'
+import { obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
 
 function validateClientAdd() {
     removeAllErrorAttributes(returnAllFields());
@@ -17,49 +17,6 @@ function validateClientAdd() {
     };
 }
 
-async function sendAddUserRequest(url, data) {
-    let status;
-    let headers = {
-        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
-        'Content-Type': 'application/json'
-    }
-    try {
-        const response = await fetch(url, {
-            headers: headers,
-            body: data,
-            method: "POST"
-        });
-        status = response.status;
-        console.log(`Status code: ${status}`);
-
-    } catch (error) {
-        console.error(error);
-    }
-    return status;
-}
-
-async function actionBasedOnStatusCode(statusCode, data) {
-    if (statusCode === 201) {
-        for (let field of returnAllFields()) {
-            field.value = '';
-        }
-        window.location.href = host + "/clients/home/";
-    } else if (statusCode === 401) {
-        const obtainedNewTokens = await obtainNewAccessToken();
-        if (!obtainedNewTokens) {
-            window.location.href = host + '/user/login/';
-        } else {
-            const status = await sendAddUserRequest(host + "/clients/client/", data);
-            actionBasedOnStatusCode(status, data);
-        }
-        console.log("Updating token");
-    } else if (statusCode === 400) {
-        console.log("Backend validation error: 400 status");
-    } else {
-        console.log(`Unknown error: status code = ${statusCode}`);
-    }
-}
-
 document.getElementById("request_sender").addEventListener("click", async () => {
     const validationFieldsList = validateClientAdd();
     if (allAreFalse(validationFieldsList)) {
@@ -73,8 +30,8 @@ document.getElementById("request_sender").addEventListener("click", async () => 
             city: cityField.value,
             address: addressField.value
         });
-        const serverResponseStatus = await sendAddUserRequest(host + "/clients/client/", data);
-        actionBasedOnStatusCode(serverResponseStatus, data);
+        const serverResponseStatus = await sendAddEditRequest(host + "/clients/client/", data, "POST");
+        actionBasedOnStatusCode(serverResponseStatus, 201, data, returnAllFields(), "/clients/home/", "POST", "/clients/client/");
     } else {
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
