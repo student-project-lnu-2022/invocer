@@ -57,53 +57,10 @@ export function fillInitials(userData) {
     document.getElementById("user_name").textContent = userFirstName + " " + userLastName;
 }
 
-
-export function clearErrorAttributes(returnAllFieldsList) {
-    if (returnAllFieldsList !== undefined) {
-        for (let field of returnAllFieldsList) {
-            if (field.classList.contains("dropdown_list"))
-            {
-                clearErrorToDropdown(field);
-            }
-            field.addEventListener('input', () => {
-                field.removeAttribute("error");
-                field.removeAttribute("errorText");
-            })
-        }
-    }
-}
-
 export function clearErrorToDropdown(field) {
     field.addEventListener('click', () => {
         field.querySelector(".dropdown__button").classList.remove("dropdown__button_error");
     });
-}
-
-
-export function setMaxFieldContainerHeights(returnAllFieldsList) {
-    if (typeof  returnAllFieldsList !== undefined) {
-    for (let field of returnAllFieldsList) {
-        field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
-    }
-}
-}
-
-export function removeAllErrorAttributes(returnAllFieldsList) {
-    if (typeof  returnAllFieldsList !== undefined) {
-    for (let item of returnAllFieldsList) {
-        item.removeAttribute("error");
-        item.removeAttribute("errorText");
-    }
-}
-}
-
-export function allAreFalse(object) {
-    for (let key in object) {
-        if (object[key]) {
-            return false;
-        }
-    }
-    return true;
 }
 
 export function search(fieldToSearch, item) {
@@ -155,4 +112,51 @@ export function validateName(strToValidate) {
         strValidationResult = '';
     }
     return strValidationResult;
+}
+
+
+export function setErrorAttributesToFields(errorsObject, fields) {
+    let fieldIndex = 0;
+    for (let error in errorsObject) {
+        if (errorsObject[error]) {
+            fields[fieldIndex].setAttribute("error", "true");
+            fields[fieldIndex].setAttribute("errorText", errorsObject[error]);
+        }
+        fieldIndex++;
+    }
+}
+
+export function clearErrorAttributes(returnAllFieldsList) {
+        for (let field of returnAllFieldsList) {
+            if (field.classList.contains("dropdown_list"))
+            {
+                clearErrorToDropdown(field);
+            }
+            field.addEventListener('input', () => {
+                field.removeAttribute("error");
+                field.removeAttribute("errorText");
+            })
+        }
+}
+
+export function setMaxFieldContainerHeights(returnAllFieldsList) {
+    for (let field of returnAllFieldsList) {
+        field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
+    }
+}
+
+export function removeAllErrorAttributes(returnAllFieldsList) {
+    for (let item of returnAllFieldsList) {
+        item.removeAttribute("error");
+        item.removeAttribute("errorText");
+    }
+}
+
+export function allAreFalse(object) {
+    for (let key in object) {
+        if (object[key]) {
+            return false;
+        }
+    }
+    return true;
 }
