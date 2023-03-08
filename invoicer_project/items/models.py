@@ -34,8 +34,8 @@ class Item(models.Model):
     
 class AdditionalUnit(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='additional_units')
-    additional_unit = models.CharField(max_length=35, validators=[unit_validation])
-    conversion_factor = models.PositiveIntegerField()
+    additional_unit_name = models.CharField(max_length=35, validators=[unit_validation])
+    quantity = models.PositiveIntegerField()
 
     @property
     def basic(self):

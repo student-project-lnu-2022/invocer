@@ -4,7 +4,7 @@ from .views import ItemViewSet, UnitViewSet
 
 items_list = ItemViewSet.as_view({"get": "list", "post": "create"})
 item_id_methods = ItemViewSet.as_view({'delete': 'destroy'})
-unit_set = UnitViewSet.as_view({"post": "create", "delete": "destroy"})
+unit_set = UnitViewSet.as_view({"post": "create"})
 
 urlpatterns = [
     path("list/", TemplateView.as_view(template_name="items/item_list.html"), name='items_render'),
