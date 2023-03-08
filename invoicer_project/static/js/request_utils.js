@@ -56,6 +56,22 @@ function fillInitials(userData) {
     document.getElementById("user_name").textContent = userFirstName + " " + userLastName;
 }
 
+export async function getUserData(url) {
+    let jsonResponse, response;
+    try {
+        const result = await fetch(host + url, {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+            },
+        });
+        response = result.status;
+        jsonResponse = await result.json();
+    } catch (error) {
+        console.error('Going to obtain new access token!');
+    }
+    return {'responseStatus': response, 'data': jsonResponse};
+}
 
 export async function sendAddEditRequest(url, data, requestMethod) {
     let status;

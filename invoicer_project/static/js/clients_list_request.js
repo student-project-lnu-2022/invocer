@@ -1,5 +1,5 @@
 const host = "http://127.0.0.1:8000";
-import {obtainUserInitials} from './request_utils.js';
+import {obtainUserInitials, obtainNewAccessToken} from './request_utils.js';
 
 async function getUserData() {
     let jsonResponse, response;
@@ -16,12 +16,6 @@ async function getUserData() {
         console.error('Going to obtain new access token!');
     }
     return {'responseStatus': response, 'data': jsonResponse};
-}
-
-function fillInitials(userData) {
-    const userFirstName = userData["first_name"];
-    const userLastName = userData["last_name"];
-    document.getElementById("user_name").textContent = userFirstName + " " + userLastName;
 }
 
 function createClientListContent(data) {
@@ -51,25 +45,8 @@ function createClientListContent(data) {
     }
 }
 
-async function obtainNewAccessToken() {
-    let response;
-    const data = {refresh: window.localStorage.getItem('refreshToken')};
-    try {
-        response = await fetch(host + '/user/refresh/', {
-            method: "POST",
-            body: JSON.stringify(data)
-        });
-        const newToken = await response.json();
-        const accessToken = newToken['access'];
-        window.localStorage.setItem('accessToken', accessToken);
-    } catch (error) {
-        console.error(error);
-    }
-    return response.status === 200;
-}
-
 async function addElementsDynamically() {
-    let responseFromServer = await getUserData();
+    let responseFromServer = await getUserData("/clients/client/");
     const response = responseFromServer["responseStatus"];
     if (response === 200) {
         createClientListContent(responseFromServer["data"]["content"]);
@@ -81,7 +58,7 @@ async function addElementsDynamically() {
         if (!successfulTokenObtaining) {
             window.location.replace(host + '/user/login/');
         } else {
-            responseFromServer = await getUserData();
+            responseFromServer = await getUserData("/clients/client/");
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners();
             addEditButtonListeners();
