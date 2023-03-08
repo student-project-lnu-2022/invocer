@@ -1,3 +1,5 @@
+import {nameField, priceField, amountInStockField, barcodeField} from './utils_items.js'
+
 document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
     const dropdownArrow = dropdownWrapper.querySelector(".arrow-up");
@@ -39,13 +41,8 @@ document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
 })
 
 
-const inputPrice = document.getElementById("price");
 const inputCurrency = document.getElementById("currency");
 const inputBasicUnit = document.getElementById("basic_unit");
-const inputAmountInStock = document.getElementById("amount_in_stock");
-const inputName = document.getElementById("name");
-const inputBarcode = document.getElementById("barcode");
-
 const inputPriceVal = document.getElementById("price_val");
 const inputCurrencyVal = document.getElementById("currency_val");
 const inputBasicUnitVal = document.getElementById("basic_unit_val");
@@ -60,12 +57,11 @@ let numOfRows = 0;
 const maxNumOfUnits = 5;
 
 for (let i = 0; i < maxNumOfUnits; i++) {
-    amountAdditionalUnitField[i].addEventListener('input', () => {
+    amountAdditionalUnitField[i].addEventListener("input", () => {
         const inputRowVal = document.querySelector(`#AU${i + 1}_val`);
-        data = isFieldEmpty(inputBasicUnit, "Basic unit", "");
-        setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + " " + data);
+        setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + " " + inputBasicUnit.value);
     });
-    additionalUnits[i].addEventListener('input', ()=> {
+    additionalUnits[i].addEventListener("input", ()=> {
         let data1 = document.querySelector(`#AU${i + 1}`).value;
         setTextToTable(document.querySelector(`#Aditional_unit_${i + 1}`), data1);
 });
@@ -125,7 +121,7 @@ function isFieldEmpty(input_field, fieldLabel, resultValue) {
     return data;
 }
 
-inputPrice.addEventListener('input', () => { setTextToTable(inputPriceVal, inputPrice.value) });
+priceField.addEventListener('input', () => { setTextToTable(inputPriceVal, priceField.value) });
 
 function input_currency_table() {
     let data = isFieldEmpty(inputCurrency, "Currency", "");
@@ -133,24 +129,24 @@ function input_currency_table() {
 }
 
 
-inputAmountInStock.addEventListener('input', () => {
+amountInStockField.addEventListener('input', () => {
     let data = isFieldEmpty(inputBasicUnit, "Basic unit", "");
-    setTextToTable(inputAmountInStockVal, inputAmountInStock.value + " " + data);
+    setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + data);
 });
 
-inputName.addEventListener('input', () => {
-    let data = isFieldEmpty(inputName, "", "Name of item");
+nameField.addEventListener('input', () => {
+    let data = isFieldEmpty(nameField, "", "Name of item");
     setTextToTable(inputNameVal, data);
 });
 
-inputBarcode.addEventListener('input', () => { setTextToTable(inputBarcodeVal, `Barcode: ${inputBarcode.value}`) });
+barcodeField.addEventListener('input', () => { setTextToTable(inputBarcodeVal, `Barcode: ${barcodeField.value}`) });
 
 
 function input_basic_unit_table() {
     let data1 = isFieldEmpty(inputBasicUnit, "Basic unit", "");
 
     setTextToTable(inputBasicUnitVal, data1);
-    setTextToTable(inputAmountInStockVal, inputAmountInStock.value + " " + data1);
+    setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + data1);
 
     if (numOfRows > 0) {
         let field, data;

@@ -1,31 +1,8 @@
-const barcodeMaxLength = 13;
-const amountMaxLength = 10;
-import { host, obtainNewAccessToken, obtainUserInitials, fillInitials, validateName, validation, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse } from './utils.js'
+import { host, returnAllFields, nameField, priceField, amountInStockField, barcodeField, currencyField, basicUnitField, additionalFieldsContainer, amountAdditionalFieldsContainer, setErrorAttributesToFields} from './utils_items.js'
+import {clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse, validateAdditionalUnits, validateName, validatePrice, validationDropdown, validateAmountInStock, validateBarcode} from './validation_utils.js'
+import { obtainNewAccessToken, obtainUserInitials} from './request_utils.js'
+import {hideUnnecessaryElementsInMenu} from './utils_clients.js'
 
-const nameField = document.getElementById("name");
-const priceField = document.getElementById("price");
-const amountInStockField = document.getElementById("amount_in_stock");
-const barcodeField = document.getElementById("barcode");
-const currencyField = document.getElementById("currency").parentElement;
-const basicUnitField = document.getElementById("basic_unit").parentElement;
-let additionalFieldsContainer = document.querySelectorAll('.additional_unit_field');
-let amountAdditionalFieldsContainer = document.querySelectorAll('.amount_additional_unit_field');
-
-function validateAdditionalUnits(container, regex) {
-    let strValidationResult = [];
-    for (let field of container) {
-        let res = validation(field.value, regex);
-        strValidationResult.push(res);
-    }
-    return strValidationResult;
-}
-
-const returnAllFields = function () {
-    return [
-        nameField, priceField, currencyField, basicUnitField,
-        amountInStockField, barcodeField,
-    ];
-}
 
 function validateClientAdd() {
     // setMaxFieldContainerHeights(returnAllFields());
@@ -45,74 +22,6 @@ function validateClientAdd() {
     ];
 }
 
-function validationDropdown(dropdownId) {
-    let isFieldValid;
-    let dropdownElement = document.querySelector('#' + dropdownId);
-    if (dropdownElement.value === "") {
-        isFieldValid = "This field can't be empty";
-    }
-    return isFieldValid;
-}
-
-function validatePrice(priceToValidate) {
-    let isPriceValid;
-    if (priceToValidate === '') {
-        isPriceValid = "This field can't be empty";
-    } else if (priceToValidate.includes(' ')) {
-        isPriceValid = "No whitespaces";
-    } else if (!(/^(\d*([.,](?=\d{3}))?\d+)+((?!\2)[.,]\d\d)?$/.test(priceToValidate))) {
-        isPriceValid = "Invalid format";
-    } else {
-        isPriceValid = '';
-    }
-    return isPriceValid;
-}
-
-function validateAmountInStock(amountToValidate) {
-    let isAmountValid;
-    if (amountToValidate === '') {
-        isAmountValid = "This field can't be empty";
-    } else if (amountToValidate.length > amountMaxLength) {
-        isAmountValid = `Max length – ${amountMaxLength} chars`;
-    } else if (!/^[0-9]+$/.test(amountToValidate)) {
-        isAmountValid = "Invalid format";
-    } else {
-        isAmountValid = '';
-    }
-    return isAmountValid;
-}
-
-function validateBarcode(barcodeToValidate) {
-    let isBarcodeValid;
-    if (barcodeToValidate === '') {
-        isBarcodeValid = "This field can't be empty";
-    } else if (barcodeToValidate.length !== barcodeMaxLength) {
-        isBarcodeValid = `Length must be – ${barcodeMaxLength} numbers`;
-    } else if (!/^[0-9]+$/.test(barcodeToValidate)) {
-        isBarcodeValid = "Invalid format";
-    } else {
-        isBarcodeValid = '';
-    }
-    return isBarcodeValid;
-}
-
-function setErrorAttributesToFields(fields, errorsObject) {
-    for (let i = 0; i < fields.length; i++) {
-        if (errorsObject[i]) {
-            if (fields[i].classList.contains("dropdown_list")) {
-                fields[i].querySelector(".dropdown__button").classList.add("dropdown__button_error");
-            }
-            fields[i].setAttribute("error", "true");
-            fields[i].setAttribute("errorText", errorsObject[i]);
-        }
-    }
-}
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    obtainUserInitials();
-    clearErrorAttributes(returnAllFields());
-});
 
 document.getElementById("btn").addEventListener("click", async () => {
     const validationFieldAdditionalUnits = validateAdditionalUnits(additionalFieldsContainer, /^[A-Za-z\s]+$/);
@@ -130,4 +39,11 @@ document.getElementById("btn").addEventListener("click", async () => {
     } else {
         setErrorAttributesToFields(returnAllFields(), validationFieldsList);
     }
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    obtainUserInitials();
+    clearErrorAttributes(returnAllFields());
+    hideUnnecessaryElementsInMenu();
 });
