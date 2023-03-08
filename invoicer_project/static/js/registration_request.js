@@ -3,7 +3,7 @@ const passwordMaxLength = 15;
 const nameSurnMaxLength = 35;
 const host = "http://127.0.0.1:8000";
 let csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-import {validateNameAndSurnameAsStrings} from './utils_clients.js';
+import {validateNameAndSurnameAsStrings} from "./validation_utils.js"
 
 const emailField = document.getElementById("email_input_rg_pg");
 const nameField = document.getElementById("name_input_rg_pg");

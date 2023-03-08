@@ -24,9 +24,9 @@ export function validateNameAndSurnameAsStrings(strToValidate) {
         strValidationResult = "No whitespaces";
     } else if (strToValidate.length > nameSurnMaxLength) {
         strValidationResult = `Max length – ${nameSurnMaxLength} chars`;
-    } else if (!(/^[A-ZА-Я\u00E0-\u00F6]/.test(strToValidate.charAt(0)))) {
+    } else if (!(/^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DE]/.test(strToValidate.charAt(0)))) {
         strValidationResult = "Has to begin with capital";
-    } else if (!/[a-zа-я\u00E0-\u00FF]/.test(strToValidate)) {
+    } else if (!/[a-zа-яїієґ\u00E0-\u00F6\u00F8-\u00FE]/.test(strToValidate)) {
         strValidationResult = "At least one lowercase";
     } else {
         strValidationResult = '';
@@ -40,7 +40,7 @@ export function validateAddress(addressToValidate) {
         isAddressValid = "This field can't be empty";
     } else if (addressToValidate.length > addressMaxLength) {
         isAddressValid = `Max length – ${addressMaxLength} chars`;
-    } else if (!/^[#./0-9a-zA-ZА-Яа-я\u0400-\u04FF\s,-]+$/.test(addressToValidate)) {
+    } else if (!/^[#./0-9a-zA-ZА-ЯЇІЄҐа-яїієґ\u0400-\u04FF\s,-]+$/.test(addressToValidate)) {
         isAddressValid = "Special characters aren't allowed";
     } else {
         isAddressValid = '';
@@ -52,7 +52,7 @@ export function validateCountry(countryToValidate) {
     let isCountryValid;
     if (countryToValidate === '') {
         isCountryValid = "This field can't be empty";
-    } else if (!(/^[A-ZА-Я\u00E0-\u00F6]/.test(countryToValidate.charAt(0)))) {
+    } else if (!(/^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DE]/.test(countryToValidate.charAt(0)))) {
         isCountryValid = "Has to begin with capital";
     } else if (countryToValidate.length > countryMaxLength) {
         isCountryValid = `Max length – ${countryMaxLength} chars`;
@@ -66,7 +66,7 @@ export function validateCity(cityToValidate) {
     let isCityValid;
     if (cityToValidate === '') {
         isCityValid = "This field can't be empty";
-    } else if (!(/^[A-ZА-Я\u00E0-\u00F6]/.test(cityToValidate.charAt(0)))) {
+    } else if (!(/^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DE]/.test(cityToValidate.charAt(0)))) {
         isCityValid = "Has to begin with capital";
     } else if (cityToValidate.length > countryMaxLength) {
         isCityValid = `Max length – ${countryMaxLength} chars`;
