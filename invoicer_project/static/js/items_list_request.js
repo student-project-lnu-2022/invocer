@@ -54,7 +54,13 @@ async function addElementsDynamically() {
 document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
     addElementsDynamically();
+    document.querySelector("#adder").label = "Add item";
 });
+
+document.querySelector('#adder').addEventListener('click', () => {
+    window.location.href = host + "/items/add";
+})
+
 
 function addDeleteButtonListeners() {
     const clientsList = document.querySelector('#items_container');

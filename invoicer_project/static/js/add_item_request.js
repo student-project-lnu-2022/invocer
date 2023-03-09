@@ -1,7 +1,16 @@
 import { host, returnAllFields, nameField, priceField, amountInStockField, barcodeField, currencyField, basicUnitField, additionalFieldsContainer, amountAdditionalFieldsContainer, setErrorAttributesToFields} from './utils_items.js'
 import {clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse, validateAdditionalUnits, validateName, validatePrice, validationDropdown, validateAmountInStock, validateBarcode} from './validation_utils.js'
-import { obtainNewAccessToken, obtainUserInitials} from './request_utils.js'
-import {hideUnnecessaryElementsInMenu} from './utils_clients.js'
+import {actionBasedOnStatusCode, obtainNewAccessToken, obtainUserInitials, sendAddEditRequest} from './request_utils.js'
+import {
+    addressField,
+    cityField,
+    countryField,
+    emailField,
+    hideUnnecessaryElementsInMenu,
+    surnameField,
+    telephoneField,
+    zipField
+} from './utils_clients.js'
 
 
 function validateClientAdd() {
@@ -23,7 +32,7 @@ function validateClientAdd() {
 }
 
 
-document.getElementById("btn").addEventListener("click", async () => {
+document.getElementById("add_item_button").addEventListener("click", async () => {
     const validationFieldAdditionalUnits = validateAdditionalUnits(additionalFieldsContainer, /^[A-Za-z\s]+$/);
     const validationFieldAdditionalUnitsAmount = validateAdditionalUnits(amountAdditionalFieldsContainer, /^[0-9]+$/);
     const validationFieldsList = validateClientAdd();
@@ -41,6 +50,27 @@ document.getElementById("btn").addEventListener("click", async () => {
     }
 });
 
+document.getElementById("add_item_button").addEventListener("click", async () => {
+    const validationFieldsList = validateClientAdd();
+    console.log(currencyField);
+    console.log(currencyField.value);
+    let currencyValue = document.getElementById("currency").value;
+    let basicUnitValue = document.getElementById("basic_unit").value
+    if (allAreFalse(validationFieldsList)) {
+        const data = JSON.stringify({
+            name: nameField.value,
+            price: parseFloat(priceField.value),
+            currency: currencyValue,
+            basic_unit: basicUnitValue,
+            amount_in_stock: parseInt(amountInStockField.value),
+            barcode: barcodeField.value,
+        });
+        const serverResponseStatus = await sendAddEditRequest(host + "/items/item/", data, "POST");
+        actionBasedOnStatusCode(serverResponseStatus, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/");
+    } else {
+        setErrorAttributesToFields(validationFieldsList, returnAllFields());
+    }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
     obtainUserInitials();

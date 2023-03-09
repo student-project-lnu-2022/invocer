@@ -23,7 +23,9 @@ class ItemViewSet(viewsets.ViewSet):
 
     def create(self, request):
         data = JSONParser().parse(request)
+        print(data)
         data["user"] = get_user_from_jwt(request.headers)['user_id']
+        print(type(data["price"]))
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()

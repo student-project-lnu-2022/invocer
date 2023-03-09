@@ -87,7 +87,7 @@ export function validateName(strToValidate) {
         strValidationResult = "No whitespaces";
     } else if (strToValidate.length > nameItemMaxLength) {
         strValidationResult = `Max length – ${nameItemMaxLength} chars`;
-    } else if (!(/^[a-z]+$/.test(strToValidate))) {
+    } else if (!(/^[A-Z][a-z]+$/.test(strToValidate))) {
         strValidationResult = "Only latin letters";
     } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
         strValidationResult = "Has to begin with capital";
