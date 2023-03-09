@@ -1,4 +1,5 @@
-import {nameField, priceField, amountInStockField, barcodeField} from './utils_items.js'
+import {nameField, priceField, amountInStockField, barcodeField, additionalFieldsContainer, amountAdditionalFieldsContainer} from './utils_items.js'
+import { removeAllErrorAttributes } from './validation_utils.js';
 
 document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
@@ -72,6 +73,8 @@ function addLabels() {
         alert(`You can't add more than ${maxNumOfUnits} additional units!`);
         return;
     }
+    removeAllErrorAttributes(additionalFieldsContainer);
+    removeAllErrorAttributes(amountAdditionalFieldsContainer);
     let index = 0;
     for (let i = 0; i <= numOfRows; i++) {
         if (additionalUnitCell[i].classList.contains("hidden")) {
