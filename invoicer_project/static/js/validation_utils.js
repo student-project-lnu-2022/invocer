@@ -1,7 +1,7 @@
 const nameSurnMaxLength = 35;
 const countryMaxLength = 35;
 const addressMaxLength = 40;
-const barcodeMaxLength = 13;
+const barcodeMaxLength = 7;
 const amountMaxLength = 10;
 const nameItemMaxLength = 35;
 

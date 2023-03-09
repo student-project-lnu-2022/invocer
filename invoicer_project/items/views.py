@@ -29,7 +29,7 @@ class ItemViewSet(viewsets.ViewSet):
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=200)
+            return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
     
     def destroy(self, request, item_id):
@@ -49,6 +49,6 @@ class UnitViewSet(viewsets.ViewSet):
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=200)
+            return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 

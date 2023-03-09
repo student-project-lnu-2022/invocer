@@ -980,3 +980,19 @@ body {
 .dropdown_logout:hover .sort_dropdown-content_logout {
     display: block;
 }
+
+
+.main_text {
+    color: #46464F;
+    font-size: 17px;
+    font-weight: 500;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.additional_text {
+    color: #888888;
+    font-size: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+}
