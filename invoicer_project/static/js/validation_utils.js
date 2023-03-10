@@ -125,7 +125,7 @@ export function validatePrice(priceToValidate) {
         isPriceValid = "This field can't be empty";
     } else if (priceToValidate.includes(' ')) {
         isPriceValid = "No whitespaces";
-    } else if (!(/^(\d*([.,](?=\d{3}))?\d+)+((?!\2)[.,]\d\d)?$/.test(priceToValidate))) {
+    } else if (!(/^\$?\d+(,\d{3})*(\.\d{1,2})?$/.test(priceToValidate))) {
         isPriceValid = "Invalid format";
     } else {
         isPriceValid = '';
