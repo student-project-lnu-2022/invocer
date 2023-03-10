@@ -55,8 +55,8 @@ function validateClientAdd() {
 
 
 document.getElementById("add_item_button").addEventListener("click", async () => {
-    const validationFieldAdditionalUnits = validateAdditionalUnits(additionalFieldsContainer, /^[A-Za-z\s]+$/);
-    const validationFieldAdditionalUnitsAmount = validateAdditionalUnits(amountAdditionalFieldsContainer, /^[0-9]+$/);
+    const validationFieldAdditionalUnits = validateAdditionalUnits(additionalFieldsContainer, /^[a-zа-яіїєґA-ZA-ЯІЇЄҐ]+$/);
+    const validationFieldAdditionalUnitsAmount = validateAdditionalUnits(amountAdditionalFieldsContainer, /^\d+([., ]?(\d){1,2}?)?$/);
     const validationFieldsList = validateClientAdd();
     if (allAreFalse(validationFieldAdditionalUnitsAmount)) {
     } else {

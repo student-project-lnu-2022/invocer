@@ -3,10 +3,10 @@ from django.core.validators import RegexValidator
 from user.models import User
 
 string_validation = RegexValidator(
-    regex=r'^[A-Z][a-z]+',
+    regex=r'^[A-ZA-ЯІЇЄҐ][a-zа-яіїєґ]+(?:\s[A-ZA-ЯІЇЄҐ][a-zа-яіїєґ]+)*$',
     message="Item name has to be entered in the format: 'Apple'."
 )
-price_validation = RegexValidator(
+float_number_validation = RegexValidator(
     regex=r'^\d+([., ]?(\d){1,2}?)?$',
     message="Price has to be entered in the format: '25.55'."
 )
@@ -15,11 +15,11 @@ currency_validation = RegexValidator(
     message="Currency has to be entered in the format: 'UAH'."
 )
 unit_validation = RegexValidator(
-    regex=r'^[a-zA-Z]+$',
+    regex=r'^[a-zа-яіїєґA-ZA-ЯІЇЄҐ]+$',
     message="Basic unit has to be entered in the format: 'kg'."
 )
 barcode_validation = RegexValidator(
-    regex=r'^[0-9]{9,20}$',
+    regex=r'^\d{3,43}$',
 
     message="Barcode has to be entered in the format: '12345678910'."
 )
@@ -27,16 +27,16 @@ barcode_validation = RegexValidator(
 class Item(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='items')
     name = models.CharField(max_length=35, validators=[string_validation])
-    price = models.IntegerField(validators=[price_validation])
+    price = models.FloatField(validators=[float_number_validation])
     currency = models.CharField(max_length=7, validators=[currency_validation])
     basic_unit = models.CharField(max_length=10, validators=[unit_validation])
-    amount_in_stock = models.IntegerField()
-    barcode = models.CharField(max_length=14, validators=[barcode_validation])
+    amount_in_stock = models.FloatField(validators=[float_number_validation])
+    barcode = models.CharField(max_length=43, validators=[barcode_validation])
     
 class AdditionalUnit(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='additional_units')
     additional_unit_name = models.CharField(max_length=35, validators=[unit_validation])
-    quantity = models.PositiveIntegerField()
+    quantity = models.FloatField(validators=[float_number_validation])
 
     @property
     def basic(self):

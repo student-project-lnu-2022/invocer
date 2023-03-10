@@ -1,7 +1,8 @@
 const nameSurnMaxLength = 35;
 const countryMaxLength = 35;
 const addressMaxLength = 40;
-const barcodeMaxLength = 13;
+const barcodeMinLength = 3;
+const barcodeMaxLength = 43;
 const amountMaxLength = 10;
 const nameItemMaxLength = 35;
 
@@ -83,17 +84,13 @@ export function validateName(strToValidate) {
     let strValidationResult;
     if (!strToValidate) {
         strValidationResult = "This field can't be empty";
-    } else if (strToValidate.includes(' ')) {
-        strValidationResult = "No whitespaces";
     } else if (strToValidate.length > nameItemMaxLength) {
         strValidationResult = `Max length – ${nameItemMaxLength} chars`;
-    } else if (!(/^[A-Z][a-z]+$/.test(strToValidate))) {
-        strValidationResult = "Only latin letters";
-    } else if (!(/[A-Z]/.test(strToValidate.charAt(0)))) {
+    } else if (!(/[A-ZA-ЯІЇЄҐ]/.test(strToValidate.charAt(0)))) {
         strValidationResult = "Has to begin with capital";
-    } else if (strToValidate.replace(/[^A-Z]/g, "").length > 1) {
+    } else if (strToValidate.replace(/[^A-ZA-ЯІЇЄҐ]/g, "").length > 1) {
         strValidationResult = "No more than one capital"
-    } else if (!/^[A-Z][a-z]+$/.test(strToValidate)) {
+    } else if (!/^[A-ZA-ЯІЇЄҐ][a-zа-яіїєґ]+$/.test(strToValidate)) {
         strValidationResult = "At least one lowercase";
     } else {
         strValidationResult = '';
@@ -139,7 +136,7 @@ export function validateAmountInStock(amountToValidate) {
         isAmountValid = "This field can't be empty";
     } else if (amountToValidate.length > amountMaxLength) {
         isAmountValid = `Max length – ${amountMaxLength} chars`;
-    } else if (!/^[0-9]+$/.test(amountToValidate)) {
+    } else if (!(/^\$?\d+(,\d{3})*(\.\d{1,2})?$/.test(amountToValidate))) {
         isAmountValid = "Invalid format";
     } else {
         isAmountValid = '';
@@ -151,8 +148,8 @@ export function validateBarcode(barcodeToValidate) {
     let isBarcodeValid;
     if (barcodeToValidate === '') {
         isBarcodeValid = "This field can't be empty";
-    } else if (barcodeToValidate.length !== barcodeMaxLength) {
-        isBarcodeValid = `Length must be – ${barcodeMaxLength} numbers`;
+    } else if (barcodeToValidate.length > barcodeMaxLength || barcodeToValidate.length < barcodeMinLength) {
+        isBarcodeValid = `Amount of digits must be in [${barcodeMinLength}, ${barcodeMaxLength}]`;
     } else if (!/^[0-9]+$/.test(barcodeToValidate)) {
         isBarcodeValid = "Invalid format";
     } else {
