@@ -175,10 +175,9 @@ export function clearErrorToDropdown(field) {
 
 export function clearErrorAttributes(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        if (field.classList.contains("dropdown_list"))
-            {
-                clearErrorToDropdown(field);
-            }
+        if (field.classList.contains("dropdown_list")) {
+            clearErrorToDropdown(field);
+        }
         field.addEventListener('input', () => {
             field.removeAttribute("error");
             field.removeAttribute("errorText");
@@ -188,7 +187,7 @@ export function clearErrorAttributes(returnAllFieldsList) {
 
 export function setMaxFieldContainerHeights(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
+        field.shadowRoot.querySelector('.text-field .field').shadowRoot.querySelector('.field .container-overflow').style.maxHeight = "56px";
     }
 }
 
