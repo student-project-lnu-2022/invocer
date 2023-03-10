@@ -93,7 +93,7 @@ document.getElementById("add_item_button").addEventListener("click", async () =>
             price: parseFloat(priceField.value),
             currency: currencyValue,
             basic_unit: basicUnitValue,
-            amount_in_stock: parseInt(amountInStockField.value),
+            amount_in_stock: parseFloat(amountInStockField.value),
             barcode: barcodeField.value,
         });
 
@@ -111,7 +111,7 @@ document.getElementById("add_item_button").addEventListener("click", async () =>
                     const additionalUnitData = JSON.stringify({
                         item: addItemWithAdditionalUnitsServerResponseStatus["id"],
                         additional_unit_name: additionalUnitName,
-                        quantity: parseInt(additionalUnitAmount),
+                        quantity: parseFloat(additionalUnitAmount),
                     });
                     const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/", additionalUnitData, "POST");
                     responseStatusAdditionalUnit.push(addAdditionalUnitServerResponseStatus);
