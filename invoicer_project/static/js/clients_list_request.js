@@ -36,9 +36,8 @@ function createClientListContent(data) {
                     <p class="list_item_user_debt_text" data-client-id="${clientID}">0$</p>
                 </div>
                 <div class="col-xxl-2 col-xl-3 col-md-3 col-sm-3 col-3 list_item_user_buttons" data-client-id="${clientID}">
-                    <!--TODO MD-FILLED-BUTTON HASN'T BEEN PUBLISHED YET-->
-                    <span class="material-symbols-outlined client-info edit-client" data-client-id="${clientID}" style="font-size:28px;">edit</span>
-                    <span class="material-symbols-outlined client-info delete-client" data-client-id="${clientID}" style="font-size:28px;">delete</span>
+                    <md-standard-icon-button class="client-info edit-client" data-client-id="${clientID}"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
+                   <md-standard-icon-button class="client-info delete-client" data-client-id="${clientID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                     <md-checkbox class="delete_clients_checkbox" id="list_item_user_delete" data-client-id="${clientID}"></md-checkbox>
                 </div>
             </div>`)
