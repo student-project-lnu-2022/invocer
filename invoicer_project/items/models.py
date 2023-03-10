@@ -19,8 +19,9 @@ unit_validation = RegexValidator(
     message="Basic unit has to be entered in the format: 'kg'."
 )
 barcode_validation = RegexValidator(
-    regex=r'^\d{7}$',
-    message="Barcode has to be entered in the format: '1234567'."
+    regex=r'^[0-9]{9,20}$',
+
+    message="Barcode has to be entered in the format: '12345678910'."
 )
 
 class Item(models.Model):

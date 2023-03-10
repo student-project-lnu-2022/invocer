@@ -1,5 +1,27 @@
-import { host, returnAllFields, nameField, priceField, amountInStockField, barcodeField, currencyField, basicUnitField, additionalFieldsContainer, amountAdditionalFieldsContainer, setErrorAttributesToFields} from './utils_items.js'
-import {clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse, validateAdditionalUnits, validateName, validatePrice, validationDropdown, validateAmountInStock, validateBarcode} from './validation_utils.js'
+import {
+    host,
+    returnAllFields,
+    nameField,
+    priceField,
+    amountInStockField,
+    barcodeField,
+    currencyField,
+    basicUnitField,
+    additionalFieldsContainer,
+    amountAdditionalFieldsContainer,
+    setErrorAttributesToFields
+} from './utils_items.js'
+import {
+    clearErrorAttributes,
+    setMaxFieldContainerHeights,
+    allAreFalse,
+    validateAdditionalUnits,
+    validateName,
+    validatePrice,
+    validationDropdown,
+    validateAmountInStock,
+    validateBarcode
+} from './validation_utils.js'
 import {actionBasedOnStatusCode, obtainNewAccessToken, obtainUserInitials, sendAddEditRequest} from './request_utils.js'
 import {
     addressField,
@@ -50,10 +72,19 @@ document.getElementById("add_item_button").addEventListener("click", async () =>
     }
 });
 
+function areAdditionalItemsSelected() {
+    const additionalUnits = document.querySelector("#column-2").querySelectorAll(".additional_unit");
+    for (let i = 0; i < additionalUnits.length; i++) {
+        if (additionalUnits[i].classList.contains('d-flex')) {
+            return true
+        }
+    }
+    return false;
+}
+
+
 document.getElementById("add_item_button").addEventListener("click", async () => {
     const validationFieldsList = validateClientAdd();
-    console.log(currencyField);
-    console.log(currencyField.value);
     let currencyValue = document.getElementById("currency").value;
     let basicUnitValue = document.getElementById("basic_unit").value
     if (allAreFalse(validationFieldsList)) {
@@ -65,8 +96,35 @@ document.getElementById("add_item_button").addEventListener("click", async () =>
             amount_in_stock: parseInt(amountInStockField.value),
             barcode: barcodeField.value,
         });
-        const serverResponseStatus = await sendAddEditRequest(host + "/items/item/", data, "POST");
-        actionBasedOnStatusCode(serverResponseStatus, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/");
+
+        if (!areAdditionalItemsSelected()) {
+            const addItemServerResponseStatus = await sendAddEditRequest(host + "/items/item/", data, "POST");
+            await actionBasedOnStatusCode(addItemServerResponseStatus, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/");
+        } else {
+            const addItemWithAdditionalUnitsServerResponseStatus = await sendAddItemRequest(host + "/items/item/", data, "POST");
+            const additionalUnits = document.querySelector("#column-2").querySelectorAll(".additional_unit");
+            let responseStatusAdditionalUnit = [];
+            for (let i = 0; i < additionalUnits.length; i++) {
+                if (additionalUnits[i].classList.contains('d-flex')) {
+                    let additionalUnitName = additionalUnits[i].querySelector(".additional_unit_field").value;
+                    let additionalUnitAmount = additionalUnits[i].querySelector(".amount_additional_unit_field").value;
+                    const additionalUnitData = JSON.stringify({
+                        item: addItemWithAdditionalUnitsServerResponseStatus["id"],
+                        additional_unit_name: additionalUnitName,
+                        quantity: parseInt(additionalUnitAmount),
+                    });
+                    const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/", additionalUnitData, "POST");
+                    responseStatusAdditionalUnit.push(addAdditionalUnitServerResponseStatus);
+                }
+            }
+            if (responseStatusAdditionalUnit.every((elem) => elem === 201)) {
+                await actionBasedOnStatusCode(201, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/")
+            } else if (responseStatusAdditionalUnit.some((elem) => elem === 401)) {
+                await actionBasedOnStatusCode(401, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/")
+            } else {
+                await actionBasedOnStatusCode(400, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/")
+            }
+        }
     } else {
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
@@ -77,3 +135,26 @@ document.addEventListener('DOMContentLoaded', () => {
     clearErrorAttributes(returnAllFields());
     hideUnnecessaryElementsInMenu();
 });
+
+async function sendAddItemRequest(url, data, requestMethod) {
+    let status;
+    let responseData;
+    let headers = {
+        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json'
+    }
+    try {
+        const response = await fetch(url, {
+            headers: headers,
+            body: data,
+            method: requestMethod
+        });
+        responseData = await response.json();
+        status = response.status;
+        console.log(`Status code: ${status}`);
+
+    } catch (error) {
+        console.error(error);
+    }
+    return responseData;
+}
