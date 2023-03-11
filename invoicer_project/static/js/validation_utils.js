@@ -88,7 +88,7 @@ export function validateName(strToValidate) {
         strValidationResult = `Max length – ${nameItemMaxLength} chars`;
     } else if (!(/[A-ZA-ЯІЇЄҐ]/.test(strToValidate.charAt(0)))) {
         strValidationResult = "Has to begin with capital";
-    } else if (!/^[A-ZA-ЯІЇЄҐ][a-zа-яіїєґ]+$/.test(strToValidate)) {
+    } else if (!/[a-zа-яїієґ]/.test(strToValidate)) {
         strValidationResult = "At least one lowercase";
     } else {
         strValidationResult = '';
