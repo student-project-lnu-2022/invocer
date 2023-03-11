@@ -151,7 +151,7 @@ function input_basic_unit_table() {
     setTextToTable(inputBasicUnitVal, data1);
     setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + data1);
 
-    if (numOfRows > 0) {
+    if (numOfRows <= 0) return;
         let field, data;
         for (let i = 0; i < numOfRows; i++) {
             field = document.getElementById(`AU${i + 1}_val`);
