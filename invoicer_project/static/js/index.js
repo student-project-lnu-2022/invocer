@@ -25,6 +25,7 @@ function initMenu() {
 
 window.addEventListener('DOMContentLoaded', function () {
     initMenu();
+    checkMenuItemBasedOnSection();
 });
 
 document.querySelector("#log_out_button").addEventListener("click", async () => {
@@ -50,3 +51,31 @@ document.querySelector("#log_out_button").addEventListener("click", async () => 
         console.error(error);
     }
 });
+
+function checkMenuItemBasedOnSection() {
+    const urlSection = new URL(window.location.href).pathname.split("/")[1];
+    const menuItems = document.querySelectorAll("#menu li");
+    menuItems.forEach((item) => {
+        item.classList.remove("active");
+    });
+    switch (urlSection) {
+        case "invoices":
+            menuItems[0].classList.add("active");
+            break;
+        case "clients":
+            menuItems[1].classList.add("active");
+            break;
+        case "items":
+            menuItems[2].classList.add("active");
+            break;
+        case "statistics":
+            menuItems[3].classList.add("active");
+            break;
+        case "settings":
+            menuItems[4].classList.add("active");
+            break;
+        default:
+            menuItems[1].classList.add("active");
+    }
+}
+

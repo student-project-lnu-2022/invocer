@@ -88,9 +88,7 @@ export function validateName(strToValidate) {
         strValidationResult = `Max length – ${nameItemMaxLength} chars`;
     } else if (!(/[A-ZA-ЯІЇЄҐ]/.test(strToValidate.charAt(0)))) {
         strValidationResult = "Has to begin with capital";
-    } else if (strToValidate.replace(/[^A-ZA-ЯІЇЄҐ]/g, "").length > 1) {
-        strValidationResult = "No more than one capital"
-    } else if (!/^[A-ZA-ЯІЇЄҐ][a-zа-яіїєґ]+$/.test(strToValidate)) {
+    } else if (!/[a-zа-яїієґ]/.test(strToValidate)) {
         strValidationResult = "At least one lowercase";
     } else {
         strValidationResult = '';
@@ -177,10 +175,9 @@ export function clearErrorToDropdown(field) {
 
 export function clearErrorAttributes(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        if (field.classList.contains("dropdown_list"))
-            {
-                clearErrorToDropdown(field);
-            }
+        if (field.classList.contains("dropdown_list")) {
+            clearErrorToDropdown(field);
+        }
         field.addEventListener('input', () => {
             field.removeAttribute("error");
             field.removeAttribute("errorText");
@@ -190,7 +187,7 @@ export function clearErrorAttributes(returnAllFieldsList) {
 
 export function setMaxFieldContainerHeights(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
+        field.shadowRoot.querySelector('.text-field .field').shadowRoot.querySelector('.field .container-overflow').style.maxHeight = "56px";
     }
 }
 

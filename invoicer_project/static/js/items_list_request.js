@@ -1,5 +1,5 @@
 const host = "http://127.0.0.1:8000";
-import { obtainUserInitials, obtainNewAccessToken, getUserData } from "./request_utils.js";
+import {obtainUserInitials, obtainNewAccessToken, getUserData} from "./request_utils.js";
 
 
 function createItemListContent(data) {
@@ -22,7 +22,8 @@ function createItemListContent(data) {
                                 <p class="main_text">kg</p>
                             </div>
                             <div class="list_item_user_buttons">
-                                <span class="material-symbols-outlined delete-item" data-item-id="${itemID}" style="font-size: 28px">delete</span>
+                                 <md-standard-icon-button class="edit-item" data-item-id="${itemID}"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
+                                <md-standard-icon-button class="delete-item" data-item-id="${itemID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                                 <md-checkbox id="list_item_user_delete"></md-checkbox>
                             </div>
                         </div>

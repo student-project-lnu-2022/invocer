@@ -3,7 +3,7 @@ const passwordMaxLength = 15;
 const nameSurnMaxLength = 35;
 const host = "http://127.0.0.1:8000";
 let csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-import {validateNameAndSurnameAsStrings} from "./validation_utils.js"
+import { validateNameAndSurnameAsStrings } from "./validation_utils.js"
 
 const emailField = document.getElementById("email_input_rg_pg");
 const nameField = document.getElementById("name_input_rg_pg");
@@ -13,17 +13,17 @@ const repeatPasswordField = document.getElementById("repeat_password_input_rg_pg
 
 const getFieldsList = function () {
     return [
-    nameField,
-    surnameField,
-    emailField,
-    passwordField,
-    repeatPasswordField
-];
+        nameField,
+        surnameField,
+        emailField,
+        passwordField,
+        repeatPasswordField
+    ];
 }
 
 function setMaxFieldContainerHeights() {
     for (let field of getFieldsList()) {
-        field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
+        field.shadowRoot.querySelector('.text-field .field').shadowRoot.querySelector('.field .container-overflow').style.maxHeight = "56px";
     }
 }
 
@@ -192,18 +192,18 @@ function showBackEndErrorsAtFrontEnd(status) {
 const obtainAndSaveTokens = async (url, dataToSend) => {
     let statusCode, jsonResponse;
     try {
-         const res = await fetch(url, {
-             method: 'POST',
-             body: dataToSend
-         })
+        const res = await fetch(url, {
+            method: 'POST',
+            body: dataToSend
+        })
         jsonResponse = await res.json();
         statusCode = res.status;
     } catch (error) {
         console.error(error);
     }
     if (statusCode === 200) {
-            window.localStorage.setItem('accessToken', jsonResponse['access']);
-            window.localStorage.setItem('refreshToken', jsonResponse['refresh']);
+        window.localStorage.setItem('accessToken', jsonResponse['access']);
+        window.localStorage.setItem('refreshToken', jsonResponse['refresh']);
     }
     return statusCode;
 }
@@ -245,4 +245,3 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         setErrorAttributesToFields(validationFieldsList);
     }
 });
-   
