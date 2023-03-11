@@ -36,9 +36,6 @@ import {
 
 
 function validateClientAdd() {
-    // setMaxFieldContainerHeights(returnAllFields());
-    // setMaxFieldContainerHeights(additionalFieldsContainer);
-    // setMaxFieldContainerHeights(amountAdditionalFieldsContainer);
     clearErrorAttributes(returnAllFields());
     clearErrorAttributes(additionalFieldsContainer);
     clearErrorAttributes(amountAdditionalFieldsContainer);
