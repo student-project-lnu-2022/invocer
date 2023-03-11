@@ -152,16 +152,15 @@ function input_basic_unit_table() {
     setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + data1);
 
     if (numOfRows <= 0) return;
-        let field, data;
-        for (let i = 0; i < numOfRows; i++) {
-            field = document.getElementById(`AU${i + 1}_val`);
-            data = field.getAttribute('data-text');
-            if (data === null) {
-                data = "";
-            } else {
-                data = data.split(" ")[0];
-            }
-            setTextToTable(field, data + " " + data1);
+    let field, data;
+    for (let i = 0; i < numOfRows; i++) {
+        field = document.getElementById(`AU${i + 1}_val`);
+        data = field.getAttribute('data-text');
+        if (data === null) {
+            data = "";
+        } else {
+            data = data.split(" ")[0];
         }
+        setTextToTable(field, data + " " + data1);
     }
 }
