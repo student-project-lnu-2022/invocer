@@ -1,4 +1,5 @@
 import {host} from "./utils_clients.js";
+import {obtainUserInitials, obtainNewAccessToken} from "./request_utils.js";
 
 document.querySelector("#menu-toggle").addEventListener("click", function (e) {
     e.preventDefault();
@@ -40,15 +41,28 @@ document.querySelector("#log_out_button").addEventListener("click", async () => 
             },
         });
 
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
+        if (response.ok) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            window.location.href = host + '/user/login';
+        } else if (response.status === 400) {
+            const obtainedNewTokens = await obtainNewAccessToken();
+            if (!obtainedNewTokens) {
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                window.location.href = host + '/user/login/';
+            } else {
+                await obtainUserInitials();
+            }
+            } else {
+                throw new Error(response.statusText);
+            }
 
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        window.location.href = host + '/user/login';
     } catch (error) {
         console.error(error);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        window.location.replace(host + '/user/login/');
     }
 });
 

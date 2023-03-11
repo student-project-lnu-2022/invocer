@@ -34,10 +34,9 @@ class ClientViewSet(viewsets.ViewSet):
 
     def destroy(self, request):
         user = get_user_from_jwt(request.headers)
-        client_ids = request.data['clientIds']
+        client_ids = request.data['elementsIds']
         clients = Client.objects.filter(id__in=client_ids, user_id=user['user_id'])
         clients.delete()
-
         return JsonResponse({}, status=204)
 
     def partial_update(self, request, client_id):

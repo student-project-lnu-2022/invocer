@@ -113,3 +113,88 @@ export async function actionBasedOnStatusCode(statusCode, successStatusCode, dat
         console.log(`Unknown error: status code = ${statusCode}`);
     }
 }
+
+
+export function addCheckboxesListener(elementsIdOrClass, deleteElementsIdOrClass, deleteElementsIdOrClassWithoutPoint, deleteManyElementsIdOrClass, url, dataId) {
+    let dataForServer;
+    const checkboxesContainer = document.querySelector(elementsIdOrClass);
+    checkboxesContainer.addEventListener('change', async (event) => {
+        const clickedElement = event.target;
+        if (clickedElement.classList.contains(deleteElementsIdOrClassWithoutPoint)) {
+            if (getCheckedBoxes(deleteElementsIdOrClass).length > 0) {
+                document.querySelector(deleteManyElementsIdOrClass).style.display = "flex";
+            } else {
+                document.querySelector(deleteManyElementsIdOrClass).style.display = "none";
+            }
+        }
+    });
+    document.querySelector(deleteManyElementsIdOrClass).addEventListener('click', async () => {
+        dataForServer = getCheckedBoxes(deleteElementsIdOrClass);
+        console.log(dataForServer);
+        console.log(url);
+        await sendRequestToDeleteElements(dataForServer, url);
+    })
+}
+
+export function getCheckedBoxes(classOfElem) {
+    let allCheckboxes = document.querySelectorAll(classOfElem);
+    let arrayOfCheckedBoxes = [];
+    for (let checkbox of allCheckboxes) {
+        if (checkbox.checked) {
+            arrayOfCheckedBoxes.push(parseInt(checkbox.dataset.elementId));
+        }
+    }
+    return arrayOfCheckedBoxes;
+}
+
+export async function sendRequestToDeleteElements(elementsIds, url) {
+    try {
+        const requestOptions = {
+            method: 'DELETE',
+            body: JSON.stringify({"elementsIds": elementsIds}),
+            headers: {
+                'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+                'Content-Type': 'application/json'
+            },
+        };
+        const response = await fetch(host + url, requestOptions);
+        if (response.ok) {
+            location.reload();
+        } else if (response.status === 401) {
+            window.location.replace(host + '/user/login/');
+        } else {
+            console.error('Error with deleting client:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error with deleting client:', error);
+    }
+}
+
+export function addDeleteButtonListeners(selectorName, url) {
+    const deleteButtons = document.querySelectorAll(selectorName);
+    deleteButtons.forEach(span => {
+        span.addEventListener('click', async () => {
+            try {
+                let elementIds = span.dataset.elementId;
+                const requestOptions = {
+                    method: 'DELETE',
+                    body: JSON.stringify({"elementsIds": [parseInt(elementIds)]}),
+                    headers: {
+                        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+                        'Content-Type': 'application/json'
+                    },
+                };
+                const response = await fetch(host + url, requestOptions);
+                if (response.ok) {
+                    location.reload();
+                } else if (response.status === 401) {
+                    window.location.replace(host + '/user/login/');
+                } else {
+                    console.error('Error with deleting client:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error with deleting client:', error);
+            }
+        });
+    });
+}

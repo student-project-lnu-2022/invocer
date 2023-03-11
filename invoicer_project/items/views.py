@@ -29,11 +29,12 @@ class ItemViewSet(viewsets.ViewSet):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-    
-    def destroy(self, request, item_id):
+
+    def destroy(self, request):
         user = get_user_from_jwt(request.headers)
-        item = get_object_or_404(Item, id=item_id, user_id=user['user_id'])
-        item.delete()
+        item_ids = request.data['elementsIds']
+        items = Item.objects.filter(id__in=item_ids, user_id=user['user_id'])
+        items.delete()
         return JsonResponse({}, status=204)
 
 class UnitViewSet(viewsets.ViewSet):
