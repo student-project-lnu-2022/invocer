@@ -37,8 +37,8 @@ async function addElementsDynamically() {
     const response = responseFromServer["responseStatus"];
     if (response === 200) {
         createItemListContent(responseFromServer["data"]["content"]);
-        addDeleteButtonListeners('.delete-item', `/items/item/`);
-        addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/item", 'itemId');
+        addDeleteButtonListeners('.delete-item', `/items/items_list/`);
+        addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list", 'itemId');
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -46,8 +46,8 @@ async function addElementsDynamically() {
         } else {
             responseFromServer = await getUserData('/items/items_list/');
             createItemListContent(responseFromServer["data"]["content"]);
-            addDeleteButtonListeners('.delete-item', `/items/item/`);
-            addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/item", 'itemId');
+            addDeleteButtonListeners('.delete-item', `/items/items_list/`);
+            addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list", 'itemId');
         }
     } else {
         window.location.replace(host + '/user/login/');

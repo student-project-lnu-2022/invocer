@@ -95,10 +95,10 @@ document.getElementById("add_item_button").addEventListener("click", async () =>
         });
 
         if (!areAdditionalItemsSelected()) {
-            const addItemServerResponseStatus = await sendAddEditRequest(host + "/items/item/", data, "POST");
-            await actionBasedOnStatusCode(addItemServerResponseStatus, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/");
+            const addItemServerResponseStatus = await sendAddEditRequest(host + "/items/items_list/", data, "POST");
+            await actionBasedOnStatusCode(addItemServerResponseStatus, 201, data, returnAllFields(), "/items/list/", "POST", "/items/items_list/");
         } else {
-            const addItemWithAdditionalUnitsServerResponseStatus = await sendAddItemRequest(host + "/items/item/", data, "POST");
+            const addItemWithAdditionalUnitsServerResponseStatus = await sendAddItemRequest(host + "/items/items_list/", data, "POST");
             const additionalUnits = document.querySelector("#column-2").querySelectorAll(".additional_unit");
             let responseStatusAdditionalUnit = [];
             for (let i = 0; i < additionalUnits.length; i++) {
@@ -115,11 +115,11 @@ document.getElementById("add_item_button").addEventListener("click", async () =>
                 }
             }
             if (responseStatusAdditionalUnit.every((elem) => elem === 201)) {
-                await actionBasedOnStatusCode(201, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/")
+                await actionBasedOnStatusCode(201, 201, data, returnAllFields(), "/items/list/", "POST", "/items/items_list/")
             } else if (responseStatusAdditionalUnit.some((elem) => elem === 401)) {
-                await actionBasedOnStatusCode(401, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/")
+                await actionBasedOnStatusCode(401, 201, data, returnAllFields(), "/items/list/", "POST", "/items/items_list/")
             } else {
-                await actionBasedOnStatusCode(400, 201, data, returnAllFields(), "/items/list/", "POST", "/items/item/")
+                await actionBasedOnStatusCode(400, 201, data, returnAllFields(), "/items/list/", "POST", "/items/items_list/")
             }
         }
     } else {
