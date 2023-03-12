@@ -56,7 +56,7 @@ function addEditButtonListeners() {
     clientsList.addEventListener('click', async (event) => {
         const clickedElement = event.target;
         if (clickedElement.classList.contains('edit-client')) {
-            const clientId = clickedElement.dataset.clientId;
+            const clientId = clickedElement.dataset.elementId;
             window.location.href = host + "/clients/edit/" + clientId;
         }
     });
