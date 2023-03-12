@@ -72,24 +72,8 @@ function checkMenuItemBasedOnSection() {
     menuItems.forEach((item) => {
         item.classList.remove("active");
     });
-    switch (urlSection) {
-        case "invoices":
-            menuItems[0].classList.add("active");
-            break;
-        case "clients":
-            menuItems[1].classList.add("active");
-            break;
-        case "items":
-            menuItems[2].classList.add("active");
-            break;
-        case "statistics":
-            menuItems[3].classList.add("active");
-            break;
-        case "settings":
-            menuItems[4].classList.add("active");
-            break;
-        default:
-            menuItems[1].classList.add("active");
-    }
+
+    const urlSections = ['invoices', 'clients', 'items', 'statistics', 'settings'];
+    menuItems[urlSections.indexOf(urlSection)].classList.add('active');
 }
 

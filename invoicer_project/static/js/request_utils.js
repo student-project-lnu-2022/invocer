@@ -1,4 +1,4 @@
-import { host } from './utils_clients.js'
+import {host} from './utils_clients.js'
 
 export async function obtainNewAccessToken() {
     let response;
@@ -21,7 +21,7 @@ export async function obtainUserInitials() {
     let responseCode;
     const token = window.localStorage.getItem('accessToken');
     if (token) {
-        const data = { "accessToken": token };
+        const data = {"accessToken": token};
         try {
             const serverReply = await fetch(host + '/user/decode/', {
                 method: "POST",
@@ -44,8 +44,7 @@ export async function obtainUserInitials() {
         } catch (error) {
             console.error(error);
         }
-    }
-    else {
+    } else {
         window.location.replace(host + '/user/login/');
     }
 }
@@ -135,13 +134,7 @@ export function addCheckboxesListener(elementsIdOrClass, deleteElementsIdOrClass
 
 export function getCheckedBoxes(classOfElem) {
     let allCheckboxes = document.querySelectorAll(classOfElem);
-    let arrayOfCheckedBoxes = [];
-    for (let checkbox of allCheckboxes) {
-        if (checkbox.checked) {
-            arrayOfCheckedBoxes.push(parseInt(checkbox.dataset.elementId));
-        }
-    }
-    return arrayOfCheckedBoxes;
+    return Array.from(allCheckboxes).filter(checkbox => checkbox.checked).map(checkbox => parseInt(checkbox.dataset.elementId));
 }
 
 export async function sendRequestToDeleteElements(elementsIds, url) {
