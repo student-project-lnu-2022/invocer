@@ -5,31 +5,27 @@ document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
     const dropdownArrow = dropdownWrapper.querySelector(".arrow-up");
     const dropdownList = dropdownWrapper.querySelector('.dropdown__list');
-    const dropdownItems = dropdownList.querySelectorAll('.dropdown__list-item');
     const dropdownInput = dropdownWrapper.querySelector('.dropdown__input_hidden');
     dropdownBtn.addEventListener('click', function () {
         dropdownArrow.classList.toggle("arrow-up");
         dropdownArrow.classList.toggle("arrow-up-active");
         dropdownList.classList.toggle('dropdown__list_visible');
         this.classList.toggle('dropdown__button_active');
-        this.parentElement.classList.toggle('border_dropdown');
     });
 
-    dropdownItems.forEach(function (listItem) {
-        listItem.addEventListener('click', function (e) {
-            dropdownItems.forEach(function (el) {
-                el.classList.remove('dropdown__list-item_active');
-            })
-            e.target.classList.add('dropdown__list-item_active');
-            dropdownBtn.innerText = this.innerText;
-            dropdownInput.setAttribute("value", this.dataset.value);
+    dropdownList.addEventListener('click', function (e) {
+        const target = e.target;
+        if(target.nodeName === 'LI') {
+            target.classList.add('dropdown__list-item_active');
+            dropdownBtn.innerText = target.innerText;
+            dropdownInput.setAttribute("value", target.dataset.value);
             input_currency_table();
             input_basic_unit_table();
             dropdownArrow.classList.add("arrow-up");
             dropdownArrow.classList.remove("arrow-up-active");
             dropdownList.classList.remove('dropdown__list_visible');
-        })
-    });
+        }
+        });
 
     document.addEventListener('click', function (e) {
         if (e.target !== dropdownBtn) {
@@ -146,10 +142,10 @@ barcodeField.addEventListener('input', () => { setTextToTable(inputBarcodeVal, `
 
 
 function input_basic_unit_table() {
-    let data1 = isFieldEmpty(inputBasicUnit, "Basic unit", "");
+    let basicUnitData = isFieldEmpty(inputBasicUnit, "Basic unit", "");
 
-    setTextToTable(inputBasicUnitVal, data1);
-    setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + data1);
+    setTextToTable(inputBasicUnitVal, basicUnitData);
+    setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + basicUnitData);
 
     if (numOfRows <= 0) return;
     let field, data;
@@ -161,6 +157,6 @@ function input_basic_unit_table() {
         } else {
             data = data.split(" ")[0];
         }
-        setTextToTable(field, data + " " + data1);
+        setTextToTable(field, data + " " + basicUnitData);
     }
 }
