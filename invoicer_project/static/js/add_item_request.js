@@ -123,7 +123,7 @@ document.getElementById("add_item_button").addEventListener("click", async () =>
             }
         }
     } else {
-        setErrorAttributesToFields(validationFieldsList, returnAllFields());
+        setErrorAttributesToFields(returnAllFields(), validationFieldsList);
     }
 });
 
