@@ -1,5 +1,8 @@
-import {nameField, priceField, amountInStockField, barcodeField, additionalFieldsContainer, amountAdditionalFieldsContainer} from './utils_items.js'
+import {nameField, priceField, amountInStockField, barcodeField, additionalFieldsContainer, amountAdditionalFieldsContainer,
+    maxNumOfUnits, additionalUnitCell, additionalUnits, amountAdditionalUnitField, inputBarcodeVal, inputNameVal, inputAmountInStockVal,
+    inputBasicUnitVal, inputCurrencyVal, inputPriceVal, inputBasicUnit, inputCurrency} from './utils_items.js'
 import { removeAllErrorAttributes } from './validation_utils.js';
+let numOfRows = 0;
 
 document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
@@ -37,21 +40,6 @@ document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     });
 })
 
-
-const inputCurrency = document.getElementById("currency");
-const inputBasicUnit = document.getElementById("basic_unit");
-const inputPriceVal = document.getElementById("price_val");
-const inputCurrencyVal = document.getElementById("currency_val");
-const inputBasicUnitVal = document.getElementById("basic_unit_val");
-const inputAmountInStockVal = document.getElementById("amount_in_stock_val");
-const inputNameVal = document.getElementById("name_val");
-const inputBarcodeVal = document.getElementById("barcode_val");
-const amountAdditionalUnitField = document.querySelectorAll(".amount_additional_unit_field");
-const additionalUnits = document.querySelectorAll(".additional_unit_field"); 
-const additionalUnitCell = document.querySelectorAll(".additional_unit_cell");
-
-let numOfRows = 0;
-const maxNumOfUnits = 5;
 
 for (let i = 0; i < maxNumOfUnits; i++) {
     amountAdditionalUnitField[i].addEventListener("input", () => {

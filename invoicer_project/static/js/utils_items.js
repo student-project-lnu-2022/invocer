@@ -8,6 +8,19 @@ export const basicUnitField = document.getElementById("basic_unit").parentElemen
 export const additionalFieldsContainer = document.querySelectorAll('.additional_unit_field');
 export const amountAdditionalFieldsContainer = document.querySelectorAll('.amount_additional_unit_field');
 
+export const inputCurrency = document.getElementById("currency");
+export const inputBasicUnit = document.getElementById("basic_unit");
+export const inputPriceVal = document.getElementById("price_val");
+export const inputCurrencyVal = document.getElementById("currency_val");
+export const inputBasicUnitVal = document.getElementById("basic_unit_val");
+export const inputAmountInStockVal = document.getElementById("amount_in_stock_val");
+export const inputNameVal = document.getElementById("name_val");
+export const inputBarcodeVal = document.getElementById("barcode_val");
+export const amountAdditionalUnitField = document.querySelectorAll(".amount_additional_unit_field");
+export const additionalUnits = document.querySelectorAll(".additional_unit_field");
+export const additionalUnitCell = document.querySelectorAll(".additional_unit_cell");
+
+export const maxNumOfUnits = 5;
 
 export const returnAllFields = function () {
     return [
