@@ -108,7 +108,6 @@ export async function actionBasedOnStatusCode(statusCode, successStatusCode, dat
             const status = await sendAddEditRequest(host + requestUrl, data, requestMethod);
             actionBasedOnStatusCode(status, successStatusCode, data, returnAllFieldsList, successUrl, requestMethod, requestUrl);
         }
-    } else if (statusCode === 400) {
     } else {
         console.log(`Unknown error: status code = ${statusCode}`);
     }
@@ -173,7 +172,7 @@ export function addDeleteButtonListeners(selectorName, url) {
     deleteButtons.forEach(span => {
         span.addEventListener('click', async () => {
             try {
-                let elementIds = span.dataset.elementId;
+                const elementIds = span.dataset.elementId;
                 const requestOptions = {
                     method: 'DELETE',
                     body: JSON.stringify({"elementsIds": [parseInt(elementIds)]}),
