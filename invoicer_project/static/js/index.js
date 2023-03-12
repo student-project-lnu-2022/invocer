@@ -54,9 +54,9 @@ document.querySelector("#log_out_button").addEventListener("click", async () => 
             } else {
                 await obtainUserInitials();
             }
-            } else {
-                throw new Error(response.statusText);
-            }
+        } else {
+            throw new Error(response.statusText);
+        }
 
     } catch (error) {
         console.error(error);

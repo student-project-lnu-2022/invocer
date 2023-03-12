@@ -115,7 +115,7 @@ export async function actionBasedOnStatusCode(statusCode, successStatusCode, dat
 }
 
 
-export function addCheckboxesListener(elementsIdOrClass, deleteElementsIdOrClass, deleteElementsIdOrClassWithoutPoint, deleteManyElementsIdOrClass, url, dataId) {
+export function addCheckboxesListener(elementsIdOrClass, deleteElementsIdOrClass, deleteElementsIdOrClassWithoutPoint, deleteManyElementsIdOrClass, url) {
     let dataForServer;
     const checkboxesContainer = document.querySelector(elementsIdOrClass);
     checkboxesContainer.addEventListener('change', async (event) => {
@@ -130,8 +130,6 @@ export function addCheckboxesListener(elementsIdOrClass, deleteElementsIdOrClass
     });
     document.querySelector(deleteManyElementsIdOrClass).addEventListener('click', async () => {
         dataForServer = getCheckedBoxes(deleteElementsIdOrClass);
-        console.log(dataForServer);
-        console.log(url);
         await sendRequestToDeleteElements(dataForServer, url);
     })
 }
