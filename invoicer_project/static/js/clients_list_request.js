@@ -1,22 +1,5 @@
 const host = "http://127.0.0.1:8000";
-import {obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, addDeleteButtonListeners} from './request_utils.js';
-
-async function getUserData() {
-    let jsonResponse, response;
-    try {
-        const result = await fetch(host + '/clients/client/', {
-            method: "GET",
-            headers: {
-                'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
-            },
-        });
-        response = result.status;
-        jsonResponse = await result.json();
-    } catch (error) {
-        console.error('Going to obtain new access token!');
-    }
-    return {'responseStatus': response, 'data': jsonResponse};
-}
+import {obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners} from './request_utils.js';
 
 function createClientListContent(data) {
     for (let i = 0; i < data.length; i++) {
