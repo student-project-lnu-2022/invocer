@@ -29,6 +29,13 @@ export const returnAllFields = function () {
     ];
 }
 
+let numOfRows = 0;
+
+export const numOfRowsObject = {
+    numOfRows
+  };
+  
+
 export function setErrorAttributesToFields(fields, errorsObject) {
     for (let i = 0; i < fields.length; i++) {
         if (errorsObject[i]) {

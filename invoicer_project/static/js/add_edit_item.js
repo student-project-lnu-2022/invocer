@@ -1,8 +1,7 @@
 import {nameField, priceField, amountInStockField, barcodeField, additionalFieldsContainer, amountAdditionalFieldsContainer,
     maxNumOfUnits, additionalUnitCell, additionalUnits, amountAdditionalUnitField, inputBarcodeVal, inputNameVal, inputAmountInStockVal,
-    inputBasicUnitVal, inputCurrencyVal, inputPriceVal, inputBasicUnit, inputCurrency} from './utils_items.js'
+    inputBasicUnitVal, inputCurrencyVal, inputPriceVal, inputBasicUnit, inputCurrency, numOfRowsObject} from './utils_items.js'
 import { removeAllErrorAttributes } from './validation_utils.js';
-let numOfRows = 0;
 
 document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
@@ -49,14 +48,14 @@ for (let i = 0; i < maxNumOfUnits; i++) {
 }
 
 function addLabels() {
-    if (numOfRows >= maxNumOfUnits) {
+    if (numOfRowsObject.numOfRows >= maxNumOfUnits) {
         alert(`You can't add more than ${maxNumOfUnits} additional units!`);
         return;
     }
     removeAllErrorAttributes(additionalFieldsContainer);
     removeAllErrorAttributes(amountAdditionalFieldsContainer);
     let index = 0;
-    for (let i = 0; i <= numOfRows; i++) {
+    for (let i = 0; i <= numOfRowsObject.numOfRows; i++) {
         if (additionalUnitCell[i].classList.contains("hidden")) {
             index = i;
             break;
@@ -65,7 +64,7 @@ function addLabels() {
     additionalUnitCell[index].classList.remove("hidden");
     additionalUnits[index].parentNode.classList.remove("d-none");
     additionalUnits[index].parentNode.classList.add("d-flex");
-    ++numOfRows;
+    ++numOfRowsObject.numOfRows;
 }
 
 function removeLabels(index) {
@@ -76,7 +75,7 @@ function removeLabels(index) {
     removeTextFromTable(document.querySelector(`#AU${index + 1}_val`), "");
     additionalUnits[index].value = "";
     amountAdditionalUnitField[index].value = "";
-    --numOfRows;
+    --numOfRowsObject.numOfRows;
 }
 
 const closeButton = document.querySelectorAll(".close_btn");
@@ -133,7 +132,7 @@ function input_basic_unit_table() {
 
     if (numOfRows <= 0) return;
     let field, data;
-    for (let i = 0; i < numOfRows; i++) {
+    for (let i = 0; i < numOfRowsObject.numOfRows; i++) {
         field = document.getElementById(`AU${i + 1}_val`);
         data = field.getAttribute('data-text');
         if (data === null) {
