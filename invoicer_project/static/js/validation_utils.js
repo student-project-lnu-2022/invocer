@@ -167,17 +167,17 @@ export function setErrorAttributesToFields(errorsObject, fields) {
     }
 }
 
-export function clearErrorToDropdown(field) {
-    field.addEventListener('click', () => {
-        field.querySelector(".dropdown__button").classList.remove("dropdown__button_error");
-    });
-}
-
+// export function clearErrorToDropdown(field) {
+//     field.addEventListener('click', () => {
+//         field.querySelector(".dropdown__button").classList.remove("dropdown__button_error");
+//     });
+// }
+//
 export function clearErrorAttributes(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        if (field.classList.contains("dropdown_list")) {
-            clearErrorToDropdown(field);
-        }
+        // if (field.classList.contains("dropdown_list")) {
+        //     clearErrorToDropdown(field);
+        // }
         field.addEventListener('input', () => {
             field.removeAttribute("error");
             field.removeAttribute("errorText");
