@@ -21,12 +21,12 @@ class Invoice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invoices')
     name = models.CharField(max_length=100)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='invoices')
+    items = models.ManyToManyField('OrderedItem')
     date_of_invoice = models.DateField()
     date_of_payment = models.DateField()
 
 
 class OrderedItem(models.Model):
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='ordered_items')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='ordered_items')
     amount = models.FloatField(validators=[float_number_validation])
     unit = models.CharField(max_length=10, validators=[unit_validation])
