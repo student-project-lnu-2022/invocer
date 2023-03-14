@@ -1,6 +1,6 @@
 import { host, returnAllFields, hideUnnecessaryElementsInMenu, nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField, clientId} from './utils_clients.js'
 import { removeAllErrorAttributes, setErrorAttributesToFields, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse, validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings, validation,} from './validation_utils.js'
-import { obtainNewAccessToken, obtainUserInitials} from './request_utils.js'
+import { obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
 function validateClientEdit() {
     removeAllErrorAttributes(returnAllFields());
     setMaxFieldContainerHeights(returnAllFields());
@@ -16,47 +16,6 @@ function validateClientEdit() {
     };
 }
 
-async function sendEditUserRequest(url, data) {
-    let status;
-    let headers = {
-        'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
-        'Content-Type': 'application/json'
-    }
-    try {
-        const response = await fetch(url, {
-            headers: headers,
-            body: data,
-            method: "PATCH"
-        });
-        status = response.status;
-        console.log(`Status code: ${status}`);
-
-    } catch (error) {
-        console.error(error);
-    }
-    return status;
-}
-
-async function actionBasedOnStatusCode(statusCode, data) {
-    if (statusCode === 200) {
-        for (let field of returnAllFields()) {
-            field.value = '';
-        }
-        window.location.href = host + "/clients/home/";
-    } else if (statusCode === 401) {
-        const obtainedNewTokens = await obtainNewAccessToken();
-        if (!obtainedNewTokens) {
-            window.location.href = host + '/user/login/';
-        } else {
-            const status = await sendEditUserRequest(host + "/clients/client/" + clientId, data);
-            actionBasedOnStatusCode(status, data);
-        }
-    } else if (statusCode === 400) {
-    } else {
-        console.log(`Unknown error: status code = ${statusCode}`);
-    }
-}
-
 document.getElementById("request_edit_sender").addEventListener("click", async () => {
     const validationFieldsList = validateClientEdit();
     if (allAreFalse(validationFieldsList)) {
@@ -70,8 +29,8 @@ document.getElementById("request_edit_sender").addEventListener("click", async (
             city: cityField.value,
             address: addressField.value
         });
-        const serverResponseStatus = await sendEditUserRequest(host + "/clients/client/" + clientId, data);
-        actionBasedOnStatusCode(serverResponseStatus, data);
+        const serverResponseStatus = await sendAddEditRequest(host + "/clients/client/" + clientId, data, "PATCH");
+        actionBasedOnStatusCode(serverResponseStatus, 200, data, returnAllFields(), "/clients/home/", "PATCH", "/clients/client/");
     } else {
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }

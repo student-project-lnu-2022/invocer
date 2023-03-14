@@ -1,6 +1,10 @@
 const nameSurnMaxLength = 35;
 const countryMaxLength = 35;
 const addressMaxLength = 40;
+const barcodeMinLength = 3;
+const barcodeMaxLength = 43;
+const amountMaxLength = 10;
+const nameItemMaxLength = 35;
 
 export function validation(fieldToValidate, fieldRegex) {
     let isFieldValid;
@@ -76,6 +80,82 @@ export function validateCity(cityToValidate) {
     return isCityValid;
 }
 
+export function validateName(strToValidate) {
+    let strValidationResult;
+    if (!strToValidate) {
+        strValidationResult = "This field can't be empty";
+    } else if (strToValidate.length > nameItemMaxLength) {
+        strValidationResult = `Max length – ${nameItemMaxLength} chars`;
+    } else if (!(/[A-ZA-ЯІЇЄҐ]/.test(strToValidate.charAt(0)))) {
+        strValidationResult = "Has to begin with capital";
+    } else if (!/[a-zа-яїієґ]/.test(strToValidate)) {
+        strValidationResult = "At least one lowercase";
+    } else {
+        strValidationResult = '';
+    }
+    return strValidationResult;
+}
+
+export function validateAdditionalUnits(container, regex) {
+    let strValidationResult = [];
+    for (let field of container) {
+        let res = validation(field.value, regex);
+        strValidationResult.push(res);
+    }
+    return strValidationResult;
+}
+
+export function validationDropdown(dropdownId) {
+    let isFieldValid;
+    let dropdownElement = document.querySelector('#' + dropdownId);
+    if (dropdownElement.value === "") {
+        isFieldValid = "This field can't be empty";
+    }
+    return isFieldValid;
+}
+
+export function validatePrice(priceToValidate) {
+    let isPriceValid;
+    if (priceToValidate === '') {
+        isPriceValid = "This field can't be empty";
+    } else if (priceToValidate.includes(' ')) {
+        isPriceValid = "No whitespaces";
+    } else if (!(/^\$?\d+(,\d{3})*(\.\d{1,2})?$/.test(priceToValidate))) {
+        isPriceValid = "Invalid format";
+    } else {
+        isPriceValid = '';
+    }
+    return isPriceValid;
+}
+
+export function validateAmountInStock(amountToValidate) {
+    let isAmountValid;
+    if (amountToValidate === '') {
+        isAmountValid = "This field can't be empty";
+    } else if (amountToValidate.length > amountMaxLength) {
+        isAmountValid = `Max length – ${amountMaxLength} chars`;
+    } else if (!(/^\$?\d+(,\d{3})*(\.\d{1,2})?$/.test(amountToValidate))) {
+        isAmountValid = "Invalid format";
+    } else {
+        isAmountValid = '';
+    }
+    return isAmountValid;
+}
+
+export function validateBarcode(barcodeToValidate) {
+    let isBarcodeValid;
+    if (barcodeToValidate === '') {
+        isBarcodeValid = "This field can't be empty";
+    } else if (barcodeToValidate.length > barcodeMaxLength || barcodeToValidate.length < barcodeMinLength) {
+        isBarcodeValid = `Amount of digits must be in [${barcodeMinLength}, ${barcodeMaxLength}]`;
+    } else if (!/^[0-9]+$/.test(barcodeToValidate)) {
+        isBarcodeValid = "Invalid format";
+    } else {
+        isBarcodeValid = '';
+    }
+    return isBarcodeValid;
+}
+
 export function setErrorAttributesToFields(errorsObject, fields) {
     let fieldIndex = 0;
     for (let error in errorsObject) {
@@ -87,8 +167,17 @@ export function setErrorAttributesToFields(errorsObject, fields) {
     }
 }
 
+export function clearErrorToDropdown(field) {
+    field.addEventListener('click', () => {
+        field.querySelector(".dropdown__button").classList.remove("dropdown__button_error");
+    });
+}
+
 export function clearErrorAttributes(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
+        if (field.classList.contains("dropdown_list")) {
+            clearErrorToDropdown(field);
+        }
         field.addEventListener('input', () => {
             field.removeAttribute("error");
             field.removeAttribute("errorText");
@@ -98,7 +187,7 @@ export function clearErrorAttributes(returnAllFieldsList) {
 
 export function setMaxFieldContainerHeights(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        field.shadowRoot.querySelector('.md3-text-field__field').shadowRoot.querySelector('.md3-field').querySelector('.md3-field__container').style.maxHeight = "56px";
+        field.shadowRoot.querySelector('.text-field .field').shadowRoot.querySelector('.field .container-overflow').style.maxHeight = "56px";
     }
 }
 

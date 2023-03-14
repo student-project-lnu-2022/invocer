@@ -44,12 +44,13 @@
         <div class="sort_dropdown">
             <button class="sort_drop_btn"><span class="material-symbols-outlined">sort</span></button>
             <div class="sort_dropdown-content">
-                <a>A-Z by name</a>
+                <a id="sort_asc">A-Z by name</a>
             </div>
         </div>
         <md-fab-extended icon="add" label="Add client" id="adder"></md-fab-extended>
-        <span class="material-symbols-outlined client-info" id="delete_many_clients" data-client-id="${clientID}"
-              style="font-size:28px; color: red; display: none;">delete</span>
+       <md-standard-icon-button class="client-info" id="delete_many_clients" style="display: none;" data-client-id="${clientID}"> <span class="material-symbols-outlined"
+              style="color: red;">delete</span></md-standard-icon-button>
+
 
     </div>
     <div class="col-2" id="user_name_and_icon_column">

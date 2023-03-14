@@ -1,4 +1,5 @@
 import {host} from "./utils_clients.js";
+import {obtainUserInitials, obtainNewAccessToken} from "./request_utils.js";
 
 document.querySelector("#menu-toggle").addEventListener("click", function (e) {
     e.preventDefault();
@@ -25,6 +26,7 @@ function initMenu() {
 
 window.addEventListener('DOMContentLoaded', function () {
     initMenu();
+    checkMenuItemBasedOnSection();
 });
 
 document.querySelector("#log_out_button").addEventListener("click", async () => {
@@ -39,14 +41,39 @@ document.querySelector("#log_out_button").addEventListener("click", async () => 
             },
         });
 
-        if (!response.ok) {
+        if (response.ok) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            window.location.href = host + '/user/login';
+        } else if (response.status === 400) {
+            const obtainedNewTokens = await obtainNewAccessToken();
+            if (!obtainedNewTokens) {
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+                window.location.href = host + '/user/login/';
+            } else {
+                await obtainUserInitials();
+            }
+        } else {
             throw new Error(response.statusText);
         }
 
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        window.location.href = host + '/user/login';
     } catch (error) {
         console.error(error);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        window.location.replace(host + '/user/login/');
     }
 });
+
+function checkMenuItemBasedOnSection() {
+    const urlSection = new URL(window.location.href).pathname.split("/")[1];
+    const menuItems = document.querySelectorAll("#menu li");
+    menuItems.forEach((item) => {
+        item.classList.remove("active");
+    });
+
+    const urlSections = ['invoices', 'clients', 'items', 'statistics', 'settings'];
+    menuItems[urlSections.indexOf(urlSection)].classList.add('active');
+}
+
