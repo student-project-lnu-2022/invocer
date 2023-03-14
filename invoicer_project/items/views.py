@@ -36,6 +36,19 @@ class ItemViewSet(viewsets.ViewSet):
         items = Item.objects.filter(id__in=item_ids, user_id=user['user_id'])
         items.delete()
         return JsonResponse({}, status=204)
+    
+    def partial_update(self, request, item_id):
+        try:
+            user = get_user_from_jwt(request.headers)
+            item = self.queryset.get(id=item_id, user_id=user['user_id'])
+        except Item.DoesNotExist:
+            return JsonResponse({'error': 'Item not found'}, status=404)
+        request.data['user'] = user['user_id']
+        serializer = ItemSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
 
 class UnitViewSet(viewsets.ViewSet):
     model = AdditionalUnit
@@ -51,3 +64,20 @@ class UnitViewSet(viewsets.ViewSet):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+    def destroy(self, request, additional_unit_id):
+        additional_unit = get_object_or_404(AdditionalUnit, id=additional_unit_id)
+        additional_unit.delete()
+        return JsonResponse({}, status=204)
+
+    def partial_update(self, request, additional_unit_id):
+        try:
+            user = get_user_from_jwt(request.headers)
+            additional_unit = self.queryset.get(id=additional_unit_id, user_id=user['user_id'])
+        except AdditionalUnit.DoesNotExist:
+            return JsonResponse({'error': 'Additional unit not found'}, status=404)
+        request.data['user'] = user['user_id']
+        serializer = AdditionalUnitSerializer(additional_unit, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
