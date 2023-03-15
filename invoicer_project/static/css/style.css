@@ -996,3 +996,42 @@ body {
     padding-top: 10px;
     padding-right: 10px;
 }
+
+
+.list_invoice_user_buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-height: 100%;
+}
+
+.invoice_info_text {
+    color: #46464F;
+    font-size: 14px;
+    padding-right: 16px;
+    padding-bottom: 10px;
+}
+.invoice_bottom_info {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    max-height: 100%;
+}
+
+.invoice_name {
+    color: #46464F;
+    font-size: 17px;
+    font-weight: 500;
+    padding-right: 16px;
+    padding-top: 10px;
+}
+
+.currency_text {
+    color: #46464F;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 18px;
+    margin-right: 60px;
+}
