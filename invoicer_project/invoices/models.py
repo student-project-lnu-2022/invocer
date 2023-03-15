@@ -31,10 +31,13 @@ class OrderedItem(models.Model):
     amount = models.FloatField(validators=[float_number_validation])
     unit = models.CharField(max_length=10, validators=[unit_validation])
 
-    def save(self, *args, **kwargs):
+    def update_item(self):
         if self.item.amount_in_stock < self.amount:
-            raise Exception("Not enough money")
+            raise Exception("Not enough amount in stock")
         item = Item.objects.get(id=self.item.id)
         item.amount_in_stock -= self.amount
         item.save(update_fields=["amount_in_stock"])
+
+    def save(self, *args, **kwargs):
+        self.update_item()
         return super(OrderedItem, self).save(*args, **kwargs)
