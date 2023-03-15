@@ -53,17 +53,12 @@ export function validateAddress(addressToValidate) {
 }
 
 export function validateCountry(countryToValidate) {
-    let isCountryValid;
-    if (countryToValidate === '') {
-        isCountryValid = "This field can't be empty";
-    } else if (!(/^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DE]/.test(countryToValidate.charAt(0)))) {
-        isCountryValid = "Has to begin with capital";
-    } else if (countryToValidate.length > countryMaxLength) {
-        isCountryValid = `Max length – ${countryMaxLength} chars`;
-    } else {
-        isCountryValid = '';
+    if (countryToValidate === ""){
+        return "Country field can't be empty";
     }
-    return isCountryValid;
+    else {
+        return "";
+    }
 }
 
 export function validateCity(cityToValidate) {
@@ -167,17 +162,13 @@ export function setErrorAttributesToFields(errorsObject, fields) {
     }
 }
 
-// export function clearErrorToDropdown(field) {
-//     field.addEventListener('click', () => {
-//         field.querySelector(".dropdown__button").classList.remove("dropdown__button_error");
-//     });
-// }
-//
+export function setErrorAttributeToDropdown(field) {
+    field.classList.add("error");
+}
+
+
 export function clearErrorAttributes(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        // if (field.classList.contains("dropdown_list")) {
-        //     clearErrorToDropdown(field);
-        // }
         field.addEventListener('input', () => {
             field.removeAttribute("error");
             field.removeAttribute("errorText");

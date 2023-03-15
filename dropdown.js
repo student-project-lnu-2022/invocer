@@ -1,3 +1,0 @@
-jQuery('.ui.dropdown')
-    .dropdown()
-;
