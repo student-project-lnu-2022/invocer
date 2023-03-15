@@ -188,3 +188,14 @@ export function addDeleteButtonListeners(selectorName, url) {
         });
     });
 }
+
+export function addEditButtonListeners(containerId, className, url) {
+    const clientsList = document.querySelector(containerId);
+    clientsList.addEventListener('click', async (event) => {
+        const clickedElement = event.target;
+        if (clickedElement.classList.contains(className)) {
+            const clientId = clickedElement.dataset.elementId;
+            window.location.href = host + url + clientId;
+        }
+    });
+}

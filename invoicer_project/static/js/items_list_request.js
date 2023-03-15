@@ -1,5 +1,5 @@
 const host = "http://127.0.0.1:8000";
-import {obtainUserInitials, obtainNewAccessToken, getUserData, addCheckboxesListener, addDeleteButtonListeners} from "./request_utils.js";
+import {obtainUserInitials, obtainNewAccessToken, getUserData, addCheckboxesListener, addDeleteButtonListeners, addEditButtonListeners} from "./request_utils.js";
 
 
 function createItemListContent(data) {
@@ -38,6 +38,7 @@ async function addElementsDynamically() {
     if (response === 200) {
         createItemListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners('.delete-item', `/items/items_list/`);
+        addEditButtonListeners('#items_container', 'edit-item', "/items/edit/");
         addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list", 'itemId');
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
@@ -47,6 +48,7 @@ async function addElementsDynamically() {
             responseFromServer = await getUserData('/items/items_list/');
             createItemListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners('.delete-item', `/items/items_list/`);
+            addEditButtonListeners('#items_container', 'edit-item', "/items/edit/");
             addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list", 'itemId');
         }
     } else {
