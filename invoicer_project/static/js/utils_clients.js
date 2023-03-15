@@ -13,7 +13,7 @@ export const returnAllFields = function () {
     return [
         nameField, surnameField,
         emailField, telephoneField,
-        zipField, countryField,
+        zipField,
         cityField, addressField
     ];
 }
