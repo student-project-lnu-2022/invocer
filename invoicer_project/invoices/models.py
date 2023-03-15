@@ -4,6 +4,7 @@ from django.core.validators import RegexValidator
 from clients.models import Client
 from items.models import Item
 from user.models import User
+from django.db.models import F, Sum
 
 
 float_number_validation = RegexValidator(
@@ -21,12 +22,19 @@ class Invoice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invoices')
     name = models.CharField(max_length=100)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='invoices')
-    items = models.ManyToManyField('OrderedItem')
+    price = models.FloatField(validators=[float_number_validation], blank=True, default=0)
+    discount = models.FloatField(validators=[float_number_validation], default=0)
     date_of_invoice = models.DateField()
     date_of_payment = models.DateField()
 
+    def update_client(self):
+        client = Client.objects.get(id=self.client.id)
+        client.debt += self.price
+        client.save(update_fields=["debt"])
+
 
 class OrderedItem(models.Model):
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='ordered_items')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='ordered_items')
     amount = models.FloatField(validators=[float_number_validation])
     unit = models.CharField(max_length=10, validators=[unit_validation])
