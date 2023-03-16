@@ -34,14 +34,15 @@ let numOfRows = 0;
 
 export const numOfRowsObject = {
     numOfRows
-  };
+};
 
 export async function fillFieldsWithData() {
     let responseFromServer = await getItemById(itemId);
+    console.log(responseFromServer);
     document.getElementById("name").value = responseFromServer["name"];
     document.getElementById("price").value = responseFromServer["price"];
-    document.getElementById("currency").value = responseFromServer["currency"];
-    document.getElementById("basic_unit").value = responseFromServer["basic_unit"];
+    document.querySelector(".dropdown_button_currency").textContent = responseFromServer["currency"];
+    document.querySelector(".dropdown_button_basic_unit").textContent = responseFromServer["basic_unit"];
     document.getElementById("amount_in_stock").value = responseFromServer["amount_in_stock"];
     document.getElementById("barcode").value = responseFromServer["barcode"];
 }
