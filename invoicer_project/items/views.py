@@ -49,7 +49,13 @@ class ItemViewSet(viewsets.ViewSet):
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
-
+    def retrieve(self, request, item_id):
+        item = self.queryset.get(id=item_id)
+        if item is not None:
+            serializer = ItemSerializer(item)
+            return JsonResponse(serializer.data)
+        else:
+            return JsonResponse({'error': 'Item not found'}, status=404)
 class UnitViewSet(viewsets.ViewSet):
     model = AdditionalUnit
     queryset = AdditionalUnit.objects.all()
