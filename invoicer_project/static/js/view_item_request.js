@@ -3,7 +3,7 @@ import {
     fillFieldsWithData,
     host,
 } from "./utils_items.js";
-import {hideUnnecessaryElementsInMenu} from '/utils_clients.js'
+import {hideUnnecessaryElementsInMenu} from './utils_clients.js'
 import {obtainUserInitials} from "./request_utils.js";
 
 document.addEventListener('DOMContentLoaded', () => {
