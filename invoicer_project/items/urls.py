@@ -14,5 +14,6 @@ urlpatterns = [
     path("items_list/", items_list, name='items'),
     path("items_list/<int:item_id>", items_list_id),
     path("additional_units/", unit_set, name="units"),
-    path("additional_units/<int:additional_unit_id>", unit_set_id),    
+    path("additional_units/<int:additional_unit_id>", unit_set_id),
+    path("view/<int:item_id>", TemplateView.as_view(template_name="items/item_view.html")),
 ]

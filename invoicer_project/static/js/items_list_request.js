@@ -56,6 +56,17 @@ async function addElementsDynamically() {
     }
 }
 
+function addEditButtonListeners() {
+    const itemsList = document.querySelector('#other_elements');
+    itemsList.addEventListener('click', async (event) => {
+        const clickedElement = event.target;
+        if (clickedElement.classList.contains('edit-item')) {
+            const itemId = clickedElement.dataset.elementId;
+            window.location.href = host + "/items/edit/" + itemId;
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
     addElementsDynamically();

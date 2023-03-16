@@ -7,6 +7,7 @@ export const currencyField = document.getElementById("currency").parentElement;
 export const basicUnitField = document.getElementById("basic_unit").parentElement;
 export const additionalFieldsContainer = document.querySelectorAll('.additional_unit_field');
 export const amountAdditionalFieldsContainer = document.querySelectorAll('.amount_additional_unit_field');
+export const itemId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
 
 export const inputCurrency = document.getElementById("currency");
 export const inputBasicUnit = document.getElementById("basic_unit");
@@ -34,7 +35,16 @@ let numOfRows = 0;
 export const numOfRowsObject = {
     numOfRows
   };
-  
+
+export async function fillFieldsWithData() {
+    let responseFromServer = await getItemById(itemId);
+    document.getElementById("name").value = responseFromServer["name"];
+    document.getElementById("price").value = responseFromServer["price"];
+    document.getElementById("currency").value = responseFromServer["currency"];
+    document.getElementById("basic_unit").value = responseFromServer["basic_unit"];
+    document.getElementById("amount_in_stock").value = responseFromServer["amount_in_stock"];
+    document.getElementById("barcode").value = responseFromServer["barcode"];
+}
 
 export function setErrorAttributesToFields(fields, errorsObject) {
     for (let i = 0; i < fields.length; i++) {
@@ -46,4 +56,15 @@ export function setErrorAttributesToFields(fields, errorsObject) {
             fields[i].setAttribute("errorText", errorsObject[i]);
         }
     }
+}
+
+export function getItemById(itemId) {
+    return fetch(host + '/items/items_list/' + itemId, {
+        method: "GET",
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+        },
+    })
+        .then(response => response.json())
+        .catch(error => console.error(error));
 }
