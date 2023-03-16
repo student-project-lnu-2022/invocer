@@ -54,3 +54,13 @@
 .ui.dropdown.error, .ui.dropdown.error>.default.text, .ui.dropdown.error>.text {
     color: #b3251e;
 }
+
+.ui.selection.dropdown:hover {
+    border-color: rgb(0 0 0);
+    box-shadow: none;
+}
+
+
+.ui.selection.dropdown.error:hover {
+    border-color: #000000
+}
