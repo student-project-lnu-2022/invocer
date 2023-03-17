@@ -49,7 +49,13 @@ class ItemViewSet(viewsets.ViewSet):
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
-
+    def retrieve(self, request, item_id):
+        item = self.queryset.get(id=item_id)
+        if item is not None:
+            serializer = ItemSerializer(item)
+            return JsonResponse(serializer.data)
+        else:
+            return JsonResponse({'error': 'Item not found'}, status=404)
 class UnitViewSet(viewsets.ViewSet):
     model = AdditionalUnit
     queryset = AdditionalUnit.objects.all()
@@ -81,3 +87,18 @@ class UnitViewSet(viewsets.ViewSet):
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
+
+    def retrieve(self, request, additional_unit_id):
+        additional_unit = self.queryset.get(id=additional_unit_id)
+        if additional_unit is not None:
+            serializer = AdditionalUnitSerializer(additional_unit)
+            return JsonResponse(serializer.data)
+        else:
+            return JsonResponse({'error': 'Additional unit not found'}, status=404)
+    def get_units_by_item_id(self, request, item_id):
+        additional_units = AdditionalUnit.objects.filter(item_id=item_id)
+        units_json = AdditionalUnitSerializer(additional_units, many=True)
+        data = {'content': units_json.data}
+        return JsonResponse(data, status=200, safe=False)
+
+
