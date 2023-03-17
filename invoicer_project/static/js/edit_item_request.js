@@ -1,4 +1,18 @@
-import { host, returnAllFields, getItemById, nameField, priceField, amountInStockField, barcodeField, currencyField, basicUnitField, additionalFieldsContainer, amountAdditionalFieldsContainer, itemId} from './utils_items.js'
+import {
+    host,
+    returnAllFields,
+    getItemById,
+    nameField,
+    priceField,
+    amountInStockField,
+    barcodeField,
+    currencyField,
+    basicUnitField,
+    additionalFieldsContainer,
+    amountAdditionalFieldsContainer,
+    itemId,
+    fillFieldsWithData
+} from './utils_items.js'
 import {hideUnnecessaryElementsInMenu} from './utils_clients.js'
 import {
     removeAllErrorAttributes,
@@ -48,15 +62,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 fillFieldsWithData();
-hideUnnecessaryElementsInMenu();
-
-async function fillFieldsWithData() {
-    let responseFromServer = await getItemById(itemId);
-    document.getElementById("name").value = responseFromServer["name"];
-    document.getElementById("price").value = responseFromServer["price"];
-    document.getElementById("currency").value = responseFromServer["currency"];
-    document.getElementById("basic_unit").value = responseFromServer["basic_unit"];
-    document.getElementById("amount_in_stock").value = responseFromServer["amount_in_stock"];
-    document.getElementById("barcode").value = responseFromServer["barcode"];
-}
 hideUnnecessaryElementsInMenu();
