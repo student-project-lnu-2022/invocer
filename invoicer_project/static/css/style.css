@@ -442,10 +442,9 @@ p {
 }
 
 .settings_subpage {
-    background-color: #EDEFF6;
-    padding-bottom: 35px;
-    padding-left: 35px;
-    padding-top: 20px;
+    margin-bottom: 35px;
+    margin-left: 35px;
+    margin-top: 20px;
     text-align: left;
     font-family: Roboto;
     display: flex;
@@ -506,8 +505,6 @@ p {
 */
 
 .change_password {
-    width: 80%;
-    background-color: #EDEFF6;
     padding-left: 35px;
     font-family: Roboto;
     display: flex;
@@ -534,7 +531,7 @@ p {
     padding-top: 10px;
 }
 
-.collapsible {
+/* .collapsible {
     background-color: #ffffff;
     border-radius: 15px;
     color: rgb(0, 68, 255);
@@ -545,18 +542,13 @@ p {
     border: none;
     text-align: left;
     outline: none;
-    /*font-size: 17px;*/
-
-}
-
+    font-size: 17px;
+} */
+/* 
 .collapsible:active,
 .collapsible:hover {
     border-bottom: solid;
-}
-
-.collapsible:active {
-    width: 90%;
-}
+} */
 
 .content {
     display: none;
@@ -645,9 +637,9 @@ ul {
     border-bottom: solid;
 }
 
-.collapsible:active {
+/* .collapsible:active {
     width: 90%;
-}
+} */
 
 .dropdown i {
     position: absolute;
@@ -939,7 +931,7 @@ body {
 }
 
 /*dropdown logout*/
-
+с
 .dropdown_logout {
     position: relative;
     display: inline-block;
