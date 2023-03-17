@@ -38,7 +38,7 @@ async function addElementsDynamically() {
     if (response === 200) {
         createItemListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners('.delete-item', `/items/items_list/`);
-        addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list", 'itemId');
+        addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list");
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -47,7 +47,7 @@ async function addElementsDynamically() {
             responseFromServer = await getUserData('/items/items_list/');
             createItemListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners('.delete-item', `/items/items_list/`);
-            addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list", 'itemId');
+            addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list");
         }
     } else {
         window.location.replace(host + '/user/login/');

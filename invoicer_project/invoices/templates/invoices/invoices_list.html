@@ -28,32 +28,12 @@
         <div id="wrapper" class="toggled-2">
             {% include "menu_wrapper.html" %}
             <div id="page-content-wrapper">
-                <div class="row client_list_item align-items-center justify-content-around">
-                    <div class="col-md-6 col-sm-6 col-7 list_item_name">
-                    <div class="d-flex flex-wrap flex-column list_item_info_block">
-                        <p class="invoice_name">Invoice #21-34_Lviv_Shuvar</p>
-                        <div class="invoice_bottom_info">
-                            <p class="invoice_info_text">John Deer</p>
-                            <p class="invoice_info_text">03.03.2023</p>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="d-flex flex-wrap flex-row justify-content-end col-md-6 col-sm-6 col-5">
-                        <div class="d-flex flex-wrap flex-column list_item_info_block">
-                            <p class="currency_text">12000 UAH</p>
-                        </div>
-                        <div class="list_invoice_user_buttons">
-                            <md-standard-icon-button class="edit-item"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
-                            <md-standard-icon-button class="delete-item"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
-                            <md-standard-icon-button class="upload"><span class="material-symbols-outlined">upload</span></md-standard-icon-button>
-                            <md-standard-icon-button class="download"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
-                            <md-checkbox id="list_item_user_delete"></md-checkbox>
-                        </div>
-                    </div>
-                </div>
+                <div class="container-fluid xyz" id="other_elements_invoices"></div>
             </div>
         </div>
         <script src="{% static 'js/bundle.js' %}"></script>
         <script type="module" src="{% static 'js/index.js' %}"></script>
+        <script type="module" src="{% static 'js/invoices_list_request.js' %}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </body>
 </html>
