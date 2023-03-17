@@ -29,9 +29,9 @@ function createItemListContent(data) {
                                 <p class="main_text redirect_to_item_info" data-item-id="${itemID}">kg</p>
                             </div>
                             <div class="list_item_user_buttons">
-                                 <md-standard-icon-button class="edit-item" data-item-id="${itemID}"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
-                                <md-standard-icon-button class="delete-item" data-item-id="${itemID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
-                                <md-checkbox class="delete_items_checkbox" id="list_item_user_delete"  data-item-id="${itemID}"></md-checkbox>
+                                 <md-standard-icon-button class="edit-item" data-element-id="${itemID}"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
+                                <md-standard-icon-button class="delete-item" data-element-id="${itemID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
+                                <md-checkbox class="delete_items_checkbox" id="list_item_user_delete"  data-element-id="${itemID}"></md-checkbox>
                             </div>
                         </div>
                     </div>`)
