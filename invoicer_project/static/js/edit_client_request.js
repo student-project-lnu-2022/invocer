@@ -1,6 +1,31 @@
-import { host, returnAllFields, hideUnnecessaryElementsInMenu, nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField, clientId} from './utils_clients.js'
-import { removeAllErrorAttributes, setErrorAttributesToFields, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse, validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings, validation,} from './validation_utils.js'
-import { obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
+import {
+    addressField,
+    cityField,
+    clientId,
+    countryField,
+    emailField,
+    hideUnnecessaryElementsInMenu,
+    host,
+    nameField,
+    returnAllFields,
+    surnameField,
+    telephoneField,
+    zipField
+} from './utils_clients.js'
+import {
+    allAreFalse,
+    clearErrorAttributes,
+    removeAllErrorAttributes,
+    setErrorAttributesToFields,
+    setMaxFieldContainerHeights,
+    validateAddress,
+    validateCity,
+    validateCountry,
+    validateNameAndSurnameAsStrings,
+    validation,
+} from './validation_utils.js'
+import {actionBasedOnStatusCode, obtainUserInitials, sendAddEditRequest} from './request_utils.js'
+
 function validateClientEdit() {
     removeAllErrorAttributes(returnAllFields());
     setMaxFieldContainerHeights(returnAllFields());
@@ -54,6 +79,18 @@ async function fillFieldsWithData() {
     document.getElementById("country_input_client_edit_page").value = responseFromServer["country"];
     document.getElementById("city_input_client_edit_page").value = responseFromServer["city"];
     document.getElementById("address_input_client_edit_page").value = responseFromServer["address"];
+
+    const countriesDivList = document.querySelectorAll('.menu div');
+    countriesDivList.forEach(div => {
+        if (div.getAttribute("data-value") === responseFromServer["country"]) {
+            console.log(responseFromServer["country"]);
+            const dropdownCountryContainer = document.querySelector('.default.text');
+            dropdownCountryContainer.textContent = "";
+            dropdownCountryContainer.insertAdjacentHTML("afterbegin", div.innerHTML);
+            dropdownCountryContainer.classList.remove("default");
+        }
+    });
+    console.log(countriesDivList);
 }
 
 function getClientById(clientId) {
@@ -66,5 +103,6 @@ function getClientById(clientId) {
         .then(response => response.json())
         .catch(error => console.error(error));
 }
+
 
 hideUnnecessaryElementsInMenu();
