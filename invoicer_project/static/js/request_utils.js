@@ -188,3 +188,19 @@ export function addDeleteButtonListeners(selectorName, url) {
         });
     });
 }
+
+export function search(elements, elementDivs) {
+    let input = document.getElementById('search_bar').value;
+    input = input.toLowerCase();
+    let x = document.getElementsByClassName(elements);
+    let y = document.getElementsByClassName(elementDivs);
+    
+
+    for (let i = 0; i < x.length; i++) {
+        if (!x[i].innerHTML.toLowerCase().includes(input)) {
+            y[i].style.display = "none";
+        } else {
+            y[i].style.removeProperty("display");
+        }
+    }
+}
