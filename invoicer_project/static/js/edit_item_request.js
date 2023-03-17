@@ -36,7 +36,7 @@ function validateItemEdit() {
     };
 }
 
-document.getElementById("request_edit_sender").addEventListener("click", async () => {
+document.getElementById("edit_item_button").addEventListener("click", async () => {
     const validationFieldsList = validateItemEdit();
     let currencyValue = document.getElementById("currency").value;
     let basicUnitValue = document.getElementById("basic_unit").value
