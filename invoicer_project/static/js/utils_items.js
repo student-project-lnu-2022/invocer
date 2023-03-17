@@ -57,18 +57,34 @@ export async function fillFieldsWithData() {
     numOfRowsObject.numOfRows += unitsArray.length;
     const additionalUnitFields = document.querySelectorAll(".additional_unit");
     for (let i = 0; i < unitsArray.length; i++) {
+        let additionalUnitId = unitsArray[i]["id"];
         let additionalUnitName = unitsArray[i]["additional_unit_name"];
         let additionalUnitQuantity = unitsArray[i]["quantity"];
         additionalUnitFields[i].classList.remove("d-none");
         additionalUnitFields[i].classList.add("d-flex");
-        document.getElementById(`AU${i+1}`).value = additionalUnitName;
-        document.getElementById(`amount_AU${i+1}`).value =additionalUnitQuantity;
-        document.getElementById(`Aditional_unit_${i+1}`).textContent = additionalUnitName;
-        document.getElementById(`AU${i+1}_val`).textContent =additionalUnitQuantity;
-        document.getElementById(`Aditional_unit_${i+1}`).setAttribute("data-text", additionalUnitName);
-        document.getElementById(`AU${i+1}_val`).setAttribute("data-text", additionalUnitQuantity);
+
+        document.getElementById(`AU${i + 1}`).value = additionalUnitName;
+        document.getElementById(`amount_AU${i + 1}`).value = additionalUnitQuantity;
+        document.getElementById(`Aditional_unit_${i + 1}`).textContent = additionalUnitName;
+        document.getElementById(`AU${i + 1}_val`).textContent = additionalUnitQuantity;
+        document.getElementById(`Aditional_unit_${i + 1}`).setAttribute("data-text", additionalUnitName);
+        document.getElementById(`AU${i + 1}_val`).setAttribute("data-text", additionalUnitQuantity);
+        document.querySelectorAll(".additional_unit")[i].setAttribute("data-additional-unit-id", additionalUnitId);
+        document.querySelectorAll(".close_btn")[i].setAttribute("data-additional-unit-id", additionalUnitId);
         document.querySelectorAll(".additional_unit_cell")[i].classList.remove("hidden");
     }
+}
+
+export function deleteAdditionalUnit() {
+    const closeButtons = document.querySelectorAll('.close_btn');
+
+    closeButtons.forEach((element) => {
+        element.addEventListener('click', (event) => {
+            const clickedButton = event.target;
+            const clickedButtonId = clickedButton.getAttribute('data-additional-unit-id');
+            console.log(clickedButtonId);
+        });
+    });
 }
 
 export function setErrorAttributesToFields(fields, errorsObject) {

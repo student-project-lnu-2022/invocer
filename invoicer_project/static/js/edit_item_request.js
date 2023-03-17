@@ -11,7 +11,7 @@ import {
     additionalFieldsContainer,
     amountAdditionalFieldsContainer,
     itemId,
-    fillFieldsWithData
+    fillFieldsWithData, deleteAdditionalUnit
 } from './utils_items.js'
 import {hideUnnecessaryElementsInMenu} from './utils_clients.js'
 import {
@@ -54,8 +54,7 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
     } else {
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
-})
-
+});
 document.addEventListener('DOMContentLoaded', () => {
     clearErrorAttributes(returnAllFields());
     obtainUserInitials();
@@ -63,3 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 fillFieldsWithData();
 hideUnnecessaryElementsInMenu();
+deleteAdditionalUnit();
+
+// document.querySelector("#additional_item_button").addEventListener("click", () => { addLabels() });
