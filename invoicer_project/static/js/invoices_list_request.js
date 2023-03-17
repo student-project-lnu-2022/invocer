@@ -1,5 +1,7 @@
 const host = "http://127.0.0.1:8000";
 import {obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners} from './request_utils.js';
+import {search} from './request_utils.js';
+document.getElementById("search_bar").addEventListener('keyup', ()=> { search('invoice_name', 'client_list_item')});
 
 function createInvoiceListContent(data) {
     for (let i = 0; i < data.length; i++) {
@@ -80,3 +82,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     addElementsDynamically();
     document.querySelector("#adder").label = "Add invoice";
 });
+
+document.querySelector("#sort_asc").addEventListener("click", ()=> {
+    const parent = document.querySelector("#other_elements_invoices");
+    const divs = parent.querySelectorAll('.client_list_item');
+    const sortedDivs = Array.from(divs).sort((a, b) => a.querySelector(".invoice_name").textContent.localeCompare(b.querySelector(".invoice_name").textContent));
+    parent.innerHTML = '';
+    for (const div of sortedDivs) {
+      parent.appendChild(div);
+    }
+})
