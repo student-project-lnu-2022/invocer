@@ -60,13 +60,12 @@ export async function fillFieldsWithData() {
         let additionalUnitQuantity = unitsArray[i]["quantity"];
         console.log(additionalUnitName);
         console.log(additionalUnitQuantity);
-        document.getElementById("column-2").insertAdjacentHTML('afterbegin', ` <div class="additional_unit_cell">
-                                    <div class="row secondary_text table_header">Aditional unit ${i}</div>
-                                    <div class="row">
-                                        <div class="col-6 first_col">${additionalUnitName}</div>
-                                        <div class="col-6 second_col">${additionalUnitQuantity}</div>
-                                    </div>
-                                </div>`);
+        document.getElementById("column-2").insertAdjacentHTML('afterbegin', `  <md-outlined-text-field label="${additionalUnitName}"
+                                                        class="input_field additional_unit_field" type="text" id="AU1"
+                                                        readonly></md-outlined-text-field>
+                                <md-outlined-text-field label="${additionalUnitQuantity}"
+                                                        class="input_field amount_additional_unit_field" type="text"
+                                                        id="amount_AU1" readonly></md-outlined-text-field>`);
     }
 
 }
