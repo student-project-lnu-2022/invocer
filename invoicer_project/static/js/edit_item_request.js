@@ -64,4 +64,41 @@ fillFieldsWithData();
 hideUnnecessaryElementsInMenu();
 deleteAdditionalUnit();
 
-// document.querySelector("#additional_item_button").addEventListener("click", () => { addLabels() });
+
+function addLabels() {
+    if (numOfRowsObject.numOfRows >= maxNumOfUnits) {
+        alert(`You can't add more than ${maxNumOfUnits} additional units!`);
+        return;
+    }
+    removeAllErrorAttributes(additionalFieldsContainer);
+    removeAllErrorAttributes(amountAdditionalFieldsContainer);
+    let index = 0;
+    for (let i = 0; i <= numOfRowsObject.numOfRows; i++) {
+        if (additionalUnitCell[i].classList.contains("hidden")) {
+            index = i;
+            break;
+        }
+    }
+    additionalUnitCell[index].classList.remove("hidden");
+    additionalUnits[index].parentNode.classList.remove("d-none");
+    additionalUnits[index].parentNode.classList.add("d-flex");
+    ++numOfRowsObject.numOfRows;
+}
+
+function removeLabels(index) {
+    additionalUnitCell[index].classList.add("hidden");
+    additionalUnits[index].parentNode.classList.add("d-none");
+    additionalUnits[index].parentNode.classList.remove("d-flex");
+    removeTextFromTable(document.querySelector(`#Aditional_unit_${index + 1}`), `Aditional unit ${index + 1}`);
+    removeTextFromTable(document.querySelector(`#AU${index + 1}_val`), "");
+    additionalUnits[index].value = "";
+    amountAdditionalUnitField[index].value = "";
+    --numOfRowsObject.numOfRows;
+}
+
+hideUnnecessaryElementsInMenu();
+
+document.querySelector("#additional_item_button").addEventListener("click", () => {
+    addLabels();
+    console.log("Button is clicked");
+});
