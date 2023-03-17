@@ -3,7 +3,7 @@ import {
     cityField,
     clientId,
     countryField,
-    emailField,
+    emailField, fillFieldsWithClientsData,
     hideUnnecessaryElementsInMenu,
     host,
     nameField,
@@ -66,32 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     obtainUserInitials();
 });
 
-fillFieldsWithData();
-hideUnnecessaryElementsInMenu();
-
-async function fillFieldsWithData() {
-    let responseFromServer = await getClientById(clientId);
-    document.getElementById("name_input_client_edit_page").value = responseFromServer["first_name"];
-    document.getElementById("surname_input_client_edit_page").value = responseFromServer["last_name"];
-    document.getElementById("email_input_client_edit_page").value = responseFromServer["email"];
-    document.getElementById("telephone_input_client_edit_page").value = responseFromServer["phone_number"];
-    document.getElementById("zip_input_client_edit_page").value = responseFromServer["zip_code"];
-    document.getElementById("country_input_client_edit_page").value = responseFromServer["country"];
-    document.getElementById("city_input_client_edit_page").value = responseFromServer["city"];
-    document.getElementById("address_input_client_edit_page").value = responseFromServer["address"];
-
-    const countriesDivList = document.querySelectorAll('.menu div');
-    countriesDivList.forEach(div => {
-        if (div.getAttribute("data-value") === responseFromServer["country"]) {
-            console.log(responseFromServer["country"]);
-            const dropdownCountryContainer = document.querySelector('.default.text');
-            dropdownCountryContainer.textContent = "";
-            dropdownCountryContainer.insertAdjacentHTML("afterbegin", div.innerHTML);
-            dropdownCountryContainer.classList.remove("default");
-        }
-    });
-    console.log(countriesDivList);
-}
 
 function getClientById(clientId) {
     return fetch(host + '/clients/client/' + clientId, {
@@ -106,3 +80,4 @@ function getClientById(clientId) {
 
 
 hideUnnecessaryElementsInMenu();
+fillFieldsWithClientsData();
