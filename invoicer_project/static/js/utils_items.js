@@ -101,16 +101,15 @@ export function deleteAdditionalUnit() {
                 try {
                     const requestOptions = {
                         method: 'DELETE',
-                        body: JSON.stringify({"id": additionalUnitId}),
+                        body: JSON.stringify({"additional_unit_id": additionalUnitId}),
                         headers: {
                             'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
                             'Content-Type': 'application/json'
                         },
                     };
-                    const response = await fetch(host + "/additional_units/" + additionalUnitId, requestOptions);
+                    const response = await fetch(host + "/items/additional_units/" + additionalUnitId, requestOptions);
                     if (response.ok) {
                         removeLabels(buttonIndex);
-                        // location.reload();
                     } else if (response.status === 401) {
                         window.location.replace(host + '/user/login/');
                     } else {

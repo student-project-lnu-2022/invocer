@@ -19,7 +19,16 @@ import {
     additionalUnits,
     amountAdditionalUnitField
 } from './utils_items.js'
-import {hideUnnecessaryElementsInMenu} from './utils_clients.js'
+import {
+    addressField,
+    cityField, clientId,
+    countryField,
+    emailField,
+    hideUnnecessaryElementsInMenu,
+    surnameField,
+    telephoneField,
+    zipField
+} from './utils_clients.js'
 import {
     removeAllErrorAttributes,
     setErrorAttributesToFields,
@@ -28,7 +37,8 @@ import {
     allAreFalse,
     validateName, validatePrice, validateAmountInStock, validateBarcode, validationDropdown,
 } from './validation_utils.js'
-import { obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
+import {obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
+
 function validateItemEdit() {
     removeAllErrorAttributes(returnAllFields());
     setMaxFieldContainerHeights(returnAllFields());
@@ -43,10 +53,11 @@ function validateItemEdit() {
 }
 
 document.getElementById("edit_item_button").addEventListener("click", async () => {
-    const validationFieldsList = validateItemEdit();
+    let statusCodesOfResponses = [];
+    // const validationFieldsList = validateItemEdit();
     let currencyValue = document.getElementById("currency").value;
     let basicUnitValue = document.getElementById("basic_unit").value
-    if (allAreFalse(validationFieldsList)) {
+    if (true) {
         const data = JSON.stringify({
             name: nameField.value,
             price: parseFloat(priceField.value),
@@ -55,12 +66,58 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
             amount_in_stock: parseFloat(amountInStockField.value),
             barcode: barcodeField.value,
         });
-        const serverResponseStatus = await sendAddEditRequest(host + "/items/items_list/" + itemId, data, "PATCH");
-        actionBasedOnStatusCode(serverResponseStatus, 200, data, returnAllFields(), "/items/list/", "PATCH", "/items/items_list/");
+        let additionalUnitsFields = document.querySelectorAll(".d-flex.additional_unit");
+        const updateItemServerResponseStatus = await sendAddEditRequest(host + "/items/items_list/" + itemId, data, "PATCH");
+        statusCodesOfResponses.push(updateItemServerResponseStatus);
+        const listOfNewAdditionalUnits = getListOfNewAdditionalUnits(additionalUnitsFields);
+        if (listOfNewAdditionalUnits.length > 0) {
+            for (const currentAdditionalBlock of listOfNewAdditionalUnits) {
+                const additionalUnitData = JSON.stringify({
+                    item: itemId,
+                    additional_unit_name: currentAdditionalBlock.children[0].value,
+                    quantity: parseFloat(currentAdditionalBlock.children[1].value),
+                });
+                const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/", additionalUnitData, "POST");
+                statusCodesOfResponses.push(addAdditionalUnitServerResponseStatus);
+            }
+        }
+        const listOfExistAdditionalUnits = getListOfExistAdditionalUnits(additionalUnitsFields);
+        if (listOfExistAdditionalUnits.length > 0) {
+            for (const currentAdditionalBlock of listOfExistAdditionalUnits) {
+                const additionalUnitData = JSON.stringify({
+                    item: itemId,
+                    additional_unit_name: currentAdditionalBlock.children[0].value,
+                    quantity: parseFloat(currentAdditionalBlock.children[1].value),
+                });
+                const updateAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/", additionalUnitData, "PATCH");
+                statusCodesOfResponses.push(updateAdditionalUnitServerResponseStatus);
+            }
+        }
     } else {
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
 });
+
+function getListOfNewAdditionalUnits(listOfAdditionalUnitsFields) {
+    let listOfNewAdditionalUnits = [];
+    for (let i = 0; i < listOfAdditionalUnitsFields.length; i++) {
+        if (listOfAdditionalUnitsFields[i].getAttribute("data-additional-unit-id") == null) {
+            listOfNewAdditionalUnits.push(listOfAdditionalUnitsFields[i]);
+        }
+    }
+    return listOfNewAdditionalUnits;
+}
+
+function getListOfExistAdditionalUnits(listOfAdditionalUnitsFields) {
+    let listOfNewAdditionalUnits = [];
+    for (let i = 0; i < listOfAdditionalUnitsFields.length; i++) {
+        if (listOfAdditionalUnitsFields[i].getAttribute("data-additional-unit-id") != null) {
+            listOfNewAdditionalUnits.push(listOfAdditionalUnitsFields[i]);
+        }
+    }
+    return listOfNewAdditionalUnits;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     clearErrorAttributes(returnAllFields());
     obtainUserInitials();
@@ -90,7 +147,6 @@ function addLabels() {
     additionalUnits[index].parentNode.classList.add("d-flex");
     ++numOfRowsObject.numOfRows;
 }
-
 
 
 hideUnnecessaryElementsInMenu();

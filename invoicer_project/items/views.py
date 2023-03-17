@@ -44,7 +44,7 @@ class ItemViewSet(viewsets.ViewSet):
         except Item.DoesNotExist:
             return JsonResponse({'error': 'Item not found'}, status=404)
         request.data['user'] = user['user_id']
-        serializer = ItemSerializer(item, data=request.data)
+        serializer = ItemSerializer(item, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
@@ -82,7 +82,7 @@ class UnitViewSet(viewsets.ViewSet):
         except AdditionalUnit.DoesNotExist:
             return JsonResponse({'error': 'Additional unit not found'}, status=404)
         request.data['user'] = user['user_id']
-        serializer = AdditionalUnitSerializer(additional_unit, data=request.data)
+        serializer = AdditionalUnitSerializer(additional_unit, data=request.data, )
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data)
