@@ -37,7 +37,7 @@
                                     <md-outlined-text-field class="input_field" label="Price" id="price" type="text"></md-outlined-text-field>
                                     <div class="dropdown_list input_field">
                                         <div class="d-flex flex-wrap flex-row">
-                                        <button class="dropdown__button" type="button">Currency</button>
+                                        <button class="dropdown__button dropdown_button_currency" type="button">Currency</button>
                                         <div class="arrow-up"></div>
                                     </div>
                                         <ul class="dropdown__list">
@@ -49,7 +49,7 @@
                                       </div>
                                       <div class="dropdown_list input_field">
                                             <div class="d-flex flex-wrap flex-row">
-                                            <button class="dropdown__button" type="button">Basic unit</button>
+                                            <button class="dropdown__button dropdown_button_basic_unit" type="button">Basic unit</button>
                                             <div class="arrow-up"></div>
                                        </div>
                                           <ul class="dropdown__list">
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <md-fab-extended class="input_field centered md-fab" icon="add_circle_outline" label="Add new item" id="edit_item_button"></md-fab-extended>
+                                <md-fab-extended class="input_field centered md-fab" icon="add_circle_outline" label="Save changes" id="edit_item_button"></md-fab-extended>
                             </div>
                         </div>
                         <div class="d-flex flex-wrap flex-column container-fluid col-xxl col-xl col-lg background_input_item_in_page">
@@ -174,8 +174,8 @@
         </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="module" src="{% static 'js/bundle.js' %}"></script>
-    <script type="module" src="{% static 'js/add_edit_item.js' %}"></script>
     <script type="module" src="{% static 'js/edit_item_request.js' %}"></script>
+    <script type="module" src="{% static 'js/add_edit_item.js' %}"></script>
     <script type="module" src="{% static 'js/index.js' %}"></script>
 </body>
 </html>

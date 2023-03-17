@@ -39,12 +39,12 @@ export const numOfRowsObject = {
 export async function fillFieldsWithData() {
     let responseFromServerForItem = await getItemById(itemId);
     let responseFromServerForUnit = await getUnitsByItemId(itemId);
-    console.log(responseFromServerForUnit);
-    console.log(responseFromServerForItem);
     document.getElementById("name").value = responseFromServerForItem["name"];
     document.getElementById("price").value = responseFromServerForItem["price"];
     document.querySelector(".dropdown_button_currency").textContent = responseFromServerForItem["currency"];
     document.querySelector(".dropdown_button_basic_unit").textContent = responseFromServerForItem["basic_unit"];
+    document.querySelector("#currency").setAttribute("value", responseFromServerForItem["currency"]);
+    document.querySelector("#basic_unit").setAttribute("value", responseFromServerForItem["basic_unit"]);
     document.getElementById("amount_in_stock").value = responseFromServerForItem["amount_in_stock"];
     document.getElementById("barcode").value = responseFromServerForItem["barcode"];
     document.querySelector("#name_val").textContent = responseFromServerForItem["name"];
@@ -54,20 +54,21 @@ export async function fillFieldsWithData() {
     document.querySelector("#basic_unit_val").textContent = responseFromServerForItem["basic_unit"];
     document.querySelector("#amount_in_stock_val").textContent = responseFromServerForItem["amount_in_stock"];
     const unitsArray = responseFromServerForUnit["content"];
-    console.log(unitsArray.length);
+    numOfRowsObject.numOfRows += unitsArray.length;
+    const additionalUnitFields = document.querySelectorAll(".additional_unit");
     for (let i = 0; i < unitsArray.length; i++) {
         let additionalUnitName = unitsArray[i]["additional_unit_name"];
         let additionalUnitQuantity = unitsArray[i]["quantity"];
-        console.log(additionalUnitName);
-        console.log(additionalUnitQuantity);
-        document.getElementById("column-2").insertAdjacentHTML('afterbegin', `  <md-outlined-text-field label="${additionalUnitName}"
-                                                        class="input_field additional_unit_field" type="text" id="AU1"
-                                                        readonly></md-outlined-text-field>
-                                <md-outlined-text-field label="${additionalUnitQuantity}"
-                                                        class="input_field amount_additional_unit_field" type="text"
-                                                        id="amount_AU1" readonly></md-outlined-text-field>`);
+        additionalUnitFields[i].classList.remove("d-none");
+        additionalUnitFields[i].classList.add("d-flex");
+        document.getElementById(`AU${i+1}`).value = additionalUnitName;
+        document.getElementById(`amount_AU${i+1}`).value =additionalUnitQuantity;
+        document.getElementById(`Aditional_unit_${i+1}`).textContent = additionalUnitName;
+        document.getElementById(`AU${i+1}_val`).textContent =additionalUnitQuantity;
+        document.getElementById(`Aditional_unit_${i+1}`).setAttribute("data-text", additionalUnitName);
+        document.getElementById(`AU${i+1}_val`).setAttribute("data-text", additionalUnitQuantity);
+        document.querySelectorAll(".additional_unit_cell")[i].classList.remove("hidden");
     }
-
 }
 
 export function setErrorAttributesToFields(fields, errorsObject) {

@@ -13,6 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.querySelector("#edit_item_page_button_redirect").addEventListener('click', () =>{
-    window.location.replace(host + "/items/view/" + itemId);
+    window.location.replace(host + "/items/edit/" + itemId);
 })
 

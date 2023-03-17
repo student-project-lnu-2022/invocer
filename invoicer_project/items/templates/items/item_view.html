@@ -81,9 +81,6 @@
                                 <md-outlined-text-field label="Amount in aditional unit 1"
                                                         class="input_field amount_additional_unit_field" type="text"
                                                         id="amount_AU1" readonly></md-outlined-text-field>
-                                <div class="d-flex flex-wrap justify-content-end">
-                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
-                                </div>
                             </div>
                             <div class="d-none flex-wrap flex-column additional_unit">
                                 <md-outlined-text-field label="Aditional unit 2"
@@ -92,9 +89,6 @@
                                 <md-outlined-text-field label="Amount in aditional unit 2"
                                                         class="input_field amount_additional_unit_field" type="text"
                                                         id="amount_AU2" readonly></md-outlined-text-field>
-                                <div class="d-flex flex-wrap justify-content-end">
-                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
-                                </div>
                             </div>
                             <div class="d-none flex-wrap flex-column additional_unit">
                                 <md-outlined-text-field label="Aditional unit 3"
@@ -103,9 +97,7 @@
                                 <md-outlined-text-field label="Amount in aditional unit 3"
                                                         class="input_field amount_additional_unit_field" type="text"
                                                         id="amount_AU3" readonly></md-outlined-text-field>
-                                <div class="d-flex flex-wrap justify-content-end">
-                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
-                                </div>
+
                             </div>
                             <div class="d-none flex-wrap flex-column additional_unit">
                                 <md-outlined-text-field label="Aditional unit 4"
@@ -114,9 +106,7 @@
                                 <md-outlined-text-field label="Amount in aditional unit 4"
                                                         class="input_field amount_additional_unit_field" type="text"
                                                         id="amount_AU4" readonly></md-outlined-text-field>
-                                <div class="d-flex flex-wrap justify-content-end">
-                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
-                                </div>
+
                             </div>
                             <div class="d-none flex-wrap flex-column additional_unit">
                                 <md-outlined-text-field label="Aditional unit 5"
@@ -125,77 +115,74 @@
                                 <md-outlined-text-field label="Amount in aditional unit 5"
                                                         class="input_field amount_additional_unit_field" type="text"
                                                         id="amount_AU5" readonly></md-outlined-text-field>
-                                <div class="d-flex flex-wrap justify-content-end">
-                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
-                                </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <md-fab-extended class="input_field centered md-fab" id="edit_item_page_button_redirect"
+                                         icon="edit" label="Edit item" id="view_item_button"></md-fab-extended>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap flex-column container-fluid col-xxl col-xl col-lg background_input_item_in_page">
+                    <div class="row text-left">
+                        <h3 style="color:#46464F;" id="name_val">Name of item</h3>
+                    </div>
+                    <div class="row text-left">
+                        <h5 class="secondary_text" id="barcode_val">Barcode: </h5>
+                    </div>
+                    <div class="container-fluid text-left" id="table">
+                        <div class="row">
+                            <div class="col-6 first_col">Price</div>
+                            <div class="col-6 second_col" id="price_val"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 first_col">Currency</div>
+                            <div class="col-6 second_col" id="currency_val"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 first_col">Basic unit</div>
+                            <div class="col-6 second_col" id="basic_unit_val"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 first_col">Amount in stock</div>
+                            <div class="col-6 second_col" id="amount_in_stock_val"></div>
+                        </div>
+                        <div class="hidden additional_unit_cell">
+                            <div class="row secondary_text table_header">Aditional unit 1</div>
                             <div class="row">
-                                <md-fab-extended class="input_field centered md-fab" id="edit_item_page_button_redirect"
-                                                 icon="edit" label="Edit item" id="view_item_button"></md-fab-extended>
+                                <div class="col-6 first_col" id="Aditional_unit_1">Aditional unit 1</div>
+                                <div class="col-6 second_col" id="AU1_val"></div>
                             </div>
                         </div>
-                        <div class="d-flex flex-wrap flex-column container-fluid col-xxl col-xl col-lg background_input_item_in_page">
-                            <div class="row text-left">
-                                <h3 style="color:#46464F;" id="name_val">Name of item</h3>
-                            </div>
-                            <div class="row text-left">
-                                <h5 class="secondary_text" id="barcode_val">Barcode: </h5>
-                            </div>
-                            <div class="container-fluid text-left" id="table">
-                                <div class="row">
-                                    <div class="col-6 first_col">Price</div>
-                                    <div class="col-6 second_col" id="price_val"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 first_col">Currency</div>
-                                    <div class="col-6 second_col" id="currency_val"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 first_col">Basic unit</div>
-                                    <div class="col-6 second_col" id="basic_unit_val"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6 first_col">Amount in stock</div>
-                                    <div class="col-6 second_col" id="amount_in_stock_val"></div>
-                                </div>
-                                <div class="hidden additional_unit_cell">
-                                    <div class="row secondary_text table_header">Aditional unit 1</div>
-                                    <div class="row">
-                                        <div class="col-6 first_col" id="Aditional_unit_1">Aditional unit 1</div>
-                                        <div class="col-6 second_col" id="AU1_val"></div>
-                                    </div>
-                                </div>
-                                <div class="hidden additional_unit_cell">
-                                    <div class="row secondary_text table_header">Aditional unit 2</div>
-                                    <div class="row">
-                                        <div class="col-6 first_col" id="Aditional_unit_2">Aditional unit 2</div>
-                                        <div class="col-6 second_col" id="AU2_val"></div>
-                                    </div>
-                                </div>
-                                <div class="hidden additional_unit_cell">
-                                    <div class="row secondary_text table_header">Aditional unit 3</div>
-                                    <div class="row">
-                                        <div class="col-6 first_col" id="Aditional_unit_3">Aditional unit 3</div>
-                                        <div class="col-6 second_col" id="AU3_val"></div>
-                                    </div>
-                                </div>
-                                <div class="hidden additional_unit_cell">
-                                    <div class="row secondary_text table_header">Aditional unit 4</div>
-                                    <div class="row">
-                                        <div class="col-6 first_col" id="Aditional_unit_4">Aditional unit 4</div>
-                                        <div class="col-6 second_col" id="AU4_val"></div>
-                                    </div>
-                                </div>
-                                <div class="hidden additional_unit_cell">
-                                    <div class="row secondary_text table_header">Aditional unit 5</div>
-                                    <div class="row">
-                                        <div class="col-6 first_col" id="Aditional_unit_5">Aditional unit 5</div>
-                                        <div class="col-6 second_col" id="AU5_val"></div>
-                                    </div>
-                                </div>
-                                <div class="row" style="border-top: 1px solid rgba(0, 68, 255, 0.11);"></div>
+                        <div class="hidden additional_unit_cell">
+                            <div class="row secondary_text table_header">Aditional unit 2</div>
+                            <div class="row">
+                                <div class="col-6 first_col" id="Aditional_unit_2">Aditional unit 2</div>
+                                <div class="col-6 second_col" id="AU2_val"></div>
                             </div>
                         </div>
+                        <div class="hidden additional_unit_cell">
+                            <div class="row secondary_text table_header">Aditional unit 3</div>
+                            <div class="row">
+                                <div class="col-6 first_col" id="Aditional_unit_3">Aditional unit 3</div>
+                                <div class="col-6 second_col" id="AU3_val"></div>
+                            </div>
+                        </div>
+                        <div class="hidden additional_unit_cell">
+                            <div class="row secondary_text table_header">Aditional unit 4</div>
+                            <div class="row">
+                                <div class="col-6 first_col" id="Aditional_unit_4">Aditional unit 4</div>
+                                <div class="col-6 second_col" id="AU4_val"></div>
+                            </div>
+                        </div>
+                        <div class="hidden additional_unit_cell">
+                            <div class="row secondary_text table_header">Aditional unit 5</div>
+                            <div class="row">
+                                <div class="col-6 first_col" id="Aditional_unit_5">Aditional unit 5</div>
+                                <div class="col-6 second_col" id="AU5_val"></div>
+                            </div>
+                        </div>
+                        <div class="row" style="border-top: 1px solid rgba(0, 68, 255, 0.11);"></div>
                     </div>
                 </div>
             </div>
