@@ -11,7 +11,13 @@ import {
     additionalFieldsContainer,
     amountAdditionalFieldsContainer,
     itemId,
-    fillFieldsWithData, deleteAdditionalUnit
+    fillFieldsWithData,
+    deleteAdditionalUnit,
+    numOfRowsObject,
+    maxNumOfUnits,
+    additionalUnitCell,
+    additionalUnits,
+    amountAdditionalUnitField
 } from './utils_items.js'
 import {hideUnnecessaryElementsInMenu} from './utils_clients.js'
 import {
@@ -85,16 +91,7 @@ function addLabels() {
     ++numOfRowsObject.numOfRows;
 }
 
-function removeLabels(index) {
-    additionalUnitCell[index].classList.add("hidden");
-    additionalUnits[index].parentNode.classList.add("d-none");
-    additionalUnits[index].parentNode.classList.remove("d-flex");
-    removeTextFromTable(document.querySelector(`#Aditional_unit_${index + 1}`), `Aditional unit ${index + 1}`);
-    removeTextFromTable(document.querySelector(`#AU${index + 1}_val`), "");
-    additionalUnits[index].value = "";
-    amountAdditionalUnitField[index].value = "";
-    --numOfRowsObject.numOfRows;
-}
+
 
 hideUnnecessaryElementsInMenu();
 

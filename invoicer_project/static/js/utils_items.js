@@ -75,14 +75,54 @@ export async function fillFieldsWithData() {
     }
 }
 
+function removeTextFromTable(inputElement, data) {
+    inputElement.removeAttribute('data-text');
+    inputElement.innerHTML = data;
+}
+function removeLabels(index) {
+    additionalUnitCell[index].classList.add("hidden");
+    additionalUnits[index].parentNode.classList.add("d-none");
+    additionalUnits[index].parentNode.classList.remove("d-flex");
+    removeTextFromTable(document.querySelector(`#Aditional_unit_${index + 1}`), `Aditional unit ${index + 1}`);
+    removeTextFromTable(document.querySelector(`#AU${index + 1}_val`), "");
+    additionalUnits[index].value = "";
+    amountAdditionalUnitField[index].value = "";
+    --numOfRowsObject.numOfRows;
+}
+
 export function deleteAdditionalUnit() {
     const closeButtons = document.querySelectorAll('.close_btn');
-
     closeButtons.forEach((element) => {
-        element.addEventListener('click', (event) => {
+        element.addEventListener('click', async (event) => {
             const clickedButton = event.target;
-            const clickedButtonId = clickedButton.getAttribute('data-additional-unit-id');
-            console.log(clickedButtonId);
+            const buttonIndex = Array.prototype.indexOf.call(closeButtons, clickedButton);
+            const additionalUnitId = clickedButton.getAttribute('data-additional-unit-id');
+            if (additionalUnitId) {
+                try {
+                    const requestOptions = {
+                        method: 'DELETE',
+                        body: JSON.stringify({"id": additionalUnitId}),
+                        headers: {
+                            'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+                            'Content-Type': 'application/json'
+                        },
+                    };
+                    const response = await fetch(host + "/additional_units/" + additionalUnitId, requestOptions);
+                    if (response.ok) {
+                        removeLabels(buttonIndex);
+                        // location.reload();
+                    } else if (response.status === 401) {
+                        window.location.replace(host + '/user/login/');
+                    } else {
+                        console.error('Error with deleting additional unit:', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error with deleting additional unit:', error);
+                }
+            }
+            else {
+                removeLabels(buttonIndex);
+            }
         });
     });
 }
