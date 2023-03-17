@@ -7,7 +7,7 @@ function createClientListContent(data) {
         let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
         let clientID = data[i]['id'];
 
-        document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item clickable_item align-items-center justify-content-between" data-client-id="${clientID}">
+        document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item clickable_item align-items-center justify-content-between" data-element-id="${clientID}">
                 <div class="col-xxl-1 col-xl-1 col-1 clickable_item list_item_user_icon_initials">
                     <p class="list_item_user_icon_initials_text" data-element-id="${clientID}">${clientInitials}</p>
                 </div>
