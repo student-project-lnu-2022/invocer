@@ -58,6 +58,8 @@ function validateItemEdit() {
 }
 
 function validateAdditionalUnits() {
+    clearErrorAttributes(additionalFieldsContainer);
+    clearErrorAttributes(amountAdditionalFieldsContainer);
     const additionalUnitsFields = document.querySelectorAll(".d-flex.additional_unit");
     const validationResults = [];
 
