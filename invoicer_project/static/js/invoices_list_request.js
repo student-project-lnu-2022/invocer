@@ -45,7 +45,7 @@ async function addElementsDynamically() {
         addDeleteButtonListeners('.delete-invoice', "/invoices/invoice/");
         addEditButtonListeners();
         addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoices/invoice/");
-        addDownloadButtonListeners('.download')
+        addDownloadButtonListeners('.download');
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -56,6 +56,7 @@ async function addElementsDynamically() {
             addDeleteButtonListeners('.delete-invoice', "/invoices/invoice/");
             addEditButtonListeners();
             addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoices/invoice/");
+            addDownloadButtonListeners('.download');
         }
     } else {
         window.location.replace(host + '/user/login/');
