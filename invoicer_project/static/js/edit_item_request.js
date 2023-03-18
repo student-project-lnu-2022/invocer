@@ -35,7 +35,7 @@ import {
     clearErrorAttributes,
     setMaxFieldContainerHeights,
     allAreFalse,
-    validateName, validatePrice, validateAmountInStock, validateBarcode, validationDropdown,
+    validateName, validatePrice, validateAmountInStock, validateBarcode, validationDropdown, validation,
 } from './validation_utils.js'
 import {
     obtainNewAccessToken,
@@ -57,8 +57,29 @@ function validateItemEdit() {
     };
 }
 
+function validateAdditionalUnits() {
+    const additionalUnitsFields = document.querySelectorAll(".d-flex.additional_unit");
+    const validationResults = [];
+
+    for (let i = 0; i < additionalUnitsFields.length; i++) {
+        const additionalUnitName = additionalUnitsFields[i].querySelector('.additional_unit_field').value;
+        const additionalUnitQuantity = additionalUnitsFields[i].querySelector('.amount_additional_unit_field').value;
+
+        const validationResult = {
+            'additionalUnitNameValidationResult': validation(additionalUnitName, /^[a-zа-яіїєґA-ZA-ЯІЇЄҐ]+$/),
+            'additionalUnitQuantityValidationResult': validateAmountInStock(additionalUnitQuantity)
+        };
+
+        validationResults.push(validationResult);
+    }
+
+    return validationResults;
+}
+
+
 document.getElementById("edit_item_button").addEventListener("click", async () => {
     const validationFieldsList = validateItemEdit();
+    const validationAdditionalUnitsFieldsList = validateAdditionalUnits();
     let currencyValue = document.getElementById("currency").value;
     let basicUnitValue = document.getElementById("basic_unit").value
     if (allAreFalse(validationFieldsList)) {
@@ -78,7 +99,6 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
         let additionalUnitsFields = document.querySelectorAll(".d-flex.additional_unit");
 
         const listOfNewAdditionalUnits = getListOfNewAdditionalUnits(additionalUnitsFields);
-
         if (listOfNewAdditionalUnits.length > 0) {
             for (let currentAdditionalBlock of listOfNewAdditionalUnits) {
                 const additionalUnitData = JSON.stringify({
@@ -92,21 +112,31 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
         }
 
         const listOfExistAdditionalUnits = getListOfExistAdditionalUnits(additionalUnitsFields);
-
         if (listOfExistAdditionalUnits.length > 0) {
             for (const currentAdditionalBlock of listOfExistAdditionalUnits) {
-                const additionalUnitId = currentAdditionalBlock.getAttribute("data-additional-unit-id")
-                const additionalUnitData = JSON.stringify({
-                    additional_unit_name: currentAdditionalBlock.children[0].value,
-                    quantity: parseFloat(currentAdditionalBlock.children[1].value),
-                });
+                if (validationAdditionalUnitsFieldsList.every(allAreFalse)) {
+                    const additionalUnitId = currentAdditionalBlock.getAttribute("data-additional-unit-id")
+                    const additionalUnitData = JSON.stringify({
+                        additional_unit_name: currentAdditionalBlock.children[0].value,
+                        quantity: parseFloat(currentAdditionalBlock.children[1].value),
+                    });
 
-                const updateAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/" + additionalUnitId, additionalUnitData, "PATCH");
-                await checkUserSessionStatus(201, updateAdditionalUnitServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
+                    const updateAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/" + additionalUnitId, additionalUnitData, "PATCH");
+                    await checkUserSessionStatus(201, updateAdditionalUnitServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
+                    window.location.href = host + "/items/list/";
+                } else {
+                    for (let i = 0; i < validationAdditionalUnitsFieldsList.length; i++) {
+                        let test = [];
+                        test.push(document.getElementById(`AU${i + 1}`));
+                        test.push(document.getElementById(`amount_AU${i + 1}`));
+                        setErrorAttributesToFields(validationAdditionalUnitsFieldsList[i], test);
+                    }
+                }
             }
         }
-        window.location.href = host + "/items/list/";
     } else {
+        console.log('outer setErrorAttributesToFields errors:', validationFieldsList);
+        console.log('outer fields: ', returnAllFields())
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
 });
