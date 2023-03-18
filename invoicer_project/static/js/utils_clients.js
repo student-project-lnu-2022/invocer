@@ -40,14 +40,12 @@ export async function fillFieldsWithClientsData() {
     const countriesDivList = document.querySelectorAll('.menu div');
     countriesDivList.forEach(div => {
         if (div.getAttribute("data-value") === responseFromServer["country"]) {
-            console.log(responseFromServer["country"]);
             const dropdownCountryContainer = document.querySelector('.default.text');
             dropdownCountryContainer.textContent = "";
             dropdownCountryContainer.insertAdjacentHTML("afterbegin", div.innerHTML);
             dropdownCountryContainer.classList.remove("default");
         }
     });
-    console.log(countriesDivList);
 }
 
 function getClientById(clientId) {
