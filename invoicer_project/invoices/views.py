@@ -6,8 +6,12 @@ from clients.views import get_user_from_jwt
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
-import json
 from django.http import HttpResponse
+from io import BytesIO
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 
 class InvoiceViewSet(viewsets.ViewSet):
@@ -45,12 +49,23 @@ class InvoiceViewSet(viewsets.ViewSet):
             invoice = self.queryset.get(id=invoice_id, user_id=user['user_id'])
         except Invoice.DoesNotExist:
             return JsonResponse({'error': 'Invoice not found'}, status=404)
-        request.data['user'] = user['user_id']
-        serializer = InvoiceSerializer(invoice, many=False)
-        data = {'content': serializer.data}
-        filename = 'data.json'
-        response = HttpResponse(json.dumps(data), content_type='application/json')
-        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        serializer = InvoiceSerializer(invoice, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+        buffer = BytesIO()
+        p = canvas.Canvas(buffer)
+        pdfmetrics.registerFont(TTFont('TimesNewRoman', 'static/fonts/Royal_Times_New_Roman.ttf'))
+        p.setFont('TimesNewRoman', 20)
+        p.drawString(225, 800, f"{serializer.data['name']}")
+        p.setFont('TimesNewRoman', 14)
+        p.drawString(50, 765, f"Ціна накладної: {serializer.data['price']}")
+        p.drawString(50, 748, f"Дата початку: {serializer.data['date_of_invoice']}")
+        p.drawString(400, 750, f"Дата кінця: {serializer.data['date_of_payment']}")
+        p.showPage()
+        p.save()
+        buffer.seek(0)
+        response = HttpResponse(buffer, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename=invoice-{invoice.id}.pdf'
         return response
 
 

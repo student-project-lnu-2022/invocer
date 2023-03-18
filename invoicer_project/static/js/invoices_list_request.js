@@ -103,12 +103,11 @@ async function downloadDataRequest(invoiceId) {
             'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
         },
     });
-    const jsonData = await result.json();
-    const blob = new Blob([JSON.stringify(jsonData)], { type: 'application/json;charset=utf-8' });
+    const blob = await result.blob();
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'invoice.json';
+    link.download = 'invoice.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
