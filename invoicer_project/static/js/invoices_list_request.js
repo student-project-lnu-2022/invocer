@@ -28,7 +28,7 @@ function createInvoiceListContent(data) {
                             <md-standard-icon-button class="edit-item"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
                             <md-standard-icon-button class="delete-invoice" data-element-id="${invoiceID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                             <md-standard-icon-button class="upload"><span class="material-symbols-outlined">upload</span></md-standard-icon-button>
-                            <md-standard-icon-button class="download"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
+                            <md-standard-icon-button class="download" data-element-id="${invoiceID}"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
                             <md-checkbox class="delete_invoices_checkbox" id="list_item_user_delete" data-element-id="${invoiceID}"></md-checkbox>
                         </div>
                     </div>
@@ -45,6 +45,7 @@ async function addElementsDynamically() {
         addDeleteButtonListeners('.delete-invoice', "/invoices/invoice/");
         addEditButtonListeners();
         addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoices/invoice/");
+        addDownloadButtonListeners('.download')
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -92,3 +93,32 @@ document.querySelector("#sort_asc").addEventListener("click", ()=> {
       parent.appendChild(div);
     }
 })
+
+async function downloadDataRequest(invoiceId) {
+    const downloadUrl = "/invoices/download/" + invoiceId;
+    const result = await fetch(downloadUrl, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`
+        },
+    });
+    const jsonData = await result.json();
+    const blob = new Blob([JSON.stringify(jsonData)], { type: 'application/json;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'invoice.json';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function addDownloadButtonListeners(selectorName) {
+    const downloadButtons = document.querySelectorAll(selectorName);
+    downloadButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const invoiceId = button.getAttribute('data-element-id');
+            downloadDataRequest(invoiceId);
+        });
+    });
+}

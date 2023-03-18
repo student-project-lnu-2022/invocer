@@ -6,6 +6,9 @@ from clients.views import get_user_from_jwt
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
+import json
+from django.http import HttpResponse
+
 
 class InvoiceViewSet(viewsets.ViewSet):
     model = Invoice
@@ -19,7 +22,6 @@ class InvoiceViewSet(viewsets.ViewSet):
         invoices_json = self.serializer_class(invoices, many=True)
         data = {'content': invoices_json.data}
         return JsonResponse(data, status=200, safe=False)
-    
 
     def create(self, request):
         data = JSONParser().parse(request)
@@ -36,7 +38,20 @@ class InvoiceViewSet(viewsets.ViewSet):
         invoices = Invoice.objects.filter(id__in=invoice_ids, user_id=user['user_id'])
         invoices.delete()
         return JsonResponse({}, status=204)
-    
+
+    def download_data(self, request, invoice_id):
+        try:
+            user = get_user_from_jwt(request.headers)
+            invoice = self.queryset.get(id=invoice_id, user_id=user['user_id'])
+        except Invoice.DoesNotExist:
+            return JsonResponse({'error': 'Invoice not found'}, status=404)
+        request.data['user'] = user['user_id']
+        serializer = InvoiceSerializer(invoice, many=False)
+        data = {'content': serializer.data}
+        filename = 'data.json'
+        response = HttpResponse(json.dumps(data), content_type='application/json')
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
 
 
 class OrderedItemViewSet(viewsets.ViewSet):
@@ -53,5 +68,5 @@ class OrderedItemViewSet(viewsets.ViewSet):
                 serializer.save()
                 return JsonResponse(serializer.data, status=201)
             except Exception as exc:
-                 return JsonResponse({"errors": str(exc)}, status=400)
+                return JsonResponse({"errors": str(exc)}, status=400)
         return JsonResponse(serializer.errors, status=400)
