@@ -112,6 +112,22 @@ export async function actionBasedOnStatusCode(statusCode, successStatusCode, dat
     }
 }
 
+export async function checkUserSessionStatus(statusCode, successStatusCode, data, requestMethod, requestUrl) {
+    if (statusCode !== successStatusCode) {
+        if (statusCode === 401) {
+            const obtainedNewTokens = await obtainNewAccessToken();
+            if (!obtainedNewTokens) {
+                window.location.href = host + '/user/login/';
+            } else {
+                const status = await sendAddEditRequest(host + requestUrl, data, requestMethod);
+                actionBasedOnStatusCode(status, successStatusCode, data, requestMethod, requestUrl);
+            }
+        } else {
+            console.log(`Unknown error: status code = ${statusCode}`);
+        }
+    }
+}
+
 
 export function addCheckboxesListener(elementsIdOrClass, deleteElementsIdOrClass, deleteElementsIdOrClassWithoutPoint, deleteManyElementsIdOrClass, url) {
     let dataForServer;

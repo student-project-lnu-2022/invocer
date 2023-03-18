@@ -37,7 +37,13 @@ import {
     allAreFalse,
     validateName, validatePrice, validateAmountInStock, validateBarcode, validationDropdown,
 } from './validation_utils.js'
-import {obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
+import {
+    obtainNewAccessToken,
+    obtainUserInitials,
+    actionBasedOnStatusCode,
+    checkUserSessionStatus,
+    sendAddEditRequest
+} from './request_utils.js'
 
 function validateItemEdit() {
     removeAllErrorAttributes(returnAllFields());
@@ -53,7 +59,6 @@ function validateItemEdit() {
 }
 
 document.getElementById("edit_item_button").addEventListener("click", async () => {
-    let statusCodesOfResponses = [];
     // const validationFieldsList = validateItemEdit();
     let currencyValue = document.getElementById("currency").value;
     let basicUnitValue = document.getElementById("basic_unit").value
@@ -66,31 +71,39 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
             amount_in_stock: parseFloat(amountInStockField.value),
             barcode: barcodeField.value,
         });
-        let additionalUnitsFields = document.querySelectorAll(".d-flex.additional_unit");
+
         const updateItemServerResponseStatus = await sendAddEditRequest(host + "/items/items_list/" + itemId, data, "PATCH");
-        statusCodesOfResponses.push(updateItemServerResponseStatus);
+        await checkUserSessionStatus(200, updateItemServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
+
+
+        let additionalUnitsFields = document.querySelectorAll(".d-flex.additional_unit");
+
         const listOfNewAdditionalUnits = getListOfNewAdditionalUnits(additionalUnitsFields);
+
         if (listOfNewAdditionalUnits.length > 0) {
-            for (const currentAdditionalBlock of listOfNewAdditionalUnits) {
+            for (let currentAdditionalBlock of listOfNewAdditionalUnits) {
                 const additionalUnitData = JSON.stringify({
                     item: itemId,
                     additional_unit_name: currentAdditionalBlock.children[0].value,
                     quantity: parseFloat(currentAdditionalBlock.children[1].value),
                 });
                 const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/", additionalUnitData, "POST");
-                statusCodesOfResponses.push(addAdditionalUnitServerResponseStatus);
+                await checkUserSessionStatus(201, addAdditionalUnitServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
             }
         }
+
         const listOfExistAdditionalUnits = getListOfExistAdditionalUnits(additionalUnitsFields);
+
         if (listOfExistAdditionalUnits.length > 0) {
             for (const currentAdditionalBlock of listOfExistAdditionalUnits) {
+                const additionalUnitId = currentAdditionalBlock.getAttribute("data-additional-unit-id")
                 const additionalUnitData = JSON.stringify({
-                    item: itemId,
                     additional_unit_name: currentAdditionalBlock.children[0].value,
                     quantity: parseFloat(currentAdditionalBlock.children[1].value),
                 });
-                const updateAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/", additionalUnitData, "PATCH");
-                statusCodesOfResponses.push(updateAdditionalUnitServerResponseStatus);
+
+                const updateAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/" + additionalUnitId, additionalUnitData, "PATCH");
+                await checkUserSessionStatus(201, updateAdditionalUnitServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
             }
         }
     } else {
@@ -109,13 +122,13 @@ function getListOfNewAdditionalUnits(listOfAdditionalUnitsFields) {
 }
 
 function getListOfExistAdditionalUnits(listOfAdditionalUnitsFields) {
-    let listOfNewAdditionalUnits = [];
+    let listOfExistAdditionalUnits = [];
     for (let i = 0; i < listOfAdditionalUnitsFields.length; i++) {
         if (listOfAdditionalUnitsFields[i].getAttribute("data-additional-unit-id") != null) {
-            listOfNewAdditionalUnits.push(listOfAdditionalUnitsFields[i]);
+            listOfExistAdditionalUnits.push(listOfAdditionalUnitsFields[i]);
         }
     }
-    return listOfNewAdditionalUnits;
+    return listOfExistAdditionalUnits;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -126,32 +139,4 @@ document.addEventListener('DOMContentLoaded', () => {
 fillFieldsWithData();
 hideUnnecessaryElementsInMenu();
 deleteAdditionalUnit();
-
-
-function addLabels() {
-    if (numOfRowsObject.numOfRows >= maxNumOfUnits) {
-        alert(`You can't add more than ${maxNumOfUnits} additional units!`);
-        return;
-    }
-    removeAllErrorAttributes(additionalFieldsContainer);
-    removeAllErrorAttributes(amountAdditionalFieldsContainer);
-    let index = 0;
-    for (let i = 0; i <= numOfRowsObject.numOfRows; i++) {
-        if (additionalUnitCell[i].classList.contains("hidden")) {
-            index = i;
-            break;
-        }
-    }
-    additionalUnitCell[index].classList.remove("hidden");
-    additionalUnits[index].parentNode.classList.remove("d-none");
-    additionalUnits[index].parentNode.classList.add("d-flex");
-    ++numOfRowsObject.numOfRows;
-}
-
-
 hideUnnecessaryElementsInMenu();
-
-document.querySelector("#additional_item_button").addEventListener("click", () => {
-    addLabels();
-    console.log("Button is clicked");
-});
