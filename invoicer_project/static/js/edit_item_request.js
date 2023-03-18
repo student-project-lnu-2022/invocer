@@ -126,10 +126,10 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
                     window.location.href = host + "/items/list/";
                 } else {
                     for (let i = 0; i < validationAdditionalUnitsFieldsList.length; i++) {
-                        let test = [];
-                        test.push(document.getElementById(`AU${i + 1}`));
-                        test.push(document.getElementById(`amount_AU${i + 1}`));
-                        setErrorAttributesToFields(validationAdditionalUnitsFieldsList[i], test);
+                        let additionalUnitFields = [];
+                        additionalUnitFields.push(document.getElementById(`AU${i + 1}`));
+                        additionalUnitFields.push(document.getElementById(`amount_AU${i + 1}`));
+                        setErrorAttributesToFields(validationAdditionalUnitsFieldsList[i], additionalUnitFields);
                     }
                 }
             }
