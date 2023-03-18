@@ -106,6 +106,7 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
                 await checkUserSessionStatus(201, updateAdditionalUnitServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
             }
         }
+        window.location.href = host + "/items/list/";
     } else {
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
