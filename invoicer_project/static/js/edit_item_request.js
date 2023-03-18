@@ -47,7 +47,6 @@ import {
 
 function validateItemEdit() {
     removeAllErrorAttributes(returnAllFields());
-    setMaxFieldContainerHeights(returnAllFields());
     return {
         'nameValidationResult': validateName(nameField.value),
         'priceValidationResult': validatePrice(priceField.value),
@@ -59,10 +58,10 @@ function validateItemEdit() {
 }
 
 document.getElementById("edit_item_button").addEventListener("click", async () => {
-    // const validationFieldsList = validateItemEdit();
+    const validationFieldsList = validateItemEdit();
     let currencyValue = document.getElementById("currency").value;
     let basicUnitValue = document.getElementById("basic_unit").value
-    if (true) {
+    if (allAreFalse(validationFieldsList)) {
         const data = JSON.stringify({
             name: nameField.value,
             price: parseFloat(priceField.value),
