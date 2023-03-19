@@ -16,5 +16,5 @@ urlpatterns = [
     path('decode/', decode_methods , name='decode'),
     path('forgot_password/', TemplateView.as_view(template_name="user/forgot_password.html") , name='forgot_password'),
     path('logout/', logout_method, name='logout'),
-    path('settings/', TemplateView.as_view(template_name="user/settings.html") , name='settings')
+    path('settings/', TemplateView.as_view(template_name="user/settings.html"), name='settings')
 ]
