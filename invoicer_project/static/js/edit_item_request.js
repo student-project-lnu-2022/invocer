@@ -1,46 +1,28 @@
 import {
     host,
     returnAllFields,
-    getItemById,
     nameField,
     priceField,
     amountInStockField,
     barcodeField,
-    currencyField,
-    basicUnitField,
     additionalFieldsContainer,
     amountAdditionalFieldsContainer,
     itemId,
     fillFieldsWithData,
     deleteAdditionalUnit,
-    numOfRowsObject,
-    maxNumOfUnits,
-    additionalUnitCell,
-    additionalUnits,
-    amountAdditionalUnitField
 } from './utils_items.js'
 import {
-    addressField,
-    cityField, clientId,
-    countryField,
-    emailField,
     hideUnnecessaryElementsInMenu,
-    surnameField,
-    telephoneField,
-    zipField
 } from './utils_clients.js'
 import {
     removeAllErrorAttributes,
     setErrorAttributesToFields,
     clearErrorAttributes,
-    setMaxFieldContainerHeights,
     allAreFalse,
     validateName, validatePrice, validateAmountInStock, validateBarcode, validationDropdown, validation,
 } from './validation_utils.js'
 import {
-    obtainNewAccessToken,
     obtainUserInitials,
-    actionBasedOnStatusCode,
     checkUserSessionStatus,
     sendAddEditRequest
 } from './request_utils.js'
@@ -102,16 +84,28 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
 
         const listOfNewAdditionalUnits = getListOfNewAdditionalUnits(additionalUnitsFields);
         if (listOfNewAdditionalUnits.length > 0) {
-            for (let currentAdditionalBlock of listOfNewAdditionalUnits) {
-                const additionalUnitData = JSON.stringify({
-                    item: itemId,
-                    additional_unit_name: currentAdditionalBlock.children[0].value,
-                    quantity: parseFloat(currentAdditionalBlock.children[1].value),
-                });
-                const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/", additionalUnitData, "POST");
-                await checkUserSessionStatus(201, addAdditionalUnitServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
+            for (const currentAdditionalBlock of listOfNewAdditionalUnits) {
+                if (validationAdditionalUnitsFieldsList.every(allAreFalse)) {
+                    const additionalUnitData = JSON.stringify({
+                        item: itemId,
+                        additional_unit_name: currentAdditionalBlock.children[0].value,
+                        quantity: parseFloat(currentAdditionalBlock.children[1].value),
+                    });
+                    const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/", additionalUnitData, "POST");
+                    await checkUserSessionStatus(201, addAdditionalUnitServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
+
+                } else {
+                    for (let i = 0; i < validationAdditionalUnitsFieldsList.length; i++) {
+                        let additionalUnitFields = [];
+                        additionalUnitFields.push(document.getElementById(`AU${i + 1}`));
+                        additionalUnitFields.push(document.getElementById(`amount_AU${i + 1}`));
+                        setErrorAttributesToFields(validationAdditionalUnitsFieldsList[i], additionalUnitFields);
+                    }
+                    return;
+                }
             }
         }
+
 
         const listOfExistAdditionalUnits = getListOfExistAdditionalUnits(additionalUnitsFields);
         if (listOfExistAdditionalUnits.length > 0) {
@@ -125,7 +119,6 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
 
                     const updateAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/items/additional_units/" + additionalUnitId, additionalUnitData, "PATCH");
                     await checkUserSessionStatus(201, updateAdditionalUnitServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
-                    window.location.href = host + "/items/list/";
                 } else {
                     for (let i = 0; i < validationAdditionalUnitsFieldsList.length; i++) {
                         let additionalUnitFields = [];
@@ -133,12 +126,12 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
                         additionalUnitFields.push(document.getElementById(`amount_AU${i + 1}`));
                         setErrorAttributesToFields(validationAdditionalUnitsFieldsList[i], additionalUnitFields);
                     }
+                    return;
                 }
             }
         }
+        window.location.href = host + "/items/list/";
     } else {
-        console.log('outer setErrorAttributesToFields errors:', validationFieldsList);
-        console.log('outer fields: ', returnAllFields())
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
 });

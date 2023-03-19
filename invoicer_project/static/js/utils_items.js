@@ -109,6 +109,8 @@ export function deleteAdditionalUnit() {
                     };
                     const response = await fetch(host + "/items/additional_units/" + additionalUnitId, requestOptions);
                     if (response.ok) {
+                        console.log(clickedButton.parentNode.parentNode);
+                        clickedButton.parentNode.parentNode.removeAttribute('data-additional-unit-id');
                         removeLabels(buttonIndex);
                     } else if (response.status === 401) {
                         window.location.replace(host + '/user/login/');

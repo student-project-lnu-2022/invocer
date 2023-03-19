@@ -34,10 +34,10 @@
                 <div class="container-fluid col-xxl-6 col-xl-8 col-lg-8 background_input_item_in_page">
                     <div class="row">
                         <div class="d-flex flex-wrap flex-column col-xxl col-xl col-lg">
-                            <md-outlined-text-field class="input_field" label="Name" id="name" type="text"
-                                                    readonly></md-outlined-text-field>
-                            <md-outlined-text-field class="input_field" label="Price" id="price" type="text"
-                                                    readonly></md-outlined-text-field>
+                            <md-outlined-text-field class="input_field" label="Name" id="name"
+                                                    type="text" readonly="True"></md-outlined-text-field>
+                            <md-outlined-text-field class="input_field" label="Price" id="price"
+                                                    type="text" readonly="True"></md-outlined-text-field>
                             <div class="dropdown_list input_field">
                                 <div class="d-flex flex-wrap flex-row">
                                     <button class="dropdown__button dropdown_button_currency" type="button">Currency
@@ -50,7 +50,7 @@
                                     <li class="dropdown__list-item" data-value="EUR">EUR 🇪🇺</li>
                                 </ul>
                                 <input class="dropdown__input_hidden" id="currency" type="text" name="select-category"
-                                       value="" readonly/>
+                                       value=""/>
                             </div>
                             <div class="dropdown_list input_field">
                                 <div class="d-flex flex-wrap flex-row">
@@ -66,56 +66,71 @@
                                     <li class="dropdown__list-item" data-value="piece">piece</li>
                                 </ul>
                                 <input class="dropdown__input_hidden" id="basic_unit" type="text" name="select-category"
-                                       value="" readonly/>
+                                       value=""/>
                             </div>
                             <md-outlined-text-field class="input_field" label="Amount in stock" id="amount_in_stock"
-                                                    type="text" readonly></md-outlined-text-field>
-                            <md-outlined-text-field class="input_field" label="Barcode" id="barcode" type="text"
-                                                    readonly></md-outlined-text-field>
+                                                    type="text" readonly="True"></md-outlined-text-field>
+                            <md-outlined-text-field class="input_field" label="Barcode" id="barcode"
+                                                    type="text" readonly="True"></md-outlined-text-field>
                         </div>
                         <div class="d-flex flex-wrap flex-column col-xxl col-xl col-lg" id="column-2">
                             <div class="d-none flex-wrap flex-column additional_unit">
-                                <md-outlined-text-field label="Aditional unit 1"
-                                                        class="input_field additional_unit_field" type="text" id="AU1"
-                                                        readonly></md-outlined-text-field>
-                                <md-outlined-text-field label="Amount in aditional unit 1"
+                                <md-outlined-text-field label="Additional unit 1"
+                                                        class="input_field additional_unit_field" type="text"
+                                                        id="AU1" readonly="True"></md-outlined-text-field>
+                                <md-outlined-text-field label="Amount in additional unit 1"
                                                         class="input_field amount_additional_unit_field" type="text"
-                                                        id="amount_AU1" readonly></md-outlined-text-field>
+                                                        id="amount_AU1" readonly="True"></md-outlined-text-field>
+                                <div class="d-none flex-wrap justify-content-end">
+                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
+                                </div>
                             </div>
                             <div class="d-none flex-wrap flex-column additional_unit">
-                                <md-outlined-text-field label="Aditional unit 2"
-                                                        class="input_field additional_unit_field" type="text" id="AU2"
-                                                        readonly></md-outlined-text-field>
-                                <md-outlined-text-field label="Amount in aditional unit 2"
+                                <md-outlined-text-field label="Additional unit 2"
+                                                        class="input_field additional_unit_field" type="text"
+                                                        id="AU2" readonly="True"></md-outlined-text-field>
+                                <md-outlined-text-field label="Amount in additional unit 2"
                                                         class="input_field amount_additional_unit_field" type="text"
-                                                        id="amount_AU2" readonly></md-outlined-text-field>
+                                                        id="amount_AU2" readonly="True"></md-outlined-text-field>
+                                <div class="d-none flex-wrap justify-content-end">
+                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
+                                </div>
                             </div>
                             <div class="d-none flex-wrap flex-column additional_unit">
-                                <md-outlined-text-field label="Aditional unit 3"
-                                                        class="input_field additional_unit_field" type="text" id="AU3"
-                                                        readonly></md-outlined-text-field>
-                                <md-outlined-text-field label="Amount in aditional unit 3"
+                                <md-outlined-text-field label="Additional unit 3"
+                                                        class="input_field additional_unit_field" type="text"
+                                                        id="AU3" readonly="True"></md-outlined-text-field>
+                                <md-outlined-text-field label="Amount in additional unit 3"
                                                         class="input_field amount_additional_unit_field" type="text"
-                                                        id="amount_AU3" readonly></md-outlined-text-field>
-
+                                                        id="amount_AU3" readonly="True"></md-outlined-text-field>
+                                <div class="d-none flex-wrap justify-content-end">
+                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
+                                </div>
                             </div>
                             <div class="d-none flex-wrap flex-column additional_unit">
-                                <md-outlined-text-field label="Aditional unit 4"
-                                                        class="input_field additional_unit_field" type="text" id="AU4"
-                                                        readonly></md-outlined-text-field>
-                                <md-outlined-text-field label="Amount in aditional unit 4"
+                                <md-outlined-text-field label="Additional unit 4"
+                                                        class="input_field additional_unit_field" type="text"
+                                                        id="AU4" readonly="True"></md-outlined-text-field>
+                                <md-outlined-text-field label="Amount in additional unit 4"
                                                         class="input_field amount_additional_unit_field" type="text"
-                                                        id="amount_AU4" readonly></md-outlined-text-field>
-
+                                                        id="amount_AU4" readonly="True"></md-outlined-text-field>
+                                <div class="d-none flex-wrap justify-content-end">
+                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
+                                </div>
                             </div>
                             <div class="d-none flex-wrap flex-column additional_unit">
-                                <md-outlined-text-field label="Aditional unit 5"
-                                                        class="input_field additional_unit_field" type="text" id="AU5"
-                                                        readonly></md-outlined-text-field>
-                                <md-outlined-text-field label="Amount in aditional unit 5"
+                                <md-outlined-text-field label="Additional unit 5"
+                                                        class="input_field additional_unit_field" type="text"
+                                                        id="AU5" readonly="True"></md-outlined-text-field>
+                                <md-outlined-text-field label="Amount in additional unit 5"
                                                         class="input_field amount_additional_unit_field" type="text"
-                                                        id="amount_AU5" readonly></md-outlined-text-field>
+                                                        id="amount_AU5" readonly="True"></md-outlined-text-field>
+                                <div class="d-none flex-wrap justify-content-end">
+                                    <span class="material-symbols-outlined d-flex justify-content-end input_field close_btn">close</span>
+                                </div>
                             </div>
+                            <md-fab-extended icon="add" class="input_field centered" id="additional_item_button"
+                                             label="Add new additional unit" style="display: none"></md-fab-extended>
                         </div>
                     </div>
                     <div class="row">
@@ -148,37 +163,38 @@
                             <div class="col-6 second_col" id="amount_in_stock_val"></div>
                         </div>
                         <div class="hidden additional_unit_cell">
-                            <div class="row secondary_text table_header">Aditional unit 1</div>
+                            <div class="row secondary_text table_header">Additional unit 1</div>
                             <div class="row">
-                                <div class="col-6 first_col" id="Aditional_unit_1">Aditional unit 1</div>
+                                <div class="col-6 first_col" id="Aditional_unit_1">Additional unit 1</div>
                                 <div class="col-6 second_col" id="AU1_val"></div>
                             </div>
                         </div>
                         <div class="hidden additional_unit_cell">
-                            <div class="row secondary_text table_header">Aditional unit 2</div>
+                            <div class="row secondary_text table_header">Additional unit 2</div>
                             <div class="row">
-                                <div class="col-6 first_col" id="Aditional_unit_2">Aditional unit 2</div>
+                                <div class="col-6 first_col" id="Aditional_unit_2">Additional unit 2</div>
                                 <div class="col-6 second_col" id="AU2_val"></div>
                             </div>
                         </div>
                         <div class="hidden additional_unit_cell">
-                            <div class="row secondary_text table_header">Aditional unit 3</div>
+                            <div class="row secondary_text table_header">Additional unit 3</div>
                             <div class="row">
-                                <div class="col-6 first_col" id="Aditional_unit_3">Aditional unit 3</div>
+                                <div class="col-6 first_col" id="Aditional_unit_3">Additional unit 3</div>
                                 <div class="col-6 second_col" id="AU3_val"></div>
                             </div>
                         </div>
                         <div class="hidden additional_unit_cell">
-                            <div class="row secondary_text table_header">Aditional unit 4</div>
+                            <div class="row secondary_text table_header">Additional unit 4</div>
                             <div class="row">
-                                <div class="col-6 first_col" id="Aditional_unit_4">Aditional unit 4</div>
+                                <div class="col-6 first_col" id="Aditional_unit_4">Additional unit 4</div>
                                 <div class="col-6 second_col" id="AU4_val"></div>
                             </div>
                         </div>
                         <div class="hidden additional_unit_cell">
-                            <div class="row secondary_text table_header">Aditional unit 5</div>
+                            <div class="row secondary_text table_header">Additional unit 5</div>
                             <div class="row">
-                                <div class="col-6 first_col" id="Aditional_unit_5">Aditional unit 5</div>
+                                <div class="col-6 first_col" id="Aditional_unit_5">Additional unit 5</div>
+                                <div class="col-6 second_col" id="AU5_val"></div>
                                 <div class="col-6 second_col" id="AU5_val"></div>
                             </div>
                         </div>
@@ -189,7 +205,6 @@
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script type="module" src="{% static 'js/bundle.js' %}"></script>
 <script type="module" src="{% static 'js/view_item_request.js' %}"></script>
 <script type="module" src="{% static 'js/index.js' %}"></script>
