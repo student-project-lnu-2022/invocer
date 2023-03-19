@@ -107,7 +107,7 @@ async function downloadDataRequest(invoiceId) {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'invoice.pdf';
+    link.download = result.headers.get('Content-Disposition').split('filename=')[1];
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
