@@ -5,9 +5,18 @@ from .models import OrderedItem, Invoice
 
 
 class OrderedItemSerializer(serializers.ModelSerializer):
+    item_name = serializers.SerializerMethodField()
+    item_price = serializers.SerializerMethodField()
+
     class Meta:
         model = OrderedItem
         fields = '__all__'
+
+    def get_item_name(self, obj):
+        return obj.item.name
+
+    def get_item_price(self, obj):
+        return obj.item.price
 
 
 class InvoiceSerializer(serializers.ModelSerializer):

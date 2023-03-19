@@ -12,6 +12,9 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import Table, TableStyle
 
 
 class InvoiceViewSet(viewsets.ViewSet):
@@ -47,25 +50,44 @@ class InvoiceViewSet(viewsets.ViewSet):
         try:
             user = get_user_from_jwt(request.headers)
             invoice = self.queryset.get(id=invoice_id, user_id=user['user_id'])
+            ordered_items = OrderedItem.objects.filter(invoice=invoice_id)
         except Invoice.DoesNotExist:
             return JsonResponse({'error': 'Invoice not found'}, status=404)
         serializer = InvoiceSerializer(invoice, data=request.data, partial=True)
+        items = OrderedItemSerializer(ordered_items, many=True)
         if serializer.is_valid():
             serializer.save()
         buffer = BytesIO()
-        p = canvas.Canvas(buffer)
+        p = canvas.Canvas(buffer, pagesize=letter)
         pdfmetrics.registerFont(TTFont('TimesNewRoman', 'static/fonts/Royal_Times_New_Roman.ttf'))
         p.setFont('TimesNewRoman', 20)
-        p.drawString(225, 800, f"{serializer.data['name']}")
+        p.drawString(225, 760, f"{serializer.data['name']}")
+        p.setFont('TimesNewRoman', 16)
+        table_headers = ['Назва товару', 'Кількість', 'Ціна']
+        table_header_x = 50
+        table_header_y = 700
+        table_header_spacing = 80
+        for i, header in enumerate(table_headers):
+            p.drawString(table_header_x + i * table_header_spacing, table_header_y, header)
+
         p.setFont('TimesNewRoman', 14)
-        p.drawString(50, 765, f"Ціна накладної: {serializer.data['price']}")
-        p.drawString(50, 748, f"Дата початку: {serializer.data['date_of_invoice']}")
-        p.drawString(400, 750, f"Дата кінця: {serializer.data['date_of_payment']}")
+        table_row_x = table_header_x
+        table_row_spacing = table_header_spacing
+        table_row_y = table_header_y - 30
+
+        for i, data in enumerate(items.data):
+            name = data['item_name']
+            price = str(data['item_price'])
+            amount = str(data['amount'])
+
+            p.drawString(table_row_x, table_row_y - i * 30, name)
+            p.drawString(table_row_x + table_row_spacing, table_row_y - i * 30, price)
+            p.drawString(table_row_x + 2 * table_row_spacing, table_row_y - i * 30, amount)
         p.showPage()
         p.save()
         buffer.seek(0)
         response = HttpResponse(buffer, content_type='application/pdf')
-        response['Content-Disposition'] = f'attachment; filename=invoice-{invoice.id}.pdf'
+        response['Content-Disposition'] = f"attachment; filename=Invoice-{serializer.data['id']}.pdf"
         return response
 
 
