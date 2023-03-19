@@ -75,21 +75,6 @@ export async function fillFieldsWithData() {
     }
 }
 
-function removeTextFromTable(inputElement, data) {
-    inputElement.removeAttribute('data-text');
-    inputElement.innerHTML = data;
-}
-function removeLabels(index) {
-    additionalUnitCell[index].classList.add("hidden");
-    additionalUnits[index].parentNode.classList.add("d-none");
-    additionalUnits[index].parentNode.classList.remove("d-flex");
-    removeTextFromTable(document.querySelector(`#Aditional_unit_${index + 1}`), `Aditional unit ${index + 1}`);
-    removeTextFromTable(document.querySelector(`#AU${index + 1}_val`), "");
-    additionalUnits[index].value = "";
-    amountAdditionalUnitField[index].value = "";
-    --numOfRowsObject.numOfRows;
-}
-
 export function deleteAdditionalUnit() {
     const closeButtons = document.querySelectorAll('.close_btn');
     closeButtons.forEach((element) => {
@@ -109,7 +94,7 @@ export function deleteAdditionalUnit() {
                     };
                     const response = await fetch(host + "/items/additional_units/" + additionalUnitId, requestOptions);
                     if (response.ok) {
-                        console.log(clickedButton.parentNode.parentNode);
+                        clickedButton.removeAttribute('data-additional-unit-id');
                         clickedButton.parentNode.parentNode.removeAttribute('data-additional-unit-id');
                         removeLabels(buttonIndex);
                     } else if (response.status === 401) {
@@ -120,8 +105,7 @@ export function deleteAdditionalUnit() {
                 } catch (error) {
                     console.error('Error with deleting additional unit:', error);
                 }
-            }
-            else {
+            } else {
                 removeLabels(buttonIndex);
             }
         });
