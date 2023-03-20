@@ -66,7 +66,7 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
     const validationAdditionalUnitsFieldsList = validateAdditionalUnits();
     let currencyValue = document.getElementById("currency").value;
     let basicUnitValue = document.getElementById("basic_unit").value
-    if (allAreFalse(validationFieldsList)) {
+    if (allAreFalse(validationFieldsList) && validationAdditionalUnitsFieldsList.every(allAreFalse)){
         const data = JSON.stringify({
             name: nameField.value,
             price: parseFloat(priceField.value),
@@ -133,6 +133,12 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
         window.location.href = host + "/items/list/";
     } else {
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
+        for (let i = 0; i < validationAdditionalUnitsFieldsList.length; i++) {
+                        let additionalUnitFields = [];
+                        additionalUnitFields.push(document.getElementById(`AU${i + 1}`));
+                        additionalUnitFields.push(document.getElementById(`amount_AU${i + 1}`));
+                        setErrorAttributesToFields(validationAdditionalUnitsFieldsList[i], additionalUnitFields);
+                    }
     }
 });
 
