@@ -1,6 +1,31 @@
-import { host, returnAllFields, hideUnnecessaryElementsInMenu, nameField, zipField, emailField, countryField, surnameField, telephoneField, cityField, addressField, clientId} from './utils_clients.js'
-import { removeAllErrorAttributes, setErrorAttributesToFields, clearErrorAttributes, setMaxFieldContainerHeights, allAreFalse, validateCountry, validateCity, validateAddress, validateNameAndSurnameAsStrings, validation,} from './validation_utils.js'
-import { obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
+import {
+    host,
+    returnAllFields,
+    hideUnnecessaryElementsInMenu,
+    nameField,
+    zipField,
+    emailField,
+    countryField,
+    surnameField,
+    telephoneField,
+    cityField,
+    addressField,
+    clientId
+} from './utils_clients.js'
+import {
+    removeAllErrorAttributes,
+    setErrorAttributesToFields,
+    clearErrorAttributes,
+    setMaxFieldContainerHeights,
+    allAreFalse,
+    validateCountry,
+    validateCity,
+    validateAddress,
+    validateNameAndSurnameAsStrings,
+    validation,
+} from './validation_utils.js'
+import {obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
+
 function validateClientEdit() {
     removeAllErrorAttributes(returnAllFields());
     setMaxFieldContainerHeights(returnAllFields());
@@ -67,4 +92,3 @@ function getClientById(clientId) {
         .catch(error => console.error(error));
 }
 
-hideUnnecessaryElementsInMenu();
