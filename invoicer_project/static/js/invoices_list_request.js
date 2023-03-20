@@ -5,31 +5,28 @@ document.getElementById("search_bar").addEventListener('keyup', ()=> { search('i
 
 function createInvoiceListContent(data) {
     for (let i = 0; i < data.length; i++) {
-        let invoiceName = data[i]["name"];
-        let invoiceDate = data[i]["date_of_payment"]
-        let invoicePrice = data[i]["price"]
-        let invoiceID = data[i]['id'];
-        let invoiceClientFullName = data[i]['client_first_name'] + ' ' + data[i]['client_last_name'];
-        document.getElementById("other_elements_invoices").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around" data-element-id="${invoiceID}">
+        const { id: invoiceId, name: invoiceName, price: invoicePrice, date_of_payment: invoiceDate,
+            client_first_name: clientFirstName, client_last_name: clientLastName } = data[i];
+        document.getElementById("other_elements_invoices").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around" data-element-id="${invoiceId}">
                     <div class="col-md-6 col-sm-6 col-7 list_item_name">
                     <div class="d-flex flex-wrap flex-column list_item_info_block">
-                        <p class="invoice_name" data-element-id="${invoiceID}">${invoiceName}</p>
+                        <p class="invoice_name" data-element-id="${invoiceId}">${invoiceName}</p>
                         <div class="invoice_bottom_info">
-                            <p class="invoice_info_text" data-element-id="${invoiceID}">${invoiceClientFullName}</p>
-                            <p class="invoice_info_text" data-element-id="${invoiceID}">${invoiceDate}</p>
+                            <p class="invoice_info_text" data-element-id="${invoiceId}">${clientFirstName + ' ' + clientLastName}</p>
+                            <p class="invoice_info_text" data-element-id="${invoiceId}">${invoiceDate}</p>
                         </div>
                     </div>
                     </div>
                     <div class="d-flex flex-wrap flex-row justify-content-end col-md-6 col-sm-6 col-5">
                         <div class="d-flex flex-wrap flex-column list_item_info_block">
-                            <p class="currency_text" data-element-id="${invoiceID}">${invoicePrice}</p>
+                            <p class="currency_text" data-element-id="${invoiceId}">${invoicePrice}</p>
                         </div>
                         <div class="list_invoice_user_buttons">
                             <md-standard-icon-button class="edit-item"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
-                            <md-standard-icon-button class="delete-invoice" data-element-id="${invoiceID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
+                            <md-standard-icon-button class="delete-invoice" data-element-id="${invoiceId}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                             <md-standard-icon-button class="upload"><span class="material-symbols-outlined">upload</span></md-standard-icon-button>
-                            <md-standard-icon-button class="download" data-element-id="${invoiceID}"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
-                            <md-checkbox class="delete_invoices_checkbox" id="list_item_user_delete" data-element-id="${invoiceID}"></md-checkbox>
+                            <md-standard-icon-button class="download" data-element-id="${invoiceId}"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
+                            <md-checkbox class="delete_invoices_checkbox" id="list_item_user_delete" data-element-id="${invoiceId}"></md-checkbox>
                         </div>
                     </div>
                 </div>`)

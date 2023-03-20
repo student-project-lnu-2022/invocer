@@ -190,17 +190,16 @@ export function addDeleteButtonListeners(selectorName, url) {
 }
 
 export function search(elements, elementDivs) {
-    let input = document.getElementById('search_bar').value;
-    input = input.toLowerCase();
-    let x = document.getElementsByClassName(elements);
-    let y = document.getElementsByClassName(elementDivs);
+    const input = document.getElementById('search_bar').value.toLowerCase();
+    const elementsList = document.getElementsByClassName(elements);
+    const elementsListDivs = document.getElementsByClassName(elementDivs);
     
 
-    for (let i = 0; i < x.length; i++) {
-        if (!x[i].innerHTML.toLowerCase().includes(input)) {
-            y[i].style.display = "none";
+    for (let i = 0; i < elementsList.length; i++) {
+        if (!elementsList[i].innerHTML.toLowerCase().includes(input)) {
+            elementsListDivs[i].style.display = "none";
         } else {
-            y[i].style.removeProperty("display");
+            elementsListDivs[i].style.removeProperty("display");
         }
     }
 }
