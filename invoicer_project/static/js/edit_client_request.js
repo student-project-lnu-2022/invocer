@@ -25,12 +25,6 @@ import {
     validation,
 } from './validation_utils.js'
 import {obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
-import {
-    additionalFieldsContainer, additionalUnitCell, additionalUnits,
-    amountAdditionalFieldsContainer, amountAdditionalUnitField,
-    maxNumOfUnits,
-    numOfRowsObject
-} from "./utils_items";
 
 function validateClientEdit() {
     removeAllErrorAttributes(returnAllFields());
