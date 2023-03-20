@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from clients.models import Client
 from .models import OrderedItem, Invoice
+from user.models import User
 
 
 class OrderedItemSerializer(serializers.ModelSerializer):
@@ -22,6 +23,8 @@ class OrderedItemSerializer(serializers.ModelSerializer):
 class InvoiceSerializer(serializers.ModelSerializer):
     client_first_name = serializers.SerializerMethodField()
     client_last_name = serializers.SerializerMethodField()
+    user_first_name = serializers.SerializerMethodField()
+    user_last_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Invoice
@@ -32,6 +35,12 @@ class InvoiceSerializer(serializers.ModelSerializer):
 
     def get_client_last_name(self, obj):
         return obj.client.last_name
+
+    def get_user_first_name(self, obj):
+        return obj.user.first_name
+
+    def get_user_last_name(self, obj):
+        return obj.user.last_name
 
     def create(self, validated_data):
         invoice = Invoice.objects.create(**validated_data)

@@ -59,30 +59,76 @@ class InvoiceViewSet(viewsets.ViewSet):
             serializer.save()
         buffer = BytesIO()
         p = canvas.Canvas(buffer, pagesize=letter)
-        pdfmetrics.registerFont(TTFont('TimesNewRoman', 'static/fonts/Royal_Times_New_Roman.ttf'))
+        pdfmetrics.registerFont(TTFont('TimesNewRoman', 'static/fonts/Roboto-Regular.ttf'))
         p.setFont('TimesNewRoman', 20)
-        p.drawString(225, 760, f"{serializer.data['name']}")
-        p.setFont('TimesNewRoman', 16)
-        table_headers = ['Назва товару', 'Кількість', 'Ціна']
-        table_header_x = 50
-        table_header_y = 700
-        table_header_spacing = 80
-        for i, header in enumerate(table_headers):
-            p.drawString(table_header_x + i * table_header_spacing, table_header_y, header)
+        p.drawString(50, 760, f"{serializer.data['name']} від {serializer.data['date_of_payment'].split('-')[2]}.{serializer.data['date_of_payment'].split('-')[1]}.{serializer.data['date_of_payment'].split('-')[0]}р.")
+        p.line(50, 750, 550, 750)
+        p.setFont('TimesNewRoman', 13)
+        p.drawString(50, 730, f"Постачальник:  {serializer.data['user_first_name']} {serializer.data['user_last_name']}")
+        p.drawString(50, 700, f"Покупець:  {serializer.data['client_first_name']} {serializer.data['client_last_name']}")
+        table_headers = ['№', 'Назва товару', 'К-сть', 'Од.', 'Ціна', 'Сума']
 
-        p.setFont('TimesNewRoman', 14)
+        table_header_x = 50
+        table_header_y = 670
         table_row_x = table_header_x
-        table_row_spacing = table_header_spacing
         table_row_y = table_header_y - 30
 
+        id_width = 30
+        name_width = 300
+        amount_width = 32
+        unit_width = 30
+        price_width = 40
+        sum_width = 40
+
+        p.setFont('TimesNewRoman', 11)
         for i, data in enumerate(items.data):
+            item_id = str(data['id'])
             name = data['item_name']
             price = str(data['item_price'])
             amount = str(data['amount'])
+            unit = str(data['unit'])
+            sum_price = ""
 
-            p.drawString(table_row_x, table_row_y - i * 30, name)
-            p.drawString(table_row_x + table_row_spacing, table_row_y - i * 30, amount)
-            p.drawString(table_row_x + 2 * table_row_spacing, table_row_y - i * 30, price)
+            if i == 0:
+                p.rect(table_row_x, table_row_y, id_width, 20)
+                p.rect(table_row_x + id_width, table_row_y, name_width, 20)
+                p.rect(table_row_x + id_width + name_width, table_row_y, amount_width, 20)
+                p.rect(table_row_x + id_width + name_width + amount_width, table_row_y, unit_width, 20)
+                p.rect(table_row_x + id_width + name_width + amount_width + unit_width, table_row_y, price_width, 20)
+                p.rect(table_row_x + id_width + name_width + amount_width + unit_width + price_width, table_row_y, sum_width, 20)
+
+                p.drawString(table_row_x + 5, table_row_y + 5, table_headers[0])
+                p.drawString(table_row_x + id_width + 5, table_row_y + 5, table_headers[1])
+                p.drawString(table_row_x + id_width + name_width + 5, table_row_y + 5, table_headers[2])
+                p.drawString(table_row_x + id_width + name_width + amount_width + 5, table_row_y + 5, table_headers[3])
+                p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + 5, table_row_y + 5, table_headers[4])
+                p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + price_width + 5, table_row_y + 5,
+                             table_headers[5])
+                table_row_y -= 20
+
+            p.rect(table_row_x, table_row_y, id_width, 20)
+            p.rect(table_row_x + id_width, table_row_y, name_width, 20)
+            p.rect(table_row_x + id_width + name_width, table_row_y, amount_width, 20)
+            p.rect(table_row_x + id_width + name_width + amount_width, table_row_y, unit_width, 20)
+            p.rect(table_row_x + id_width + name_width + amount_width + unit_width, table_row_y, price_width, 20)
+            p.rect(table_row_x + id_width + name_width + amount_width + unit_width + price_width, table_row_y,
+                   sum_width, 20)
+
+            p.drawString(table_row_x + 5, table_row_y + 5, item_id)
+            p.drawString(table_row_x + id_width + 5, table_row_y + 5, name)
+            p.drawString(table_row_x + id_width + name_width + 5, table_row_y + 5, amount)
+            p.drawString(table_row_x + id_width + name_width + amount_width + 5, table_row_y + 5, unit)
+            p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + 5, table_row_y + 5, price)
+            p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + price_width + 5, table_row_y + 5, sum_price)
+            table_row_y -= 20
+        p.setFont('TimesNewRoman', 14)
+        p.drawString(450, table_row_y - 25,f"Всього: {serializer.data['price']}")
+        p.line(50, table_row_y - 50, 550, table_row_y - 50)
+        p.drawString(50, table_row_y - 75, f"Від постачальника")
+        p.drawString(300, table_row_y - 75, f"Отримав(ла)")
+        p.line(50, table_row_y - 100, 280, table_row_y - 100)
+        p.line(300, table_row_y - 100, 550, table_row_y - 100)
+
         p.showPage()
         p.save()
         buffer.seek(0)
