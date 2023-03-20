@@ -81,8 +81,8 @@ class InvoiceViewSet(viewsets.ViewSet):
             amount = str(data['amount'])
 
             p.drawString(table_row_x, table_row_y - i * 30, name)
-            p.drawString(table_row_x + table_row_spacing, table_row_y - i * 30, price)
-            p.drawString(table_row_x + 2 * table_row_spacing, table_row_y - i * 30, amount)
+            p.drawString(table_row_x + table_row_spacing, table_row_y - i * 30, amount)
+            p.drawString(table_row_x + 2 * table_row_spacing, table_row_y - i * 30, price)
         p.showPage()
         p.save()
         buffer.seek(0)
