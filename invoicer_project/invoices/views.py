@@ -67,7 +67,6 @@ class InvoiceViewSet(viewsets.ViewSet):
         p.drawString(50, 710, f"Постачальник:  {serializer.data['user_first_name']} {serializer.data['user_last_name']}")
         p.drawString(50, 690, f"Покупець:  {serializer.data['client_first_name']} {serializer.data['client_last_name']}")
         table_headers = ['№', 'Назва товару', 'К-сть', 'Од.', 'Ціна', 'Сума']
-
         table_header_x = 50
         table_header_y = 670
         table_row_x = table_header_x
@@ -79,6 +78,7 @@ class InvoiceViewSet(viewsets.ViewSet):
         unit_width = 30
         price_width = 40
         sum_width = 40
+
 
         p.setFont('TimesNewRoman', 11)
         for i, data in enumerate(items.data):
@@ -95,14 +95,17 @@ class InvoiceViewSet(viewsets.ViewSet):
                 p.rect(table_row_x + id_width + name_width, table_row_y, amount_width, 20)
                 p.rect(table_row_x + id_width + name_width + amount_width, table_row_y, unit_width, 20)
                 p.rect(table_row_x + id_width + name_width + amount_width + unit_width, table_row_y, price_width, 20)
-                p.rect(table_row_x + id_width + name_width + amount_width + unit_width + price_width, table_row_y, sum_width, 20)
+                p.rect(table_row_x + id_width + name_width + amount_width + unit_width + price_width, table_row_y,
+                       sum_width, 20)
 
                 p.drawString(table_row_x + 5, table_row_y + 5, table_headers[0])
                 p.drawString(table_row_x + id_width + 5, table_row_y + 5, table_headers[1])
                 p.drawString(table_row_x + id_width + name_width + 5, table_row_y + 5, table_headers[2])
                 p.drawString(table_row_x + id_width + name_width + amount_width + 5, table_row_y + 5, table_headers[3])
-                p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + 5, table_row_y + 5, table_headers[4])
-                p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + price_width + 5, table_row_y + 5,
+                p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + 5, table_row_y + 5,
+                             table_headers[4])
+                p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + price_width + 5,
+                             table_row_y + 5,
                              table_headers[5])
                 table_row_y -= 20
 
@@ -121,6 +124,7 @@ class InvoiceViewSet(viewsets.ViewSet):
             p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + 5, table_row_y + 5, price)
             p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + price_width + 5, table_row_y + 5, sum_price)
             table_row_y -= 20
+
         p.setFont('TimesNewRoman', 14)
         p.drawString(450, table_row_y - 25,f"Всього: {serializer.data['price']}")
         p.line(50, table_row_y - 50, 550, table_row_y - 50)
