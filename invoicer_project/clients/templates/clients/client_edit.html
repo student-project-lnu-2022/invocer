@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Edit client</title>
+    <script src="https://unpkg.com/i18next@22.4.12/dist/umd/i18next.min.js"></script>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -27,7 +28,7 @@
         <div class="container-fluid xyz" id="other_elements">
             <div class="container-fluid">
                 <div class="row">
-                    <p id="client_edit_text">Edit client</p>
+                    <p class="client_header_text" id="client_edit_text" data-i18n="client_edit">Edit client</p>
                 </div>
 
                 <div class="d-flex row" id="background_input_client_edit_page">
@@ -35,44 +36,44 @@
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="name_input_client_edit_page"
-                                    label="Name"></md-outlined-text-field>
+                                    label="Name" data-i18n="name"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="surname_input_client_edit_page"
-                                    label="Surname"></md-outlined-text-field>
+                                    label="Surname" data-i18n="surname"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="email_input_client_edit_page"
-                                    label="Email"></md-outlined-text-field>
+                                    label="Email" data-i18n="email"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="telephone_input_client_edit_page"
-                                    label="Telephone number"></md-outlined-text-field>
+                                    label="Telephone number" data-i18n="telephone_number"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="zip_input_client_edit_page"
-                                    label="ZIP code"></md-outlined-text-field>
+                                    label="ZIP code" data-i18n="zip_code"></md-outlined-text-field>
                         </div>
                     </div>
                     <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-5">
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="country_input_client_edit_page"
-                                    label="Country"></md-outlined-text-field>
+                                    label="Country" data-i18n="country"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="city_input_client_edit_page"
-                                    label="City"></md-outlined-text-field>
+                                    label="City" data-i18n="city"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="address_input_client_edit_page"
-                                    label="Address"></md-outlined-text-field>
+                                    label="Address" data-i18n="address"></md-outlined-text-field>
                         </div>
                     </div>
                     <div class="col-xxl-4 col-xl-4 col-lg-2 col-md-2"></div>
@@ -82,7 +83,7 @@
                             <md-fab-extended
                                     icon="add_circle_outline"
                                     label="Save changes"
-                                    id="request_edit_sender"></md-fab-extended>
+                                    id="request_edit_sender" data-i18n="save_changes"></md-fab-extended>
                         </div>
                     </div>
                 </div>
@@ -94,5 +95,6 @@
 <script type="module" src="{% static 'js/index.js' %}"></script>
 <script src="{% static 'js/bundle.js' %}"></script>
 <script type="module" src="{% static 'js/edit_client_request.js' %}"></script>
+<script type="module" src="{% static 'js/client_section_translation.js' %}"></script>
 </body>
 </html>
