@@ -61,11 +61,11 @@ class InvoiceViewSet(viewsets.ViewSet):
         p = canvas.Canvas(buffer, pagesize=letter)
         pdfmetrics.registerFont(TTFont('TimesNewRoman', 'static/fonts/Roboto-Regular.ttf'))
         p.setFont('TimesNewRoman', 20)
-        p.drawString(50, 760, f"{serializer.data['name']} від {serializer.data['date_of_payment'].split('-')[2]}.{serializer.data['date_of_payment'].split('-')[1]}.{serializer.data['date_of_payment'].split('-')[0]}р.")
-        p.line(50, 750, 550, 750)
+        p.drawString(50, 740, f"{serializer.data['name']} від {serializer.data['date_of_payment'].split('-')[2]}.{serializer.data['date_of_payment'].split('-')[1]}.{serializer.data['date_of_payment'].split('-')[0]}р.")
+        p.line(50, 730, 550, 730)
         p.setFont('TimesNewRoman', 13)
-        p.drawString(50, 730, f"Постачальник:  {serializer.data['user_first_name']} {serializer.data['user_last_name']}")
-        p.drawString(50, 700, f"Покупець:  {serializer.data['client_first_name']} {serializer.data['client_last_name']}")
+        p.drawString(50, 710, f"Постачальник:  {serializer.data['user_first_name']} {serializer.data['user_last_name']}")
+        p.drawString(50, 690, f"Покупець:  {serializer.data['client_first_name']} {serializer.data['client_last_name']}")
         table_headers = ['№', 'Назва товару', 'К-сть', 'Од.', 'Ціна', 'Сума']
 
         table_header_x = 50
@@ -73,7 +73,7 @@ class InvoiceViewSet(viewsets.ViewSet):
         table_row_x = table_header_x
         table_row_y = table_header_y - 30
 
-        id_width = 30
+        id_width = 27
         name_width = 300
         amount_width = 32
         unit_width = 30
@@ -124,10 +124,10 @@ class InvoiceViewSet(viewsets.ViewSet):
         p.setFont('TimesNewRoman', 14)
         p.drawString(450, table_row_y - 25,f"Всього: {serializer.data['price']}")
         p.line(50, table_row_y - 50, 550, table_row_y - 50)
-        p.drawString(50, table_row_y - 75, f"Від постачальника")
-        p.drawString(300, table_row_y - 75, f"Отримав(ла)")
-        p.line(50, table_row_y - 100, 280, table_row_y - 100)
-        p.line(300, table_row_y - 100, 550, table_row_y - 100)
+        p.drawString(50, table_row_y - 93, f"Від постачальника")
+        p.drawString(300, table_row_y - 93, f"Отримав(ла)")
+        p.line(50, table_row_y - 125, 280, table_row_y - 125)
+        p.line(300, table_row_y - 125, 550, table_row_y - 125)
 
         p.showPage()
         p.save()
