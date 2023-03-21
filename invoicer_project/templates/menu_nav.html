@@ -39,15 +39,15 @@
             <button type="submit" class="search_button">
                 <img alt="search_icon" src="{% static 'img/search.svg' %}"/>
             </button>
-            <input id="search_bar" type="text" class="search_term" placeholder="Search item..."/>
+            <input id="search_bar" type="text" class="search_term" data-i18n="search_input_text" placeholder="Search item..."/>
         </div>
         <div class="sort_dropdown">
             <button class="sort_drop_btn"><span class="material-symbols-outlined">sort</span></button>
             <div class="sort_dropdown-content">
-                <a id="sort_asc">A-Z by name</a>
+                <a id="sort_asc" data-i18n="a_z_sort">A-Z by name</a>
             </div>
         </div>
-        <md-fab-extended icon="add" label="Add client" id="adder"></md-fab-extended>
+        <md-fab-extended icon="add" label="Add client" id="adder" data-i18n="add_client"></md-fab-extended>
        <md-standard-icon-button class="client-info" id="delete_many_clients" style="display: none;" data-client-id="${clientID}"> <span class="material-symbols-outlined"
               style="color: red;">delete</span></md-standard-icon-button>
 
