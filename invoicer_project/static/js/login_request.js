@@ -97,7 +97,7 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         if (responseStatus === 200) {
             emailField.value = '';
             passwordField.value = '';
-            window.location.replace(host + '/clients/home/');
+            window.location.replace(host);
         } else {
             backEndNegativeResponse(responseStatus);
         }

@@ -40,7 +40,6 @@ async function addElementsDynamically() {
     if (response === 200) {
         createInvoiceListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners('.delete-invoice', "/invoices/invoice/");
-        addEditButtonListeners();
         addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoices/invoice/");
         addDownloadButtonListeners('.download');
     } else if (response === 401) {
@@ -51,7 +50,6 @@ async function addElementsDynamically() {
             responseFromServer = await getUserData("/invoices/invoice/");
             createInvoiceListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners('.delete-invoice', "/invoices/invoice/");
-            addEditButtonListeners();
             addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoices/invoice/");
             addDownloadButtonListeners('.download');
         }
@@ -59,22 +57,6 @@ async function addElementsDynamically() {
         window.location.replace(host + '/user/login/');
     }
 }
-
-function addEditButtonListeners() {
-    const clientsList = document.querySelector('#other_elements_invoices');
-    clientsList.addEventListener('click', async (event) => {
-        const clickedElement = event.target;
-        if (clickedElement.classList.contains('edit-client')) {
-            const clientId = clickedElement.dataset.elementId;
-            window.location.href = host + "/clients/edit/" + clientId;
-        }
-    });
-}
-
-document.querySelector('#adder').addEventListener('click', () => {
-    window.location.href = host + "/clients/add";
-})
-
 
 document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
