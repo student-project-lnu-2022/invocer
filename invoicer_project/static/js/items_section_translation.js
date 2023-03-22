@@ -76,12 +76,12 @@ function translateMenu() {
     }
 
     let addItemButton = document.querySelector("#adder");
+    console.log(addItemButton);
     if (addItemButton) {
+        console.log("Inside");
+        console.log(addItemButton.label);
+        console.log(i18next.t("add_item"));
         addItemButton.label = i18next.t("add_item");
-                addItemButton.textContent = i18next.t("add_item");
-                                addItemButton.ariaPlaceholder = i18next.t("add_item");
-
-
     }
 }
 
