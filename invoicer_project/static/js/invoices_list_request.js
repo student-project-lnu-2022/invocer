@@ -35,22 +35,22 @@ function createInvoiceListContent(data) {
 
 
 async function addElementsDynamically() {
-    let responseFromServer = await getUserData("/invoices/invoice/");
+    let responseFromServer = await getUserData("/invoice/");
     const response = responseFromServer["responseStatus"];
     if (response === 200) {
         createInvoiceListContent(responseFromServer["data"]["content"]);
-        addDeleteButtonListeners('.delete-invoice', "/invoices/invoice/");
-        addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoices/invoice/");
+        addDeleteButtonListeners('.delete-invoice', "/invoice/");
+        addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoice/");
         addDownloadButtonListeners('.download');
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
             window.location.replace(host + '/user/login/');
         } else {
-            responseFromServer = await getUserData("/invoices/invoice/");
+            responseFromServer = await getUserData("/invoice/");
             createInvoiceListContent(responseFromServer["data"]["content"]);
-            addDeleteButtonListeners('.delete-invoice', "/invoices/invoice/");
-            addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoices/invoice/");
+            addDeleteButtonListeners('.delete-invoice', "/invoice/");
+            addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoice/");
             addDownloadButtonListeners('.download');
         }
     } else {
@@ -75,7 +75,7 @@ document.querySelector("#sort_asc").addEventListener("click", ()=> {
 })
 
 async function downloadDataRequest(invoiceId) {
-    const downloadUrl = "/invoices/download/" + invoiceId;
+    const downloadUrl = "/download/" + invoiceId;
     const result = await fetch(downloadUrl, {
         method: 'GET',
         headers: {
