@@ -1,9 +1,11 @@
 # Invoicer
 
-To run the server use these commands:
-
-`npm install @material/web`
-
-`npm install --save-dev @web/dev-server`
-
-`npx web-dev-server --node-resolve`
+To clone repo use command:\
+`git clone https://github.com/student-project-lnu-2022/invocer.git` \
+Go to directory invoicer_project, open terminal and run next commands:\
+`pip install djangorestframework` \
+`pip install django-cors-headers` \
+`pip install djangorestframework-simplejwt` \
+`pip install reportlab` \
+To run the server use command:\
+`python manage.py runserver`
