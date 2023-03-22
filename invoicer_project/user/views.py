@@ -115,11 +115,14 @@ class UserSettingsViewSet(viewsets.ViewSet):
             return JsonResponse({'error': 'User not found'}, status=404)
         request.data['id'] = user.id
         serializer = self.serializer_class(user, data=request.data, partial=True)
-        try:
-            serializer.is_valid(raise_exception=True)
+        if serializer.is_valid():
+            new_password = serializer.validated_data.get('new_password', None)
+            if new_password != None:
+                user.set_password(new_password)
+                user.save()
             serializer.save()
-            return JsonResponse(serializer.data)
-        except:
+            return JsonResponse(serializer.data, status = 200)
+        else:
             return JsonResponse(serializer.errors, status=400)
 
     def retrieve(self, request):
