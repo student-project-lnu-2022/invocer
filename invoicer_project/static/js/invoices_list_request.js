@@ -6,7 +6,7 @@ document.getElementById("search_bar").addEventListener('keyup', ()=> { search('i
 function createInvoiceListContent(data) {
     for (let i = 0; i < data.length; i++) {
         const { id: invoiceId, name: invoiceName, price: invoicePrice, date_of_payment: invoiceDate,
-            client_first_name: clientFirstName, client_last_name: clientLastName } = data[i];
+            client_first_name: clientFirstName, client_last_name: clientLastName, item_currency: itemCurrency } = data[i];
         document.getElementById("other_elements_invoices").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around" data-element-id="${invoiceId}">
                     <div class="col-md-6 col-sm-6 col-7 list_item_name">
                     <div class="d-flex flex-wrap flex-column list_item_info_block">
