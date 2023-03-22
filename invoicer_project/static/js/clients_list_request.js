@@ -16,7 +16,7 @@ function createClientListContent(data) {
                 </div>
                 <div class="col-xxl-4 col-xl-3 col-md-2 col-1 clickable_item list_item_empty_block"  data-client-id="${clientID}"></div>
                 <div class="col-xxl-2 col-xl-2 col-md-3 col-sm-3 col-5 clickable_item list_item_user_debt">
-                    <p class="list_item_user_debt_text" data-element-id="${clientID}">${clientDebt} $</p>
+                    <p class="list_item_user_debt_text" data-element-id="${clientID}">${clientDebt} UAH</p>
                 </div>
                 <div class="col-xxl-2 col-xl-3 col-md-3 col-sm-3 col-3 list_item_user_buttons" data-client-id="${clientID}">
                     <md-standard-icon-button class="client-info edit-client" data-element-id="${clientID}"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
