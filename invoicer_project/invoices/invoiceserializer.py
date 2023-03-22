@@ -8,6 +8,8 @@ from user.models import User
 class OrderedItemSerializer(serializers.ModelSerializer):
     item_name = serializers.SerializerMethodField()
     item_price = serializers.SerializerMethodField()
+    item_barcode = serializers.SerializerMethodField()
+    item_currency = serializers.SerializerMethodField()
 
     class Meta:
         model = OrderedItem
@@ -18,6 +20,12 @@ class OrderedItemSerializer(serializers.ModelSerializer):
 
     def get_item_price(self, obj):
         return obj.item.price
+
+    def get_item_barcode(self, obj):
+        return obj.item.barcode
+
+    def get_item_currency(self, obj):
+        return obj.item.currency
 
 
 class InvoiceSerializer(serializers.ModelSerializer):

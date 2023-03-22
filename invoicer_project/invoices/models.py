@@ -38,6 +38,7 @@ class OrderedItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='ordered_items')
     amount = models.FloatField(validators=[float_number_validation])
     unit = models.CharField(max_length=10, validators=[unit_validation])
+    price = models.FloatField(validators=[float_number_validation], default=True)
 
     def update_item(self):
         if self.item.amount_in_stock < self.amount:

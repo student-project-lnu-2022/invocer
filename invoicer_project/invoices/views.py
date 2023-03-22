@@ -72,22 +72,21 @@ class InvoiceViewSet(viewsets.ViewSet):
         table_row_x = table_header_x
         table_row_y = table_header_y - 30
 
-        id_width = 27
+        id_width = 30
         name_width = 300
-        amount_width = 32
+        amount_width = 50
         unit_width = 30
-        price_width = 40
-        sum_width = 40
-
+        price_width = 45
+        sum_width = 50
 
         p.setFont('TimesNewRoman', 11)
         for i, data in enumerate(items.data):
-            item_id = str(data['id'])
+            item_id = str(i + 1)
             name = data['item_name']
-            price = str(data['item_price'])
+            price = str(data['price'])
             amount = str(data['amount'])
             unit = str(data['unit'])
-            sum_price = ""
+            sum_price = str(data["price"]*data["amount"])
 
             if i == 0:
                 p.rect(table_row_x, table_row_y, id_width, 20)
@@ -126,7 +125,7 @@ class InvoiceViewSet(viewsets.ViewSet):
             table_row_y -= 20
 
         p.setFont('TimesNewRoman', 14)
-        p.drawString(450, table_row_y - 25,f"Всього: {serializer.data['price']}")
+        p.drawString(375, table_row_y - 20,f"Всього: {serializer.data['price']} {items.data[0]['item_currency']}")
         p.line(50, table_row_y - 50, 550, table_row_y - 50)
         p.drawString(50, table_row_y - 93, f"Від постачальника")
         p.drawString(300, table_row_y - 93, f"Отримав(ла)")
