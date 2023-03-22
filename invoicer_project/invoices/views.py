@@ -125,7 +125,7 @@ class InvoiceViewSet(viewsets.ViewSet):
             table_row_y -= 20
 
         p.setFont('TimesNewRoman', 14)
-        p.drawString(375, table_row_y - 20,f"Всього: {serializer.data['price']} {items.data[0]['item_currency']}")
+        p.drawString(375, table_row_y - 20,f"Всього: {serializer.data['price']} {serializer.data['currency']}")
         p.line(40, table_row_y - 50, 565, table_row_y - 50)
         p.drawString(40, table_row_y - 93, f"Від постачальника")
         p.drawString(310, table_row_y - 93, f"Отримав(ла)")

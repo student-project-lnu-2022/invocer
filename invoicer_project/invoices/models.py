@@ -17,6 +17,10 @@ unit_validation = RegexValidator(
     message="Unit has to be entered in the format: 'kg'."
 )
 
+currency_validation = RegexValidator(
+    regex=r'^[A-Z]+$',
+    message="Currency has to be entered in the format: 'UAH'."
+)
 
 class Invoice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invoices')
@@ -26,6 +30,7 @@ class Invoice(models.Model):
     discount = models.FloatField(validators=[float_number_validation], default=0)
     date_of_invoice = models.DateField()
     date_of_payment = models.DateField()
+    currency = models.CharField(max_length=100, null=True, validators=[currency_validation])
 
     def update_client(self):
         client = Client.objects.get(id=self.client.id)
