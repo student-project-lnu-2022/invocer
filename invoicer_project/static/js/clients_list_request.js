@@ -1,5 +1,5 @@
 const host = "http://127.0.0.1:8000";
-import {obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners} from './request_utils.js';
+import {obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners, addEditButtonListeners} from './request_utils.js';
 
 function createClientListContent(data) {
     for (let i = 0; i < data.length; i++) {
@@ -33,7 +33,7 @@ async function addElementsDynamically() {
     if (response === 200) {
         createClientListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners('.delete-client', `/clients/client`);
-        addEditButtonListeners();
+        addEditButtonListeners('#other_elements', 'edit-client', "/clients/edit/");
         addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox',"#delete_many_clients", `/clients/client`);
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
@@ -43,7 +43,7 @@ async function addElementsDynamically() {
             responseFromServer = await getUserData("/clients/client/");
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners('.delete-client', `/clients/client`);
-            addEditButtonListeners();
+            addEditButtonListeners('#other_elements', 'edit-client', "/clients/edit/");
             addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox',"#delete_many_clients", `/clients/client`);
         }
     } else {
@@ -51,16 +51,7 @@ async function addElementsDynamically() {
     }
 }
 
-function addEditButtonListeners() {
-    const clientsList = document.querySelector('#other_elements');
-    clientsList.addEventListener('click', async (event) => {
-        const clickedElement = event.target;
-        if (clickedElement.classList.contains('edit-client')) {
-            const clientId = clickedElement.dataset.elementId;
-            window.location.href = host + "/clients/edit/" + clientId;
-        }
-    });
-}
+
 
 document.querySelector('#adder').addEventListener('click', () => {
     window.location.href = host + "/clients/add";
