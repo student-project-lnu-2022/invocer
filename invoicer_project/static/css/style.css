@@ -235,10 +235,6 @@ a {
         padding-left: 250px;
     }
 
-    .fixed-brand {
-        width: 250px;
-    }
-
     #wrapper.toggled {
         padding-left: 0;
     }
@@ -347,7 +343,7 @@ a {
 
 .navbar {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     background-color: rgba(221, 228, 246, 1);
 }
 
@@ -921,3 +917,5 @@ body {
     height: 18px;
     align-content: space-around;
 }
+
+
