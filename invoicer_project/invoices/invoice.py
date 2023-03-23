@@ -3,6 +3,8 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import letter
+
+
 def create_pdf(serializer, items):
     buffer = BytesIO()
     p = canvas.Canvas(buffer, pagesize=letter)
