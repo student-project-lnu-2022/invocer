@@ -1,4 +1,3 @@
-from django.shortcuts import render, get_object_or_404
 from .models import OrderedItem, Invoice
 from .invoiceserializer import OrderedItemSerializer, InvoiceSerializer
 from django.http import JsonResponse
@@ -6,15 +5,12 @@ from clients.views import get_user_from_jwt
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
-from django.http import HttpResponse
 from io import BytesIO
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
-from reportlab.platypus import Table, TableStyle
 
 
 class InvoiceViewSet(viewsets.ViewSet):
