@@ -1,30 +1,30 @@
 import {
-    host,
-    returnAllFields,
-    hideUnnecessaryElementsInMenu,
-    nameField,
-    zipField,
-    emailField,
+    addressField,
+    cityField,
+    clientId,
     countryField,
+    emailField, fillFieldsWithClientsData,
+    hideUnnecessaryElementsInMenu,
+    host,
+    nameField,
+    returnAllFields,
     surnameField,
     telephoneField,
-    cityField,
-    addressField,
-    clientId
+    zipField
 } from './utils_clients.js'
 import {
+    allAreFalse,
+    clearErrorAttributes,
     removeAllErrorAttributes,
     setErrorAttributesToFields,
-    clearErrorAttributes,
     setMaxFieldContainerHeights,
-    allAreFalse,
-    validateCountry,
-    validateCity,
     validateAddress,
+    validateCity,
+    validateCountry,
     validateNameAndSurnameAsStrings,
     validation,
 } from './validation_utils.js'
-import {obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
+import {actionBasedOnStatusCode, obtainUserInitials, sendAddEditRequest} from './request_utils.js'
 
 function validateClientEdit() {
     removeAllErrorAttributes(returnAllFields());
@@ -66,20 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     obtainUserInitials();
 });
 
-fillFieldsWithData();
-hideUnnecessaryElementsInMenu();
-
-async function fillFieldsWithData() {
-    let responseFromServer = await getClientById(clientId);
-    document.getElementById("name_input_client_edit_page").value = responseFromServer["first_name"];
-    document.getElementById("surname_input_client_edit_page").value = responseFromServer["last_name"];
-    document.getElementById("email_input_client_edit_page").value = responseFromServer["email"];
-    document.getElementById("telephone_input_client_edit_page").value = responseFromServer["phone_number"];
-    document.getElementById("zip_input_client_edit_page").value = responseFromServer["zip_code"];
-    document.getElementById("country_input_client_edit_page").value = responseFromServer["country"];
-    document.getElementById("city_input_client_edit_page").value = responseFromServer["city"];
-    document.getElementById("address_input_client_edit_page").value = responseFromServer["address"];
-}
 
 function getClientById(clientId) {
     return fetch(host + '/clients/client/' + clientId, {
@@ -92,3 +78,6 @@ function getClientById(clientId) {
         .catch(error => console.error(error));
 }
 
+
+hideUnnecessaryElementsInMenu();
+fillFieldsWithClientsData();
