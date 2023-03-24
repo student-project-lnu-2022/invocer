@@ -37,16 +37,16 @@
                             <div class="row">
                                 <div class="d-flex flex-wrap flex-column col-lg">
                                     <md-outlined-text-field
-                                        class="input_field col-xl-8 pb-3 pt-1"
+                                        class="input_field col-xl-8 pt-1"
                                         label="Name"
                                         id="name"
                                         type="text"></md-outlined-text-field>
                                     <md-outlined-text-field
-                                        class="input_field col col-xl-11 pt-3 pb-3"
+                                        class="input_field col col-xl-11"
                                         label="Client_search_here"
                                         id="client-field"
                                         type="text"></md-outlined-text-field>
-                                    <div class="row pt-3 pb-3 align-items-center">
+                                    <div class="row pb-1 align-items-center">
                                         <md-outlined-text-field
                                             class="input_field col-4 col-sm-4 col-md-4 col-lg-5 col-xl-4 col-xxl-4"
                                             label="Date of invoice"
@@ -66,63 +66,62 @@
                                             ><span>today</span></md-standard-icon-button
                                         >
                                     </div>
-                                    <div class="row text-left">
-                                        <h4>Add items</h4>
+                                    <div class="row col-11 text-left pt-3" id="add-items-text" style="margin: 0px">
+                                        <h4 class="col">Add items</h4>
                                     </div>
                                     <md-outlined-text-field
-                                        class="input_field col col-xl-11 pt-3 pb-3 col-sm col-md col-lg"
+                                        class="input_field col col-xl-11 col-sm col-md col-lg"
                                         label="Items_search_here"
-                                        id="client-field"
-                                        type="text"></md-outlined-text-field>
-                                    <div class="row pt-3 pb-3">
+                                        type="text"
+                                        id="item-list"></md-outlined-text-field>
+
+                                    <div class="row">
                                         <md-outlined-text-field
                                             class="input_field col-4 col-md-4 col-lg-5 col-xl-4"
                                             label="Amount"
-                                            id="client-field"
-                                            type="text"></md-outlined-text-field>
+                                            type="text"
+                                            id="amount"></md-outlined-text-field>
                                         <md-outlined-text-field
                                             class="input_field offset-1 offset-0-lg col-7 col-lg-6 col-xl-6"
                                             label="unit_list_here"
-                                            id="client-field"
-                                            type="text"></md-outlined-text-field>
+                                            type="text"
+                                            id="unit-list"></md-outlined-text-field>
+                                    </div>
+                                    <div id="to_insert" class="row col-12 col-xl-11 justify-content-between mx-0 pb-3">
+                                        <md-fab-extended
+                                            icon="save"
+                                            class="col-auto px-0"
+                                            id="save_changes"
+                                            label="Save to table"
+                                            style="visibility: hidden"></md-fab-extended>
+                                        <md-fab-extended
+                                            icon="add"
+                                            class="col-6 col-sm-auto px-0"
+                                            id="item_to_table"
+                                            label="Add item to invoice"></md-fab-extended>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="container-fluid col-12 col-lg-10 col-xl-7 col-xxl-6">
                             <div id="inv" class="container-fluid text-left mb-5">
-                                <div class="row text-left"><h2>Invoice</h2></div>
-                                <div class="row text-left"><h5>Client: Client name_surname</h5></div>
-                                <div class="row text-left"><h5>Telephone number:</h5></div>
-                                <div class="row text-left"></div>
-                                <div class="container-fluid text-left" id="table">
-                                    <div class="row text-left">
-                                        <div class="col-3 first_col">Name</div>
+                                <div class="row text-left">
+                                    <h2>Invoice</h2>
+                                </div>
+                                <div class="row text-left">
+                                    <h5>Client: Client name_surname</h5>
+                                </div>
+                                <div class="row text-left">
+                                    <h5>Telephone number:</h5>
+                                </div>
+
+                                <div class="container-fluid text-left align-items-center" id="table">
+                                    <div class="row text-left table-row" data-id="0">
+                                        <div class="col-2 first_col">Name</div>
                                         <div class="col-2 first_col">Amount</div>
                                         <div class="col-2 first_col">Unit</div>
                                         <div class="col-2 first_col">Price</div>
-                                        <div class="col-3 second_col">Total</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3 first_col">Apple</div>
-                                        <div class="col-2 first_col">Amount</div>
-                                        <div class="col-2 first_col">Unit</div>
-                                        <div class="col-2 first_col">Price</div>
-                                        <div class="col-3 second_col">Total</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3 first_col">Name</div>
-                                        <div class="col-2 first_col">Amount</div>
-                                        <div class="col-2 first_col">Unit</div>
-                                        <div class="col-2 first_col">Price</div>
-                                        <div class="col-3 second_col">Total</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-3 first_col">Name</div>
-                                        <div class="col-2 first_col">Amount</div>
-                                        <div class="col-2 first_col">Unit</div>
-                                        <div class="col-2 first_col">Price</div>
-                                        <div class="col-3 second_col">Total</div>
+                                        <div class="col-2 first_col">Total</div>
                                     </div>
                                 </div>
                             </div>
@@ -142,6 +141,7 @@
         <script type="module" src="{% static 'js/bundle.js' %}"></script>
         <!-- <script type="module" src="{% static 'js/add_edit_item.js' %}"></script>
         <script type="module" src="{% static 'js/add_item_request.js' %}"></script> -->
+        <script type="module" src="{% static 'js/add_edit_invoice.js'%}"></script>
         <script type="module" src="{% static 'js/index.js' %}"></script>
         <script></script>
     </body>
