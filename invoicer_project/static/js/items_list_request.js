@@ -14,6 +14,7 @@ function createItemListContent(data) {
         let itemName = item['name'];
         let priceAndCurrency = item['price'] + " " + item['currency'];
         let itemID = item['id']
+        let basicUnit = item['basic_unit'];
 
         document.getElementById("items_container").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around redirect_to_item_info" data-item-id="${itemID}">
                         <div class="col-md-6 col-sm-6 col-7 list_item_name redirect_to_item_info" data-item-id="${itemID}">
@@ -26,7 +27,7 @@ function createItemListContent(data) {
                             </div>
                             <div class="d-flex flex-wrap flex-column list_item_info_block redirect_to_item_info" data-item-id="${itemID}">
                                 <p class="additional_text redirect_to_item_info" data-item-id="${itemID}">Basic unit</p>
-                                <p class="main_text redirect_to_item_info" data-item-id="${itemID}">kg</p>
+                                <p class="main_text redirect_to_item_info" data-item-id="${itemID}">${basicUnit}</p>
                             </div>
                             <div class="list_item_user_buttons">
                                  <md-standard-icon-button class="edit-item" data-element-id="${itemID}"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
