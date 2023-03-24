@@ -111,7 +111,7 @@ a {
 /*Add item and edit item page Nadia and Vitalik*/
 /*Menu*/
 
-.close_btn:hover{
+.close_btn:hover {
     cursor: pointer;
 }
 
@@ -230,7 +230,7 @@ a {
     margin: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 831px) {
     #wrapper {
         padding-left: 250px;
     }
@@ -685,7 +685,7 @@ md-fab-extended {
     width: 90%;
 }
 
-.client_list_item:hover{
+.client_list_item:hover {
     cursor: pointer;
 }
 
@@ -723,7 +723,7 @@ md-fab-extended {
     max-height: 100%;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 860px) {
     .client_list_item {
         width: 100%;
     }
@@ -745,7 +745,7 @@ md-fab-extended {
     .client_list_item {
         background-color: #fff;
         border-radius: 15px;
-        height: 6vh;
+        height: 7vh;
         margin-left: 0;
         width: 100%;
     }
@@ -908,7 +908,7 @@ body {
     padding-right: 10px;
 }
 
-.error_country_dropdown{
+.error_country_dropdown {
     color: #b3251e;
     font-size: 10.5px;
     font-family: Roboto, serif;
@@ -919,3 +919,71 @@ body {
 }
 
 
+body {
+    margin: 0 0 55px 0;
+}
+
+.nav_mobile {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 55px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    background-color: rgb(221 228 246);
+    display: flex;
+    overflow-x: auto;
+}
+
+.nav__link_mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    min-width: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: sans-serif;
+    font-size: 13px;
+    color: #444444;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.nav__link_mobile:hover {
+    background-color: rgba(255, 255, 255, 0.94);
+}
+
+.nav__link_mobile--active {
+    color: black;
+    background-color: rgb(255 255 255 / 48%);
+}
+
+.nav__icon_mobile {
+    font-size: 18px;
+}
+
+.menu_item_icon_mobile {
+    height: 25px;
+}
+
+@media (max-width: 830px) {
+    #sidebar-wrapper {
+        display: none;
+    }
+
+    #navigation_hamburger_button_and_logo {
+        display: none;
+    }
+
+    #user_name_and_icon_column {
+        display: none;
+    }
+}
+
+@media (max-width: 940px) {
+    #user_name_and_icon_column {
+        display: none;
+    }
+}

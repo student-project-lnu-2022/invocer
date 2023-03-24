@@ -1,0 +1,23 @@
+{% load static %}
+<nav class="nav_mobile" style="display: none">
+    <a href="#" class="nav__link_mobile">
+<img class="menu_item_icon_mobile" alt="invoices_icon" src="{% static 'img/invoice.png' %}"/>
+        <span class="nav__text_mobile">Invoices</span>
+    </a>
+    <a href="{% url 'home' %}" class="nav__link_mobile nav__link_mobile--active">
+        <img class="menu_item_icon_mobile" alt="clients_icon" src="{% static 'img/clients.png' %}"/>
+        <span class="nav__text_mobile">Clients</span>
+    </a>
+    <a href="{% url 'items_render' %}" class="nav__link_mobile">
+        <img class="menu_item_icon_mobile" alt="items_icon" src="{% static 'img/list-items.png' %}"/></span>
+        <span class="nav__text_mobile">Items</span>
+    </a>
+    <a href="#" class="nav__link_mobile">
+        <img class="menu_item_icon_mobile" alt="statistics_icon" src="{% static 'img/statistics.png' %}"/>
+        <span class="nav__text_mobile">Statistics</span>
+    </a>
+    <a href="#" class="nav__link_mobile">
+<img alt="settings_icon" class="menu_item_icon_mobile" src="{% static 'img/settings.png' %}"/>
+        <span class="nav__text_mobile">Settings</span>
+    </a>
+</nav>

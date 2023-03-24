@@ -27,6 +27,8 @@ function initMenu() {
 window.addEventListener('DOMContentLoaded', function () {
     initMenu();
     checkMenuItemBasedOnSection();
+    window.addEventListener('resize', setNavMobileDisplay);
+    window.addEventListener('load', setNavMobileDisplay);
 });
 
 document.querySelector("#log_out_button").addEventListener("click", async () => {
@@ -69,23 +71,53 @@ document.querySelector("#log_out_button").addEventListener("click", async () => 
 function checkMenuItemBasedOnSection() {
     const urlSection = new URL(window.location.href).pathname.split("/")[1];
     const menuItems = document.querySelectorAll("#menu li");
+    const menuItemsMobile = document.querySelectorAll(".nav_mobile a");
+
     menuItems.forEach((item) => {
         item.classList.remove("active");
+    });
+
+    menuItemsMobile.forEach((item) => {
+        item.classList.remove("nav__link_mobile--active");
     });
 
     const urlSections = ['invoices', 'clients', 'items', 'statistics', 'user'];
 
     menuItems[urlSections.indexOf(urlSection)].classList.add('active');
+    menuItemsMobile[urlSections.indexOf(urlSection)].classList.add('nav__link_mobile--active');
 }
 
 const navMobile = document.querySelector('.nav_mobile');
+const sidebarWrapper = document.querySelector("#wrapper");
+const searchAndAddButton = document.querySelector(".additional_navigation_elements");
+const userNameAndIcon = document.querySelector('#user_name_and_icon_column');
 
-window.addEventListener('resize', () => {
-  if (window.innerWidth <= 830) {
-    navMobile.style.display = 'flex';
-  } else {
-    navMobile.style.display = 'none';
-  }
-});
+function setNavMobileDisplay() {
+
+    if (window.innerWidth <= 940) {
+        searchAndAddButton.classList.remove("col-7");
+        searchAndAddButton.classList.add("col-8");
+    } else {
+        searchAndAddButton.classList.remove("col-8");
+        searchAndAddButton.classList.add("col-7");
+    }
+
+    if (window.innerWidth <= 830) {
+        navMobile.style.display = 'flex';
+        searchAndAddButton.classList.remove("col-7");
+        searchAndAddButton.classList.add("col-12");
+        searchAndAddButton.classList.add("justify-content-center")
+    } else {
+        navMobile.style.display = 'none';
+        searchAndAddButton.classList.add("col-7");
+        searchAndAddButton.classList.remove("col-12");
+        searchAndAddButton.classList.remove("justify-content-center")
+    }
+
+
+}
+
+
+
 
 
