@@ -78,3 +78,14 @@ function checkMenuItemBasedOnSection() {
     menuItems[urlSections.indexOf(urlSection)].classList.add('active');
 }
 
+const navMobile = document.querySelector('.nav_mobile');
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth <= 830) {
+    navMobile.style.display = 'flex';
+  } else {
+    navMobile.style.display = 'none';
+  }
+});
+
+
