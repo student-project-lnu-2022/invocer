@@ -1,11 +1,13 @@
 .ui.selection.dropdown {
-    line-height: 29px;
+    line-height: 28px;
     font-family: Roboto, serif;
     border: 1px solid rgb(121 116 126);
+    margin-top: -1px;
+    height: 56px;
 }
 
 .ui.selection.dropdown > .delete.icon, .ui.selection.dropdown > .dropdown.icon, .ui.selection.dropdown > .search.icon {
-    line-height: 2.614286em;
+    line-height: 1.994286em;
 }
 
 
