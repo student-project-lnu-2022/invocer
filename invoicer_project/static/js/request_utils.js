@@ -112,6 +112,22 @@ export async function actionBasedOnStatusCode(statusCode, successStatusCode, dat
     }
 }
 
+export async function checkUserSessionStatus(statusCode, successStatusCode, data, requestMethod, requestUrl) {
+    if (statusCode !== successStatusCode) {
+        if (statusCode === 401) {
+            const obtainedNewTokens = await obtainNewAccessToken();
+            if (!obtainedNewTokens) {
+                window.location.href = host + '/user/login/';
+            } else {
+                const status = await sendAddEditRequest(host + requestUrl, data, requestMethod);
+                actionBasedOnStatusCode(status, successStatusCode, data, requestMethod, requestUrl);
+            }
+        } else {
+            console.log(`Unknown error: status code = ${statusCode}`);
+        }
+    }
+}
+
 
 export function addCheckboxesListener(elementsIdOrClass, deleteElementsIdOrClass, deleteElementsIdOrClassWithoutPoint, deleteManyElementsIdOrClass, url) {
     let dataForServer;
@@ -189,11 +205,23 @@ export function addDeleteButtonListeners(selectorName, url) {
     });
 }
 
+export function addEditButtonListeners(containerId, className, url) {
+    const clientsList = document.querySelector(containerId);
+    clientsList.addEventListener('click', async (event) => {
+        const clickedElement = event.target;
+        if (clickedElement.classList.contains(className)) {
+            const clientId = clickedElement.dataset.elementId;
+            window.location.href = host + url + clientId;
+        }
+    });
+}
+
+
 export function search(elements, elementDivs) {
     const input = document.getElementById('search_bar').value.toLowerCase();
     const elementsList = document.getElementsByClassName(elements);
     const elementsListDivs = document.getElementsByClassName(elementDivs);
-    
+
 
     for (let i = 0; i < elementsList.length; i++) {
         if (!elementsList[i].innerHTML.toLowerCase().includes(input)) {

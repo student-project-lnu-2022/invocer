@@ -13,7 +13,7 @@ export const returnAllFields = function () {
     return [
         nameField, surnameField,
         emailField, telephoneField,
-        zipField, countryField,
+        zipField,
         cityField, addressField
     ];
 }
@@ -36,6 +36,16 @@ export async function fillFieldsWithClientsData() {
     document.getElementById("country_input_client_edit_page").value = responseFromServer["country"];
     document.getElementById("city_input_client_edit_page").value = responseFromServer["city"];
     document.getElementById("address_input_client_edit_page").value = responseFromServer["address"];
+
+    const countriesDivList = document.querySelectorAll('.menu div');
+    countriesDivList.forEach(div => {
+        if (div.getAttribute("data-value") === responseFromServer["country"]) {
+            const dropdownCountryContainer = document.querySelector('.default.text');
+            dropdownCountryContainer.textContent = "";
+            dropdownCountryContainer.insertAdjacentHTML("afterbegin", div.innerHTML);
+            dropdownCountryContainer.classList.remove("default");
+        }
+    });
 }
 
 function getClientById(clientId) {

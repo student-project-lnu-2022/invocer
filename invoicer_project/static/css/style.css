@@ -691,7 +691,6 @@ ul {
     padding-bottom: 10px;
     padding-top: 10px;
 }
-
 .container {
     padding-left: 0;
 }
@@ -1034,4 +1033,14 @@ body {
     font-weight: 500;
     padding: 18px;
     margin-right: 60px;
+}
+
+.error_country_dropdown{
+    color: #b3251e;
+    font-size: 10.5px;
+    font-family: Roboto, serif;
+    padding-left: 1.3em;
+    flex-wrap: wrap;
+    height: 18px;
+    align-content: space-around;
 }
