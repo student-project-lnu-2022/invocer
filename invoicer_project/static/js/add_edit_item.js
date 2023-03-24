@@ -126,13 +126,14 @@ barcodeField.addEventListener('input', () => { setTextToTable(inputBarcodeVal, `
 
 function input_basic_unit_table() {
     let basicUnitData = isFieldEmpty(inputBasicUnit, "Basic unit", "");
+
     setTextToTable(inputBasicUnitVal, basicUnitData);
     setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + basicUnitData);
+
     if (numOfRowsObject.numOfRows <= 0) return;
     let field, data;
     for (let i = 0; i < numOfRowsObject.numOfRows; i++) {
         field = document.getElementById(`AU${i + 1}_val`);
-        console.log(field)
         data = field.getAttribute('data-text');
         if (data === null) {
             data = "";

@@ -159,7 +159,7 @@ async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
     if (registerStatusCode === 200) {
         const tokenObtainStatusCode = await obtainAndSaveTokens(host + '/user/login/', JSON.stringify(dataToSend));
         if (tokenObtainStatusCode === 200) {
-            window.location.replace(host + '/clients/home/');
+            window.location.replace(host);
         } else {
             showBackEndErrorsAtFrontEnd(tokenObtainStatusCode);
         }
