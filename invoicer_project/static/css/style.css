@@ -1024,8 +1024,7 @@ body {
 }
 
 .errorMessage {
-  background-color: #f44336;
-  color: white;
+  color: #f44336;
   animation-name: animate_error;
   animation-duration: 2s;
   margin-top: 10px;
@@ -1034,14 +1033,10 @@ body {
 }
 
 .successMessage {
-  background-color: #4CAF50;
-  color: white;
+  color: #4CAF50;
   font-size: 18px;
   margin-top: 10px;
   animation-name: animate_success;
   animation-duration: 2s;
   animation-fill-mode: forwards;
 }
-
-
-
