@@ -1,7 +1,7 @@
 const host = "http://127.0.0.1:8000";
-import {obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners} from './request_utils.js';
-import {search} from './request_utils.js';
-document.getElementById("search_bar").addEventListener('keyup', ()=> { search('invoice_name', 'client_list_item')});
+import { obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners } from './request_utils.js';
+import { search } from './request_utils.js';
+document.getElementById("search_bar").addEventListener('keyup', () => { search('invoice_name', 'client_list_item') });
 
 function createInvoiceListContent(data) {
     for (let i = 0; i < data.length; i++) {
@@ -33,7 +33,7 @@ function createInvoiceListContent(data) {
                             <md-checkbox class="delete_invoices_checkbox" id="list_item_user_delete" data-element-id="${invoiceId}"></md-checkbox>
                         </div>
                     </div>
-                </div>`)
+                </div>`);
     }
 }
 
@@ -44,7 +44,7 @@ async function addElementsDynamically() {
     if (response === 200) {
         createInvoiceListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners('.delete-invoice', "/invoice/");
-        addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoice/");
+        addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox', "#delete_many_clients", "/invoice/");
         addDownloadButtonListeners('.download');
         addUploadButtonListeners('.upload', '.recipient-email-input', '.send-email-btn');
     } else if (response === 401) {
@@ -55,7 +55,7 @@ async function addElementsDynamically() {
             responseFromServer = await getUserData("/invoice/");
             createInvoiceListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners('.delete-invoice', "/invoice/");
-            addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoice/");
+            addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox', "#delete_many_clients", "/invoice/");
             addDownloadButtonListeners('.download');
             addUploadButtonListeners('.upload', '.recipient-email-input', '.send-email-btn');
         }
@@ -70,15 +70,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelector("#adder").label = "Add invoice";
 });
 
-document.querySelector("#sort_asc").addEventListener("click", ()=> {
+document.querySelector("#adder").addEventListener('click', () => {
+    window.location.href = host + '/invoice/add';
+});
+
+document.querySelector("#sort_asc").addEventListener("click", () => {
     const parent = document.querySelector("#other_elements_invoices");
     const divs = parent.querySelectorAll('.client_list_item');
     const sortedDivs = Array.from(divs).sort((a, b) => a.querySelector(".invoice_name").textContent.localeCompare(b.querySelector(".invoice_name").textContent));
     parent.innerHTML = '';
     for (const div of sortedDivs) {
-      parent.appendChild(div);
+        parent.appendChild(div);
     }
-})
+});
 
 async function downloadDataRequest(invoiceId) {
     const downloadUrl = "/download/" + invoiceId;
