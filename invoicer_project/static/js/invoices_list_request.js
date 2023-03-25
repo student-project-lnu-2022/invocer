@@ -25,9 +25,14 @@ function createInvoiceListContent(data) {
                             <md-standard-icon-button class="edit-item"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
                             <md-standard-icon-button class="delete-invoice" data-element-id="${invoiceId}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                             <md-standard-icon-button class="upload" data-element-id="${invoiceId}"><span class="material-symbols-outlined">upload</span></md-standard-icon-button>
-                            <div class="email-field" style="display:none;">
-                            <input type="email" class='recipient-email-input' placeholder="Recipient email">
-                            <button class="send-email-btn">Send</button>
+                            <div id="myModal" class="modal">
+                              <div class="modal-content">
+                                <md-standard-icon-button class="close" style="text-align:right;color:red;">close</md-standard-icon-button>
+                                <div class="modal-body">
+                                  <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
+                                  <md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>
+                                </div>
+                              </div>
                             </div>
                             <md-standard-icon-button class="download" data-element-id="${invoiceId}"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
                             <md-checkbox class="delete_invoices_checkbox" id="list_item_user_delete" data-element-id="${invoiceId}"></md-checkbox>
@@ -125,21 +130,33 @@ async function sendPdfEmailRequest(invoiceId, recipientEmail) {
 }
 
 function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendButtonSelector) {
-    const uploadButtons = document.querySelectorAll(uploadSelector);
+  const uploadButtons = document.querySelectorAll(uploadSelector);
 
-    uploadButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const invoiceId = button.getAttribute('data-element-id');
+  uploadButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const invoiceId = button.getAttribute('data-element-id');
 
-        const emailField = button.nextElementSibling;
-        emailField.style.display = 'block';
+      const emailField = button.nextElementSibling;
+      emailField.style.display = 'block';
 
-        const recipientEmailInput = emailField.querySelector(recipientEmailSelector);
-        const sendEmailButton = emailField.querySelector(sendButtonSelector);
-        sendEmailButton.addEventListener('click', () => {
-          const recipientEmail = recipientEmailInput.value;
-          sendPdfEmailRequest(invoiceId, recipientEmail);
-        });
+      const recipientEmailInput = emailField.querySelector(recipientEmailSelector);
+      const sendEmailButton = emailField.querySelector(sendButtonSelector);
+      const closeButton = emailField.querySelector('.close');
+
+      const sendPdfEmailRequestHandler = () => {
+        const recipientEmail = recipientEmailInput.value;
+        sendPdfEmailRequest(invoiceId, recipientEmail);
+        recipientEmailInput.value = '';
+      };
+
+      sendEmailButton.addEventListener('click', sendPdfEmailRequestHandler);
+
+      closeButton.addEventListener('click', () => {
+        emailField.style.display = 'none';
+        sendEmailButton.removeEventListener('click', sendPdfEmailRequestHandler);
       });
     });
+  });
 }
+
+

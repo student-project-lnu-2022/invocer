@@ -960,3 +960,50 @@ body {
     height: 18px;
     align-content: space-around;
 }
+
+/* The Modal (background) */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+    cursor: auto;
+}
+
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 24%;
+    height: 33%;
+}
+
+.close {
+    --md-icon-color: red;
+    text-align: right;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recipient-email-input {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.send-email-btn {
+  color: white;
+  margin-bottom: 10px;
+    text-align: left !important; /* Center align the text inside the button */
+  line-height: 36px; /* Set the line height to vertically center the text */
+}
