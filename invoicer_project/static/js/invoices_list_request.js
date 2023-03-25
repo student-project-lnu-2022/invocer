@@ -39,12 +39,12 @@ function createInvoiceListContent(data) {
 
 
 async function addElementsDynamically() {
-    let responseFromServer = await getUserData("/invoice/");
+    let responseFromServer = await getUserData("/invoices/invoice/");
     const response = responseFromServer["responseStatus"];
     if (response === 200) {
         createInvoiceListContent(responseFromServer["data"]["content"]);
-        addDeleteButtonListeners('.delete-invoice', "/invoice/");
-        addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox', "#delete_many_clients", "/invoice/");
+        addDeleteButtonListeners('.delete-invoice', "/invoices/invoice/");
+        addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox', "#delete_many_clients", "/invoices/invoice/");
         addDownloadButtonListeners('.download');
         addUploadButtonListeners('.upload', '.recipient-email-input', '.send-email-btn');
     } else if (response === 401) {
@@ -54,8 +54,8 @@ async function addElementsDynamically() {
         } else {
             responseFromServer = await getUserData("/invoice/");
             createInvoiceListContent(responseFromServer["data"]["content"]);
-            addDeleteButtonListeners('.delete-invoice', "/invoice/");
-            addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox', "#delete_many_clients", "/invoice/");
+            addDeleteButtonListeners('.delete-invoice', "/invoices/invoice/");
+            addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox', "#delete_many_clients", "/invoices/invoice/");
             addDownloadButtonListeners('.download');
             addUploadButtonListeners('.upload', '.recipient-email-input', '.send-email-btn');
         }
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 document.querySelector("#adder").addEventListener('click', () => {
-    window.location.href = host + '/add';
+    window.location.href = host + '/invoices/add';
 });
 
 document.querySelector("#sort_asc").addEventListener("click", () => {
@@ -85,7 +85,7 @@ document.querySelector("#sort_asc").addEventListener("click", () => {
 });
 
 async function downloadDataRequest(invoiceId) {
-    const downloadUrl = "/download/" + invoiceId;
+    const downloadUrl = "/invoices/download/" + invoiceId;
     const result = await fetch(downloadUrl, {
         method: 'GET',
         headers: {
@@ -113,7 +113,7 @@ function addDownloadButtonListeners(selectorName) {
 }
 
 async function sendPdfEmailRequest(invoiceId, recipientEmail) {
-  const sendPdfEmailUrl = `/send_email/${invoiceId}/${recipientEmail}/`;
+  const sendPdfEmailUrl = `/invoices/send_email/${invoiceId}/${recipientEmail}/`;
   const response = await fetch(sendPdfEmailUrl, {
     method: 'POST',
     headers: {
