@@ -24,7 +24,11 @@ function createInvoiceListContent(data) {
                         <div class="list_invoice_user_buttons">
                             <md-standard-icon-button class="edit-item"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
                             <md-standard-icon-button class="delete-invoice" data-element-id="${invoiceId}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
-                            <md-standard-icon-button class="upload"><span class="material-symbols-outlined">upload</span></md-standard-icon-button>
+                            <md-standard-icon-button class="upload" data-element-id="${invoiceId}"><span class="material-symbols-outlined">upload</span></md-standard-icon-button>
+                            <div class="email-field" style="display:none;">
+                            <input type="email" class='recipient-email-input' placeholder="Recipient email">
+                            <button class="send-email-btn">Send</button>
+                            </div>
                             <md-standard-icon-button class="download" data-element-id="${invoiceId}"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
                             <md-checkbox class="delete_invoices_checkbox" id="list_item_user_delete" data-element-id="${invoiceId}"></md-checkbox>
                         </div>
@@ -42,6 +46,7 @@ async function addElementsDynamically() {
         addDeleteButtonListeners('.delete-invoice', "/invoice/");
         addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoice/");
         addDownloadButtonListeners('.download');
+        addUploadButtonListeners();
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -52,6 +57,7 @@ async function addElementsDynamically() {
             addDeleteButtonListeners('.delete-invoice', "/invoice/");
             addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoice/");
             addDownloadButtonListeners('.download');
+            addUploadButtonListeners();
         }
     } else {
         window.location.replace(host + '/user/login/');
@@ -99,5 +105,37 @@ function addDownloadButtonListeners(selectorName) {
             const invoiceId = button.getAttribute('data-element-id');
             downloadDataRequest(invoiceId);
         });
+    });
+}
+
+async function sendPdfEmailRequest(invoiceId, recipientEmail) {
+  const sendPdfEmailUrl = `/send_email/${invoiceId}/${recipientEmail}/`;
+  const response = await fetch(sendPdfEmailUrl, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json'
+    }
+  });
+  const data = await response.json();
+}
+
+function addUploadButtonListeners() {
+    const uploadButtons = document.querySelectorAll('.upload');
+
+    uploadButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const invoiceId = button.getAttribute('data-element-id');
+
+        const emailField = button.nextElementSibling;
+        emailField.style.display = 'block';
+
+        const recipientEmailInput = emailField.querySelector('.recipient-email-input');
+        const sendEmailButton = emailField.querySelector('.send-email-btn');
+        sendEmailButton.addEventListener('click', () => {
+          const recipientEmail = recipientEmailInput.value;
+          sendPdfEmailRequest(invoiceId, recipientEmail);
+        });
+      });
     });
 }
