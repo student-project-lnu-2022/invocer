@@ -25,7 +25,7 @@ function createInvoiceListContent(data) {
                             <md-standard-icon-button class="edit-item"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
                             <md-standard-icon-button class="delete-invoice" data-element-id="${invoiceId}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                             <md-standard-icon-button class="upload" data-element-id="${invoiceId}"><span class="material-symbols-outlined">upload</span></md-standard-icon-button>
-                            <div id="myModal" class="modal">
+                            <div class="modal">
                               <div class="modal-content">
                                 <md-standard-icon-button class="close" style="text-align:right;color:red;">close</md-standard-icon-button>
                                 <div class="modal-body">
