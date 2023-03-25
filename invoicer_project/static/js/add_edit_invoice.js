@@ -63,11 +63,13 @@ function loadDataToEdit(event) {
     itemsField.value = columns[0].textContent;
     amountField.value = columns[1].textContent;
     unitField.value = columns[2].textContent;
+    addMoreItems.style.visibility = 'hidden';
     saveToTable.style.visibility = 'visible';
     clickHandler = function () {
         if (modifyTable(columns)) {
             saveToTable.removeEventListener('click', clickHandler);
             saveToTable.style.visibility = 'hidden';
+            addMoreItems.style.visibility = 'visible';
             // modified item, amount and unit here, now get item price
             // and fill price and total columns by hands
         }
