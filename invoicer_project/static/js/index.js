@@ -1,5 +1,5 @@
-import {host} from "./utils_clients.js";
-import {obtainUserInitials, obtainNewAccessToken} from "./request_utils.js";
+import { host } from "./utils_clients.js";
+import { obtainUserInitials, obtainNewAccessToken } from "./request_utils.js";
 
 document.querySelector("#menu-toggle").addEventListener("click", function (e) {
     e.preventDefault();
@@ -73,7 +73,7 @@ function checkMenuItemBasedOnSection() {
         item.classList.remove("active");
     });
 
-    const urlSections = ['', 'clients', 'items', 'statistics', 'settings'];
+    const urlSections = ['invoice', 'clients', 'items', 'statistics', 'settings'];
     menuItems[urlSections.indexOf(urlSection)].classList.add('active');
 }
 

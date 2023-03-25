@@ -4,26 +4,26 @@ const itemsField = document.querySelector('#item-list');
 const amountField = document.querySelector('#amount');
 const unitField = document.querySelector('#unit-list');
 const saveToTable = document.querySelector('#save_changes');
+const saveInvoiceButton = document.querySelectorAll('#add_invoice_button');
 const dataIdList = [0];
 //to move all the fields and selectors to other file
 let clickHandler;
 
-function arrayWithData()
-{
-    return [(itemsField.value)? itemsField.value : 'Name',
-        (amountField.value) ? amountField.value : 'Amount',
-        (unitField.value)? unitField.value : 'Unit', 'Price', 'Total']
-} 
+function arrayWithData() {
+    return [(itemsField.value) ? itemsField.value : 'Name',
+    (amountField.value) ? amountField.value : 'Amount',
+    (unitField.value) ? unitField.value : 'Unit', 'Price', 'Total']
+}
 
 addMoreItems.addEventListener('click', () => {
     saveToTable.style.visibility = 'hidden';
     saveToTable.removeEventListener('click', clickHandler);
-  
+
     const tableRow = document.createElement('div');
     tableRow.classList.add('row', 'text-left', 'table-row', 'align-items-center');
     dataIdList.push(dataIdList.at(-1) + 1);
     tableRow.setAttribute('data-id', dataIdList.at(-1));
-    
+
     const ValList = arrayWithData();
     for (let i = 0; i < 5; ++i) {
         const rowIdentifier = (i === 5) ? 'second_col' : 'first_col';
@@ -49,7 +49,7 @@ addMoreItems.addEventListener('click', () => {
     editButton.appendChild(editIcon);
     removeButton.appendChild(removeIcon);
 
-    
+
     tableRow.appendChild(editButton);
     tableRow.appendChild(removeButton);
     removeButton.addEventListener('click', e => e.target.parentElement.remove());
@@ -71,22 +71,22 @@ function loadDataToEdit(event) {
             // modified item, amount and unit here, now get item price
             // and fill price and total columns by hands
         }
-        
+
     }
     saveToTable.addEventListener('click', clickHandler);
 }
 
-    function modifyTable(arrayOfColumns) {
-    
-        let validationResult = true;  //validation here!!!
-        arrayOfColumns[0].textContent = itemsField.value;
-        arrayOfColumns[1].textContent = amountField.value;
-        arrayOfColumns[2].textContent = unitField.value;
-        itemsField.value = "";
-        amountField.value = "";
-        unitField.value = "";
+function modifyTable(arrayOfColumns) {
 
-        return validationResult;
-    }
+    let validationResult = true;  //validation here!!!
+    arrayOfColumns[0].textContent = itemsField.value;
+    arrayOfColumns[1].textContent = amountField.value;
+    arrayOfColumns[2].textContent = unitField.value;
+    itemsField.value = "";
+    amountField.value = "";
+    unitField.value = "";
+
+    return validationResult;
+}
 
 

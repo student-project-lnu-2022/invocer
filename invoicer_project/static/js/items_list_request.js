@@ -35,7 +35,7 @@ function createItemListContent(data) {
                                 <md-checkbox class="delete_items_checkbox" id="list_item_user_delete"  data-element-id="${itemID}"></md-checkbox>
                             </div>
                         </div>
-                    </div>`)
+                    </div>`);
     }
 }
 
@@ -47,7 +47,7 @@ async function addElementsDynamically() {
         createItemListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners('.delete-item', `/items/items_list/`);
         addEditButtonListeners('#items_container', 'edit-item', "/items/edit/");
-        addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list");
+        addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox", "#delete_many_clients", "/items/items_list");
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -57,7 +57,7 @@ async function addElementsDynamically() {
             createItemListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners('.delete-item', `/items/items_list/`);
             addEditButtonListeners('#items_container', 'edit-item', "/items/edit/");
-            addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list");
+            addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox", "#delete_many_clients", "/items/items_list");
         }
     } else {
         window.location.replace(host + '/user/login/');
@@ -72,4 +72,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 document.querySelector('#adder').addEventListener('click', () => {
     window.location.href = host + "/items/add";
-})
+});
