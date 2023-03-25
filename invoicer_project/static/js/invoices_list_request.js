@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 document.querySelector("#adder").addEventListener('click', () => {
-    window.location.href = host + '/invoice/add';
+    window.location.href = host + '/add';
 });
 
 document.querySelector("#sort_asc").addEventListener("click", () => {
