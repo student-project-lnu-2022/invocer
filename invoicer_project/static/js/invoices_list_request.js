@@ -44,7 +44,7 @@ function createInvoiceListContent(data) {
                                 <div class="modal-body">
                                     <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
                                     <md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>
-                                    <div id="message"></div>                       
+                                    <div id="errorMessage"></div>                       
                                 </div>
                               </div>
                             </div>
@@ -142,9 +142,16 @@ async function sendPdfEmailRequest(invoiceId, recipientEmail) {
     });
     const data = await response.json();
     let messageElement = data.message;
-    let message = document.getElementById('message');
+    let message = document.getElementById('errorMessage');
     message.insertAdjacentHTML('afterbegin', messageElement);
-
+    if(messageElement === 'PDF was sent!')
+    {
+        message.classList.remove("errorMessage");
+        message.classList.add("successMessage");
+    } else {
+        message.classList.remove("successMessage")
+        message.classList.add("errorMessage")
+    }
     const emailInputElement = document.querySelector('.recipient-email-input');
     emailInputElement.addEventListener('input', function () {
         message.textContent = '';

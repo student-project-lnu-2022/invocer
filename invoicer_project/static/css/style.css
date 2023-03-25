@@ -980,7 +980,7 @@ body {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 300px;
+    width: 400px;
 }
 
 .close {
@@ -1001,9 +1001,47 @@ body {
   margin-bottom: 20px;
 }
 
-.send-email-btn {
-  color: white;
-  margin-bottom: 10px;
-    text-align: left !important; /* Center align the text inside the button */
-  line-height: 36px; /* Set the line height to vertically center the text */
+@keyframes animate_error {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
+
+@keyframes animate_success {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.errorMessage {
+  background-color: #f44336;
+  color: white;
+  animation-name: animate_error;
+  animation-duration: 2s;
+  margin-top: 10px;
+  font-size: 18px;
+  animation-fill-mode: forwards;
+}
+
+.successMessage {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 18px;
+  margin-top: 10px;
+  animation-name: animate_success;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+
+
