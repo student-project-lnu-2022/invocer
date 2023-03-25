@@ -81,17 +81,6 @@ class InvoiceViewSet(viewsets.ViewSet):
             email.send()
         except:
             return JsonResponse({'error': 'Failed to send email'})
-
-        file_path = f"Invoice-{invoice_id}.pdf"
-        if os.path.exists(file_path):
-            try:
-                os.remove(file_path)
-                print(f"Файл {file_path} успішно видалено")
-            except:
-                print(f"Не вдалося видалити файл {file_path}")
-        else:
-            print(f"Файл {file_path} не знайдено")
-
         return JsonResponse({'success': True})
 
 class OrderedItemViewSet(viewsets.ViewSet):
