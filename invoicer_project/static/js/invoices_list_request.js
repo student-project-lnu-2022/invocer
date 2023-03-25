@@ -1,12 +1,23 @@
 const host = "http://127.0.0.1:8000";
-import { obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners } from './request_utils.js';
-import { search } from './request_utils.js';
-document.getElementById("search_bar").addEventListener('keyup', () => { search('invoice_name', 'client_list_item') });
+import {
+    obtainUserInitials,
+    obtainNewAccessToken,
+    addCheckboxesListener,
+    getUserData,
+    addDeleteButtonListeners
+} from './request_utils.js';
+import {search} from './request_utils.js';
+
+document.getElementById("search_bar").addEventListener('keyup', () => {
+    search('invoice_name', 'client_list_item')
+});
 
 function createInvoiceListContent(data) {
     for (let i = 0; i < data.length; i++) {
-        const { id: invoiceId, name: invoiceName, price: invoicePrice, date_of_payment: invoiceDate,
-            client_first_name: clientFirstName, client_last_name: clientLastName, currency: invoiceCurrency } = data[i];
+        const {
+            id: invoiceId, name: invoiceName, price: invoicePrice, date_of_payment: invoiceDate,
+            client_first_name: clientFirstName, client_last_name: clientLastName, currency: invoiceCurrency
+        } = data[i];
         document.getElementById("other_elements_invoices").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around" data-element-id="${invoiceId}">
                     <div class="col-md-6 col-sm-6 col-7 list_item_name">
                     <div class="d-flex flex-wrap flex-column list_item_info_block">
@@ -26,11 +37,14 @@ function createInvoiceListContent(data) {
                             <md-standard-icon-button class="delete-invoice" data-element-id="${invoiceId}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                             <md-standard-icon-button class="upload" data-element-id="${invoiceId}"><span class="material-symbols-outlined">upload</span></md-standard-icon-button>
                             <div class="modal">
-                              <div class="modal-content">
-                                <md-standard-icon-button class="close" style="text-align:right;color:red;">close</md-standard-icon-button>
+                              <div class="modal-content d-flex">
+                                <div class="row">
+                                         <md-standard-icon-button class="close">close</md-standard-icon-button>
+                                </div>
                                 <div class="modal-body">
-                                  <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
-                                  <md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>
+                                                                                          <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
+
+<md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>                       
                                 </div>
                               </div>
                             </div>
@@ -118,45 +132,45 @@ function addDownloadButtonListeners(selectorName) {
 }
 
 async function sendPdfEmailRequest(invoiceId, recipientEmail) {
-  const sendPdfEmailUrl = `/invoices/send_email/${invoiceId}/${recipientEmail}/`;
-  const response = await fetch(sendPdfEmailUrl, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
-        'Content-Type': 'application/json'
-    }
-  });
-  const data = await response.json();
+    const sendPdfEmailUrl = `/invoices/send_email/${invoiceId}/${recipientEmail}/`;
+    const response = await fetch(sendPdfEmailUrl, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${window.localStorage.getItem('accessToken')}`,
+            'Content-Type': 'application/json'
+        }
+    });
+    const data = await response.json();
 }
 
 function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendButtonSelector) {
-  const uploadButtons = document.querySelectorAll(uploadSelector);
+    const uploadButtons = document.querySelectorAll(uploadSelector);
 
-  uploadButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const invoiceId = button.getAttribute('data-element-id');
+    uploadButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const invoiceId = button.getAttribute('data-element-id');
 
-      const emailField = button.nextElementSibling;
-      emailField.style.display = 'block';
+            const emailField = button.nextElementSibling;
+            emailField.style.display = 'block';
 
-      const recipientEmailInput = emailField.querySelector(recipientEmailSelector);
-      const sendEmailButton = emailField.querySelector(sendButtonSelector);
-      const closeButton = emailField.querySelector('.close');
+            const recipientEmailInput = emailField.querySelector(recipientEmailSelector);
+            const sendEmailButton = emailField.querySelector(sendButtonSelector);
+            const closeButton = emailField.querySelector('.close');
 
-      const sendPdfEmailRequestHandler = () => {
-        const recipientEmail = recipientEmailInput.value;
-        sendPdfEmailRequest(invoiceId, recipientEmail);
-        recipientEmailInput.value = '';
-      };
+            const sendPdfEmailRequestHandler = () => {
+                const recipientEmail = recipientEmailInput.value;
+                sendPdfEmailRequest(invoiceId, recipientEmail);
+                recipientEmailInput.value = '';
+            };
 
-      sendEmailButton.addEventListener('click', sendPdfEmailRequestHandler);
+            sendEmailButton.addEventListener('click', sendPdfEmailRequestHandler);
 
-      closeButton.addEventListener('click', () => {
-        emailField.style.display = 'none';
-        sendEmailButton.removeEventListener('click', sendPdfEmailRequestHandler);
-      });
+            closeButton.addEventListener('click', () => {
+                emailField.style.display = 'none';
+                sendEmailButton.removeEventListener('click', sendPdfEmailRequestHandler);
+            });
+        });
     });
-  });
 }
 
 

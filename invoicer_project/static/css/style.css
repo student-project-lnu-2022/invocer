@@ -965,7 +965,6 @@ body {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
   left: 0;
   top: 0;
   width: 100%;
@@ -977,17 +976,18 @@ body {
 
 
 .modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 24%;
-    height: 33%;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
 }
 
 .close {
     --md-icon-color: red;
     text-align: right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .modal-body {
