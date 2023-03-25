@@ -46,7 +46,7 @@ async function addElementsDynamically() {
         addDeleteButtonListeners('.delete-invoice', "/invoice/");
         addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoice/");
         addDownloadButtonListeners('.download');
-        addUploadButtonListeners();
+        addUploadButtonListeners('.upload', '.recipient-email-input', '.send-email-btn');
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -57,7 +57,7 @@ async function addElementsDynamically() {
             addDeleteButtonListeners('.delete-invoice', "/invoice/");
             addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox',"#delete_many_clients", "/invoice/");
             addDownloadButtonListeners('.download');
-            addUploadButtonListeners();
+            addUploadButtonListeners('.upload', '.recipient-email-input', '.send-email-btn');
         }
     } else {
         window.location.replace(host + '/user/login/');
@@ -120,8 +120,8 @@ async function sendPdfEmailRequest(invoiceId, recipientEmail) {
   const data = await response.json();
 }
 
-function addUploadButtonListeners() {
-    const uploadButtons = document.querySelectorAll('.upload');
+function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendButtonSelector) {
+    const uploadButtons = document.querySelectorAll(uploadSelector);
 
     uploadButtons.forEach(button => {
       button.addEventListener('click', () => {
@@ -130,8 +130,8 @@ function addUploadButtonListeners() {
         const emailField = button.nextElementSibling;
         emailField.style.display = 'block';
 
-        const recipientEmailInput = emailField.querySelector('.recipient-email-input');
-        const sendEmailButton = emailField.querySelector('.send-email-btn');
+        const recipientEmailInput = emailField.querySelector(recipientEmailSelector);
+        const sendEmailButton = emailField.querySelector(sendButtonSelector);
         sendEmailButton.addEventListener('click', () => {
           const recipientEmail = recipientEmailInput.value;
           sendPdfEmailRequest(invoiceId, recipientEmail);
