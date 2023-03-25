@@ -39,12 +39,11 @@ function createInvoiceListContent(data) {
                             <div class="modal">
                               <div class="modal-content d-flex">
                                 <div class="row">
-                                         <md-standard-icon-button class="close">close</md-standard-icon-button>
+                                    <md-standard-icon-button class="close">close</md-standard-icon-button>
                                 </div>
                                 <div class="modal-body">
-                                                                                          <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
-
-<md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>                       
+                                    <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
+                                    <md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>                       
                                 </div>
                               </div>
                             </div>
