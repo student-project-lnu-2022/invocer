@@ -35,6 +35,7 @@ addMoreItems.addEventListener('click', () => {
     itemsField.value = "";
     amountField.value = "";
     unitField.value = "";
+    document.querySelector('.ui.dropdown>.text').textContent = "Select unit";
     const editButton = document.createElement('md-standard-icon-button');
     const removeButton = document.createElement('md-standard-icon-button');
     const editIcon = document.createElement('md-icon');
@@ -87,6 +88,7 @@ function modifyTable(arrayOfColumns) {
     itemsField.value = "";
     amountField.value = "";
     unitField.value = "";
+    document.querySelector('.ui.dropdown>.text').textContent = "Select unit";
 
     return validationResult;
 }
