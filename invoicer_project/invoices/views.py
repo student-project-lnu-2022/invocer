@@ -80,8 +80,8 @@ class InvoiceViewSet(viewsets.ViewSet):
         try:
             email.send()
         except:
-            return JsonResponse({'error': 'Failed to send email'})
-        return JsonResponse({'success': True})
+            return JsonResponse({'message': 'Failed to send email!'})
+        return JsonResponse({'message': 'PDF was sent!'})
 
 class OrderedItemViewSet(viewsets.ViewSet):
     model = OrderedItem
