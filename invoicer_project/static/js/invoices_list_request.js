@@ -43,7 +43,8 @@ function createInvoiceListContent(data) {
                                 </div>
                                 <div class="modal-body">
                                     <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
-                                    <md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>                       
+                                    <md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>
+                                    <div id="message"></div>                       
                                 </div>
                               </div>
                             </div>
@@ -140,6 +141,18 @@ async function sendPdfEmailRequest(invoiceId, recipientEmail) {
         }
     });
     const data = await response.json();
+    let messageElement = data.message;
+    let message = document.getElementById('message');
+    message.insertAdjacentHTML('afterbegin', messageElement);
+
+    const emailInputElement = document.querySelector('.recipient-email-input');
+    emailInputElement.addEventListener('input', function () {
+        message.textContent = '';
+    });
+    let closeButton = document.querySelector('.close');
+    closeButton.addEventListener('click', () => {
+        message.textContent = '';
+    });
 }
 
 function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendButtonSelector) {
