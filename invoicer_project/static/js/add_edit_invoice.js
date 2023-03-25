@@ -1,3 +1,5 @@
+import { getUserData, obtainUserInitials } from "./request_utils.js";
+import { Item } from "./item.js";
 const addMoreItems = document.querySelector('#item_to_table');
 const invoiceTable = document.querySelector('#table');
 const itemsField = document.querySelector('#item-list');
@@ -6,6 +8,7 @@ const unitField = document.querySelector('#unit-list');
 const saveToTable = document.querySelector('#save_changes');
 const saveInvoiceButton = document.querySelectorAll('#add_invoice_button');
 const dataIdList = [0];
+const itemsList = [];
 //to move all the fields and selectors to other file
 let clickHandler;
 
@@ -93,4 +96,24 @@ function modifyTable(arrayOfColumns) {
     return validationResult;
 }
 
+async function createItemsList(data) {
+
+    for (let item of data) {
+
+        const request = await getUserData(`/items/additional_units_for_item/${item.id}`);
+        //without request status ckeck for now!
+        //write function for incapsulating request status check!!!
+        const obj = new Item(item, request['data']['content']);
+        itemsList.push(obj);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async function () {
+    await obtainUserInitials();
+
+    //function for incapsulating request status check!!!
+    const data = await getUserData('/items/items_list/');
+    await createItemsList(data['data']['content']);
+    console.log(itemsList);
+});
 
