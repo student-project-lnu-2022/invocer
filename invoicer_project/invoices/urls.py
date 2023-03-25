@@ -10,5 +10,6 @@ urlpatterns = [
     path("ordered_items/", ordered_items_set, name="ordered_items"),
     path('download/<int:invoice_id>', InvoiceViewSet.as_view({'get': 'download_data'}), name='invoice_download'),
     path("", TemplateView.as_view(template_name="invoices/invoices_list.html"), name='invoices_render'),
-    path("invoice/add/", TemplateView.as_view(template_name="invoices/invoice_add.html"), name='invoices_add')
+    path("invoice/add/", TemplateView.as_view(template_name="invoices/invoice_add.html"), name='invoices_add'),
+    path('send_email/<int:invoice_id>/<str:recipient_email>/', InvoiceViewSet.as_view({'post': 'send_email'}), name='send_invoice_email'),
 ]

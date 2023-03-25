@@ -107,4 +107,4 @@ def create_pdf(serializer, items):
     p.save()
     buffer.seek(0)
 
-    return buffer
+    return buffer.getvalue()
