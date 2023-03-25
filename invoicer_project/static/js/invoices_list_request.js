@@ -191,5 +191,3 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
         });
     });
 }
-
-
