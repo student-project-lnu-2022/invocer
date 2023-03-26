@@ -1,4 +1,5 @@
 i18next.init({
+    debug: "true",
     lng: 'uk',
     resources: {
         en: {
@@ -29,6 +30,14 @@ i18next.init({
                 "additional_unit": "Additional unit",
                 "name_of_the_additional_unit": "Name of the additional unit",
                 "amount_of_the_additional_unit_in_basic": "Amount in basic unit",
+                "empty_field_error": "This field can't be empty",
+                "no_whitespaces_error": "No whitespaces",
+                "max_length_error": "Max length – {{maxLength}} chars",
+                "capital_letter_error": "Has to begin with capital",
+                "lowercase_error": "At least one lowercase",
+                "special_characters_error": "Special characters aren't allowed",
+                "invalid_format_error": "Invalid format",
+                "range_error": "Amount of digits must be in [{{min}}, {{max}}]"
             }
         },
         uk: {
@@ -59,6 +68,14 @@ i18next.init({
                 "additional_unit": "Додаткова одиниця кількості",
                 "name_of_the_additional_unit": "Назва додаткової одиниці",
                 "amount_of_the_additional_unit_in_basic": "Кількість в основній одиниці",
+                "empty_field_error": "Поле не може бути порожнім",
+                "no_whitespaces_error": "Без пробілів",
+                "max_length_error": "Максимальна довжина – {{maxLength}} символів",
+                "capital_letter_error": "Повинно починатися з великої літери",
+                "lowercase_error": "Повинно містити хоча б одну малу літеру",
+                "special_characters_error": "Спецсимволи заборонені",
+                "invalid_format_error": "Некоректний формат",
+                "range_error": "Кількість цифр має бути від {{min}} до {{max}}"
             }
         }
     }
@@ -200,27 +217,6 @@ function translateItemAdd() {
         additionalUnitAmountInput.label = i18next.t("amount_of_the_additional_unit_in_basic");
     }
 }
-
-//
-// function translateClientInfo() {
-//     const infoClientHeaderText = document.querySelector("#client_info_text");
-//     if (infoClientHeaderText) {
-//         infoClientHeaderText.textContent = getI18NDataFromAttribute(infoClientHeaderText);
-//     }
-//
-//     const editClientButton = document.querySelector("#request_edit_sender");
-//     if (editClientButton) {
-//         editClientButton.label = getI18NDataFromAttribute(editClientButton);
-//     }
-// }
-//
-// function translateClientEdit() {
-//     const editClientHeaderText = document.querySelector("#client_edit_text");
-//     if (editClientHeaderText) {
-//         editClientHeaderText.textContent = getI18NDataFromAttribute(editClientHeaderText);
-//     }
-// }
-
 
 export function initializeI18NextOnDynamicList() {
     i18next.init({

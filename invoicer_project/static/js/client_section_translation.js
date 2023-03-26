@@ -23,6 +23,14 @@ i18next.init({
                 "zip_code": "ZIP code",
                 "city": "City",
                 "address": "Address",
+                "empty_field_error": "This field can't be empty",
+                "no_whitespaces_error": "No whitespaces",
+                "max_length_error": "Max length – {{maxLength}} chars",
+                "capital_letter_error": "Has to begin with capital",
+                "lowercase_error": "At least one lowercase",
+                "special_characters_error": "Special characters aren't allowed",
+                "invalid_format_error": "Invalid format",
+                "range_error": "Amount of digits must be in [{{min}}, {{max}}]"
             }
         },
         uk: {
@@ -47,6 +55,14 @@ i18next.init({
                 "zip_code": "Поштовий індекс",
                 "city": "Місто",
                 "address": "Адреса",
+                "empty_field_error": "Поле не може бути порожнім",
+                "no_whitespaces_error": "Без пробілів",
+                "max_length_error": "Максимальна довжина – {{maxLength}} символів",
+                "capital_letter_error": "Повинно починатися з великої літери",
+                "lowercase_error": "Повинно містити хоча б одну малу літеру",
+                "special_characters_error": "Спецсимволи заборонені",
+                "invalid_format_error": "Некоректний формат",
+                "range_error": "Кількість цифр має бути від {{min}} до {{max}}"
             }
         }
     }
