@@ -37,7 +37,7 @@ i18next.init({
                 "lowercase_error": "At least one lowercase",
                 "special_characters_error": "Special characters aren't allowed",
                 "invalid_format_error": "Invalid format",
-                "range_error": "Amount of digits must be in [{{min}}, {{max}}]"
+                "range_error": "Amount of digits must be in [{{min}}, {{max}}]",
             }
         },
         uk: {

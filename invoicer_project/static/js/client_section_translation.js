@@ -429,6 +429,11 @@ function translateClientAdd() {
     if (selectCountryText) {
         selectCountryText.textContent = getI18NDataFromAttribute(selectCountryText)
     }
+
+    const dropdownCountryErrorText = document.querySelector('.error_country_dropdown');
+    if (dropdownCountryErrorText){
+        dropdownCountryErrorText.textContent = getI18NDataFromAttribute(dropdownCountryErrorText);
+    }
 }
 
 function translateClientInfo() {

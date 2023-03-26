@@ -3,26 +3,6 @@ import {nameField, priceField, amountInStockField, barcodeField, additionalField
     inputBasicUnitVal, inputCurrencyVal, inputPriceVal, inputBasicUnit, inputCurrency, numOfRowsObject} from './utils_items.js'
 import { removeAllErrorAttributes } from './validation_utils.js';
 
-
-i18next.init({
-    lng: 'uk',
-    resources: {
-        en: {
-            translation: {
-                "name_of_the_item": "Name of the item",
-                "barcode_": "Barcode: ",
-            }
-        },
-        uk: {
-            translation: {
-                "name_of_the_item_": "Назва продукту",
-                "barcode_": "Артикул: ",
-            }
-        }
-    }
-}, function (err, t) {
-});
-
 document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
     const dropdownArrow = dropdownWrapper.querySelector(".arrow-up");

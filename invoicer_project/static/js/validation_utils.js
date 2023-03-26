@@ -185,6 +185,10 @@ export function clearErrorAttributes(returnAllFieldsList) {
     }
 }
 
+export function setErrorAttributeToDropdown(field) {
+    field.classList.add("error");
+}
+
 export function setMaxFieldContainerHeights(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
         field.shadowRoot.querySelector('.text-field .field').shadowRoot.querySelector('.field .container-overflow').style.maxHeight = "56px";
