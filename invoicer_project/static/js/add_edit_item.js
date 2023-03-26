@@ -3,6 +3,26 @@ import {nameField, priceField, amountInStockField, barcodeField, additionalField
     inputBasicUnitVal, inputCurrencyVal, inputPriceVal, inputBasicUnit, inputCurrency, numOfRowsObject} from './utils_items.js'
 import { removeAllErrorAttributes } from './validation_utils.js';
 
+
+i18next.init({
+    lng: 'uk',
+    resources: {
+        en: {
+            translation: {
+                "name_of_the_item": "Name of the item",
+                "barcode_": "Barcode: ",
+            }
+        },
+        uk: {
+            translation: {
+                "name_of_the_item_": "Назва продукту",
+                "barcode_": "Артикул: ",
+            }
+        }
+    }
+}, function (err, t) {
+});
+
 document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
     const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
     const dropdownArrow = dropdownWrapper.querySelector(".arrow-up");
@@ -117,11 +137,13 @@ amountInStockField.addEventListener('input', () => {
 });
 
 nameField.addEventListener('input', () => {
-    let data = isFieldEmpty(nameField, "", "Name of item");
+    let data = isFieldEmpty(nameField, "", i18next.t("name_of_the_item"));
     setTextToTable(inputNameVal, data);
 });
 
-barcodeField.addEventListener('input', () => { setTextToTable(inputBarcodeVal, `Barcode: ${barcodeField.value}`) });
+barcodeField.addEventListener('input', () => {
+    setTextToTable(inputBarcodeVal, i18next.t("barcode_") + barcodeField.value);
+});
 
 
 function input_basic_unit_table() {

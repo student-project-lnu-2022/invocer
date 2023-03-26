@@ -1,6 +1,12 @@
 const host = "http://127.0.0.1:8000";
-import {obtainUserInitials, obtainNewAccessToken, getUserData, addCheckboxesListener, addDeleteButtonListeners} from "./request_utils.js";
-
+import {
+    obtainUserInitials,
+    obtainNewAccessToken,
+    getUserData,
+    addCheckboxesListener,
+    addDeleteButtonListeners
+} from "./request_utils.js";
+import {initializeI18NextOnDynamicList} from "./items_section_translation.js";
 
 function createItemListContent(data) {
     for (let item of data) {
@@ -14,11 +20,11 @@ function createItemListContent(data) {
                         </div>
                         <div class="d-flex flex-wrap flex-row justify-content-end col-md-6 col-sm-6 col-5">
                             <div class="d-flex flex-wrap flex-column list_item_info_block">
-                                <p class="additional_text">Price per unit</p>
+                                <p class="additional_text price_per_unit_text" data-i18n="price_per_unit_text">Price per unit</p>
                                 <p class="main_text">${priceAndCurrency}</p>
                             </div>
                             <div class="d-flex flex-wrap flex-column list_item_info_block">
-                                <p class="additional_text">Basic unit</p>
+                                <p class="additional_text basic_unit_text" data-i18n="basic_unit_text">Basic unit</p>
                                 <p class="main_text">kg</p>
                             </div>
                             <div class="list_item_user_buttons">
@@ -37,8 +43,9 @@ async function addElementsDynamically() {
     const response = responseFromServer["responseStatus"];
     if (response === 200) {
         createItemListContent(responseFromServer["data"]["content"]);
+        initializeI18NextOnDynamicList();
         addDeleteButtonListeners('.delete-item', `/items/items_list/`);
-        addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list", 'itemId');
+        addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox", "#delete_many_clients", "/items/items_list", 'itemId');
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -47,7 +54,7 @@ async function addElementsDynamically() {
             responseFromServer = await getUserData('/items/items_list/');
             createItemListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners('.delete-item', `/items/items_list/`);
-            addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox","#delete_many_clients", "/items/items_list", 'itemId');
+            addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox", "#delete_many_clients", "/items/items_list", 'itemId');
         }
     } else {
         window.location.replace(host + '/user/login/');
@@ -56,9 +63,9 @@ async function addElementsDynamically() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
-    addElementsDynamically();
+    await addElementsDynamically();
 });
 
 document.querySelector('#adder').addEventListener('click', () => {
     window.location.href = host + "/items/add";
-})
+});
