@@ -30,7 +30,8 @@ i18next.init({
                 "lowercase_error": "At least one lowercase",
                 "special_characters_error": "Special characters aren't allowed",
                 "invalid_format_error": "Invalid format",
-                "range_error": "Amount of digits must be in [{{min}}, {{max}}]"
+                "range_error": "Amount of digits must be in [{{min}}, {{max}}]",
+                "Select country": "Select country",
             }
         },
         uk: {
@@ -234,7 +235,7 @@ i18next.init({
                 "Northern Mariana Islands": "Північні Маріанські Острови",
                 "Norway": "Норвегія",
                 "Oman": "Оман",
-                "Vatican City":"Ватикан",
+                "Vatican City": "Ватикан",
                 "Pakistan": "Пакистан",
                 "Palau": "Палау",
                 "Palestine": "Палестина",
@@ -318,6 +319,7 @@ i18next.init({
                 "Yemen": "Ємен",
                 "Zambia": "Замбія",
                 "Zimbabwe": "Зімбабве",
+                "Select country": "Оберіть країну",
             }
         }
     }
@@ -421,6 +423,11 @@ function translateClientAdd() {
         for (let i = 0; i < countryDivs.length; i++) {
             countryDivs[i].childNodes[1].textContent = i18next.t(countryDivs[i].getAttribute('data-value'));
         }
+    }
+
+    const selectCountryText = document.querySelector("#select_country_div");
+    if (selectCountryText) {
+        selectCountryText.textContent = getI18NDataFromAttribute(selectCountryText)
     }
 }
 
