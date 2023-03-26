@@ -26,7 +26,7 @@ function createItemListContent(data) {
                                 <p class="main_text redirect_to_item_info" data-item-id="${itemID}">${priceAndCurrency}</p>
                             </div>
                             <div class="d-flex flex-wrap flex-column list_item_info_block redirect_to_item_info" data-item-id="${itemID}">
-                                <p class="additional_text redirect_to_item_info" data-item-id="${itemID} basic_unit_text" data-i18n="basic_unit_text"">Basic unit</p>
+                                <p class="additional_text redirect_to_item_info basic_unit_text" data-item-id="${itemID}" data-i18n="basic_unit_text"">Basic unit</p>
                                 <p class="main_text redirect_to_item_info" data-item-id="${itemID}">kg</p>
                             </div>
                             <div class="list_item_user_buttons">
