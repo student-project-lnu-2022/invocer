@@ -16,4 +16,9 @@ document.querySelector("#edit_client_page_button_redirect").addEventListener('cl
     window.location.replace(host + "/clients/edit/" + clientId);
 })
 
+document.querySelector(".ui.selection.dropdown").style.pointerEvents = "none";
+document.querySelector(".ui.fluid.dropdown>.dropdown.icon").style.display = "none";
+
+
+
 

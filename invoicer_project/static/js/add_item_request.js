@@ -5,15 +5,12 @@ import {
     priceField,
     amountInStockField,
     barcodeField,
-    currencyField,
-    basicUnitField,
     additionalFieldsContainer,
     amountAdditionalFieldsContainer,
     setErrorAttributesToFields
 } from './utils_items.js'
 import {
     clearErrorAttributes,
-    setMaxFieldContainerHeights,
     allAreFalse,
     validateAdditionalUnits,
     validateName,
@@ -22,16 +19,9 @@ import {
     validateAmountInStock,
     validateBarcode
 } from './validation_utils.js'
-import {actionBasedOnStatusCode, obtainNewAccessToken, obtainUserInitials, sendAddEditRequest} from './request_utils.js'
+import {actionBasedOnStatusCode, obtainUserInitials, sendAddEditRequest} from './request_utils.js'
 import {
-    addressField,
-    cityField,
-    countryField,
-    emailField,
     hideUnnecessaryElementsInMenu,
-    surnameField,
-    telephoneField,
-    zipField
 } from './utils_clients.js'
 
 

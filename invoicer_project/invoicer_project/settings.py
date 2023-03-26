@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
+    'reportlab',
     'user',
     'clients',
     'items',
+    'invoices',
 ]
 
 MIDDLEWARE = [
@@ -126,6 +128,7 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = BASE_DIR / 'static/img'
 
+FONT_PATH = BASE_DIR / 'static/fonts'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

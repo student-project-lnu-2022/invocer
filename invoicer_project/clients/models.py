@@ -13,6 +13,11 @@ zip_code_regex = RegexValidator(
     message="Zip code must be entered in the format: '12345' or '12345-1234'."
 )
 
+float_number_validation = RegexValidator(
+    regex=r'^\d+([., ]?(\d){1,2}?)?$',
+    message="Amount has to be entered in the format: '25.55'."
+)
+
 string_validation = RegexValidator(regex=r'^[A-Za-z\u0080-\u024F\u0400-\u04FF’ʼ′\-\.\| |]+')
 own_names_validation = RegexValidator(regex=r'^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$')
 
@@ -42,7 +47,7 @@ class Client(models.Model):
         RegexValidator(regex=r'^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$')])
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     zip_code = models.CharField(validators=[zip_code_regex], max_length=10)
-
+    debt = models.FloatField(validators=[float_number_validation], default=0)
     country = models.CharField(max_length=35, validators=[own_names_validation])
     city = models.CharField(max_length=35, validators=[own_names_validation])
     address = models.CharField(max_length=40, validators=[own_names_validation])

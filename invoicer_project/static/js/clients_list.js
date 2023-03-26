@@ -1,19 +1,6 @@
 import {host} from "./utils_clients.js";
-
-document.getElementById("search_bar").addEventListener('keyup', () => {
-    let inputFromSearchbar = document.getElementById('search_bar').value;
-    inputFromSearchbar = inputFromSearchbar.toLowerCase();
-    const clientUsername = document.getElementsByClassName('list_client_username');
-    const clientListItem = document.getElementsByClassName('client_list_item');
-
-    for (let i = 0; i < clientUsername.length; i++) {
-        if (!clientUsername[i].innerHTML.toLowerCase().includes(inputFromSearchbar)) {
-            clientListItem[i].style.display = "none";
-        } else {
-            clientListItem[i].style.removeProperty("display");
-        }
-    }
-});
+import {search} from './request_utils.js';
+document.getElementById("search_bar").addEventListener('keyup', ()=> { search('list_client_username', 'client_list_item')});
 
 addDivClientListener();
 
@@ -23,10 +10,20 @@ function addDivClientListener() {
         const clickedElement = event.target;
         console.log("Element clicked"+clickedElement);
         if (clickedElement.classList.contains('clickable_item') || clickedElement.parentNode.classList.contains('clickable_item')) {
-            const clientId = clickedElement.dataset.clientId;
+            const clientId = clickedElement.dataset.elementId;
             window.location.href = host + "/clients/view/" + clientId;
         }
     });
 }
 
+
+document.querySelector("#sort_asc").addEventListener("click", ()=> {
+    const parent = document.querySelector("#other_elements");
+    const divs = parent.querySelectorAll('.client_list_item');
+    const sortedDivs = Array.from(divs).sort((a, b) => a.querySelector(".list_client_username").textContent.localeCompare(b.querySelector(".list_client_username").textContent));
+    parent.innerHTML = '';
+    for (const div of sortedDivs) {
+      parent.appendChild(div);
+    }
+})
 
