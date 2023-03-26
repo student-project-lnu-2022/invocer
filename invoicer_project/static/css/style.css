@@ -443,8 +443,10 @@ p {
 
 .settings_subpage {
     margin-bottom: 35px;
-    margin-left: 35px;
+    margin-left: 20px;
     margin-top: 20px;
+    padding: 35px;
+    margin-right: 130px;
     text-align: left;
     font-family: Roboto;
     display: flex;
@@ -454,35 +456,10 @@ p {
     flex-wrap: wrap;
     align-content: flex-start;
     align-items: flex-start;
+    background-color: white;
+    border-radius: 15px;
+    height: fit-content;
 }
-
-/*
-.item {
-	display: flex;
-	text-align: left;
-    justify-content: flex-start;
-    justify-items: center;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
-    padding-bottom: 20px;
-    padding-top: 20px;
-}
-
-.required_item {
-	display: flex;
-	text-align: left;
-    justify-content: flex-start;
-    justify-items: center;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
-    padding-bottom: 0px;
-    padding-top: 20px;
-}
-*/
 .save_changes_button {
     display: flex;
     justify-content: left;
@@ -495,17 +472,8 @@ p {
     padding-top: 65px;
 }
 
-/*
-.forms {
-	display: grid;
-  	grid-template-columns: 2fr 2fr 6fr;
-
-  	gap: 40px;
-}
-*/
-
 .change_password {
-    padding-left: 35px;
+    padding-left: 20px;
     font-family: Roboto;
     display: flex;
     justify-items: flex-start;
@@ -530,25 +498,6 @@ p {
     padding-bottom: 10px;
     padding-top: 10px;
 }
-
-/* .collapsible {
-    background-color: #ffffff;
-    border-radius: 15px;
-    color: rgb(0, 68, 255);
-    cursor: pointer;
-    padding: 18px;
-    width: 90%;
-    padding-right: 50px;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 17px;
-} */
-/* 
-.collapsible:active,
-.collapsible:hover {
-    border-bottom: solid;
-} */
 
 .content {
     display: none;
@@ -612,7 +561,7 @@ ul {
     border-bottom: 0;
 }
 
-.accordion-menu li.active .dropdown .fa-chevron-down {
+.accordion-menu li.active .dropdown .material-symbols-outlined {
     transform: rotate(180deg);
 }
 
@@ -641,7 +590,7 @@ ul {
     width: 90%;
 } */
 
-.dropdown i {
+.dropdown span {
     position: absolute;
     top: 17px;
     left: 16px;
@@ -649,12 +598,17 @@ ul {
     padding-right: 10px;
 }
 
-.dropdown .fa-chevron-down {
+.dropdown .material-symbols-outlined {
     right: 12px;
     left: auto;
     padding-top: 7px;
     padding-right: 10px;
     transition: transform 0.2s ease-in-out;
+    /* font-variation-settings:
+    'FILL' 0,
+    'wght' 800,
+    'GRAD' 0,
+    'opsz' 48 */
 }
 
 .submenuItems {
