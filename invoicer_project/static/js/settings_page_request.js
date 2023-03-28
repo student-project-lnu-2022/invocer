@@ -5,12 +5,9 @@ import {
     clearErrorAttributes,
     setMaxFieldContainerHeights,
     allAreFalse,
-    validateCountry,
-    validateCity,
-    validateAddress,
     validateNameAndSurnameAsStrings,
-    validation,
     validationWithoutNotEmpty,
+    validatePasswordAsString
 } from './validation_utils.js'
 import { obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
 
@@ -20,6 +17,26 @@ const companyNameField = document.getElementById("company_name_input_settings");
 const countryField = document.getElementById("country_input_settings");
 const cityField = document.getElementById("city_input_settings");
 const addressField = document.getElementById("address_input_settings");
+const oldPasswordField = document.getElementById("old_password_input_settings");
+const newPasswordField = document.getElementById("new_password_input_settings");
+const repeatNewPasswordField = document.getElementById("repeat_new_password_input_settings");
+
+async function validateUserOldPassword(oldPassword){
+    let responseFromServer = await getCurrentUser();
+    const currentOldPassword = responseFromServer["password"];
+    let isFieldValid;
+    if(currentOldPassword !== oldPassword){
+        isFieldValid = "Incorrect old password"
+    }else {
+        if (oldPassword === '') {
+        isFieldValid = "This field can't be empty";
+        }
+        else {
+            isFieldValid = '';
+    }}
+    return isFieldValid;
+}
+
 function validateUserEdit() {
     removeAllErrorAttributes(returnAllFields());
     setMaxFieldContainerHeights(returnAllFields());
@@ -38,6 +55,22 @@ const returnAllFields = function () {
         nameField, surnameField,
         companyNameField, countryField,
         cityField, addressField
+    ];
+}
+
+function validateUserPasswordEdit() {
+    removeAllErrorAttributes(allPasswordFields());
+    setMaxFieldContainerHeights(allPasswordFields());
+    return {
+        'oldPasswordValidationResult': validatePasswordAsString(oldPasswordField.value),
+        'newPasswordValidationResult': validatePasswordAsString(newPasswordField.value),
+        'repeatNewPasswordValidationResult': validatePasswordAsString(repeatNewPasswordField.value)
+    };
+}
+
+const allPasswordFields = function () {
+    return [
+        oldPasswordField, newPasswordField, repeatNewPasswordField
     ];
 }
 document.getElementById("save_button_settings").addEventListener("click", async () => {
@@ -86,3 +119,18 @@ function getCurrentUser() {
         .then(response => response.json())
         .catch(error => console.error(error));
 }
+
+document.getElementById("save_new_password").addEventListener("click", async () => {
+    const validationFieldsList = validateUserPasswordEdit();
+    if (allAreFalse(validationFieldsList)) {
+        const data = JSON.stringify({
+            old_password: oldPasswordField.value,
+            new_password: newPasswordField.value,
+            repeat_new_password: repeatNewPasswordField.value,
+        });
+        const serverResponseStatus = await sendAddEditRequest(host + "/user/user/", data, "PATCH");
+        actionBasedOnStatusCode(serverResponseStatus, 200, data, allPasswordFields(), "/user/settings/", "PATCH", "/user/user/");
+    } else {
+        setErrorAttributesToFields(validationFieldsList, allPasswordFields());
+    }
+})
