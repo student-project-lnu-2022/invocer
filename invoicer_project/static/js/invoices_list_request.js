@@ -177,9 +177,16 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
             const closeButton = emailField.querySelector('.close');
 
             const sendPdfEmailRequestHandler = () => {
-                const recipientEmail = recipientEmailInput.value;
-                sendPdfEmailRequest(invoiceId, recipientEmail);
-                recipientEmailInput.value = '';
+                if(recipientEmailInput.value === '') {
+                    let message = document.getElementById('errorMessage');
+                    message.insertAdjacentHTML('afterbegin', 'Field is empty');
+                    message.classList.remove("successMessage")
+                    message.classList.add("errorMessage")
+                } else {
+                    const recipientEmail = recipientEmailInput.value;
+                    sendPdfEmailRequest(invoiceId, recipientEmail);
+                    recipientEmailInput.value = '';
+                }
             };
 
             sendEmailButton.addEventListener('click', sendPdfEmailRequestHandler);
@@ -187,6 +194,7 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
             closeButton.addEventListener('click', () => {
                 emailField.style.display = 'none';
                 sendEmailButton.removeEventListener('click', sendPdfEmailRequestHandler);
+                recipientEmailInput.value = '';
             });
         });
     });
