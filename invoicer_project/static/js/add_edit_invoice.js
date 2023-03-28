@@ -1,5 +1,6 @@
 import { getUserData, obtainUserInitials } from "./request_utils.js";
 import { Item } from "./item.js";
+import { loadValuetoDropdown } from "./dropdown.js";
 const addMoreItems = document.querySelector('#item_to_table');
 const invoiceTable = document.querySelector('#table');
 const itemsField = document.querySelector('#item-list');
@@ -19,6 +20,8 @@ function arrayWithData() {
 }
 
 addMoreItems.addEventListener('click', () => {
+
+    //validate data from fields here
     saveToTable.style.visibility = 'hidden';
     saveToTable.removeEventListener('click', clickHandler);
 
@@ -61,12 +64,16 @@ addMoreItems.addEventListener('click', () => {
     invoiceTable.insertAdjacentElement('beforeend', tableRow);
 });
 
+
 function loadDataToEdit(event) {
     const tableRow = event.target.parentElement;
     const columns = tableRow.querySelectorAll('div');
     itemsField.value = columns[0].textContent;
     amountField.value = columns[1].textContent;
-    unitField.value = columns[2].textContent;
+    loadValuetoDropdown(unitField, columns[2].textContent, "Select unit");
+    //loads string visually into dropdown list 
+
+
     addMoreItems.style.visibility = 'hidden';
     saveToTable.style.visibility = 'visible';
     clickHandler = function () {
@@ -91,8 +98,7 @@ function modifyTable(arrayOfColumns) {
     itemsField.value = "";
     amountField.value = "";
     unitField.value = "";
-    document.querySelector('.ui.dropdown>.text').textContent = "Select unit";
-
+    unitField.parentElement.children[3].textContent = "Search unit";
     return validationResult;
 }
 
