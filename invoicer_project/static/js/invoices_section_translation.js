@@ -37,6 +37,7 @@ i18next.init({
                 "special_characters_error": "Special characters aren't allowed",
                 "invalid_format_error": "Invalid format",
                 "range_error": "Amount of digits must be in [{{min}}, {{max}}]",
+                "add_invoice": "Add invoice"
             }
         },
         uk: {
@@ -74,7 +75,8 @@ i18next.init({
                 "lowercase_error": "Повинно містити хоча б одну малу літеру",
                 "special_characters_error": "Спецсимволи заборонені",
                 "invalid_format_error": "Некоректний формат",
-                "range_error": "Кількість цифр має бути від {{min}} до {{max}}"
+                "range_error": "Кількість цифр має бути від {{min}} до {{max}}",
+                "add_invoice": "Додати накладну"
             }
         }
     }
@@ -87,7 +89,6 @@ i18next.init({
 function updateContent() {
     translateMenu();
     translateItemsList();
-    translateItemAdd();
 }
 
 function getI18NDataFromAttribute(element) {
@@ -103,11 +104,6 @@ function translateMenu() {
             menuItem.textContent = getI18NDataFromAttribute(menuItem);
         }
     }
-
-    let addItemButton = document.querySelector("#adder");
-    if (addItemButton) {
-        addItemButton.label = i18next.t("add_item");
-    }
 }
 
 function translateItemsList() {
@@ -121,132 +117,9 @@ function translateItemsList() {
         sortAscendingOrder.textContent = getI18NDataFromAttribute(sortAscendingOrder);
     }
 
+    console.log(document.querySelector("#adder"));
     let addItemButton = document.querySelector("#adder");
     if (addItemButton) {
-        addItemButton.label = i18next.t("add_item");
+        addItemButton.label = i18next.t("add_invoice");
     }
-}
-
-function translateItemAdd() {
-    const addItemHeaderText = document.querySelector("#new_item_text");
-    if (addItemHeaderText) {
-        addItemHeaderText.textContent = getI18NDataFromAttribute(addItemHeaderText);
-    }
-
-    const nameInput = document.querySelector(".name_item_input");
-    if (nameInput) {
-        nameInput.label = getI18NDataFromAttribute(nameInput);
-    }
-    const priceInput = document.querySelector(".price_item_input");
-    if (priceInput) {
-        priceInput.label = getI18NDataFromAttribute(priceInput);
-    }
-
-    const amountInStockInput = document.querySelector("#amount_in_stock");
-    if (amountInStockInput) {
-        amountInStockInput.label = getI18NDataFromAttribute(amountInStockInput);
-    }
-
-    const barcodeInput = document.querySelector("#barcode");
-    if (barcodeInput) {
-        barcodeInput.label = getI18NDataFromAttribute(barcodeInput);
-    }
-
-    const addItemButton = document.querySelector("#add_item_button");
-    if (addItemButton) {
-        addItemButton.label = getI18NDataFromAttribute(addItemButton);
-    }
-
-    const addAdditionalUnitButton = document.querySelector("#additional_item_button")
-    if (addAdditionalUnitButton) {
-        addAdditionalUnitButton.label = getI18NDataFromAttribute(addAdditionalUnitButton);
-    }
-
-    const nameOfTheItemP = document.querySelector("#name_val");
-    if (nameOfTheItemP) {
-        nameOfTheItemP.textContent = getI18NDataFromAttribute(nameOfTheItemP);
-    }
-
-    const barcodeOfTheItemP = document.querySelector("#barcode_val");
-    if (barcodeOfTheItemP) {
-        barcodeOfTheItemP.textContent = getI18NDataFromAttribute(barcodeOfTheItemP);
-    }
-
-    const priceOfTheItemP = document.querySelector("#price_table_p");
-    if (priceOfTheItemP) {
-        priceOfTheItemP.textContent = getI18NDataFromAttribute(priceOfTheItemP);
-    }
-
-    const currencyOfTheItemP = document.querySelector("#currency_table_p");
-    if (currencyOfTheItemP) {
-        currencyOfTheItemP.textContent = getI18NDataFromAttribute(currencyOfTheItemP);
-    }
-
-    const basicUnitOfTheItemP = document.querySelector("#basic_unit_table_p");
-    if (basicUnitOfTheItemP) {
-        basicUnitOfTheItemP.textContent = getI18NDataFromAttribute(basicUnitOfTheItemP);
-    }
-
-
-    const amountOfTheItemP = document.querySelector("#amount_table_p");
-    console.log(amountOfTheItemP);
-    if (amountOfTheItemP) {
-        console.log(amountOfTheItemP.textContent);
-        console.log(getI18NDataFromAttribute(amountOfTheItemP));
-        amountOfTheItemP.textContent = getI18NDataFromAttribute(amountOfTheItemP);
-    }
-
-    const additionalUnitTableHeaders = document.querySelectorAll(".table_header.additional_unit");
-    for (let additionalUnitTableHeader of additionalUnitTableHeaders) {
-        additionalUnitTableHeader.textContent = i18next.t("additional_unit");
-    }
-
-    const additionalUnitNameTableParagraphs = document.querySelectorAll(".additional_unit_name_table_p");
-    for (let additionalUnitNameTableP of additionalUnitNameTableParagraphs) {
-        additionalUnitNameTableP.textContent = i18next.t("name");
-    }
-
-    const additionalUnitNameInputs = document.querySelectorAll(".additional_unit_field.name");
-    for (let additionalUnitNameInput of additionalUnitNameInputs) {
-        additionalUnitNameInput.label = i18next.t("name_of_the_additional_unit");
-    }
-
-    const additionalUnitAmountInputs = document.querySelectorAll(".amount_additional_unit_field");
-    for (let additionalUnitAmountInput of additionalUnitAmountInputs) {
-        additionalUnitAmountInput.label = i18next.t("amount_of_the_additional_unit_in_basic");
-    }
-}
-
-export function initializeI18NextOnDynamicList() {
-    i18next.init({
-        lng: 'uk',
-        resources: {
-            en: {
-                translation: {
-                    "price_per_unit_text": "Price per unit",
-                    "basic_unit_text": "Basic unit",
-                }
-            },
-            uk: {
-                translation: {
-                    "price_per_unit_text": "Ціна за од.",
-                    "basic_unit_text": "Одиниця к-сті",
-                }
-            }
-        }
-    }, function (err, t) {
-        const basicUnitParagraphs = document.querySelectorAll(".basic_unit_text");
-        for (let basicUnitP of basicUnitParagraphs) {
-            if (basicUnitP) {
-                basicUnitP.textContent = getI18NDataFromAttribute(basicUnitP);
-            }
-        }
-        const pricePerUnitParagraphs = document.querySelectorAll(".price_per_unit_text");
-        for (let pricePerUnitP of pricePerUnitParagraphs) {
-            if (pricePerUnitP) {
-                pricePerUnitP.textContent = getI18NDataFromAttribute(pricePerUnitP);
-            }
-        }
-
-    });
 }

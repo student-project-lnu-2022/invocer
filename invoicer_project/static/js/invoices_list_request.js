@@ -61,7 +61,6 @@ async function addElementsDynamically() {
 document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
     addElementsDynamically();
-    document.querySelector("#adder").label = "Add invoice";
 });
 
 document.querySelector("#sort_asc").addEventListener("click", ()=> {
