@@ -26,13 +26,29 @@ function hideSaveButton()
     saveToTable.removeEventListener('click', clickHandler);
 }
 
+function findItemIdForTableRow()
+{
+    const items = itemsField.parentElement.lastElementChild.children;
+    let found;
+    for (let elem of items)
+    {
+        if (elem.classList.contains('active'))
+        {
+            found = elem; 
+            break;
+        }
+    }
+    return found ? found.dataset.id : -1;
+}
+
 function createAndFillTableRow()
 {
     const tableRow = document.createElement('div');
     tableRow.classList.add('row', 'text-left', 'table-row', 'align-items-center');
 
     //set tablerow's data-id according to ITEM'S ID in database
-    tableRow.setAttribute('data-id', itemsField.dataset.id);
+    const found = findItemIdForTableRow();
+    tableRow.setAttribute('data-item-id', found);
     const ValList = arrayWithData();
     for (let i = 0; i < 5; ++i) {
         const rowIdentifier = (i === 5) ? 'second_col' : 'first_col';
@@ -64,8 +80,8 @@ addMoreItems.addEventListener('click', () => {
     const removeButton = createIconButton('remove');
     tableRow.appendChild(editButton);
     tableRow.appendChild(removeButton);
-    removeButton.addEventListener('click', e => e.target.parentElement.remove());
-    editButton.addEventListener('click', e => loadDataToEdit(e));
+    removeButton.addEventListener('click', event1 => event1.target.parentElement.remove());
+    editButton.addEventListener('click', event2 => loadDataToEdit(event2));
     invoiceTable.insertAdjacentElement('beforeend', tableRow);
     clearAllFields();
 });
