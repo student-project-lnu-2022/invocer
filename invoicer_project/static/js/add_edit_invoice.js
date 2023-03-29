@@ -10,6 +10,7 @@ const saveInvoiceButton = document.querySelectorAll('#add_invoice_button');
 const dataIdList = [0];
 const itemsList = [];
 //to move all the fields and selectors to other file
+
 let clickHandler;
 
 function arrayWithData() {
@@ -99,7 +100,6 @@ function modifyTable(arrayOfColumns) {
 async function createItemsList(data) {
 
     for (let item of data) {
-
         const request = await getUserData(`/items/additional_units_for_item/${item.id}`);
         //without request status ckeck for now!
         //write function for incapsulating request status check!!!
