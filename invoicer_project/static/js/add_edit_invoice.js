@@ -7,8 +7,8 @@ const itemsField = document.querySelector('#item-list');
 const amountField = document.querySelector('#amount');
 const unitField = document.querySelector('#unit-list');
 const saveToTable = document.querySelector('#save_changes');
-const saveInvoiceButton = document.querySelectorAll('#add_invoice_button');
-const dataIdList = [0];
+// const saveInvoiceButton = document.querySelectorAll('#add_invoice_button');
+// const dataIdList = [0];
 const itemsList = [];
 //to move all the fields and selectors to other file
 
@@ -20,17 +20,19 @@ function arrayWithData() {
     (unitField.value) ? unitField.value : 'Unit', 'Price', 'Total']
 }
 
-addMoreItems.addEventListener('click', () => {
-
-    //validate data from fields here
+function hideSaveButton()
+{
     saveToTable.style.visibility = 'hidden';
     saveToTable.removeEventListener('click', clickHandler);
+}
 
+function createAndFillTableRow()
+{
     const tableRow = document.createElement('div');
     tableRow.classList.add('row', 'text-left', 'table-row', 'align-items-center');
-    dataIdList.push(dataIdList.at(-1) + 1);
-    tableRow.setAttribute('data-id', dataIdList.at(-1));
 
+    //set tablerow's data-id according to ITEM'S ID in database
+    tableRow.setAttribute('data-id', itemsField.dataset.id);
     const ValList = arrayWithData();
     for (let i = 0; i < 5; ++i) {
         const rowIdentifier = (i === 5) ? 'second_col' : 'first_col';
@@ -39,32 +41,42 @@ addMoreItems.addEventListener('click', () => {
         tempElem.textContent = ValList[i];
         tableRow.appendChild(tempElem);
     }
-    itemsField.value = "";
-    amountField.value = "";
-    unitField.value = "";
-    document.querySelector('.ui.dropdown>.text').textContent = "Select unit";
-    const editButton = document.createElement('md-standard-icon-button');
-    const removeButton = document.createElement('md-standard-icon-button');
-    const editIcon = document.createElement('md-icon');
-    const removeIcon = document.createElement('md-icon');
+    return tableRow;
+}
 
-    editButton.classList.add('col-1');
-    removeButton.classList.add('col-1');
-    editButton.style.maxHeight = '30px';
-    removeButton.style.maxHeight = '30px';
-    editIcon.innerText = 'edit';
-    removeIcon.innerText = 'remove';
-    editButton.appendChild(editIcon);
-    removeButton.appendChild(removeIcon);
+function createIconButton(text)
+{
+    const button = document.createElement('md-standard-icon-button');
+    const icon = document.createElement('md-icon');
+    button.classList.add('col-1');
+    button.style.maxHeight = '30px';
+    icon.innerText = text;
+    button.appendChild(icon);
+    return button;
+}
 
+addMoreItems.addEventListener('click', () => {
 
+    //validate data from fields here
+    hideSaveButton();
+    const tableRow = createAndFillTableRow();
+    const editButton = createIconButton('edit');
+    const removeButton = createIconButton('remove');
     tableRow.appendChild(editButton);
     tableRow.appendChild(removeButton);
     removeButton.addEventListener('click', e => e.target.parentElement.remove());
     editButton.addEventListener('click', e => loadDataToEdit(e));
     invoiceTable.insertAdjacentElement('beforeend', tableRow);
+    clearAllFields();
 });
 
+
+function clearAllFields()
+{
+    amountField.value = "";
+    setDefaultToDropdown(itemsField, "Select item");
+    setDefaultToDropdown(unitField, "Select unit");
+}
 
 function loadDataToEdit(event) {
     const tableRow = event.target.parentElement;
@@ -72,6 +84,7 @@ function loadDataToEdit(event) {
     itemsField.value = columns[0].textContent;
     amountField.value = columns[1].textContent;
     loadValuetoDropdown(unitField, columns[2].textContent, "Select unit");
+    loadValuetoDropdown(itemsField, columns[0].textContent, "Select item");
     //loads string visually into dropdown list 
 
 
@@ -114,6 +127,26 @@ async function createItemsList(data) {
     }
 }
 
+
+function loadItemsToDropdown(data)
+{
+    const menu = itemsField.parentElement.children[4];
+    for (let item of data)
+    {
+        const div = document.createElement('div');
+        div.classList.add('item');
+        div.setAttribute('data-id', item.id);
+        div.textContent = item.title;
+        menu.appendChild(div);
+    }
+}
+
+function setDefaultToDropdown(element, text)
+{
+    element.value = "";
+    element.parentElement.querySelector('.text').textContent = text;
+}
+
 document.addEventListener('DOMContentLoaded', async function () {
     await obtainUserInitials();
 
@@ -121,5 +154,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const data = await getUserData('/items/items_list/');
     await createItemsList(data['data']['content']);
     console.log(itemsList);
+    loadItemsToDropdown(itemsList);
 });
+
 
