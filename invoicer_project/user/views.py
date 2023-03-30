@@ -117,14 +117,13 @@ class UserSettingsViewSet(viewsets.ViewSet):
         serializer = self.serializer_class(user, data=request.data, partial=True)
         if serializer.is_valid():
             new_password = serializer.validated_data.get('new_password', None)
-            print(new_password)
             if new_password != None:
                 user.set_password(new_password)
                 user.save()
             serializer.save()
             return JsonResponse(serializer.data, status = 200)
         else:
-            return JsonResponse(serializer.errors, status=400)
+            return JsonResponse({'errors': serializer.errors}, status=400)
 
     def retrieve(self, request):
         user_info = get_user_from_jwt(request.headers)

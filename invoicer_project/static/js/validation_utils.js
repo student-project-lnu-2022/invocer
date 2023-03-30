@@ -56,7 +56,10 @@ export function validateNameAndSurnameAsStrings(strToValidate) {
 
 export function validatePasswordAsString(passwordToValidate) {
     let isPasswordValid;
-    if (passwordToValidate.includes(' ')) {
+    console.log(passwordToValidate)
+    if (passwordToValidate === '') {
+        isPasswordValid = "This field can't be empty";
+    } else if (passwordToValidate.includes(' ')) {
         isPasswordValid = "No whitespaces";
     } else if (passwordToValidate.length < passwordMinLength) {
         isPasswordValid = `Min length – ${passwordMinLength} chars`;

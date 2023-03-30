@@ -32,13 +32,16 @@ class UserSettingsSerializer(serializers.ModelSerializer):
         fields = ("id", "first_name", "last_name", "email", "password", "company_name", "country", "city", "address", 'old_password', 'new_password', 'repeat_new_password')
 
     def validate(self, attrs):
+        data = []
         old_password = attrs.get('old_password', None)
         new_password = attrs.get('new_password', None)
         repeat_new_password = attrs.get('repeat_new_password', None)
         user = User.objects.get(id=attrs['id'])
         if old_password is not None:
             if user.check_password(old_password) == False:
-                raise serializers.ValidationError("Invalid old password")
+                data.append("Invalid old password")
             if new_password != repeat_new_password:
-                raise serializers.ValidationError("Password and Confirm Password don't match")
+                data.append("Password and Confirm Password don't match")
+        if len(data) != 0:
+            raise serializers.ValidationError(data)
         return attrs
