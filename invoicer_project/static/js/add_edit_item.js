@@ -1,39 +1,57 @@
-import {nameField, priceField, amountInStockField, barcodeField, additionalFieldsContainer, amountAdditionalFieldsContainer,
-    maxNumOfUnits, additionalUnitCell, additionalUnits, amountAdditionalUnitField, inputBarcodeVal, inputNameVal, inputAmountInStockVal,
-    inputBasicUnitVal, inputCurrencyVal, inputPriceVal, inputBasicUnit, inputCurrency, numOfRowsObject} from './utils_items.js'
-import { removeAllErrorAttributes } from './validation_utils.js';
+import {
+    nameField,
+    priceField,
+    amountInStockField,
+    barcodeField,
+    additionalFieldsContainer,
+    amountAdditionalFieldsContainer,
+    maxNumOfUnits,
+    additionalUnitCell,
+    additionalUnits,
+    amountAdditionalUnitField,
+    inputBarcodeVal,
+    inputNameVal,
+    inputAmountInStockVal,
+    inputBasicUnitVal,
+    inputCurrencyVal,
+    inputPriceVal,
+    inputBasicUnit,
+    inputCurrency,
+    numOfRowsObject
+} from './utils_items.js'
+import {removeAllErrorAttributes} from './validation_utils.js';
 
-document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
-    const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
-    const dropdownArrow = dropdownWrapper.querySelector(".arrow-up");
-    const dropdownList = dropdownWrapper.querySelector('.dropdown__list');
-    const dropdownInput = dropdownWrapper.querySelector('.dropdown__input_hidden');
-    dropdownWrapper.addEventListener('click', function (e) {
-        const target = e.target;
-        if(target.nodeName === 'BUTTON') {
-            dropdownArrow.classList.toggle("arrow-up");
-            dropdownArrow.classList.toggle("arrow-up-active");
-            dropdownList.classList.toggle('dropdown__list_visible');
-            dropdownBtn.classList.toggle('dropdown__button_active');
-        }
-        if(target.nodeName === 'LI') {
-            target.classList.add('dropdown__list-item_active');
-            dropdownBtn.innerText = target.innerText;
-            dropdownInput.setAttribute("value", target.dataset.value);
-            input_currency_table();
-            input_basic_unit_table();
-            dropdownArrow.classList.add("arrow-up");
-            dropdownArrow.classList.remove("arrow-up-active");
-            dropdownList.classList.remove('dropdown__list_visible');
-        }
-        if (target !== dropdownBtn) {
-            dropdownArrow.classList.add("arrow-up");
-            dropdownArrow.classList.remove("arrow-up-active");
-            dropdownBtn.classList.remove('dropdown__button_active');
-            dropdownList.classList.remove('dropdown__list_visible');
-        }
-        });
-    })
+// document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
+//     const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
+//     const dropdownArrow = dropdownWrapper.querySelector(".arrow-up");
+//     const dropdownList = dropdownWrapper.querySelector('.dropdown__list');
+//     const dropdownInput = dropdownWrapper.querySelector('.dropdown__input_hidden');
+//     dropdownWrapper.addEventListener('click', function (e) {
+//         const target = e.target;
+//         if (target.nodeName === 'BUTTON') {
+//             dropdownArrow.classList.toggle("arrow-up");
+//             dropdownArrow.classList.toggle("arrow-up-active");
+//             dropdownList.classList.toggle('dropdown__list_visible');
+//             dropdownBtn.classList.toggle('dropdown__button_active');
+//         }
+//         if (target.nodeName === 'LI') {
+//             target.classList.add('dropdown__list-item_active');
+//             dropdownBtn.innerText = target.innerText;
+//             dropdownInput.setAttribute("value", target.dataset.value);
+//             // input_currency_table();
+//             // input_basic_unit_table();
+//             dropdownArrow.classList.add("arrow-up");
+//             dropdownArrow.classList.remove("arrow-up-active");
+//             dropdownList.classList.remove('dropdown__list_visible');
+//         }
+//         if (target !== dropdownBtn) {
+//             dropdownArrow.classList.add("arrow-up");
+//             dropdownArrow.classList.remove("arrow-up-active");
+//             dropdownBtn.classList.remove('dropdown__button_active');
+//             dropdownList.classList.remove('dropdown__list_visible');
+//         }
+//     });
+// })
 
 
 for (let i = 0; i < maxNumOfUnits; i++) {
@@ -41,10 +59,10 @@ for (let i = 0; i < maxNumOfUnits; i++) {
         const inputRowVal = document.querySelector(`#AU${i + 1}_val`);
         setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + " " + inputBasicUnit.value);
     });
-    additionalUnits[i].addEventListener("input", ()=> {
+    additionalUnits[i].addEventListener("input", () => {
         let data1 = document.querySelector(`#AU${i + 1}`).value;
         setTextToTable(document.querySelector(`#Aditional_unit_${i + 1}`), data1);
-});
+    });
 }
 
 function addLabels() {
@@ -79,23 +97,35 @@ function removeLabels(index) {
 }
 
 const closeButton = document.querySelectorAll(".close_btn");
-for (let i=0; i<closeButton.length; i++) {
-    closeButton[i].addEventListener('click', ()=>{removeLabels(i)});
+for (let i = 0; i < closeButton.length; i++) {
+    closeButton[i].addEventListener('click', () => {
+        removeLabels(i)
+    });
 }
 
-document.querySelector("#additional_item_button").addEventListener("click", () => { addLabels() });
+document.querySelector("#additional_item_button").addEventListener("click", () => {
+    addLabels()
+});
 
 function setTextToTable(inputElement, inputData) {
+    console.log("Input element:" + inputElement);
+    console.log("Input data:" + inputData);
+
     inputElement.setAttribute('data-text', inputData);
     inputElement.innerHTML = inputElement.getAttribute('data-text');
 }
 
 function removeTextFromTable(inputElement, data) {
+    console.log("remove Input element:" + inputElement);
+    console.log("remove Input data:" + data);
     inputElement.removeAttribute('data-text');
     inputElement.innerHTML = data;
 }
 
 function isFieldEmpty(input_field, fieldLabel, resultValue) {
+    console.log("Input field: ", input_field);
+    console.log("Field label: ", fieldLabel);
+    console.log("Result value: ", resultValue);
     let data = input_field.value;
     if (data === fieldLabel) {
         data = resultValue;
@@ -103,13 +133,16 @@ function isFieldEmpty(input_field, fieldLabel, resultValue) {
     return data;
 }
 
-priceField.addEventListener('input', () => { setTextToTable(inputPriceVal, priceField.value) });
+priceField.addEventListener('input', () => {
+    setTextToTable(inputPriceVal, priceField.value)
+});
 
-function input_currency_table() {
-    let data = isFieldEmpty(inputCurrency, "Currency", "");
-    setTextToTable(inputCurrencyVal, data);
-}
+// function input_currency_table() {
+//     let data = isFieldEmpty(inputCurrency, "Currency", "");
+//     setTextToTable(inputCurrencyVal, data);
+// }
 
+console.log(amountInStockField);
 
 amountInStockField.addEventListener('input', () => {
     let data = isFieldEmpty(inputBasicUnit, "Basic unit", "");
@@ -145,3 +178,11 @@ function input_basic_unit_table() {
         setTextToTable(field, data + " " + basicUnitData);
     }
 }
+
+
+const currencyDropdown = document.querySelector('.currency_dropdown');
+currencyDropdown.addEventListener('change', function () {
+    let selectedCurrency = document.querySelector('#currency_input_dropdown').value;
+    console.log(selectedCurrency);
+});
+

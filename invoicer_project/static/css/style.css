@@ -111,7 +111,7 @@ a {
 /*Add item and edit item page Nadia and Vitalik*/
 /*Menu*/
 
-.close_btn:hover{
+.close_btn:hover {
     cursor: pointer;
 }
 
@@ -689,7 +689,7 @@ md-fab-extended {
     width: 90%;
 }
 
-.client_list_item:hover{
+.client_list_item:hover {
     cursor: pointer;
 }
 
@@ -927,6 +927,7 @@ body {
     padding-right: 16px;
     padding-bottom: 10px;
 }
+
 .invoice_bottom_info {
     display: flex;
     align-items: center;
@@ -951,7 +952,29 @@ body {
     margin-right: 60px;
 }
 
-.error_country_dropdown{
+.error_country_dropdown {
+    color: #b3251e;
+    font-size: 12px;
+    font-family: Roboto, serif;
+    padding-top: 0.3em;
+    padding-left: 1.3em;
+    flex-wrap: wrap;
+    height: 18px;
+    align-content: space-around;
+}
+
+.error_unit_dropdown {
+    color: #b3251e;
+    font-size: 12px;
+    font-family: Roboto, serif;
+    padding-top: 0.3em;
+    padding-left: 1.3em;
+    flex-wrap: wrap;
+    height: 18px;
+    align-content: space-around;
+}
+
+.error_currency_dropdown {
     color: #b3251e;
     font-size: 12px;
     font-family: Roboto, serif;
