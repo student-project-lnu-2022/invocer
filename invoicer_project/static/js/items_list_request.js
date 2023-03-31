@@ -14,7 +14,7 @@ function createItemListContent(data) {
     for (let item of data) {
         let itemName = item['name'];
         let priceAndCurrency = item['price'] + " " + item['currency'];
-        let itemUnit = item['basic_unit'];
+        let itemUnit = i18next.t(item['basic_unit']);
         let itemID = item['id'];
 
         document.getElementById("items_container").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around redirect_to_item_info" data-item-id="${itemID}">

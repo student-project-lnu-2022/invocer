@@ -38,6 +38,50 @@ i18next.init({
                 "special_characters_error": "Special characters aren't allowed",
                 "invalid_format_error": "Invalid format",
                 "range_error": "Amount of digits must be in [{{min}}, {{max}}]",
+                "Select currency": "Select currency",
+                "Select unit": "Select unit",
+                "piece": "piece",
+                "kg.": "kg.",
+                "g.": "g.",
+                "pack": "pack",
+                "l.": "l.",
+                "box": "box",
+                "ctn.": "ctn.",
+                "pallet": "pallet",
+                "dz.": "dz.",
+                "pair": "pair",
+                "ream": "ream",
+                "bundle": "bundle",
+                "barrel": "barrel",
+                "gal.": "gal.",
+                "lb.": "lb.",
+                "oz.": "oz.",
+                "AUD": "AUD",
+                "AZN": "AZN",
+                "BYN": "BYN",
+                "BGN": "BGN",
+                "KRW": "KRW",
+                "HKD": "HKD",
+                "DKK": "DKK",
+                "USD": "USD",
+                "EUR": "EUR",
+                "EGP": "EGP",
+                "JPY": "JPY",
+                "PLN": 'PLN',
+                "INR": "INR",
+                "CAD": "CAD",
+                "RON": "RON",
+                "IDR": "IDR",
+                "UAH": "UAH",
+                "SGD": "SGD",
+                "KZT": "KZT",
+                "TRY": "TRY",
+                "HUF": "HUF",
+                "GBP": "GBP",
+                "CZK": "CZK",
+                "CHF": "CHF",
+                "SEK": "SEK",
+                "CNY": "CNY"
             }
         },
         uk: {
@@ -75,7 +119,51 @@ i18next.init({
                 "lowercase_error": "Повинно містити хоча б одну малу літеру",
                 "special_characters_error": "Спецсимволи заборонені",
                 "invalid_format_error": "Некоректний формат",
-                "range_error": "Кількість цифр має бути від {{min}} до {{max}}"
+                "range_error": "Кількість цифр має бути від {{min}} до {{max}}",
+                "Select currency": "Оберіть валюту",
+                "Select unit": "Оберіть основну од. кількості",
+                "piece": "шт.",
+                "kg.": "кг.",
+                "g.": "г.",
+                "pack": "уп.",
+                "l.": "л.",
+                "box": "кор.",
+                "ctn.": "ящ.",
+                "pallet": "палета",
+                "dz.": "десяток",
+                "pair": "пара",
+                "ream": "пачка",
+                "bundle": "набір",
+                "barrel": "боч.",
+                "gal.": "гал.",
+                "lb.": "фунт",
+                "oz.": "унц.",
+                "AUD": "AUD",
+                "AZN": "AZN",
+                "BYN": "BYN",
+                "BGN": "BGN",
+                "KRW": "KRW",
+                "HKD": "HKD",
+                "DKK": "DKK",
+                "USD": "USD | Долар",
+                "EUR": "EUR | Євро",
+                "EGP": "EGP",
+                "JPY": "JPY | Єна",
+                "PLN": 'PLN | Злотий',
+                "INR": "INR",
+                "CAD": "CAD",
+                "RON": "RON | Лей",
+                "IDR": "IDR",
+                "UAH": "UAH | Грн",
+                "SGD": "SGD",
+                "KZT": "KZT",
+                "TRY": "TRY",
+                "HUF": "HUF",
+                "GBP": "GBP | Фунт",
+                "CZK": "CZK",
+                "CHF": "CHF",
+                "SEK": "SEK",
+                "CNY": "CNY | Юань"
             }
         }
     }
@@ -90,6 +178,7 @@ function updateContent() {
     translateItemsList();
     translateItemAdd();
     translateItemEdit();
+    translateItemView();
 }
 
 function getI18NDataFromAttribute(element) {
@@ -218,6 +307,42 @@ function translateItemAdd() {
     for (let additionalUnitAmountInput of additionalUnitAmountInputs) {
         additionalUnitAmountInput.label = i18next.t("amount_of_the_additional_unit_in_basic");
     }
+
+    const dropdownCurrencyErrorText = document.querySelector('.error_currency_dropdown');
+    if (dropdownCurrencyErrorText) {
+        dropdownCurrencyErrorText.textContent = getI18NDataFromAttribute(dropdownCurrencyErrorText);
+    }
+
+    const dropdownUnitErrorText = document.querySelector('.error_unit_dropdown');
+    if (dropdownUnitErrorText) {
+        dropdownUnitErrorText.textContent = getI18NDataFromAttribute(dropdownUnitErrorText);
+    }
+
+    const selectCurrencyText = document.querySelector("#select_currency_div");
+    if (selectCurrencyText) {
+        selectCurrencyText.textContent = getI18NDataFromAttribute(selectCurrencyText)
+    }
+
+    const selectUnitText = document.querySelector("#select_unit_div");
+    if (selectUnitText) {
+        selectUnitText.textContent = getI18NDataFromAttribute(selectUnitText)
+    }
+
+    const unitDivs = document.querySelectorAll('.units_item');
+
+    if (unitDivs) {
+        for (let i = 0; i < unitDivs.length; i++) {
+            unitDivs[i].textContent = i18next.t(unitDivs[i].getAttribute('data-value'));
+        }
+    }
+
+    const currencyDivs = document.querySelectorAll('.currency_menu .item');
+
+    if (currencyDivs) {
+        for (let i = 0; i < currencyDivs.length; i++) {
+            currencyDivs[i].childNodes[1].textContent = i18next.t(currencyDivs[i].getAttribute('data-value'));
+        }
+    }
 }
 
 export function initializeI18NextOnDynamicList() {
@@ -228,12 +353,44 @@ export function initializeI18NextOnDynamicList() {
                 translation: {
                     "price_per_unit_text": "Price per unit",
                     "basic_unit_text": "Basic unit",
+                    "piece": "piece",
+                    "kg.": "kg.",
+                    "g.": "g.",
+                    "pack": "pack",
+                    "l.": "l.",
+                    "box": "box",
+                    "ctn.": "ctn.",
+                    "pallet": "pallet",
+                    "dz.": "dz.",
+                    "pair": "pair",
+                    "ream": "ream",
+                    "bundle": "bundle",
+                    "barrel": "barrel",
+                    "gal.": "gal.",
+                    "lb.": "lb.",
+                    "oz.": "oz.",
                 }
             },
             uk: {
                 translation: {
                     "price_per_unit_text": "Ціна за од.",
                     "basic_unit_text": "Одиниця к-сті",
+                    "piece": "шт.",
+                    "kg.": "кг.",
+                    "g.": "г.",
+                    "pack": "уп.",
+                    "l.": "л.",
+                    "box": "кор.",
+                    "ctn.": "ящ.",
+                    "pallet": "палета",
+                    "dz.": "десяток",
+                    "pair": "пара",
+                    "ream": "пачка",
+                    "bundle": "набір",
+                    "barrel": "боч.",
+                    "gal.": "гал.",
+                    "lb.": "фунт",
+                    "oz.": "унц.",
                 }
             }
         }
@@ -256,15 +413,27 @@ export function initializeI18NextOnDynamicList() {
 
 function translateItemEdit() {
     const additionalUnitNameInputs = document.querySelectorAll(".additional_unit_field");
-    for (let additionalUnitNameInput of additionalUnitNameInputs) {
-        additionalUnitNameInput.label = i18next.t("name_of_the_additional_unit");
+    if (additionalUnitNameInputs) {
+        for (let additionalUnitNameInput of additionalUnitNameInputs) {
+            additionalUnitNameInput.label = i18next.t("name_of_the_additional_unit");
+        }
     }
 
     const additionalUnitAmountInputs = document.querySelectorAll(".amount_additional_unit_field");
-    for (let additionalUnitAmountInput of additionalUnitAmountInputs) {
-        additionalUnitAmountInput.label = i18next.t("amount_of_the_additional_unit_in_basic");
+    if (additionalUnitAmountInputs) {
+        for (let additionalUnitAmountInput of additionalUnitAmountInputs) {
+            additionalUnitAmountInput.label = i18next.t("amount_of_the_additional_unit_in_basic");
+        }
     }
-
     const saveChangesButton = document.querySelector("#edit_item_button");
-    saveChangesButton.label = getI18NDataFromAttribute(saveChangesButton);
+    if (saveChangesButton) {
+        saveChangesButton.label = getI18NDataFromAttribute(saveChangesButton);
+    }
+}
+
+function translateItemView() {
+    const editItemButton = document.querySelector("#edit_item_page_button_redirect");
+    if (editItemButton) {
+        editItemButton.label = getI18NDataFromAttribute(editItemButton);
+    }
 }
