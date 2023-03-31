@@ -54,7 +54,6 @@ export async function fillFieldsWithData() {
         }
     });
 
-    // document.querySelector("#currency").setAttribute("value", responseFromServerForItem["currency"]);
     document.querySelector("#basic_unit").setAttribute("value", responseFromServerForItem["basic_unit"]);
     document.getElementById("amount_in_stock").value = responseFromServerForItem["amount_in_stock"];
     document.getElementById("barcode").value = responseFromServerForItem["barcode"];
