@@ -1,5 +1,10 @@
 i18next.init({
-    lng: 'uk',
+    lng: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
+    fallbackLng: 'en',
+    detection: {
+        order: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
+        caches: ['localStorage', 'cookie']
+    },
     resources: {
         en: {
             translation: {
@@ -431,7 +436,7 @@ function translateClientAdd() {
     }
 
     const dropdownCountryErrorText = document.querySelector('.error_country_dropdown');
-    if (dropdownCountryErrorText){
+    if (dropdownCountryErrorText) {
         dropdownCountryErrorText.textContent = getI18NDataFromAttribute(dropdownCountryErrorText);
     }
 }

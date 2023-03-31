@@ -1,6 +1,10 @@
 i18next.init({
-    lng: 'uk',
-    debug: 'true',
+    lng: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
+    fallbackLng: 'en',
+    detection: {
+        order: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
+        caches: ['localStorage', 'cookie']
+    },
     resources: {
         en: {
             translation: {
@@ -347,7 +351,12 @@ function translateItemAdd() {
 
 export function initializeI18NextOnDynamicList() {
     i18next.init({
-        lng: 'uk',
+        lng: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
+        fallbackLng: 'en',
+        detection: {
+            order: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
+            caches: ['localStorage', 'cookie']
+        },
         resources: {
             en: {
                 translation: {
