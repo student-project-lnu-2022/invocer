@@ -41,20 +41,30 @@ export async function fillFieldsWithData() {
     let responseFromServerForUnit = await getUnitsByItemId(itemId);
     document.getElementById("name").value = responseFromServerForItem["name"];
     document.getElementById("price").value = responseFromServerForItem["price"];
-    document.querySelector(".dropdown_button_currency").textContent = responseFromServerForItem["currency"];
-    document.querySelector(".dropdown_button_basic_unit").textContent = responseFromServerForItem["basic_unit"];
+    document.querySelector("#currency_input_dropdown").value = responseFromServerForItem["currency"];
+    document.querySelector("#units_input_dropdown").value = responseFromServerForItem["basic_unit"];
 
-    const currenciesDivList = document.querySelectorAll('.menu div');
+
+    const currenciesDivList = document.querySelectorAll('.currency_menu div');
     currenciesDivList.forEach(div => {
-        if (div.getAttribute("data-value") === responseFromServer["currency"]) {
-            const dropdownCountryContainer = document.querySelector('.default.text');
-            dropdownCountryContainer.textContent = "";
-            dropdownCountryContainer.insertAdjacentHTML("afterbegin", div.innerHTML);
-            dropdownCountryContainer.classList.remove("default");
+        if (div.getAttribute("data-value") === responseFromServerForItem["currency"]) {
+            const dropdownCurrencyContainer = document.querySelector('.default.text');
+            dropdownCurrencyContainer.textContent = "";
+            dropdownCurrencyContainer.insertAdjacentHTML("afterbegin", div.innerHTML);
+            dropdownCurrencyContainer.classList.remove("default");
         }
     });
 
-    document.querySelector("#basic_unit").setAttribute("value", responseFromServerForItem["basic_unit"]);
+    const unitsDivList = document.querySelectorAll('.units_menu div');
+    unitsDivList.forEach(div => {
+        if (div.getAttribute("data-value") === responseFromServerForItem["basic_unit"]) {
+            const dropdownUnitContainer = document.querySelector('.default.text');
+            dropdownUnitContainer.textContent = "";
+            dropdownUnitContainer.insertAdjacentHTML("afterbegin", div.innerHTML);
+            dropdownUnitContainer.classList.remove("default");
+        }
+    });
+
     document.getElementById("amount_in_stock").value = responseFromServerForItem["amount_in_stock"];
     document.getElementById("barcode").value = responseFromServerForItem["barcode"];
     document.querySelector("#name_val").textContent = responseFromServerForItem["name"];

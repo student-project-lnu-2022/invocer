@@ -84,10 +84,6 @@ function areAdditionalItemsSelected() {
 document.getElementById("add_item_button").addEventListener("click", async () => {
     const validationFieldsList = validateItemAdd();
     let currencyValue = document.getElementById("currency_input_dropdown").value;
-
-    console.log(currencyValue);
-    console.log(currencyField.value);
-
     let basicUnitValue = document.getElementById("units_input_dropdown").value
     if (allAreFalse(validationFieldsList)) {
         const data = JSON.stringify({

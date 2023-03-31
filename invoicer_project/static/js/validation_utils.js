@@ -7,7 +7,7 @@ const amountMaxLength = 10;
 const nameItemMaxLength = 35;
 
 export function validation(fieldToValidate, fieldRegex) {
-    let isFieldValid;
+    let isFieldValid = '';
     if (fieldToValidate === '') {
         isFieldValid = i18next.t("empty_field_error");
     } else if (fieldToValidate.includes(' ')) {
@@ -106,7 +106,7 @@ export function validateAdditionalUnits(container, regex) {
 }
 
 export function validationDropdown(dropdownId) {
-    let isFieldValid;
+    let isFieldValid='';
     let dropdownElement = document.querySelector('#' + dropdownId);
     if (dropdownElement.value === "") {
         isFieldValid =  i18next.t('empty_field_error');

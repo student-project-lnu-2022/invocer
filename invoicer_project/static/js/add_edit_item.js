@@ -154,7 +154,6 @@ function retrieveNameOfBasicUnitFromDropdown() {
 }
 
 function updateAdditionalUnitsOnBasicUnitChanged() {
-    console.log("Inside");
     for (let i = 0; i < maxNumOfUnits; i++) {
         let inputRowVal = document.querySelector(`#AU${i + 1}_val`);
         if (inputRowVal) {

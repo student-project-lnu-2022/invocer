@@ -1,5 +1,6 @@
 i18next.init({
     lng: 'uk',
+    debug: 'true',
     resources: {
         en: {
             translation: {
@@ -88,6 +89,7 @@ function updateContent() {
     translateMenu();
     translateItemsList();
     translateItemAdd();
+    translateItemEdit();
 }
 
 function getI18NDataFromAttribute(element) {
@@ -134,6 +136,7 @@ function translateItemAdd() {
     }
 
     const nameInput = document.querySelector(".name_item_input");
+    console.log(nameInput);
     if (nameInput) {
         nameInput.label = getI18NDataFromAttribute(nameInput);
     }
@@ -249,4 +252,19 @@ export function initializeI18NextOnDynamicList() {
         }
 
     });
+}
+
+function translateItemEdit() {
+    const additionalUnitNameInputs = document.querySelectorAll(".additional_unit_field");
+    for (let additionalUnitNameInput of additionalUnitNameInputs) {
+        additionalUnitNameInput.label = i18next.t("name_of_the_additional_unit");
+    }
+
+    const additionalUnitAmountInputs = document.querySelectorAll(".amount_additional_unit_field");
+    for (let additionalUnitAmountInput of additionalUnitAmountInputs) {
+        additionalUnitAmountInput.label = i18next.t("amount_of_the_additional_unit_in_basic");
+    }
+
+    const saveChangesButton = document.querySelector("#edit_item_button");
+    saveChangesButton.label = getI18NDataFromAttribute(saveChangesButton);
 }
