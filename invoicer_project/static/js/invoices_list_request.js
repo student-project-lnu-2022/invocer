@@ -13,7 +13,13 @@ document.getElementById("search_bar").addEventListener('keyup', () => {
 });
 
 function createInvoiceListContent(data) {
-    for (let i = 0; i < data.length; i++) {
+    if (data.length === 0) {
+        const message = document.getElementById("other_elements_invoices");
+        message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
+        <p class="emptyMessageText">No invoices have been added yet...</p>
+        </div>`);
+    } else {
+        for (let i = 0; i < data.length; i++) {
         const {
             id: invoiceId, name: invoiceName, price: invoicePrice, date_of_payment: invoiceDate,
             client_first_name: clientFirstName, client_last_name: clientLastName, currency: invoiceCurrency
@@ -53,6 +59,7 @@ function createInvoiceListContent(data) {
                         </div>
                     </div>
                 </div>`);
+    }
     }
 }
 

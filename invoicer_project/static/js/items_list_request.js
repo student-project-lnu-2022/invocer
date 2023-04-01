@@ -10,13 +10,18 @@ import {
 
 
 function createItemListContent(data) {
-    for (let item of data) {
-        let itemName = item['name'];
-        let priceAndCurrency = item['price'] + " " + item['currency'];
-        let itemID = item['id']
-        let basicUnit = item['basic_unit'];
-
-        document.getElementById("items_container").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around redirect_to_item_info" data-item-id="${itemID}">
+    if (data.length === 0) {
+        const message = document.getElementById("items_container");
+        message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
+        <p class="emptyMessageText">No items have been added yet...</p>
+        </div>`);
+    } else {
+        for (let item of data) {
+            let itemName = item['name'];
+            let priceAndCurrency = item['price'] + " " + item['currency'];
+            let itemID = item['id']
+            let basicUnit = item['basic_unit'];
+            document.getElementById("items_container").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around redirect_to_item_info" data-item-id="${itemID}">
                         <div class="col-md-6 col-sm-6 col-7 list_item_name redirect_to_item_info" data-item-id="${itemID}">
                             <p class="item_name redirect_to_item_info" data-item-id="${itemID}">${itemName}</p>
                         </div>
@@ -36,6 +41,7 @@ function createItemListContent(data) {
                             </div>
                         </div>
                     </div>`);
+        }
     }
 }
 
