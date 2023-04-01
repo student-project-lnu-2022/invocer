@@ -49,8 +49,8 @@ function createInvoiceListContent(data) {
                                 </div>
                                 <div class="modal-body">
                                     <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
-                                    <md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>
-                                    <div id="errorMessage"></div>                       
+                                    <md-fab-extended class="send-email-btn" icon="send" label="Send PDF" data-element-id="${invoiceId}"></md-fab-extended>
+                                    <div id="errorMessage" data-element-id="${invoiceId}"></div>                       
                                 </div>
                               </div>
                             </div>
@@ -171,8 +171,9 @@ async function sendPdfEmailRequest(invoiceId, recipientEmail) {
 
 function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendButtonSelector) {
     const uploadButtons = document.querySelectorAll(uploadSelector);
-
+    console.log(uploadButtons)
     uploadButtons.forEach(button => {
+        console.log(button)
         button.addEventListener('click', () => {
             const invoiceId = button.getAttribute('data-element-id');
 
@@ -202,6 +203,10 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
                 emailField.style.display = 'none';
                 sendEmailButton.removeEventListener('click', sendPdfEmailRequestHandler);
                 recipientEmailInput.value = '';
+                let message = document.getElementById('errorMessage');
+                if (message.innerHTML.includes('Field is empty')) {
+                    message.textContent = '';
+                }
             });
         });
     });
