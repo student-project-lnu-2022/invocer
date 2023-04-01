@@ -1,10 +1,6 @@
 i18next.init({
-    lng: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
+    lng: navigator.language,
     fallbackLng: 'en',
-    detection: {
-        order: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
-        caches: ['localStorage', 'cookie']
-    },
     resources: {
         en: {
             translation: {
@@ -351,12 +347,8 @@ function translateItemAdd() {
 
 export function initializeI18NextOnDynamicList() {
     i18next.init({
-        lng: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
+        lng: navigator.language,
         fallbackLng: 'en',
-        detection: {
-            order: ['navigator', 'cookie', 'localStorage', 'querystring', 'htmlTag', 'path', 'subdomain'],
-            caches: ['localStorage', 'cookie']
-        },
         resources: {
             en: {
                 translation: {
