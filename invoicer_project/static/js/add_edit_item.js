@@ -140,7 +140,7 @@ currencyDropdown.addEventListener('change', function () {
 
 const unitDropdown = document.querySelector('.units_dropdown');
 unitDropdown.addEventListener('change', function () {
-    let selectedUnit = document.querySelector('#units_input_dropdown').value;
+    let selectedUnit = i18next.t(document.querySelector('#units_input_dropdown').value);
     setTextToTable(inputBasicUnitVal, selectedUnit);
     setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + selectedUnit);
     updateAdditionalUnitsOnBasicUnitChanged();
@@ -148,7 +148,7 @@ unitDropdown.addEventListener('change', function () {
 
 function retrieveNameOfBasicUnitFromDropdown() {
     if (document.querySelector('#units_input_dropdown').value) {
-        return document.querySelector('#units_input_dropdown').value
+        return i18next.t(document.querySelector('#units_input_dropdown').value);
     }
     return "";
 }
@@ -159,10 +159,10 @@ function updateAdditionalUnitsOnBasicUnitChanged() {
         if (inputRowVal) {
             setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + " " + retrieveNameOfBasicUnitFromDropdown());
         }
-        let data1 = document.querySelector(`#AU${i + 1}`);
-        if (data1) {
-            setTextToTable(document.querySelector(`#Aditional_unit_${i + 1}`), data1.value);
-        }
+        // let data1 = document.querySelector(`#AU${i + 1}`);
+        // if (data1) {
+        //     setTextToTable(document.querySelector(`#Aditional_unit_${i + 1}`), data1.value);
+        // }
     }
 }
 
