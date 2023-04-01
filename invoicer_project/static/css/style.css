@@ -942,3 +942,37 @@ body {
     padding-top: 10px;
     padding-right: 10px;
 }
+
+.validation {
+    background: rgba(0, 68, 255, 0.11);
+    padding: 10px;
+    margin: 30px;
+    border-radius: 15px;
+}
+
+.validation ul {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.validation ul li {
+    position: relative;
+    list-style: none;
+    color: #000;
+    font-weight: 500;
+    font-size: 0.95em;
+    transition: 0.5s;
+}
+
+.validation ul li::before {
+    /* content: ''; */
+    width: 20px;
+    height: 10px;
+    display: inline-flex;
+}
+
+.validation ul li.valid {
+    color: rgba(153, 153, 153, 0.5);
+}
