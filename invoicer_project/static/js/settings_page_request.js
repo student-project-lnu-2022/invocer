@@ -1,4 +1,5 @@
 import {host} from './utils_clients.js'
+import {hideUnnecessaryElementsInMenu} from './utils_clients.js'
 import {
     removeAllErrorAttributes,
     setErrorAttributesToFields,
@@ -21,6 +22,7 @@ const oldPasswordField = document.getElementById("old_password_input_settings");
 const newPasswordField = document.getElementById("new_password_input_settings");
 const repeatNewPasswordField = document.getElementById("repeat_new_password_input_settings");
 
+hideUnnecessaryElementsInMenu();
 function validateUserOldPassword(oldPassword) {
         let isFieldValid;
         if (oldPassword === '') {
