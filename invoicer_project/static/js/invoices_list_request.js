@@ -1,12 +1,12 @@
 const host = "http://127.0.0.1:8000";
 import {
-    obtainUserInitials,
-    obtainNewAccessToken,
     addCheckboxesListener,
+    addDeleteButtonListeners,
     getUserData,
-    addDeleteButtonListeners
+    obtainNewAccessToken,
+    obtainUserInitials,
+    search
 } from './request_utils.js';
-import {search} from './request_utils.js';
 
 document.getElementById("search_bar").addEventListener('keyup', () => {
     search('invoice_name', 'client_list_item')
@@ -147,8 +147,7 @@ async function sendPdfEmailRequest(invoiceId, recipientEmail) {
             'Content-Type': 'application/json'
         }
     });
-    const data = await response.json();
-    return data;
+    return await response.json();
 }
 
 function actionBasedOnSendEmailRequest(messageFromServer, messageElement) {
@@ -157,7 +156,7 @@ function actionBasedOnSendEmailRequest(messageFromServer, messageElement) {
         messageElement.classList.remove("errorMessage");
         messageElement.classList.add("successMessage");
     } else {
-        messageElement.textContent =  messageElement;
+        messageElement.textContent =  messageFromServer;
         messageElement.classList.remove("successMessage")
         messageElement.classList.add("errorMessage")
     }
@@ -170,19 +169,12 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
             const invoiceId = button.getAttribute('data-element-id');
 
             const emailField = button.nextElementSibling;
-            console.log(emailField);
             emailField.style.display = 'block';
-            console.log("Inside listener");
             const recipientEmailInput = emailField.querySelector(recipientEmailSelector);
             const sendEmailButton = emailField.querySelector(sendButtonSelector);
             const closeButton = emailField.querySelector('.close');
 
-            console.log(recipientEmailInput);
-            console.log(sendEmailButton);
-            console.log(closeButton);
-
             const sendPdfEmailRequestHandler = async () => {
-                console.log("Inside send prdf email requesrt hanfdler");
                 if (recipientEmailInput.value === '') {
                     let message = emailField.querySelector('#errorMessage');
                     message.setAttribute('data-element-id', invoiceId);
