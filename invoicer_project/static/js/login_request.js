@@ -10,12 +10,12 @@ function removeAllErrorAttributes() {
 }
 
 function validatePassword(valueToValidate) {
-    return ((valueToValidate === '') ? 'Invalid data' : '');
+    return ((valueToValidate === '') ? i18next.t("invalid_data") : '');
 }
 
 function validateEmail(valueToValidate) {
     return (valueToValidate.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(valueToValidate))) ?
-        'Invalid data' : '';
+        i18next.t("invalid_data") : '';
 }
 
 function validateLoginDataOnFrontEnd() {
@@ -42,9 +42,9 @@ function backEndNegativeResponse(status) {
     emailField.setAttribute('error', 'true');
     passwordField.setAttribute('error', 'true');
     if (status === 400) {
-        errorString = "Incorrect credentials";
+        errorString = i18next.t("incorrect_credentials");
     } else {
-        errorString = "Unknown error";
+        errorString = i18next.t("unknown_error");
     }
     passwordField.setAttribute("errorText", errorString);
 }
