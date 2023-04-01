@@ -20,11 +20,11 @@ function createInvoiceListContent(data) {
         </div>`);
     } else {
         for (let i = 0; i < data.length; i++) {
-        const {
-            id: invoiceId, name: invoiceName, price: invoicePrice, date_of_payment: invoiceDate,
-            client_first_name: clientFirstName, client_last_name: clientLastName, currency: invoiceCurrency
-        } = data[i];
-        document.getElementById("other_elements_invoices").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around" data-element-id="${invoiceId}">
+            const {
+                id: invoiceId, name: invoiceName, price: invoicePrice, date_of_payment: invoiceDate,
+                client_first_name: clientFirstName, client_last_name: clientLastName, currency: invoiceCurrency
+            } = data[i];
+            document.getElementById("other_elements_invoices").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around" data-element-id="${invoiceId}">
                     <div class="col-md-6 col-sm-6 col-7 list_item_name">
                     <div class="d-flex flex-wrap flex-column list_item_info_block">
                         <p class="invoice_name" data-element-id="${invoiceId}">${invoiceName}</p>
@@ -59,7 +59,7 @@ function createInvoiceListContent(data) {
                         </div>
                     </div>
                 </div>`);
-    }
+        }
     }
 }
 
@@ -148,52 +148,64 @@ async function sendPdfEmailRequest(invoiceId, recipientEmail) {
         }
     });
     const data = await response.json();
-    let messageElement = data.message;
-    let message = document.getElementById('errorMessage');
-    message.insertAdjacentHTML('afterbegin', messageElement);
-    if(messageElement === 'PDF was sent!')
-    {
-        message.classList.remove("errorMessage");
-        message.classList.add("successMessage");
+    return data;
+}
+
+function actionBasedOnSendEmailRequest(messageFromServer, messageElement) {
+    if (messageFromServer === 'PDF was sent!') {
+        messageElement.textContent = messageFromServer;
+        messageElement.classList.remove("errorMessage");
+        messageElement.classList.add("successMessage");
     } else {
-        message.classList.remove("successMessage")
-        message.classList.add("errorMessage")
+        messageElement.textContent =  messageElement;
+        messageElement.classList.remove("successMessage")
+        messageElement.classList.add("errorMessage")
     }
-    const emailInputElement = document.querySelector('.recipient-email-input');
-    emailInputElement.addEventListener('input', function () {
-        message.textContent = '';
-    });
-    let closeButton = document.querySelector('.close');
-    closeButton.addEventListener('click', () => {
-        message.textContent = '';
-    });
 }
 
 function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendButtonSelector) {
     const uploadButtons = document.querySelectorAll(uploadSelector);
-    console.log(uploadButtons)
     uploadButtons.forEach(button => {
-        console.log(button)
         button.addEventListener('click', () => {
             const invoiceId = button.getAttribute('data-element-id');
 
             const emailField = button.nextElementSibling;
+            console.log(emailField);
             emailField.style.display = 'block';
-
+            console.log("Inside listener");
             const recipientEmailInput = emailField.querySelector(recipientEmailSelector);
             const sendEmailButton = emailField.querySelector(sendButtonSelector);
             const closeButton = emailField.querySelector('.close');
 
-            const sendPdfEmailRequestHandler = () => {
-                if(recipientEmailInput.value === '') {
-                    let message = document.getElementById('errorMessage');
-                    message.insertAdjacentHTML('afterbegin', 'Field is empty');
+            console.log(recipientEmailInput);
+            console.log(sendEmailButton);
+            console.log(closeButton);
+
+            const sendPdfEmailRequestHandler = async () => {
+                console.log("Inside send prdf email requesrt hanfdler");
+                if (recipientEmailInput.value === '') {
+                    let message = emailField.querySelector('#errorMessage');
+                    message.setAttribute('data-element-id', invoiceId);
+                    message.textContent = 'Field is empty';
                     message.classList.remove("successMessage")
                     message.classList.add("errorMessage")
                 } else {
                     const recipientEmail = recipientEmailInput.value;
-                    sendPdfEmailRequest(invoiceId, recipientEmail);
+                    const data = await sendPdfEmailRequest(invoiceId, recipientEmail);
                     recipientEmailInput.value = '';
+
+                    let messageFromServer = data.message;
+                    let messageElement = emailField.querySelector('#errorMessage');
+                    actionBasedOnSendEmailRequest(messageFromServer, messageElement)
+
+                    const emailInputElement = emailField.querySelector('.recipient-email-input');
+                    emailInputElement.addEventListener('input', function () {
+                        messageElement.textContent = '';
+                    });
+                    let closeButton = emailField.querySelector('.close');
+                    closeButton.addEventListener('click', () => {
+                        messageElement.textContent = '';
+                    });
                 }
             };
 
