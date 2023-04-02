@@ -159,10 +159,6 @@ function updateAdditionalUnitsOnBasicUnitChanged() {
         if (inputRowVal) {
             setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + " " + retrieveNameOfBasicUnitFromDropdown());
         }
-        // let data1 = document.querySelector(`#AU${i + 1}`);
-        // if (data1) {
-        //     setTextToTable(document.querySelector(`#Aditional_unit_${i + 1}`), data1.value);
-        // }
     }
 }
 

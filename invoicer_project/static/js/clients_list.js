@@ -8,7 +8,6 @@ function addDivClientListener() {
     const clientsList = document.querySelector('#other_elements');
     clientsList.addEventListener('click', async (event) => {
         const clickedElement = event.target;
-        console.log("Element clicked"+clickedElement);
         if (clickedElement.classList.contains('clickable_item') || clickedElement.parentNode.classList.contains('clickable_item')) {
             const clientId = clickedElement.dataset.elementId;
             window.location.href = host + "/clients/view/" + clientId;

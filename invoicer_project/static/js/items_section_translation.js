@@ -225,7 +225,6 @@ function translateItemAdd() {
     }
 
     const nameInput = document.querySelector(".name_item_input");
-    console.log(nameInput);
     if (nameInput) {
         nameInput.label = getI18NDataFromAttribute(nameInput);
     }
@@ -281,10 +280,7 @@ function translateItemAdd() {
 
 
     const amountOfTheItemP = document.querySelector("#amount_table_p");
-    console.log(amountOfTheItemP);
     if (amountOfTheItemP) {
-        console.log(amountOfTheItemP.textContent);
-        console.log(getI18NDataFromAttribute(amountOfTheItemP));
         amountOfTheItemP.textContent = getI18NDataFromAttribute(amountOfTheItemP);
     }
 

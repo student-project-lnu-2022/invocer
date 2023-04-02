@@ -70,13 +70,6 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
     let currencyValue = currencyField.value;
     let basicUnitValue = basicUnitField.value;
 
-    console.log(validationAdditionalUnitsFieldsList);
-    console.log(validationAdditionalUnitsFieldsList.every(allAreFalse));
-
-    console.log("FIELDS: " + validationFieldsList);
-    console.log("ADDITONAL FIELDS: " + validationAdditionalUnitsFieldsList);
-
-
     if (allAreFalse(validationFieldsList) && validationAdditionalUnitsFieldsList.every(allAreFalse)) {
         const data = JSON.stringify({
             name: nameField.value,

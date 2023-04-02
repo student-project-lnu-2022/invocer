@@ -194,7 +194,6 @@ function translateItemsList() {
         sortAscendingOrder.textContent = getI18NDataFromAttribute(sortAscendingOrder);
     }
 
-    console.log(document.querySelector("#adder"));
     let addItemButton = document.querySelector("#adder");
     if (addItemButton) {
         addItemButton.label = i18next.t("add_invoice");
