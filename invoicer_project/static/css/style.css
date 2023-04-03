@@ -1041,3 +1041,15 @@ body {
   animation-duration: 2s;
   animation-fill-mode: forwards;
 }
+
+.emptyMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.emptyMessageText {
+  font-size: 18px;
+    color: #3b3b3b;
+}

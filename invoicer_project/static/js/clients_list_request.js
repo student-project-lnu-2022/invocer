@@ -2,12 +2,18 @@ const host = "http://127.0.0.1:8000";
 import {obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners} from './request_utils.js';
 
 function createClientListContent(data) {
-    for (let i = 0; i < data.length; i++) {
-        let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
-        let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
-        let clientID = data[i]['id'];
-        let clientDebt = data[i]['debt'];
-        document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item clickable_item align-items-center justify-content-between" data-element-id="${clientID}">
+    if (data.length === 0) {
+        const message = document.getElementById("other_elements");
+        message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
+        <p class="emptyMessageText">No clients have been added yet...</p>
+        </div>`);
+    } else {
+        for (let i = 0; i < data.length; i++) {
+            let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
+            let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
+            let clientID = data[i]['id'];
+            let clientDebt = data[i]['debt'];
+            document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item clickable_item align-items-center justify-content-between" data-element-id="${clientID}">
                 <div class="col-xxl-1 col-xl-1 col-1 clickable_item list_item_user_icon_initials">
                     <p class="list_item_user_icon_initials_text" data-element-id="${clientID}">${clientInitials}</p>
                 </div>
@@ -24,6 +30,7 @@ function createClientListContent(data) {
                     <md-checkbox class="delete_clients_checkbox" id="list_item_user_delete" data-element-id="${clientID}"></md-checkbox>
                 </div>
             </div>`)
+        }
     }
 }
 

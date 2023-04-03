@@ -1,24 +1,30 @@
 const host = "http://127.0.0.1:8000";
 import {
-    obtainUserInitials,
-    obtainNewAccessToken,
     addCheckboxesListener,
+    addDeleteButtonListeners,
     getUserData,
-    addDeleteButtonListeners
+    obtainNewAccessToken,
+    obtainUserInitials,
+    search
 } from './request_utils.js';
-import {search} from './request_utils.js';
 
 document.getElementById("search_bar").addEventListener('keyup', () => {
     search('invoice_name', 'client_list_item')
 });
 
 function createInvoiceListContent(data) {
-    for (let i = 0; i < data.length; i++) {
-        const {
-            id: invoiceId, name: invoiceName, price: invoicePrice, date_of_payment: invoiceDate,
-            client_first_name: clientFirstName, client_last_name: clientLastName, currency: invoiceCurrency
-        } = data[i];
-        document.getElementById("other_elements_invoices").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around" data-element-id="${invoiceId}">
+    if (data.length === 0) {
+        const message = document.getElementById("other_elements_invoices");
+        message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
+        <p class="emptyMessageText">No invoices have been added yet...</p>
+        </div>`);
+    } else {
+        for (let i = 0; i < data.length; i++) {
+            const {
+                id: invoiceId, name: invoiceName, price: invoicePrice, date_of_payment: invoiceDate,
+                client_first_name: clientFirstName, client_last_name: clientLastName, currency: invoiceCurrency
+            } = data[i];
+            document.getElementById("other_elements_invoices").insertAdjacentHTML('afterbegin', `<div class="row client_list_item align-items-center justify-content-around" data-element-id="${invoiceId}">
                     <div class="col-md-6 col-sm-6 col-7 list_item_name">
                     <div class="d-flex flex-wrap flex-column list_item_info_block">
                         <p class="invoice_name" data-element-id="${invoiceId}">${invoiceName}</p>
@@ -43,8 +49,8 @@ function createInvoiceListContent(data) {
                                 </div>
                                 <div class="modal-body">
                                     <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
-                                    <md-fab-extended class="send-email-btn" icon="send" label="Send PDF"></md-fab-extended>
-                                    <div id="errorMessage"></div>                       
+                                    <md-fab-extended class="send-email-btn" icon="send" label="Send PDF" data-element-id="${invoiceId}"></md-fab-extended>
+                                    <div id="errorMessage" data-element-id="${invoiceId}"></div>                       
                                 </div>
                               </div>
                             </div>
@@ -53,6 +59,7 @@ function createInvoiceListContent(data) {
                         </div>
                     </div>
                 </div>`);
+        }
     }
 }
 
@@ -140,52 +147,57 @@ async function sendPdfEmailRequest(invoiceId, recipientEmail) {
             'Content-Type': 'application/json'
         }
     });
-    const data = await response.json();
-    let messageElement = data.message;
-    let message = document.getElementById('errorMessage');
-    message.insertAdjacentHTML('afterbegin', messageElement);
-    if(messageElement === 'PDF was sent!')
-    {
-        message.classList.remove("errorMessage");
-        message.classList.add("successMessage");
+    return await response.json();
+}
+
+function actionBasedOnSendEmailRequest(messageFromServer, messageElement) {
+    if (messageFromServer === 'PDF was sent!') {
+        messageElement.textContent = messageFromServer;
+        messageElement.classList.remove("errorMessage");
+        messageElement.classList.add("successMessage");
     } else {
-        message.classList.remove("successMessage")
-        message.classList.add("errorMessage")
+        messageElement.textContent =  messageFromServer;
+        messageElement.classList.remove("successMessage")
+        messageElement.classList.add("errorMessage")
     }
-    const emailInputElement = document.querySelector('.recipient-email-input');
-    emailInputElement.addEventListener('input', function () {
-        message.textContent = '';
-    });
-    let closeButton = document.querySelector('.close');
-    closeButton.addEventListener('click', () => {
-        message.textContent = '';
-    });
 }
 
 function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendButtonSelector) {
     const uploadButtons = document.querySelectorAll(uploadSelector);
-
     uploadButtons.forEach(button => {
         button.addEventListener('click', () => {
             const invoiceId = button.getAttribute('data-element-id');
 
             const emailField = button.nextElementSibling;
             emailField.style.display = 'block';
-
             const recipientEmailInput = emailField.querySelector(recipientEmailSelector);
             const sendEmailButton = emailField.querySelector(sendButtonSelector);
             const closeButton = emailField.querySelector('.close');
 
-            const sendPdfEmailRequestHandler = () => {
-                if(recipientEmailInput.value === '') {
-                    let message = document.getElementById('errorMessage');
-                    message.insertAdjacentHTML('afterbegin', 'Field is empty');
+            const sendPdfEmailRequestHandler = async () => {
+                if (recipientEmailInput.value === '') {
+                    let message = emailField.querySelector('#errorMessage');
+                    message.setAttribute('data-element-id', invoiceId);
+                    message.textContent = 'Field is empty';
                     message.classList.remove("successMessage")
                     message.classList.add("errorMessage")
                 } else {
                     const recipientEmail = recipientEmailInput.value;
-                    sendPdfEmailRequest(invoiceId, recipientEmail);
+                    const data = await sendPdfEmailRequest(invoiceId, recipientEmail);
                     recipientEmailInput.value = '';
+
+                    let messageFromServer = data.message;
+                    let messageElement = emailField.querySelector('#errorMessage');
+                    actionBasedOnSendEmailRequest(messageFromServer, messageElement)
+
+                    const emailInputElement = emailField.querySelector('.recipient-email-input');
+                    emailInputElement.addEventListener('input', function () {
+                        messageElement.textContent = '';
+                    });
+                    let closeButton = emailField.querySelector('.close');
+                    closeButton.addEventListener('click', () => {
+                        messageElement.textContent = '';
+                    });
                 }
             };
 
@@ -195,6 +207,10 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
                 emailField.style.display = 'none';
                 sendEmailButton.removeEventListener('click', sendPdfEmailRequestHandler);
                 recipientEmailInput.value = '';
+                let message = document.getElementById('errorMessage');
+                if (message.innerHTML.includes('Field is empty')) {
+                    message.textContent = '';
+                }
             });
         });
     });
