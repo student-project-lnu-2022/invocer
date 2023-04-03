@@ -1,6 +1,5 @@
 jQuery('.ui.dropdown')
-    .dropdown()
-    ;
+    .dropdown();
 
 
 document.querySelector(".custom_dropdown").addEventListener("mouseover", () => {
@@ -33,19 +32,3 @@ export function removeStylesFromDropdownElements() {
     }
 }
 
-export function loadValuetoDropdown(dropdownElement, loadedValue, defaultText) {
-    dropdownElement.value = loadedValue;
-    const allDropdownchildren = dropdownElement.parentElement.children;
-    const allMenuRows = allDropdownchildren[4].children;
-    for (let row of allMenuRows) {
-        if (row.dataset.value === loadedValue) {
-            row.classList.add('active', 'selected');
-            allDropdownchildren[0].setAttribute('value', loadedValue);
-            allDropdownchildren[3].textContent = loadedValue;
-            return;
-        }
-    }
-    allDropdownchildren[0].classList.add('noselection');
-    allDropdownchildren[2].textContent = defaultText;
-
-}
