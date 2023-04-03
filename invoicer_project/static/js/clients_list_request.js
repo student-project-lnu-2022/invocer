@@ -57,6 +57,10 @@ document.querySelector('#adder').addEventListener('click', () => {
     window.location.href = host + "/clients/add";
 })
 
+document.querySelector('#add_client_mobile').addEventListener('click', () => {
+    window.location.href = host + "/clients/add";
+})
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
