@@ -7,7 +7,7 @@ import {
     barcodeField,
     additionalFieldsContainer,
     amountAdditionalFieldsContainer,
-    setErrorAttributesToFields
+    setErrorAttributesToFields, currencyField, basicUnitField
 } from './utils_items.js'
 import {
     clearErrorAttributes,
@@ -17,23 +17,25 @@ import {
     validatePrice,
     validationDropdown,
     validateAmountInStock,
-    validateBarcode
+    validateBarcode, setErrorAttributeToDropdown,
 } from './validation_utils.js'
 import {actionBasedOnStatusCode, obtainUserInitials, sendAddEditRequest} from './request_utils.js'
 import {
+    countryField,
     hideUnnecessaryElementsInMenu,
 } from './utils_clients.js'
+import {removeStylesFromDropdownElements} from "./dropdown.js";
 
 
-function validateClientAdd() {
+function validateItemAdd() {
     clearErrorAttributes(returnAllFields());
     clearErrorAttributes(additionalFieldsContainer);
     clearErrorAttributes(amountAdditionalFieldsContainer);
     return [
         validateName(nameField.value),
         validatePrice(priceField.value),
-        validationDropdown("currency"),
-        validationDropdown("basic_unit"),
+        validationDropdown("currency_input_dropdown"),
+        validationDropdown("units_input_dropdown"),
         validateAmountInStock(amountInStockField.value),
         validateBarcode(barcodeField.value),
 
@@ -44,7 +46,8 @@ function validateClientAdd() {
 document.getElementById("add_item_button").addEventListener("click", async () => {
     const validationFieldAdditionalUnits = validateAdditionalUnits(additionalFieldsContainer, /^[a-zа-яіїєґA-ZA-ЯІЇЄҐ]+$/);
     const validationFieldAdditionalUnitsAmount = validateAdditionalUnits(amountAdditionalFieldsContainer, /^\d+([., ]?(\d){1,2}?)?$/);
-    const validationFieldsList = validateClientAdd();
+    const validationFieldsList = validateItemAdd();
+
     if (allAreFalse(validationFieldAdditionalUnitsAmount)) {
     } else {
         setErrorAttributesToFields(amountAdditionalFieldsContainer, validationFieldAdditionalUnitsAmount);
@@ -56,6 +59,14 @@ document.getElementById("add_item_button").addEventListener("click", async () =>
     if (allAreFalse(validationFieldsList)) {
     } else {
         setErrorAttributesToFields(returnAllFields(), validationFieldsList);
+        if (validationFieldsList[2]) {
+            setErrorAttributeToDropdown(currencyField.parentNode);
+            errorDropdownCurrencyFieldText.style.display = "flex";
+        }
+        if (validationFieldsList[3]) {
+            setErrorAttributeToDropdown(basicUnitField.parentNode);
+            errorDropdownUnitFieldText.style.display = "flex";
+        }
     }
 });
 
@@ -71,9 +82,9 @@ function areAdditionalItemsSelected() {
 
 
 document.getElementById("add_item_button").addEventListener("click", async () => {
-    const validationFieldsList = validateClientAdd();
-    let currencyValue = document.getElementById("currency").value;
-    let basicUnitValue = document.getElementById("basic_unit").value
+    const validationFieldsList = validateItemAdd();
+    let currencyValue = document.getElementById("currency_input_dropdown").value;
+    let basicUnitValue = document.getElementById("units_input_dropdown").value
     if (allAreFalse(validationFieldsList)) {
         const data = JSON.stringify({
             name: nameField.value,
@@ -145,3 +156,21 @@ async function sendAddItemRequest(url, data, requestMethod) {
     }
     return responseData;
 }
+
+const errorDropdownUnitFieldText = document.querySelector(".error_unit_dropdown");
+const errorDropdownCurrencyFieldText = document.querySelector(".error_currency_dropdown");
+
+
+function removeErrorAttributeFromDropdown() {
+    currencyField.parentNode.addEventListener("click", () => {
+        currencyField.parentNode.classList.remove('error');
+        errorDropdownCurrencyFieldText.style.display = "none";
+    });
+
+    basicUnitField.parentNode.addEventListener("click", () => {
+        basicUnitField.parentNode.classList.remove('error');
+        errorDropdownUnitFieldText.style.display = "none";
+    });
+}
+
+removeErrorAttributeFromDropdown();

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8"/>
     <title>Client info</title>
+    <script src="https://unpkg.com/i18next@22.4.12/dist/umd/i18next.min.js"></script>
     <script src="{% static 'js/jquery-3.6.4.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/fomantic.min.css' %}"/>
     <link
@@ -30,7 +31,7 @@
         <div class="container-fluid xyz" id="other_elements">
             <div class="container-fluid">
                 <div class="row">
-                    <p id="client_edit_text">Client info</p>
+                    <p class="client_header_text" id="client_info_text" data-i18n="client_info">Client info</p>
                 </div>
 
                 <div class="d-flex row" id="background_input_client_edit_page">
@@ -38,12 +39,12 @@
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="name_input_client_edit_page"
-                                    label="Name" readonly></md-outlined-text-field>
+                                    label="Name" readonly data-i18n="name"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="surname_input_client_edit_page"
-                                    label="Surname" readonly></md-outlined-text-field>
+                                    label="Surname" data-i18n="surname" readonly></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
@@ -53,12 +54,12 @@
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="telephone_input_client_edit_page"
-                                    label="Telephone number" readonly></md-outlined-text-field>
+                                    label="Telephone number" data-i18n="telephone_number" readonly></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="zip_input_client_edit_page"
-                                    label="ZIP code" readonly></md-outlined-text-field>
+                                    label="ZIP code" data-i18n="zip_code" readonly></md-outlined-text-field>
                         </div>
                     </div>
                     <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-5">
@@ -70,12 +71,12 @@
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="city_input_client_edit_page"
-                                    label="City" readonly></md-outlined-text-field>
+                                    label="City" data-i18n="city" readonly></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="address_input_client_edit_page"
-                                    label="Address" readonly></md-outlined-text-field>
+                                    label="Address" data-i18n="address" readonly></md-outlined-text-field>
                         </div>
                     </div>
                     <div class="col-xxl-4 col-xl-4 col-lg-2 col-md-2"></div>
@@ -85,7 +86,7 @@
                             <md-fab-extended
                                     icon="edit"
                                     label="Edit client"
-                                    id="request_edit_sender">
+                                    id="request_edit_sender" data-i18n="edit_client">
                             </md-fab-extended>
                         </div>
                     </div>
@@ -100,5 +101,6 @@
 <script type="module" src="{% static 'js/view_client_request.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
 <script type="module" src="{% static 'js/dropdown.js' %}"></script>
+<script type="module" src="{% static 'js/client_section_translation.js' %}"></script>
 </body>
 </html>
