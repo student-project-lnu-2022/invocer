@@ -41,18 +41,25 @@
                                     <md-outlined-text-field
                                         class="input_field col-xl-8 pt-1"
                                         label="Name"
-                                        id="name"
+                                        id="invoice_name"
                                         type="text"></md-outlined-text-field>
                                     <md-outlined-text-field
                                         class="input_field col col-xl-11"
                                         label="Client_search_here"
                                         id="client-field"
                                         type="text"></md-outlined-text-field>
+                                    <div class="row pt-1">
+                                        <md-outlined-text-field
+                                            class="input_field col-xl-8"
+                                            label="Currency"
+                                            id="currency"
+                                            type="text"></md-outlined-text-field>
+                                    </div>
                                     <div class="row pb-1 align-items-center">
                                         <md-outlined-text-field
                                             class="input_field col-4 col-sm-4 col-md-4 col-lg-5 col-xl-4 col-xxl-4"
                                             label="Date of invoice"
-                                            id="client-field"
+                                            id="first_date_of_payment"
                                             type="text"></md-outlined-text-field>
 
                                         <md-standard-icon-button class="col-auto col-sm-1 mb-3 mr-0 pr-0"
@@ -61,7 +68,7 @@
                                         <md-outlined-text-field
                                             class="input_field col-4 col-sm-4 col-md-4 col-lg-5 col-xl-4 col-xxl-4"
                                             label="Date of payment"
-                                            id="client-field"
+                                            id="last_date_of_payment"
                                             type="text"></md-outlined-text-field>
 
                                         <md-standard-icon-button class="col-auto col-sm-1 mb-3 mr-0 pr-0"
@@ -74,23 +81,20 @@
                                     <div class="custom_dropdown col col-xl-11 pb-2">
                                         {% include "items_dropdown_input.html" %}
                                     </div>
-                                    {% comment %}
-                                    <md-outlined-text-field
-                                        class="input_field col col-xl-11 col-sm col-md col-lg"
-                                        label="Items_search_here"
-                                        type="text"
-                                        id="item-list"></md-outlined-text-field>
-                                    {% endcomment %}
-
-                                    <div class="row">
+                                    <div class="custom_dropdown col col-xl-11 pb-2">
+                                        {% include "unit_dropdown_input.html" %}
+                                    </div>
+                                    <div class="row col">
                                         <md-outlined-text-field
-                                            class="input_field col-4 col-md-4 col-lg-5 col-xl-4"
+                                            class="input_field col-5"
                                             label="Amount"
                                             type="text"
-                                            id="amount"></md-outlined-text-field>
-                                        <div class="custom_dropdown offset-1 offset-0-lg col-7 col-lg-6 col-xl-6">
-                                            {% include "unit_dropdown_input.html" %}
-                                        </div>
+                                            id="item_amount"></md-outlined-text-field>
+                                        <md-outlined-text-field
+                                            class="input_field offset-1 col-5"
+                                            label="Price"
+                                            type="text"
+                                            id="price-field"></md-outlined-text-field>
                                     </div>
                                     <div
                                         id="to_insert"
@@ -99,7 +103,7 @@
                                             icon="save"
                                             class="col-auto px-0"
                                             id="save_changes"
-                                            label="Save to table"
+                                            label="Save changes"
                                             style="visibility: hidden"></md-fab-extended>
                                         <md-fab-extended
                                             icon="add"
@@ -124,9 +128,9 @@
 
                                 <div class="container-fluid text-left align-items-center" id="table">
                                     <div class="row text-left table-row" data-id="0">
-                                        <div class="col-2 first_col">Name</div>
-                                        <div class="col-2 first_col">Amount</div>
-                                        <div class="col-2 first_col">Unit</div>
+                                        <div class="col-2 first_col items_name">Name</div>
+                                        <div class="col-2 first_col items_amount">Amount</div>
+                                        <div class="col-2 first_col items_unit">Unit</div>
                                         <div class="col-2 first_col">Price</div>
                                         <div class="col-2 first_col">Total</div>
                                     </div>
@@ -146,13 +150,12 @@
             </div>
         </div>
         <script type="module" src="{% static 'js/bundle.js' %}"></script>
-        <!-- <script type="module" src="{% static 'js/add_edit_item.js' %}"></script>
-        <script type="module" src="{% static 'js/add_item_request.js' %}"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
         <script type="module" src="{% static 'js/add_edit_invoice.js'%}"></script>
         <script type="module" src="{% static 'js/index.js' %}"></script>
         <script type="module" src="{% static 'js/index_extension.js' %}"></script>
         <script type="module" src="{% static 'js/dropdown.js' %}"></script>
+        <script type="module" src="{% static 'js/add_invoice_request.js' %}"></script>
         <script></script>
     </body>
 </html>

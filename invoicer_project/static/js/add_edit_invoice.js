@@ -2,11 +2,12 @@ import { getUserData, obtainUserInitials } from "./request_utils.js";
 import { Item } from "./item.js";
 import { validateAmountInStock } from './validation_utils.js';
 const addMoreItems = document.querySelector('#item_to_table');
-const invoiceTable = document.querySelector('#table');
-const itemsField = document.querySelector('#item-list');
-const amountField = document.querySelector('#amount');
+export const invoiceTable = document.querySelector('#table');
+export const itemsField = document.querySelector('#item-list');
+const amountField = document.querySelector('#item_amount');
 const unitField = document.querySelector('#unit-list');
 const saveToTable = document.querySelector('#save_changes');
+const priceField = document.querySelector('#price-field');
 // const saveInvoiceButton = document.querySelectorAll('#add_invoice_button');
 // const dataIdList = [0];
 const itemsList = [];
@@ -183,6 +184,7 @@ function loadUnitBasedOnChosenItem(itemId) {
             unitMenu.appendChild(createUnitDropdownRow(key, item.additionalUnits[key], item.basicUnit, true));
         }
         amountField.value = item.inStock;
+        priceField.value = item.price;
     }
 }
 
@@ -217,7 +219,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 id = selectedMenuItem.dataset.id;
             } else
                 id = -1;
-            console.log(neededMutation, id);
+            //console.log(neededMutation, id);
             loadUnitBasedOnChosenItem(id);
         }
     });
@@ -236,6 +238,27 @@ document.addEventListener('DOMContentLoaded', async function () {
         invoiceTable.insertAdjacentElement('beforeend', tableRow);
         clearAllFields();
     });
+    const unitObserver = new MutationObserver(unitMutations => {
+        console.log(unitMutations);
+        const mutationHappened = unitMutations.find(elem => elem.attributeName === 'value');
+        if (mutationHappened)
+        {
+            const currentItemId = findItemIdForTableRow();
+            const item = itemsList.find(elem => elem.id == currentItemId);
+            if (item) {
+                let unitQty;
+                for (let key in item.additionalUnits) {
+                    if (item.additionalUnits[key] == unitField.value) {
+                        unitQty = item.additionalUnits[key];
+                        priceField.value = unitQty * item.price;
+                        break;
+                    }
+                }
+                
+            }
+        }
+    });
+    unitObserver.observe(unitField, { attributes: true });
 });
 
 
