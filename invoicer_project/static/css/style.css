@@ -1053,3 +1053,15 @@ body {
   font-size: 18px;
     color: #3b3b3b;
 }
+
+.emptyMessageInvoice {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  height: 70vh;
+}
+
+.emptyMessageTextInvoice {
+  font-size: 16px;
+    color: #3b3b3b;
+}
