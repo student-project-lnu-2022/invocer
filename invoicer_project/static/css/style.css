@@ -686,12 +686,16 @@ md-fab-extended {
     width: 90%;
 }
 
+.item_name {
+    overflow: hidden;
+}
+
 .items_list_item {
     background-color: #fff;
     border-radius: 15px;
     height: 60px;
     margin-left: 0;
-    width: 100%;
+    width: 90%;
     margin-bottom: 10px;
 }
 
@@ -737,6 +741,9 @@ md-fab-extended {
     .client_list_item {
         width: 100%;
     }
+    .items_list_item {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 596px) {
@@ -756,6 +763,9 @@ md-fab-extended {
         background-color: #fff;
         border-radius: 15px;
         margin-left: 0;
+        width: 100%;
+    }
+    .items_list_item {
         width: 100%;
     }
 }
