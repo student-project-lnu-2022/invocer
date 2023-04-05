@@ -18,12 +18,13 @@ import { itemsField, invoiceTable } from "./add_edit_invoice.js";
 
 const invoiceNameField = document.querySelector("#invoice_name");
 const clientNameField = document.querySelector("#client-field");
+const currencyField = document.querySelector("#currency");
 const firstDateOfPaymentField = document.querySelector("#first_date_of_payment");
 const lastDateOfPaymentField = document.querySelector("#last_date_of_payment");
 const nameOfItemField = document.querySelector("#item-list");
 const amountOfItemField = document.querySelector("#item_amount");
 const unitOfItemField = document.querySelector("#unit-list");
-
+const priceOfItemField = document.querySelector("#price-field");
 
 
 function collectDataFromInvoiceTable(invoiceId) {
@@ -44,47 +45,36 @@ function collectDataFromInvoiceTable(invoiceId) {
 }
 
 document.getElementById("add_invoice_button").addEventListener("click", async () => {
-    //const validationFieldsList = validateInvoiceAdd();
-    //if (allAreFalse(validationFieldsList)) {
     const data = JSON.stringify({
-        name: "InvName",
+        name: invoiceNameField.value,
         client: 119,
-        price: parseFloat("1000"),
+        price: priceOfItemField.value,
         discount: parseFloat("10"),
-        date_of_invoice: "2022-12-02",
-        date_of_payment: "2022-12-02",
-        currency: 'UAH',
+        date_of_invoice: firstDateOfPaymentField.value,
+        date_of_payment: lastDateOfPaymentField.value,
+        currency: currencyField.value,
     });
-
-
     const addInvoiceStatus = await sendAddInvoiceRequest(host + "/invoices/invoice/", data, "POST");
-    const orderedItems = document.querySelector("#table").querySelectorAll(".table-row");
-    collectDataFromInvoiceTable()
     const dataForInvoice = collectDataFromInvoiceTable(addInvoiceStatus.id);
-    dataForInvoice.forEach(element => console.log(element));
-    // for (let i = 0; i < orderedItems.length; i++) {
-    //     if (orderedItems[i].classList.contains('d-flex')) {
-    //         let itemAmount = orderedItems[i].querySelector(".items_amount").value;
-    //         let itemUnit = orderedItems[i].querySelector(".items_unit").value;
-    //         const orderedItemData = JSON.stringify({
-    //             invoice: addInvoiceStatus["id"],
-    //             item: await getItemId(),
-    //             amount: parseFloat(itemAmount),
-    //             unit: itemUnit,
-    //             price: parseFloat("100")
-    //         });
-    //         const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", orderedItemData, "POST");
-    //         responseStatusAdditionalUnit.push(addAdditionalUnitServerResponseStatus);
-    //     }
-    // }
-    // if (responseStatusAdditionalUnit.every((elem) => elem === 201)) {
-    //     await actionBasedOnStatusCode(201, 201, data, returnAllFields(), host, "POST", "/invoices/invoice/")
-    // } else if (responseStatusAdditionalUnit.some((elem) => elem === 401)) {
-    //     await actionBasedOnStatusCode(401, 201, data, returnAllFields(), host, "POST", "/invoices/invoice/")
-    // } else {
-    //     await actionBasedOnStatusCode(400, 201, data, returnAllFields(), host, "POST", "/invoices/invoice/")
-    // }
-
+    if (dataForInvoice.length === 0) {
+        const message = document.getElementById("add_invoice_button");
+        message.insertAdjacentHTML('afterend', `<div class="emptyMessageInvoice">
+        <p class="emptyMessageTextInvoice">Please add at least 1 item...</p>
+        </div>`);
+    } else {
+        let responseStatusInvoice = [];
+        for (let i = 0; i < dataForInvoice.length; i++) {
+            const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", dataForInvoice[i], "POST");
+            responseStatusInvoice.push(addAdditionalUnitServerResponseStatus);
+        }
+        if (responseStatusInvoice.every((elem) => elem === 201)) {
+            await actionBasedOnStatusCode(201, 201, data, returnAllFields(), '', "POST", "/invoices/invoice/")
+        } else if (responseStatusInvoice.some((elem) => elem === 401)) {
+            await actionBasedOnStatusCode(401, 201, data, returnAllFields(), '', "POST", "/invoices/invoice/")
+        } else {
+            await actionBasedOnStatusCode(400, 201, data, returnAllFields(), '', "POST", "/invoices/invoice/")
+        }
+    }
     // } else {
     //     setErrorAttributesToFields(returnAllFields(), validationFieldsList);
     // }
