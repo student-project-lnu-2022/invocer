@@ -26,45 +26,46 @@ const unitOfItemField = document.querySelector("#unit-list");
 const priceOfItemField = document.querySelector("#price-field");
 
 
-function collectDataFromInvoiceTable(invoiceId) {
+function collectDataFromInvoiceTable() {
     const dataList = [];
     const allRows = invoiceTable.children;
     for (let i = 1; i < allRows.length; ++i) {
         const allRowColumns = allRows[i].children;
-        const data = JSON.stringify({
-            invoice: invoiceId,
+        const data = {
+            invoice: null,
             item: allRows[i].dataset.item_id,
             amount: allRowColumns[1].textContent,
             unit: allRowColumns[2].textContent,
             price: allRowColumns[3].textContent
-        });
+        };
         dataList.push(data);
     }
     return dataList;
 }
 
 document.getElementById("add_invoice_button").addEventListener("click", async () => {
-    const data = JSON.stringify({
+    const dataForInvoice = collectDataFromInvoiceTable();
+    const totalSum = dataForInvoice.reduce((a, b) => a + b['price'] * b['amount'], 0);
+    const data = {
         name: invoiceNameField.value,
         client: clientNameField.value,
-        price: 0,
-        discount: parseFloat("10"),
+        price: totalSum,
+        discount: 0,
         date_of_invoice: firstDateOfPaymentField.value,
         date_of_payment: lastDateOfPaymentField.value,
         currency: currencyField.value,
-    });
-    const addInvoiceStatus = await sendAddInvoiceRequest(host + "/invoices/invoice/", data, "POST");
-    const dataForInvoice = collectDataFromInvoiceTable(addInvoiceStatus.id);
+    };
+    const addInvoiceStatus = await sendAddInvoiceRequest(host + "/invoices/invoice/", JSON.stringify(data), "POST"); 
     if (dataForInvoice.length === 0) {
-        const message = document.getElementById("add_invoice_button");
-        message.insertAdjacentHTML('afterend', `<div class="emptyMessageInvoice">
-        <p class="emptyMessageTextInvoice">Please add at least 1 item...</p>
-        </div>`);
+        document.querySelector('.empty_invoice').style.visibility = 'visible';
     } else {
         let responseStatusInvoice = [];
+       
         const fieldsList = [invoiceNameField, clientNameField, currencyField, firstDateOfPaymentField, lastDateOfPaymentField];
         for (let i = 0; i < dataForInvoice.length; i++) {
-            const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", dataForInvoice[i], "POST");
+            dataForInvoice[i].invoice = addInvoiceStatus.id;
+            let stringified = JSON.stringify(dataForInvoice[i]);
+            const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", stringified, "POST");
             responseStatusInvoice.push(addAdditionalUnitServerResponseStatus);
         }
         if (responseStatusInvoice.every((elem) => elem === 201)) {
@@ -78,12 +79,6 @@ document.getElementById("add_invoice_button").addEventListener("click", async ()
     // } else {
     //     setErrorAttributesToFields(returnAllFields(), validationFieldsList);
     // }
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    //obtainUserInitials();
-    // clearErrorAttributes(returnAllFields());
-    // hideUnnecessaryElementsInMenu();
 });
 
 async function sendAddInvoiceRequest(url, data, requestMethod) {

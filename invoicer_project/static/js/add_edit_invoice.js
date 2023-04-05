@@ -1,6 +1,7 @@
 import { getUserData, obtainUserInitials } from "./request_utils.js";
 import { Item } from "./item.js";
 import { validateAmountInStock, validatePrice, allAreFalse, setErrorAttributesToFields, clearErrorAttributes, validationDropdown } from './validation_utils.js';
+import { hideUnnecessaryElementsInMenu } from "./utils_clients.js";
 const addMoreItems = document.querySelector('#item_to_table');
 export const invoiceTable = document.querySelector('#table');
 export const itemsField = document.querySelector('#item-list');
@@ -9,10 +10,7 @@ const unitField = document.querySelector('#unit-list');
 const saveToTable = document.querySelector('#save_changes');
 const priceField = document.querySelector('#price-field');
 export const clientNameField = document.querySelector("#client-field");
-// const saveInvoiceButton = document.querySelectorAll('#add_invoice_button');
-// const dataIdList = [0];
 const itemsList = [];
-//to move all the fields and selectors to other file
 let clickHandler;
 
 function returnAllItemsFields() {
@@ -51,8 +49,6 @@ function findItemIdForTableRow() {
 function createAndFillTableRow(valList) {
     const tableRow = document.createElement('div');
     tableRow.classList.add('row', 'text-left', 'table-row', 'align-items-center');
-
-    //set tablerow's data-id according to ITEM'S ID in database
     const found = findItemIdForTableRow();
     tableRow.setAttribute('data-item_id', found);
     for (let i = 0; i < 5; ++i) {
@@ -276,6 +272,7 @@ async function obtainUserClients()
 
 
 document.addEventListener('DOMContentLoaded', async function () {
+    hideUnnecessaryElementsInMenu();
     await obtainUserInitials();
    
     //function for incapsulating request status check!!!
@@ -290,6 +287,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         hideSaveButton();
         const validationResult = validateAddingItemToTable();
         if (allAreFalse(validationResult)) {
+            document.querySelector('.empty_invoice').style.visibility = 'hidden';
             const tableRow = createAndFillTableRow(arrayWithData());
             const editButton = createIconButton('edit');
             const removeButton = createIconButton('remove');
