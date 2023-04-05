@@ -681,9 +681,17 @@ md-fab-extended {
 .client_list_item {
     background-color: #fff;
     border-radius: 15px;
-    height: 6%;
+    height: 55px;
     margin-left: 0;
     width: 90%;
+}
+
+.items_list_item {
+    background-color: #fff;
+    border-radius: 15px;
+    height: 60px;
+    margin-left: 0;
+    width: 100%;
 }
 
 .client_list_item:hover {
@@ -895,7 +903,7 @@ body {
 
 .main_text {
     color: #46464F;
-    font-size: 95%;
+    font-size: 1.05em;
     font-weight: 500;
     padding-bottom: 10px;
     padding-right: 10px;
@@ -903,7 +911,7 @@ body {
 
 .additional_text {
     color: #888888;
-    font-size: 75%;
+    font-size: 0.65em;
     padding-top: 10px;
     padding-right: 10px;
 }
