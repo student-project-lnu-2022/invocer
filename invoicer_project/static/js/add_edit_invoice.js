@@ -8,6 +8,7 @@ const amountField = document.querySelector('#item_amount');
 const unitField = document.querySelector('#unit-list');
 const saveToTable = document.querySelector('#save_changes');
 const priceField = document.querySelector('#price-field');
+export const clientNameField = document.querySelector("#client-field");
 // const saveInvoiceButton = document.querySelectorAll('#add_invoice_button');
 // const dataIdList = [0];
 const itemsList = [];
@@ -214,7 +215,6 @@ function createUnitDropdownRow(unitName, numInUnit, basicUnitName, notFirst) {
 }
 
 function observeUnitAndItemField() {
-    loadItemsToDropdown(itemsList);
     const itemObserver = new MutationObserver(mutationArr => {
         const neededMutation = mutationArr.find(elem => elem.attributeName === 'value');
         if (neededMutation) {
@@ -252,13 +252,37 @@ function observeUnitAndItemField() {
     unitObserver.observe(unitField, { attributes: true });
 }
 
+function createClientList(data)
+{
+    const menu = clientNameField.parentElement.querySelector('.menu');
+    for (let client of data) {
+        const div = document.createElement('div');
+        div.classList.add('item');
+        let stringName = `${client['first_name']} ${client['last_name']}`;
+        div.setAttribute('data-value', client.id);
+        div.textContent = stringName;
+        menu.appendChild(div);
+    }
+}
+
+async function obtainUserClients()
+{
+    let responseFromServer = await getUserData("/clients/client/");
+    const response = responseFromServer.responseStatus;
+    if (response === 200) {
+        createClientList(responseFromServer['data']['content']);
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', async function () {
     await obtainUserInitials();
-
+   
     //function for incapsulating request status check!!!
     const data = await getUserData('/items/items_list/');
     await createItemsList(data['data']['content']);
+    await obtainUserClients();
+    loadItemsToDropdown(itemsList);
     observeUnitAndItemField();
     addMoreItems.addEventListener('click', () => {
 

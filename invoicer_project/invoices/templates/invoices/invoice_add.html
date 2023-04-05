@@ -43,11 +43,9 @@
                                         label="Name"
                                         id="invoice_name"
                                         type="text"></md-outlined-text-field>
-                                    <md-outlined-text-field
-                                        class="input_field col col-xl-11"
-                                        label="Client_search_here"
-                                        id="client-field"
-                                        type="text"></md-outlined-text-field>
+                                    <div class="custom_dropdown col col-xl-11 pb-2">
+                                        {% include "client_dropdown.html" %}
+                                    </div>
                                     <div class="row pt-1">
                                         <md-outlined-text-field
                                             class="input_field col-xl-8"
