@@ -53,7 +53,7 @@ export function validateAddress(addressToValidate) {
 }
 
 export function validateCountry(countryToValidate) {
-    if (countryToValidate === ""){
+    if (countryToValidate === "") {
         return "Country field can't be empty";
     }
     else {
@@ -101,12 +101,11 @@ export function validateAdditionalUnits(container, regex) {
 }
 
 export function validationDropdown(dropdownId) {
-    let isFieldValid;
     let dropdownElement = document.querySelector('#' + dropdownId);
     if (dropdownElement.value === "") {
-        isFieldValid = "This field can't be empty";
+        return "This field can't be empty";
     }
-    return isFieldValid;
+    return '';
 }
 
 export function validatePrice(priceToValidate) {
@@ -151,12 +150,19 @@ export function validateBarcode(barcodeToValidate) {
     return isBarcodeValid;
 }
 
+function isADropdown(field) {
+    return field.tagName !== 'MD-OUTLINED-TEXT-FIELD';
+}
 export function setErrorAttributesToFields(errorsObject, fields) {
     let fieldIndex = 0;
     for (let error in errorsObject) {
         if (errorsObject[error]) {
-            fields[fieldIndex].setAttribute("error", "true");
-            fields[fieldIndex].setAttribute("errorText", errorsObject[error]);
+            if (isADropdown(fields[fieldIndex])) {
+                setErrorAttributeToDropdown(fields[fieldIndex].parentElement);
+            } else {
+                fields[fieldIndex].setAttribute("error", "true");
+                fields[fieldIndex].setAttribute("errorText", errorsObject[error]);
+            }
         }
         fieldIndex++;
     }

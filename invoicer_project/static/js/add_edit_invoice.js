@@ -1,6 +1,6 @@
 import { getUserData, obtainUserInitials } from "./request_utils.js";
 import { Item } from "./item.js";
-import { validateAmountInStock } from './validation_utils.js';
+import { validateAmountInStock, validatePrice, allAreFalse, setErrorAttributesToFields, clearErrorAttributes, validationDropdown } from './validation_utils.js';
 const addMoreItems = document.querySelector('#item_to_table');
 export const invoiceTable = document.querySelector('#table');
 export const itemsField = document.querySelector('#item-list');
@@ -12,13 +12,28 @@ const priceField = document.querySelector('#price-field');
 // const dataIdList = [0];
 const itemsList = [];
 //to move all the fields and selectors to other file
-
 let clickHandler;
 
+function returnAllItemsFields() {
+    return [itemsField, unitField, amountField, priceField];
+}
+
+function validateAddingItemToTable() {
+    clearErrorAttributes(returnAllItemsFields());
+    return [
+        validationDropdown("item-list"),
+        validationDropdown("unit-list"),
+        validateAmountInStock(amountField.value),
+        validatePrice(priceField.value)
+    ];
+}
+
 function arrayWithData() {
-    return [(itemsField.value) ? itemsField.value : 'Name',
-    (amountField.value) ? amountField.value : 'Amount',
-    (unitField.value) ? unitField.value : 'Unit', 'Price', 'Total']
+    return [itemsField.value,
+    amountField.value,
+    unitField.value,
+    priceField.value,
+    priceField.value * amountField.value]
 }
 
 function hideSaveButton() {
@@ -32,19 +47,18 @@ function findItemIdForTableRow() {
     return found ? found.dataset.id : -1;
 }
 
-function createAndFillTableRow() {
+function createAndFillTableRow(valList) {
     const tableRow = document.createElement('div');
     tableRow.classList.add('row', 'text-left', 'table-row', 'align-items-center');
 
     //set tablerow's data-id according to ITEM'S ID in database
     const found = findItemIdForTableRow();
     tableRow.setAttribute('data-item_id', found);
-    const ValList = arrayWithData();
     for (let i = 0; i < 5; ++i) {
         const rowIdentifier = (i === 5) ? 'second_col' : 'first_col';
         const tempElem = document.createElement('div');
         tempElem.classList.add('col-2', rowIdentifier);
-        tempElem.textContent = ValList[i];
+        tempElem.textContent = valList[i];
         tableRow.appendChild(tempElem);
     }
     return tableRow;
@@ -73,6 +87,7 @@ function setDefaultToDropdown(element, text) {
 
 function clearAllFields() {
     amountField.value = "";
+    priceField.value = "";
     setDefaultToDropdown(itemsField, "Select item");
     setDefaultToDropdown(unitField, "Select unit");
 }
@@ -111,16 +126,10 @@ function loadValueToItemDropdown(itemId) {
 function loadDataToEdit(event) {
     const tableRow = event.target.parentElement;
     const columns = tableRow.querySelectorAll('div');
-
-
-    amountField.value = columns[1].textContent;
-    console.log(tableRow.dataset.item_id);
     loadValueToItemDropdown(tableRow.dataset.item_id);
-    loadUnitBasedOnChosenItem(tableRow.dataset.item_id);
-    console.log('load val to unit');
     loadValuetoUnitDropdown(columns[2].textContent);
-    //loads string visually into dropdown list 
-
+    amountField.value = columns[1].textContent;
+    priceField.value = columns[3].textContent;
 
     addMoreItems.style.visibility = 'hidden';
     saveToTable.style.visibility = 'visible';
@@ -132,20 +141,24 @@ function loadDataToEdit(event) {
             // modified item, amount and unit here, now get item price
             // and fill price and total columns by hands
         }
-
     }
     saveToTable.addEventListener('click', clickHandler);
 }
 
 function modifyTable(arrayOfColumns) {
-
-    let validationResult = true;  //validation here!!!
-    arrayOfColumns[0].textContent = itemsField.value;
-    arrayOfColumns[1].textContent = amountField.value;
-    arrayOfColumns[2].textContent = unitField.value;
-    arrayOfColumns[0].parentElement.dataset.item_id = findItemIdForTableRow();
-    clearAllFields();
-    return validationResult;
+    const validationResult = validateAddingItemToTable(returnAllItemsFields());
+    if (allAreFalse(validationResult)) {
+        arrayOfColumns[0].textContent = itemsField.value;
+        arrayOfColumns[1].textContent = amountField.value;
+        arrayOfColumns[2].textContent = unitField.value;
+        arrayOfColumns[3].textContent = priceField.value;
+        arrayOfColumns[4].textContent = amountField.value * priceField.value;
+        arrayOfColumns[0].parentElement.dataset.item_id = findItemIdForTableRow();
+        clearAllFields();
+    } else {
+        setErrorAttributesToFields(validationResult, returnAllItemsFields());
+    }
+    return allAreFalse(validationResult);
 }
 
 async function createItemsList(data) {
@@ -200,15 +213,7 @@ function createUnitDropdownRow(unitName, numInUnit, basicUnitName, notFirst) {
     return row;
 }
 
-
-
-document.addEventListener('DOMContentLoaded', async function () {
-    await obtainUserInitials();
-
-    //function for incapsulating request status check!!!
-    const data = await getUserData('/items/items_list/');
-    await createItemsList(data['data']['content']);
-    console.log(itemsList);
+function observeUnitAndItemField() {
     loadItemsToDropdown(itemsList);
     const itemObserver = new MutationObserver(mutationArr => {
         const neededMutation = mutationArr.find(elem => elem.attributeName === 'value');
@@ -224,41 +229,56 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     });
     itemObserver.observe(itemsField, { attributes: true });
-    addMoreItems.addEventListener('click', () => {
-
-        //validate data from fields here
-        hideSaveButton();
-        const tableRow = createAndFillTableRow();
-        const editButton = createIconButton('edit');
-        const removeButton = createIconButton('remove');
-        tableRow.appendChild(editButton);
-        tableRow.appendChild(removeButton);
-        removeButton.addEventListener('click', event1 => event1.target.parentElement.remove());
-        editButton.addEventListener('click', event2 => loadDataToEdit(event2));
-        invoiceTable.insertAdjacentElement('beforeend', tableRow);
-        clearAllFields();
-    });
     const unitObserver = new MutationObserver(unitMutations => {
-        console.log(unitMutations);
         const mutationHappened = unitMutations.find(elem => elem.attributeName === 'value');
-        if (mutationHappened)
-        {
+        if (mutationHappened) {
             const currentItemId = findItemIdForTableRow();
             const item = itemsList.find(elem => elem.id == currentItemId);
-            if (item) {
-                let unitQty;
+            if (item && unitField.value === item.basicUnit) {
+                priceField.value = item.price;
+                amountField.value = item.inStock;
+            } else if (item) {
                 for (let key in item.additionalUnits) {
-                    if (item.additionalUnits[key] == unitField.value) {
-                        unitQty = item.additionalUnits[key];
-                        priceField.value = unitQty * item.price;
+                    if (key === unitField.value) {
+                        priceField.value = item.additionalUnits[key] * item.price;
+                        amountField.value = Math.round(item.inStock / item.additionalUnits[key]);
                         break;
                     }
                 }
-                
+
             }
         }
     });
     unitObserver.observe(unitField, { attributes: true });
+}
+
+
+document.addEventListener('DOMContentLoaded', async function () {
+    await obtainUserInitials();
+
+    //function for incapsulating request status check!!!
+    const data = await getUserData('/items/items_list/');
+    await createItemsList(data['data']['content']);
+    observeUnitAndItemField();
+    addMoreItems.addEventListener('click', () => {
+
+        //validate data from fields here
+        hideSaveButton();
+        const validationResult = validateAddingItemToTable();
+        if (allAreFalse(validationResult)) {
+            const tableRow = createAndFillTableRow(arrayWithData());
+            const editButton = createIconButton('edit');
+            const removeButton = createIconButton('remove');
+            tableRow.appendChild(editButton);
+            tableRow.appendChild(removeButton);
+            removeButton.addEventListener('click', event1 => event1.target.parentElement.remove());
+            editButton.addEventListener('click', event2 => loadDataToEdit(event2));
+            invoiceTable.insertAdjacentElement('beforeend', tableRow);
+            clearAllFields();
+        } else {
+            setErrorAttributesToFields(validationResult, returnAllItemsFields());
+        }
+    });
 });
 
 
