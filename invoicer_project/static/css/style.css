@@ -552,7 +552,7 @@ ul {
 
 .submenuItems {
     display: none;
-    background: #ffffff;;
+    background: #ffffff;
     transition: all 2s ease-in-out;
     overflow: hidden;
     padding-bottom: 40px;
@@ -590,9 +590,6 @@ ul {
     border: none;
 }
 
-.background_settings_page {
-    background-color: #EDEFF6;
-}
 
 md-fab-extended {
     --_label-text-color: #000;
@@ -823,7 +820,7 @@ body {
 }
 
 /*dropdown logout*/
-с
+
 .dropdown_logout {
     position: relative;
     display: inline-block;
