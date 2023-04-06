@@ -72,3 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 document.querySelector('#adder').addEventListener('click', () => {
     window.location.href = host + "/items/add";
 })
+
+document.querySelector('#add_item_mobile').addEventListener('click', () => {
+    window.location.href = host + "/items/add";
+})
