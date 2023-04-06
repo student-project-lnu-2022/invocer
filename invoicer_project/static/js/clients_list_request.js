@@ -1,5 +1,12 @@
 const host = "http://127.0.0.1:8000";
-import {obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners, addEditButtonListeners} from './request_utils.js';
+import {
+    obtainUserInitials,
+    obtainNewAccessToken,
+    addCheckboxesListener,
+    getUserData,
+    addDeleteButtonListeners,
+    addEditButtonListeners
+} from './request_utils.js';
 
 function createClientListContent(data) {
     for (let i = 0; i < data.length; i++) {
@@ -11,21 +18,32 @@ function createClientListContent(data) {
                 <div class="col-xxl-1 col-xl-1 col-1 clickable_item list_item_user_icon_initials" data-element-id="${clientID}">
                     <p class="list_item_user_icon_initials_text" data-element-id="${clientID}">${clientInitials}</p>
                 </div>
-                <div class="col-xxl-3 col-xl-3 col-md-3 col-sm-3 col-5 clickable_item list_item_user_name" data-element-id="${clientID}">
+                <div class="col-xxl-3 col-xl-3 col-md-3 col-sm-3 col-4 clickable_item list_item_user_name" data-element-id="${clientID}">
                     <p class="list_client_username"  data-element-id="${clientID}" >${fullName}</p>
                 </div>
                 <div class="col-xxl-4 col-xl-3 col-md-2 col-1 clickable_item list_item_empty_block"  data-element-id="${clientID}"></div>
-                <div class="col-xxl-2 col-xl-2 col-md-3 col-sm-2 col-5 clickable_item list_item_user_debt" data-element-id="${clientID}">
+                <div class="col-xxl-2 col-xl-2 col-md-3 col-sm-2 col-4 clickable_item list_item_user_debt" data-element-id="${clientID}">
                     <p class="list_item_user_debt_text" data-element-id="${clientID}">0$</p>
                 </div>
                 <div class="col-xxl-2 col-xl-3 col-md-3 col-sm-5 col-3 list_item_user_buttons" data-element-id="${clientID}">
                     <md-standard-icon-button class="client-info edit-client" data-element-id="${clientID}"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
-                   <md-standard-icon-button class="client-info delete-client" data-element-id="${clientID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
+                    <md-standard-icon-button class="client-info delete-client" data-element-id="${clientID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                     <md-checkbox class="delete_clients_checkbox" id="list_item_user_delete" data-element-id="${clientID}"></md-checkbox>
                 </div>
+                <div class="col-2 list_item_more_button">
+                    <md-standard-icon-button class="client-info more-client" data-element-id="${clientID}" data-contextmenu="client-context-menu-${clientID}"><span class="material-symbols-outlined">more_vert</span></md-standard-icon-button>
+                </div>
+<div id="contextmenu">
+    <item state="gray">Edit</item>
+    <item state="gray">Delete</item>
+</div>
+
+
+                
             </div>`)
     }
 }
+
 
 async function addElementsDynamically() {
     let responseFromServer = await getUserData("/clients/client/");
@@ -34,7 +52,7 @@ async function addElementsDynamically() {
         createClientListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners('.delete-client', `/clients/client`);
         addEditButtonListeners('#other_elements', 'edit-client', "/clients/edit/");
-        addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox',"#delete_many_clients", `/clients/client`);
+        addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox', "#delete_many_clients", `/clients/client`);
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -44,13 +62,12 @@ async function addElementsDynamically() {
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners('.delete-client', `/clients/client`);
             addEditButtonListeners('#other_elements', 'edit-client', "/clients/edit/");
-            addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox',"#delete_many_clients", `/clients/client`);
+            addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox', "#delete_many_clients", `/clients/client`);
         }
     } else {
         window.location.replace(host + '/user/login/');
     }
 }
-
 
 
 document.querySelector('#adder').addEventListener('click', () => {
@@ -66,3 +83,48 @@ document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
     addElementsDynamically();
 });
+
+
+(function () {
+
+    window.mouseX = 0;
+    window.mouseY = 0;
+
+    document.onmousemove = function (e) {
+        window.mouseX = e.clientX || 0;
+        window.mouseY = e.clientY || 0;
+    };
+
+    document.onclick = function (e) {
+        if (e.target.classList.contains('more-client')) { // Check if the target element has the desired class
+            e.preventDefault(); // Prevent the default behavior of the click event
+            document.getElementById('contextmenu').style.display = 'inline-block';
+            document.getElementById('contextmenu').style.top = (window.mouseY - 55) + 'px';
+            document.getElementById('contextmenu').style.left = (window.mouseX - 130) + 'px';
+
+
+            if ('#' + e.target.id in elem_funcs) {
+                elem_funcs['#' + e.target.id]();
+            }
+
+            if ('.' + e.target.className in elem_funcs) {
+                elem_funcs['.' + e.target.className]();
+            }
+        } else {
+            document.getElementById('contextmenu').style.display = 'none';
+        }
+    };
+
+    var context_items = document.getElementsByTagName('item'),
+        i,
+        context_action = function () {
+            if ((this.getAttribute('state') || '').indexOf('gray') === -1 && this.getAttribute('action') in funcs) {
+                funcs[this.getAttribute('action')]();
+            }
+        };
+
+    for (i = 0; i < context_items.length; i += 1) {
+        context_items[i].onclick = context_action;
+    }
+
+}());
