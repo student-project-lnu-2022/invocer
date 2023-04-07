@@ -44,10 +44,10 @@ function validateUserOldPassword(oldPassword) {
         return {
             'nameValidationResult': validateNameAndSurnameAsStrings(nameField.value),
             'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
-            'companyNameValidationResult': validationWithoutNotEmpty(companyNameField.value, /^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DEa-zа-яїієґ\u00E0-\u00F6\u00F8-\u00FE]/),
-            'countryValidationResult': validationWithoutNotEmpty(countryField.value, /^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DE]/),
-            'cityValidationResult': validationWithoutNotEmpty(cityField.value, /^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DE]/),
-            'addressValidationResult': validationWithoutNotEmpty(addressField.value, /^[#./0-9a-zA-ZА-ЯЇІЄҐа-яїієґ\u0400-\u04FF\s,-]+$/),
+            'companyNameValidationResult': validationWithoutNotEmpty(companyNameField.value, /^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$/),
+            'countryValidationResult': validationWithoutNotEmpty(countryField.value, /^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$/),
+            'cityValidationResult': validationWithoutNotEmpty(cityField.value, /^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$/),
+            'addressValidationResult': validationWithoutNotEmpty(addressField.value, /^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$/),
         };
     }
 
