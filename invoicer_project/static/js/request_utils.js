@@ -215,3 +215,19 @@ export function addEditButtonListeners(containerId, className, url) {
         }
     });
 }
+
+
+export function search(elements, elementDivs) {
+    const input = document.getElementById('search_bar').value.toLowerCase();
+    const elementsList = document.getElementsByClassName(elements);
+    const elementsListDivs = document.getElementsByClassName(elementDivs);
+
+
+    for (let i = 0; i < elementsList.length; i++) {
+        if (!elementsList[i].innerHTML.toLowerCase().includes(input)) {
+            elementsListDivs[i].style.display = "none";
+        } else {
+            elementsListDivs[i].style.removeProperty("display");
+        }
+    }
+}

@@ -81,8 +81,7 @@ function checkMenuItemBasedOnSection() {
         item.classList.remove("nav__link_mobile--active");
     });
 
-    const urlSections = ['invoices', 'clients', 'items', 'statistics', 'user'];
-
+    const urlSections = ['', 'clients', 'items', 'statistics', 'settings'];
     menuItems[urlSections.indexOf(urlSection)].classList.add('active');
     menuItemsMobile[urlSections.indexOf(urlSection)].classList.add('nav__link_mobile--active');
 }

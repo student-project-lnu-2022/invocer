@@ -60,7 +60,6 @@ document.getElementById("request_sender").addEventListener("click", async () => 
         const serverResponseStatus = await sendAddEditRequest(host + "/clients/client/", data, "POST");
         actionBasedOnStatusCode(serverResponseStatus, 201, data, returnAllFields(), "/clients/home/", "POST", "/clients/client/");
     } else {
-        console.log(validationFieldsList);
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
         if (!dropdownValidation) {
             removeStylesFromDropdownElements();
