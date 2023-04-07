@@ -33,14 +33,14 @@ function createClientListContent(data) {
                 <div class="col-2 list_item_more_button">
                     <md-standard-icon-button class="client-info more-client" data-element-id="${clientID}" data-contextmenu="client-context-menu-${clientID}"><span class="material-symbols-outlined">more_vert</span></md-standard-icon-button>
                 </div>
-<div id="contextmenu">
-    <item state="gray">Edit</item>
-    <item state="gray">Delete</item>
+<div id="contextmenu-${clientID}" class="contextmenu">
+    <item id="context_menu_edit-${clientID}" class="context_menu_edit-${clientID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">edit</span>Edit</item>
+    <item id="context_menu_delete-${clientID}" class="delete-client" data-element-id="${clientID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
 </div>
-
-
-                
-            </div>`)
+                         </div>`);
+        document.querySelector(`#context_menu_edit-${clientID}`).addEventListener("click", () => {
+            window.location.href = host + "/clients/edit/" + clientID;
+        });
     }
 }
 
@@ -96,25 +96,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     document.onclick = function (e) {
-        if (e.target.classList.contains('more-client')) { // Check if the target element has the desired class
-            e.preventDefault(); // Prevent the default behavior of the click event
-            document.getElementById('contextmenu').style.display = 'inline-block';
-            document.getElementById('contextmenu').style.top = (window.mouseY - 55) + 'px';
-            document.getElementById('contextmenu').style.left = (window.mouseX - 130) + 'px';
+        if (e.target.classList.contains('more-client')) {
+            e.preventDefault();
 
+            const contextMenus = document.querySelectorAll(".contextmenu");
+            contextMenus.forEach(menu => {
+                menu.style.display = 'none';
+            });
 
-            if ('#' + e.target.id in elem_funcs) {
-                elem_funcs['#' + e.target.id]();
-            }
-
-            if ('.' + e.target.className in elem_funcs) {
-                elem_funcs['.' + e.target.className]();
-            }
+            const elementId = e.target.getAttribute("data-element-id");
+            document.querySelector(`#contextmenu-${elementId}`).style.display = 'inline-block';
+            document.querySelector(`#contextmenu-${elementId}`).style.top = (window.mouseY - 55) + 'px';
+            document.querySelector(`#contextmenu-${elementId}`).style.left = (window.mouseX - 130) + 'px';
         } else {
-            document.getElementById('contextmenu').style.display = 'none';
+            const contextMenus = document.querySelectorAll("[id^='contextmenu-']");
+            contextMenus.forEach(menu => {
+                menu.style.display = 'none';
+            });
         }
     };
-
     var context_items = document.getElementsByTagName('item'),
         i,
         context_action = function () {

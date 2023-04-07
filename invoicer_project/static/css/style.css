@@ -1059,7 +1059,7 @@ body {
     }
 }
 
-#contextmenu {
+.contextmenu {
     display: none;
     position: absolute;
     /* Style */
@@ -1068,25 +1068,25 @@ body {
     width: 100px;
     box-shadow: 0px 0px 5px #888;
 }
-#contextmenu hr {
+.contextmenu hr {
     border:1px solid #CCC;
 }
 item {
-    font-family:'Helvetica', sans-serif;
-    font-weight: 200;
-    font-size: 14px;
-    line-height: 16px;
-    display: block;
-    padding-left: 20px;
+    font-family:'Roboto', sans-serif;
+    font-weight: 500;
+    color: black;
+    font-size: 16px;
+    line-height: 20px;
+    display: flex;
     padding-right: 20px;
-    padding-top: 2.5px;
-    padding-bottom: 2.5px;
+    padding-top: 5px;
+    padding-bottom: 8px;
 }
 item:first-child {
-    padding-top: 10px;
+    padding-top: 8px;
 }
 item:last-child {
-    padding-bottom: 10px;
+    padding-bottom: 8px;
 }
 item[state*="gray"] {
     color: #AAA;
@@ -1095,12 +1095,12 @@ item:not([state*="gray"]):hover {
     cursor: pointer;
 }
 item:not([state*="gray"]):hover {
-    color: #FFF;
-    background-color: #0099FF;
+    color: #003aff;
+    background-color: rgba(44, 44, 44, 0.02);
 }
 item:not([state*="gray"]):first-child:hover {
-    border-radius: 5px 5px 0px 0px;
+    /*border-radius: 5px 5px 0px 0px;*/
 }
 item:not([state*="gray"]):last-child:hover {
-    border-radius: 0px 0px 5px 5px;
+    /*border-radius: 0px 0px 5px 5px;*/
 }
