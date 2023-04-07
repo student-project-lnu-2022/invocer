@@ -5,6 +5,8 @@ const barcodeMinLength = 3;
 const barcodeMaxLength = 43;
 const amountMaxLength = 10;
 const nameItemMaxLength = 35;
+const passwordMinLength = 8;
+const passwordMaxLength = 15;
 
 export function validation(fieldToValidate, fieldRegex) {
     let isFieldValid = '';
@@ -14,6 +16,19 @@ export function validation(fieldToValidate, fieldRegex) {
         isFieldValid = i18next.t("no_whitespaces_error");
     } else if (!(fieldRegex.test(fieldToValidate))) {
         isFieldValid = i18next.t("invalid_format_error");
+    } else {
+        isFieldValid = '';
+    }
+    return isFieldValid;
+}
+
+
+export function validationWithoutNotEmpty(fieldToValidate, fieldRegex) {
+    let isFieldValid;
+    if (fieldToValidate === '') {
+        isFieldValid = "";
+    } else if (!(fieldRegex.test(fieldToValidate))) {
+        isFieldValid = "Invalid format";
     } else {
         isFieldValid = '';
     }
@@ -36,6 +51,31 @@ export function validateNameAndSurnameAsStrings(strToValidate) {
         strValidationResult = '';
     }
     return strValidationResult;
+}
+
+	export function validatePasswordAsString(passwordToValidate) {
+    let isPasswordValid;
+    console.log(passwordToValidate)
+    if (passwordToValidate === '') {
+        isPasswordValid = "This field can't be empty";
+    } else if (passwordToValidate.includes(' ')) {
+        isPasswordValid = "No whitespaces";
+    } else if (passwordToValidate.length < passwordMinLength) {
+        isPasswordValid = `Min length – ${passwordMinLength} chars`;
+    } else if (passwordToValidate.length > passwordMaxLength) {
+        isPasswordValid = `Max length – ${passwordMaxLength} chars`;
+    } else if (!(/^[a-z0-9]+$/i.test(passwordToValidate))) {
+        isPasswordValid = "Only A-Z, a-z and 0-9";
+    } else if (!(/\d/.test(passwordToValidate))) {
+        isPasswordValid = "At least one number";
+    } else if (!(/[a-z]/.test(passwordToValidate))) {
+        isPasswordValid = "At least one lowercase";
+    } else if (!(/[A-Z]/.test(passwordToValidate))) {
+        isPasswordValid = "At least one capital";
+    } else {
+        isPasswordValid = '';
+    }
+    return isPasswordValid;
 }
 
 export function validateAddress(addressToValidate) {
