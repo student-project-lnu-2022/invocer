@@ -769,6 +769,7 @@ md-fab-extended {
     .list_item_more_button {
         display: flex;
         justify-content: center;
+        align-items: center;
     }
 }
 
