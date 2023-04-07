@@ -244,4 +244,5 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
     } else {
         setErrorAttributesToFields(validationFieldsList);
     }
+    console.log("DELETE")
 });
