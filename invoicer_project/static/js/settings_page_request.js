@@ -138,7 +138,7 @@ function validateUserOldPassword(oldPassword) {
             }}});
             actionBasedOnStatusCode(serverResponseStatus['status'], 200, data, allPasswordFields(), "/user/settings/", "PATCH", "/user/user/");
         } else {
-            console.log(validationFieldsList)
+            console.log(validationFieldsList);
             setErrorAttributesToFields(validationFieldsList, allPasswordFields());
         }
     })
