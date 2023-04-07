@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 {% load static %}
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit item</title>
     <script src="{% static 'js/jquery-3.6.4.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/fomantic.min.css' %}"/>
@@ -22,11 +23,11 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"/>
     <link rel="stylesheet" href="{% static 'css/dropdown.css' %}"/>
-
 </head>
 
 <body>
 {% include "menu_nav.html" %}
+{% include "menu_nav_mobile.html" %}
 <div id="wrapper" class="toggled-2">
     {% include "menu_wrapper.html" %}
     <div id="page-content-wrapper">
@@ -49,7 +50,7 @@
                                 {% include "units_dropdown_input.html" %}
                             </div>
                             <md-outlined-text-field class="input_field" label="Amount in stock" id="amount_in_stock"
-                                                    type="text"  data-i18n="amount_in_stock"></md-outlined-text-field>
+                                                    type="text" data-i18n="amount_in_stock"></md-outlined-text-field>
                             <md-outlined-text-field class="input_field" label="Barcode" id="barcode"
                                                     type="text" data-i18n="barcode"></md-outlined-text-field>
                         </div>
@@ -110,12 +111,13 @@
                                 </div>
                             </div>
                             <md-fab-extended icon="add" class="input_field centered" id="additional_item_button"
-                                             label="Add new additional unit" data-i18n="add_new_additional_unit"></md-fab-extended>
+                                             label="Add new additional unit"
+                                             data-i18n="add_new_additional_unit"></md-fab-extended>
                         </div>
                     </div>
                     <div class="row">
                         <md-fab-extended class="input_field centered md-fab" icon="save" label="Save changes"
-                                         id="edit_item_button"  data-i18n="save_changes"></md-fab-extended>
+                                         id="edit_item_button" data-i18n="save_changes"></md-fab-extended>
                     </div>
                 </div>
                 <div class="d-flex flex-wrap flex-column container-fluid col-xxl col-xl col-lg background_input_item_in_page">
@@ -139,41 +141,53 @@
                             <div class="col-6 second_col" id="basic_unit_val"></div>
                         </div>
                         <div class="row">
-                            <div class="col-6 first_col" id="amount_table_p" data-i18n="amount_in_stock">Amount in stock</div>
+                            <div class="col-6 first_col" id="amount_table_p" data-i18n="amount_in_stock">Amount in
+                                stock
+                            </div>
                             <div class="col-6 second_col" id="amount_in_stock_val"></div>
                         </div>
                         <div class="hidden additional_unit_cell">
                             <div class="row secondary_text table_header additional_unit">Aditional unit 1</div>
                             <div class="row">
-                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_1">Aditional unit 1</div>
+                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_1">
+                                    Aditional unit 1
+                                </div>
                                 <div class="col-6 second_col" id="AU1_val"></div>
                             </div>
                         </div>
                         <div class="hidden additional_unit_cell">
                             <div class="row secondary_text table_header additional_unit">Aditional unit 2</div>
                             <div class="row">
-                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_2">Aditional unit 2</div>
+                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_2">
+                                    Aditional unit 2
+                                </div>
                                 <div class="col-6 second_col" id="AU2_val"></div>
                             </div>
                         </div>
                         <div class="hidden additional_unit_cell">
                             <div class="row secondary_text table_header additional_unit">Aditional unit 3</div>
                             <div class="row">
-                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_3">Aditional unit 3</div>
+                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_3">
+                                    Aditional unit 3
+                                </div>
                                 <div class="col-6 second_col" id="AU3_val"></div>
                             </div>
                         </div>
                         <div class="hidden additional_unit_cell">
                             <div class="row secondary_text table_header additional_unit">Aditional unit 4</div>
                             <div class="row">
-                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_4">Aditional unit 4</div>
+                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_4">
+                                    Aditional unit 4
+                                </div>
                                 <div class="col-6 second_col" id="AU4_val"></div>
                             </div>
                         </div>
                         <div class="hidden additional_unit_cell">
                             <div class="row secondary_text table_header additional_unit">Aditional unit 5</div>
                             <div class="row">
-                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_5">Aditional unit 5</div>
+                                <div class="col-6 first_col additional_unit_name_table_p" id="Aditional_unit_5">
+                                    Aditional unit 5
+                                </div>
                                 <div class="col-6 second_col" id="AU5_val"></div>
                             </div>
                         </div>

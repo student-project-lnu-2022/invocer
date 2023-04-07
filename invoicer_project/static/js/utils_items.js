@@ -100,7 +100,6 @@ export function deleteAdditionalUnit() {
     closeButtons.forEach((element) => {
         element.addEventListener('click', async (event) => {
             const clickedButton = event.target;
-            const buttonIndex = Array.prototype.indexOf.call(closeButtons, clickedButton);
             const additionalUnitId = clickedButton.getAttribute('data-additional-unit-id');
             if (additionalUnitId) {
                 try {
@@ -116,7 +115,6 @@ export function deleteAdditionalUnit() {
                     if (response.ok) {
                         clickedButton.removeAttribute('data-additional-unit-id');
                         clickedButton.parentNode.parentNode.removeAttribute('data-additional-unit-id');
-                        removeLabels(buttonIndex);
                     } else if (response.status === 401) {
                         window.location.replace(host + '/user/login/');
                     } else {
@@ -126,7 +124,6 @@ export function deleteAdditionalUnit() {
                     console.error('Error with deleting additional unit:', error);
                 }
             } else {
-                removeLabels(buttonIndex);
             }
         });
     });
