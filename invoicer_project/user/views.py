@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from rest_framework.permissions import IsAuthenticated
 
-from .userserializers import UserSerializer, UserSettingsSerializer
+from .userserializers import UserSerializer
 from rest_framework.decorators import action
 from django.contrib.auth.models import auth
 from .models import User
@@ -100,39 +99,6 @@ class RefreshViewSet(viewsets.ViewSet):
             my_user = decoded["user_refr"]
             refresh = RefreshToken.for_user(my_user)
             return JsonResponse({'access': str(refresh.access_token)}, status=200)
-
-class UserSettingsViewSet(viewsets.ViewSet):
-    model = User
-    queryset = User.objects.all()
-    serializer_class = UserSettingsSerializer
-
-    permission_classes = [IsAuthenticated]
-    def partial_update(self, request):
-        try:
-            user_info = get_user_from_jwt(request.headers)
-            user = self.queryset.get(id=user_info['user_id'])
-        except User.DoesNotExist:
-            return JsonResponse({'error': 'User not found'}, status=404)
-        request.data['id'] = user.id
-        serializer = self.serializer_class(user, data=request.data, partial=True)
-        if serializer.is_valid():
-            new_password = serializer.validated_data.get('new_password', None)
-            if new_password != None:
-                user.set_password(new_password)
-                user.save()
-            serializer.save()
-            return JsonResponse(serializer.data, status = 200)
-        else:
-            return JsonResponse({'errors': serializer.errors}, status=400)
-
-    def retrieve(self, request):
-        user_info = get_user_from_jwt(request.headers)
-        user = self.queryset.get(id=user_info['user_id'])
-        if user is not None:
-            serializer = self.serializer_class(user)
-            return JsonResponse(serializer.data)
-        else:
-            return JsonResponse({'error': 'User not found'}, status=404)
 
 def get_user_from_jwt(headers):
     token = headers['Authorization'].split()[1]
