@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Invoices</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://unpkg.com/i18next@22.4.12/dist/umd/i18next.min.js"></script>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -26,6 +27,8 @@
 
 <body>
 {% include "menu_nav.html" %}
+{% include "menu_nav_mobile.html" %}
+{% include "fab_mobile_item.html" %}
 <div id="wrapper" class="toggled-2">
     {% include "menu_wrapper.html" %}
     <div id="page-content-wrapper">
