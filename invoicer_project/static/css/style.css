@@ -391,7 +391,6 @@ p {
     padding-bottom: 10px;
     padding-left: 20px;
     padding-right: 5px;
-    width: 103%;
 }
 
 .input_user_edit {
@@ -419,9 +418,6 @@ p {
         padding-bottom: 10px;
         padding-left: 20px;
         padding-right: 5px;
-        margin-right: 0;
-        margin-left: 0;
-        width: 100%;
     }
 }
 
