@@ -124,7 +124,7 @@ function validateUserOldPassword(oldPassword) {
                 repeat_new_password: repeatNewPasswordField.value,
             });
             const serverResponseStatus = await sendAddEditRequestSettings();
-            serverResponseStatus['data'].then((result) => {
+            serverResponseStatus['data'].then(result => {
             const messages = result['errors'].non_field_errors;
             for(let i = 0; i < messages.length; ++i){
                 if(messages[i] === 'Invalid old password'){
