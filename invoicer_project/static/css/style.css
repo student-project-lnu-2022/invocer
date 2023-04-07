@@ -374,7 +374,7 @@ p {
 }
 
 
-.client_header_text {
+.client_edit_text {
     font-size: 2.1em;
     font-family: Roboto, serif;
     font-weight: 500;
@@ -442,10 +442,11 @@ p {
 }
 
 .settings_subpage {
-    background-color: #EDEFF6;
-    padding-bottom: 35px;
-    padding-left: 35px;
-    padding-top: 20px;
+    margin-bottom: 35px;
+    margin-left: 20px;
+    margin-top: 20px;
+    padding: 35px;
+    margin-right: 130px;
     text-align: left;
     font-family: Roboto;
     display: flex;
@@ -455,35 +456,11 @@ p {
     flex-wrap: wrap;
     align-content: flex-start;
     align-items: flex-start;
+    background-color: white;
+    border-radius: 15px;
+    height: fit-content;
 }
 
-/*
-.item {
-	display: flex;
-	text-align: left;
-    justify-content: flex-start;
-    justify-items: center;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
-    padding-bottom: 20px;
-    padding-top: 20px;
-}
-
-.required_item {
-	display: flex;
-	text-align: left;
-    justify-content: flex-start;
-    justify-items: center;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
-    padding-bottom: 0px;
-    padding-top: 20px;
-}
-*/
 .save_changes_button {
     display: flex;
     justify-content: left;
@@ -496,19 +473,8 @@ p {
     padding-top: 65px;
 }
 
-/*
-.forms {
-	display: grid;
-  	grid-template-columns: 2fr 2fr 6fr;
-
-  	gap: 40px;
-}
-*/
-
 .change_password {
-    width: 80%;
-    background-color: #EDEFF6;
-    padding-left: 35px;
+    padding-left: 20px;
     font-family: Roboto;
     display: flex;
     justify-items: flex-start;
@@ -521,42 +487,42 @@ p {
     margin: 0px;
 }
 
-.change_password > .content > .item {
-    display: flex;
-    text-align: left;
-    justify-content: flex-start;
-    justify-items: left;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    align-items: flex-start;
-    padding-bottom: 10px;
-    padding-top: 10px;
-}
+/*.change_password > .content > .item {*/
+/*    display: flex;*/
+/*    text-align: left;*/
+/*    justify-content: flex-start;*/
+/*    justify-items: left;*/
+/*    flex-direction: column;*/
+/*    flex-wrap: wrap;*/
+/*    align-content: flex-start;*/
+/*    align-items: flex-start;*/
+/*    padding-bottom: 10px;*/
+/*    padding-top: 10px;*/
+/*}*/
 
-.collapsible {
-    background-color: #ffffff;
-    border-radius: 15px;
-    color: rgb(0, 68, 255);
-    cursor: pointer;
-    padding: 18px;
-    width: 90%;
-    padding-right: 50px;
-    border: none;
-    text-align: left;
-    outline: none;
-    /*font-size: 17px;*/
+/*.collapsible {*/
+/*    background-color: #ffffff;*/
+/*    border-radius: 15px;*/
+/*    color: rgb(0, 68, 255);*/
+/*    cursor: pointer;*/
+/*    padding: 18px;*/
+/*    width: 90%;*/
+/*    padding-right: 50px;*/
+/*    border: none;*/
+/*    text-align: left;*/
+/*    outline: none;*/
+/*    !*font-size: 17px;*!*/
 
-}
+/*}*/
 
-.collapsible:active,
-.collapsible:hover {
-    border-bottom: solid;
-}
+/*.collapsible:active,*/
+/*.collapsible:hover {*/
+/*    border-bottom: solid;*/
+/*}*/
 
-.collapsible:active {
-    width: 90%;
-}
+/*.collapsible:active {*/
+/*    width: 90%;*/
+/*}*/
 
 .content {
     display: none;
@@ -569,27 +535,27 @@ p {
     padding-left: 17px;
 }
 
-.last_row_change_pass {
-    display: flex;
-    justify-content: flex-start;
-    justify-items: flex-start;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    align-items: flex-start;
-}
+/*.last_row_change_pass {*/
+/*    display: flex;*/
+/*    justify-content: flex-start;*/
+/*    justify-items: flex-start;*/
+/*    flex-direction: column;*/
+/*    flex-wrap: wrap;*/
+/*    align-content: flex-start;*/
+/*    align-items: flex-start;*/
+/*}*/
 
-.grid_last_row {
-    display: grid;
-    align-items: flex-start;
-    justify-content: left;
-    align-content: flex-start;
-    justify-items: left;
-    grid-template-columns: 1fr 1fr;
-    gap: 85px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
+/*.grid_last_row {*/
+/*    display: grid;*/
+/*    align-items: flex-start;*/
+/*    justify-content: left;*/
+/*    align-content: flex-start;*/
+/*    justify-items: left;*/
+/*    grid-template-columns: 1fr 1fr;*/
+/*    gap: 85px;*/
+/*    padding-top: 10px;*/
+/*    padding-bottom: 10px;*/
+/*}*/
 
 .last_row_change_pass > .grid_last_row > .item {
     padding-top: 0;
@@ -607,6 +573,80 @@ ul {
     list-style: none;
 }
 
+.accordion-menu {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 15px;
+    overflow: hidden;
+    padding-left: 0;
+}
+
+.accordion-menu li:last-child .dropdown_settings {
+    border-bottom: 0;
+}
+
+.accordion-menu li.active .dropdown_settings .material-symbols-outlined {
+    transform: rotate(180deg);
+}
+
+.dropdown_settings {
+    cursor: pointer;
+    display: block;
+    padding: 15px 15px 15px 30px;
+    font-size: 18px;
+    border-bottom: solid rgb(0, 68, 255);
+    color: rgb(0, 68, 255);
+    position: relative;
+    transition: all 0.4s ease-out;
+}
+
+.dropdown_settings:active,
+.dropdown_settings:hover {
+    border-bottom: solid;
+}
+
+.dropdown_settings span {
+    position: absolute;
+    top: 17px;
+    left: 16px;
+    padding-top: 7px;
+    padding-right: 10px;
+}
+
+.dropdown_settings .material-symbols-outlined {
+    right: 12px;
+    left: auto;
+    padding-top: 7px;
+    padding-right: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.submenuItems {
+    display: none;
+    background: #ffffff;
+    transition: all 2s ease-in-out;
+    overflow: hidden;
+    padding-bottom: 40px;
+    padding-left: 30px;
+}
+
+.accordion-menu li.active .submenuItems {
+    display: block;
+}
+
+.submenuItems > .item {
+    display: flex;
+    text-align: left;
+    justify-content: flex-start;
+    justify-items: left;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
 .container {
     padding-left: 0;
 }
@@ -619,10 +659,6 @@ ul {
 
 .link.active:hover {
     border: none;
-}
-
-.background_settings_page {
-    background-color: #EDEFF6;
 }
 
 md-fab-extended {
@@ -912,6 +948,65 @@ body {
     padding-right: 10px;
 }
 
+.validation {
+    background: rgba(0, 68, 255, 0.11);
+    padding: 10px;
+    margin-right: 60px;
+    border-radius: 15px;
+}
+
+.validation ul {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-left: 10px;
+}
+
+.validation ul li {
+    position: relative;
+    list-style: none;
+    color: #000;
+    font-weight: 500;
+    font-size: 0.95em;
+    transition: 0.5s;
+}
+
+.validation ul li::before {
+    content: "\e001";
+    font-family: "Material Icons";
+    vertical-align: -0.2em;
+    color: #FF0000;
+    width: 20px;
+    height: 10px;
+    font-size: 23px;
+    display: inline-flex;
+    justify-content: flex-end;
+    margin-right: 5px;
+}
+
+.validation ul li.valid::before {
+    content: "\e92d";
+    color: #008000;
+    font-size: 23px;
+}
+
+.validation ul li.valid {
+    color: rgba(153, 153, 153, 0.5);
+}
+
+.background_settings_page {
+    background-color: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin: 0.8vw;
+    height: fit-content;
+}
+
+.background_change_password {
+    margin-left: 0.8vw;
+    height: fit-content;
+}
 
 .list_invoice_user_buttons {
     display: flex;
