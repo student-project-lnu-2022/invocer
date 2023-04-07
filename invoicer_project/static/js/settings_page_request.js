@@ -161,7 +161,7 @@ async function sendAddEditRequestSettings() {
             method: 'PATCH'
         });
         jsonData = response.json();
-        status = response.status
+        status = response.status;
     } catch (error) {
         console.error(error);
     }
