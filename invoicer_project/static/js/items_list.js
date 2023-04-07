@@ -24,11 +24,11 @@ document.getElementById("adder").addEventListener('click', () => {
 
 document.querySelector("#sort_asc").addEventListener("click", () => {
     const parent = document.querySelector("#items_container");
-    const divs = parent.querySelectorAll('.clients_list_item');
+    const divs = parent.querySelectorAll('.items_list_item');
     const sortedDivs = Array.from(divs).sort((a, b) => a.querySelector(".item_name").textContent.localeCompare(b.querySelector(".item_name").textContent));
     parent.innerHTML = '';
     for (const div of sortedDivs) {
-        parent.appendChild(div);
+      parent.appendChild(div);
     }
 });
 
