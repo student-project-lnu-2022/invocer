@@ -17,6 +17,11 @@ float_number_validation = RegexValidator(
     message="Amount has to be entered in the format: '25.55'."
 )
 
+float_number_validation = RegexValidator(
+    regex=r'^\d+([., ]?(\d){1,2}?)?$',
+    message="Amount has to be entered in the format: '25.55'."
+)
+
 string_validation = RegexValidator(regex=r'^[A-Za-z\u0080-\u024F\u0400-\u04FF’ʼ′\-\.\| |]+')
 own_names_validation = RegexValidator(regex=r'^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$')
 
@@ -48,7 +53,7 @@ class Client(models.Model):
     debt = models.FloatField(validators=[float_number_validation], default=0)
 
     zip_code = models.CharField(validators=[zip_code_regex], max_length=10)
-
+    debt = models.FloatField(validators=[float_number_validation], default=0)
     country = models.CharField(max_length=35, validators=[own_names_validation])
     city = models.CharField(max_length=35, validators=[own_names_validation])
     address = models.CharField(max_length=40, validators=[own_names_validation])

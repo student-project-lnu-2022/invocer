@@ -15,8 +15,8 @@ currency_validation = RegexValidator(
     message="Currency has to be entered in the format: 'UAH'."
 )
 unit_validation = RegexValidator(
-    regex=r'^[a-zа-яіїєґA-ZA-ЯІЇЄҐ]+$',
-    message="Basic unit has to be entered in the format: 'kg'."
+    regex=r'^[a-zа-яіїєґA-ZA-ЯІЇЄҐ]+\.?$',
+    message="Basic unit has to be entered in the format: 'kg' or 'kg.'"
 )
 barcode_validation = RegexValidator(
     regex=r'^\d{3,43}$',

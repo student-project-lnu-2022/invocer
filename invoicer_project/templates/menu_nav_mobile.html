@@ -1,6 +1,6 @@
 {% load static %}
 <nav class="nav_mobile" style="display: none">
-    <a href="#" class="nav__link_mobile">
+    <a href="{% url 'invoices_render' %}" class="nav__link_mobile">
 <img class="menu_item_icon_mobile" alt="invoices_icon" src="{% static 'img/invoice.png' %}"/>
         <span class="nav__text_mobile">Invoices</span>
     </a>
