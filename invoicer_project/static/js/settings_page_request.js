@@ -10,7 +10,13 @@ import {
     validationWithoutNotEmpty,
     validatePasswordAsString
 } from './validation_utils.js'
-import { obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
+import {
+    obtainNewAccessToken,
+    obtainUserInitials,
+    actionBasedOnStatusCode,
+    sendAddEditRequest,
+    getUserData, addDeleteButtonListeners, addCheckboxesListener
+} from './request_utils.js'
 
 const nameField = document.getElementById("name_input_settings");
 const surnameField = document.getElementById("surname_input_settings");
@@ -38,10 +44,10 @@ function validateUserOldPassword(oldPassword) {
         return {
             'nameValidationResult': validateNameAndSurnameAsStrings(nameField.value),
             'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
-            'companyNameValidationResult': validationWithoutNotEmpty(companyNameField.value, /^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DEa-zа-яїієґ\u00E0-\u00F6\u00F8-\u00FE]/),
-            'countryValidationResult': validationWithoutNotEmpty(countryField.value, /^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DE]/),
-            'cityValidationResult': validationWithoutNotEmpty(cityField.value, /^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DE]/),
-            'addressValidationResult': validationWithoutNotEmpty(addressField.value, /^[#./0-9a-zA-ZА-ЯЇІЄҐа-яїієґ\u0400-\u04FF\s,-]+$/),
+            'companyNameValidationResult': validationWithoutNotEmpty(companyNameField.value, /^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$/),
+            'countryValidationResult': validationWithoutNotEmpty(countryField.value, /^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$/),
+            'cityValidationResult': validationWithoutNotEmpty(cityField.value, /^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$/),
+            'addressValidationResult': validationWithoutNotEmpty(addressField.value, /^([a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]+(?:. |-|.| |’|‘|ʼ|′|))*[a-zA-Z\u0080-\u024F\u0400-\u04FF0-9]*$/),
         };
     }
 
@@ -80,7 +86,16 @@ function validateUserOldPassword(oldPassword) {
                 city: cityField.value,
                 address: addressField.value
             });
-            const serverResponseStatus = await sendAddEditRequest(host + "/user/user/", data, "PATCH");
+            let serverResponseStatus = await sendAddEditRequest(host + "/user/user/", data, "PATCH");
+            if (serverResponseStatus === 401){
+                const successfulTokenObtaining = await obtainNewAccessToken();
+                if (!successfulTokenObtaining) {
+                    window.location.replace(host + '/user/login/');
+                } else {
+                    serverResponseStatus = await sendAddEditRequest(host + "/user/user/", data, "PATCH");
+                    actionBasedOnStatusCode(serverResponseStatus, 200, data, returnAllFields(), "/user/settings/", "PATCH", "/user/user/");
+                }
+            }
             actionBasedOnStatusCode(serverResponseStatus, 200, data, returnAllFields(), "/user/settings/", "PATCH", "/user/user/");
         } else {
             setErrorAttributesToFields(validationFieldsList, returnAllFields());
@@ -88,7 +103,6 @@ function validateUserOldPassword(oldPassword) {
     })
 
     document.addEventListener('DOMContentLoaded', () => {
-        // clearErrorAttributes(returnAllFields());
         obtainUserInitials();
     });
 
@@ -123,9 +137,9 @@ function validateUserOldPassword(oldPassword) {
                 old_password: oldPasswordField.value,
                 new_password: newPasswordField.value,
                 repeat_new_password: repeatNewPasswordField.value,
-            })
+            });
             const serverResponseStatus = await sendAddEditRequestSettings();
-            serverResponseStatus['data'].then((result) => {
+            serverResponseStatus['data'].then(result => {
             const messages = result['errors'].non_field_errors;
             for(let i = 0; i < messages.length; ++i){
                 if(messages[i] === 'Invalid old password'){
@@ -136,10 +150,10 @@ function validateUserOldPassword(oldPassword) {
                     newPasswordField.setAttribute("errorText", 'Password and Confirm Password don\'t match');
                     repeatNewPasswordField.setAttribute("error", "true");
                     repeatNewPasswordField.setAttribute("errorText", 'Password and Confirm Password don\'t match');
-            }}})
+            }}});
             actionBasedOnStatusCode(serverResponseStatus['status'], 200, data, allPasswordFields(), "/user/settings/", "PATCH", "/user/user/");
         } else {
-            console.log(validationFieldsList)
+            console.log(validationFieldsList);
             setErrorAttributesToFields(validationFieldsList, allPasswordFields());
         }
     })
@@ -162,7 +176,7 @@ async function sendAddEditRequestSettings() {
             method: 'PATCH'
         });
         jsonData = response.json();
-        status = response.status
+        status = response.status;
     } catch (error) {
         console.error(error);
     }

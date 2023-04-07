@@ -12,8 +12,6 @@ export function validation(fieldToValidate, fieldRegex) {
     let isFieldValid;
     if (fieldToValidate === '') {
         isFieldValid = "This field can't be empty";
-    } else if (fieldToValidate.includes(' ')) {
-        isFieldValid = "No whitespaces";
     } else if (!(fieldRegex.test(fieldToValidate))) {
         isFieldValid = "Invalid format";
     } else {
@@ -26,8 +24,6 @@ export function validationWithoutNotEmpty(fieldToValidate, fieldRegex) {
     let isFieldValid;
     if (fieldToValidate === '') {
         isFieldValid = "";
-    } else if (fieldToValidate.includes(' ')) {
-        isFieldValid = "No whitespaces";
     } else if (!(fieldRegex.test(fieldToValidate))) {
         isFieldValid = "Invalid format";
     } else {
