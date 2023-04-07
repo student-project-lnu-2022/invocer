@@ -88,7 +88,6 @@ function validateUserOldPassword(oldPassword) {
     })
 
     document.addEventListener('DOMContentLoaded', () => {
-        // clearErrorAttributes(returnAllFields());
         obtainUserInitials();
     });
 
