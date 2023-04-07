@@ -122,7 +122,7 @@ function validateUserOldPassword(oldPassword) {
                 old_password: oldPasswordField.value,
                 new_password: newPasswordField.value,
                 repeat_new_password: repeatNewPasswordField.value,
-            })
+            });
             const serverResponseStatus = await sendAddEditRequestSettings();
             serverResponseStatus['data'].then((result) => {
             const messages = result['errors'].non_field_errors;
