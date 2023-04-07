@@ -12,7 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
     hideUnnecessaryElementsInMenu();
 });
 
-document.querySelector("#edit_item_page_button_redirect").addEventListener('click', () =>{
+document.querySelector("#edit_item_page_button_redirect").addEventListener('click', () => {
     window.location.replace(host + "/items/edit/" + itemId);
 })
 
+document.querySelector(".ui.selection.dropdown").style.pointerEvents = "none";
+document.querySelector(".ui.selection.units_dropdown").style.pointerEvents = "none";
+
+const dropdownArrowIcons = document.querySelectorAll(".ui.fluid.dropdown>.dropdown.icon");
+
+for (let dropdownArrowIcon of dropdownArrowIcons) {
+    dropdownArrowIcon.style.display = "none";
+}

@@ -5,6 +5,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Log in</title>
+    <script src="https://unpkg.com/i18next@22.4.12/dist/umd/i18next.min.js"></script>
+
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -21,7 +23,7 @@
         <img src="{% static 'img/logo.svg' %}" alt="logo" width="412" height="146"/>
     </div>
     <div class="row text-center">
-        <p id="log_in_text">Log in</p>
+        <p id="log_in_text" data-i18n="log_in">Log in</p>
     </div>
     <div class="row justify-content-center">
         <div
@@ -36,20 +38,22 @@
                     class="col-12"
                     id="password_input_lg_pg"
                     type="password"
-                    label="Password"></md-outlined-text-field>
+                    label="Password" data-i18n="password"></md-outlined-text-field>
         </div>
     </div>
     <div class="row justify-content-center">
         <md-filled-button
                 id="log_in_confirmation_button_log_in_page"
                 class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-8 col-8"
-                label="Let's go"></md-filled-button>
+                label="Let's go" data-i18n="lets_go"></md-filled-button>
     </div>
     <div class="row text-center">
-        <a href={% url 'forgot_password' %}><p class="hint_text_lg_pg">Forgot password?</p></a>
+        <a href={% url 'forgot_password' %}><p class="hint_text_lg_pg forgot_password" data-i18n="forgot_password">Forgot password?</p>
+        </a>
     </div>
     <div class="row text-center">
-        <a href="{% url 'register' %}"><p class="hint_text_lg_pg">Create an account</p></a>
+        <a href="{% url 'register' %}"><p class="hint_text_lg_pg create_account" data-i18n="create_an_account">Create an account</p>
+        </a>
     </div>
 </div>
 <script
@@ -57,6 +61,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
 <script src="{% static 'js/bundle.js' %}"></script>
+<script src="{% static 'js/login_and_registration_translation.js' %}"></script>
 <script src="{% static 'js/login_request.js' %}"></script>
 </body>
 </html>

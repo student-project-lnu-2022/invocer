@@ -3,8 +3,8 @@ export const nameField = document.getElementById("name");
 export const priceField = document.getElementById("price");
 export const amountInStockField = document.getElementById("amount_in_stock");
 export const barcodeField = document.getElementById("barcode");
-export const currencyField = document.getElementById("currency").parentElement;
-export const basicUnitField = document.getElementById("basic_unit").parentElement;
+export const currencyField = document.getElementById("currency_input_dropdown");
+export const basicUnitField = document.getElementById("units_input_dropdown");
 export const additionalFieldsContainer = document.querySelectorAll('.additional_unit_field');
 export const amountAdditionalFieldsContainer = document.querySelectorAll('.amount_additional_unit_field');
 export const itemId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
@@ -41,10 +41,30 @@ export async function fillFieldsWithData() {
     let responseFromServerForUnit = await getUnitsByItemId(itemId);
     document.getElementById("name").value = responseFromServerForItem["name"];
     document.getElementById("price").value = responseFromServerForItem["price"];
-    document.querySelector(".dropdown_button_currency").textContent = responseFromServerForItem["currency"];
-    document.querySelector(".dropdown_button_basic_unit").textContent = responseFromServerForItem["basic_unit"];
-    document.querySelector("#currency").setAttribute("value", responseFromServerForItem["currency"]);
-    document.querySelector("#basic_unit").setAttribute("value", responseFromServerForItem["basic_unit"]);
+    document.querySelector("#currency_input_dropdown").value = responseFromServerForItem["currency"];
+    document.querySelector("#units_input_dropdown").value = responseFromServerForItem["basic_unit"];
+
+
+    const currenciesDivList = document.querySelectorAll('.currency_menu div');
+    currenciesDivList.forEach(div => {
+        if (div.getAttribute("data-value") === responseFromServerForItem["currency"]) {
+            const dropdownCurrencyContainer = document.querySelector('.default.text');
+            dropdownCurrencyContainer.textContent = "";
+            dropdownCurrencyContainer.insertAdjacentHTML("afterbegin", div.innerHTML);
+            dropdownCurrencyContainer.classList.remove("default");
+        }
+    });
+
+    const unitsDivList = document.querySelectorAll('.units_menu div');
+    unitsDivList.forEach(div => {
+        if (div.getAttribute("data-value") === responseFromServerForItem["basic_unit"]) {
+            const dropdownUnitContainer = document.querySelector('.default.text');
+            dropdownUnitContainer.textContent = "";
+            dropdownUnitContainer.insertAdjacentHTML("afterbegin", div.innerHTML);
+            dropdownUnitContainer.classList.remove("default");
+        }
+    });
+
     document.getElementById("amount_in_stock").value = responseFromServerForItem["amount_in_stock"];
     document.getElementById("barcode").value = responseFromServerForItem["barcode"];
     document.querySelector("#name_val").textContent = responseFromServerForItem["name"];
@@ -110,11 +130,9 @@ export function deleteAdditionalUnit() {
 }
 
 export function setErrorAttributesToFields(fields, errorsObject) {
+    console.log(fields);
     for (let i = 0; i < fields.length; i++) {
         if (errorsObject[i]) {
-            if (fields[i].classList.contains("dropdown_list")) {
-                fields[i].querySelector(".dropdown__button").classList.add("dropdown__button_error");
-            }
             fields[i].setAttribute("error", "true");
             fields[i].setAttribute("errorText", errorsObject[i]);
         }
