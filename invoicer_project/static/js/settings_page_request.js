@@ -10,7 +10,13 @@ import {
     validationWithoutNotEmpty,
     validatePasswordAsString
 } from './validation_utils.js'
-import { obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
+import {
+    obtainNewAccessToken,
+    obtainUserInitials,
+    actionBasedOnStatusCode,
+    sendAddEditRequest,
+    getUserData, addDeleteButtonListeners, addCheckboxesListener
+} from './request_utils.js'
 
 const nameField = document.getElementById("name_input_settings");
 const surnameField = document.getElementById("surname_input_settings");
@@ -80,7 +86,16 @@ function validateUserOldPassword(oldPassword) {
                 city: cityField.value,
                 address: addressField.value
             });
-            const serverResponseStatus = await sendAddEditRequest(host + "/user/user/", data, "PATCH");
+            let serverResponseStatus = await sendAddEditRequest(host + "/user/user/", data, "PATCH");
+            if (serverResponseStatus === 401){
+                const successfulTokenObtaining = await obtainNewAccessToken();
+                if (!successfulTokenObtaining) {
+                    window.location.replace(host + '/user/login/');
+                } else {
+                    serverResponseStatus = await sendAddEditRequest(host + "/user/user/", data, "PATCH");
+                    actionBasedOnStatusCode(serverResponseStatus, 200, data, returnAllFields(), "/user/settings/", "PATCH", "/user/user/");
+                }
+            }
             actionBasedOnStatusCode(serverResponseStatus, 200, data, returnAllFields(), "/user/settings/", "PATCH", "/user/user/");
         } else {
             setErrorAttributesToFields(validationFieldsList, returnAllFields());
