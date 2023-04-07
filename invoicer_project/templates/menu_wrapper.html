@@ -1,36 +1,34 @@
 {% load static %}
 <div id="sidebar-wrapper">
-    <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-        <li>
-            <a href="{% url 'invoices_render' %}" class="translation" data-i18n="invoices"><span
-                    class="fa-stack fa-lg pull-left invoices_icon"><img class="icon_menu" alt="invoices_icon"
-                                                                        src="{% static 'img/invoice.png' %}"/></span><span class="translation" data-i18n="invoices">Invoices</span></a>
-        </li>
-        <li class="active">
-            <a href="{% url 'home' %}" class="translation" data-i18n="clients"><span
-                    class="fa-stack fa-lg pull-left clients_icon"><img class="icon_menu"
-                                                                       alt="clients_icon"
-                                                                       src="{% static 'img/clients.png' %}"/>
-            </span><span class="translation" data-i18n="clients">Clients</span></a>
-        </li>
-        <li>
-            <a href="{% url 'items_render' %}" class="translation" data-i18n="items"
+   <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+      <li>
+         <a href="#"><span class="fa-stack fa-lg pull-left invoices_icon"><img class="icon_menu" alt="invoices_icon"
+            src="{% static 'img/invoice.png' %}"/></span>Invoices</a>
+      </li>
+      <li class="active">
+         <a href="{% url 'home' %}"
+            ><span class="fa-stack fa-lg pull-left clients_icon"
+            ><img class="icon_menu" alt="clients_icon" src="{% static 'img/clients.png' %}"/></span
+            >Clients</a
+            >
+      </li>
+      <li>
+         <a href="{% url 'items_render' %}"
             ><span class="fa-stack fa-lg pull-left"
             ><img class="icon_menu" alt="items_icon" src="{% static 'img/list-items.png' %}"/></span
-            ><span class="translation" data-i18n="items">Items</span></a
+            >Items</a
             >
-        </li>
-        <li>
-            <a href="#">
+      </li>
+      <li>
+         <a href="#">
          <span class="fa-stack fa-lg pull-left"
-         ><img class="icon_menu" alt="statistics_icon" src="{% static 'img/statistics.png' %}"/></span
-         ><span class="translation" data-i18n="statistics">Statistics</span></a
+            ><img class="icon_menu" alt="statistics_icon" src="{% static 'img/statistics.png' %}"/></span
+            >Statistics</a
             >
-        </li>
-        <li>
-            <a href="#" class="translation" data-i18n="settings"><span class="fa-stack fa-lg pull-left"><img
-                    alt="settings_icon" class="icon_menu"
-                    src="{% static 'img/settings.png' %}"/></span><span class="translation" data-i18n="settings">Settings</span></a>
-        </li>
-    </ul>
+      </li>
+      <li>
+         <a href="{% url 'settings' %}"><span class="fa-stack fa-lg pull-left"><img alt="settings_icon" class="icon_menu"
+            src="{% static 'img/settings.png' %}"/></span>Settings</a>
+      </li>
+   </ul>
 </div>

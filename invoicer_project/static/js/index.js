@@ -73,7 +73,7 @@ function checkMenuItemBasedOnSection() {
         item.classList.remove("active");
     });
 
-    const urlSections = ['', 'clients', 'items', 'statistics', 'settings'];
+    const urlSections = ['invoices', 'clients', 'items', 'statistics', 'user'];
     menuItems[urlSections.indexOf(urlSection)].classList.add('active');
 }
 
