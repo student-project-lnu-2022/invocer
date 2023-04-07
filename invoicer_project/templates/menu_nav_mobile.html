@@ -1,23 +1,23 @@
 {% load static %}
 <nav class="nav_mobile" style="display: none">
-    <a href="#" class="nav__link_mobile">
+    <a href="{% url 'invoices_render' %}" class="nav__link_mobile translation" data-i18n="invoices">
 <img class="menu_item_icon_mobile" alt="invoices_icon" src="{% static 'img/invoice.png' %}"/>
-        <span class="nav__text_mobile">Invoices</span>
+        <span class="nav__text_mobile translation" data-i18n="invoices">Invoices</span>
     </a>
-    <a href="{% url 'home' %}" class="nav__link_mobile nav__link_mobile--active">
+    <a href="{% url 'home' %}" class="nav__link_mobile nav__link_mobile--active translation" data-i18n="clients">
         <img class="menu_item_icon_mobile" alt="clients_icon" src="{% static 'img/clients.png' %}"/>
-        <span class="nav__text_mobile">Clients</span>
+        <span class="nav__text_mobile translation" data-i18n="clients">Clients</span>
     </a>
-    <a href="{% url 'items_render' %}" class="nav__link_mobile">
+    <a href="{% url 'items_render' %}" class="nav__link_mobile translation" data-i18n="items">
         <img class="menu_item_icon_mobile" alt="items_icon" src="{% static 'img/list-items.png' %}"/></span>
-        <span class="nav__text_mobile">Items</span>
+        <span class="nav__text_mobile translation" data-i18n="items">Items</span>
     </a>
-    <a href="#" class="nav__link_mobile">
+    <a href="#" class="nav__link_mobile translation" data-i18n="statistics">
         <img class="menu_item_icon_mobile" alt="statistics_icon" src="{% static 'img/statistics.png' %}"/>
-        <span class="nav__text_mobile">Statistics</span>
+        <span class="nav__text_mobile translation" data-i18n="statistics">Statistics</span>
     </a>
-    <a href="#" class="nav__link_mobile">
+    <a href="{% url 'settings' %}" class="nav__link_mobile translation" data-i18n="settings">
 <img alt="settings_icon" class="menu_item_icon_mobile" src="{% static 'img/settings.png' %}"/>
-        <span class="nav__text_mobile">Settings</span>
+        <span class="nav__text_mobile translation" data-i18n="settings">Settings</span>
     </a>
 </nav>

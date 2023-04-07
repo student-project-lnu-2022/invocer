@@ -17,7 +17,7 @@ function createItemListContent(data) {
         let itemID = item['id'];
 
         document.getElementById("items_container").insertAdjacentHTML('afterbegin', `
-                    <div class="row items_list_item align-items-center justify-content-around redirect_to_item_info" data-item-id="${itemID}">
+                    <div class="row items_list_item client_list_item align-items-center justify-content-around redirect_to_item_info" data-item-id="${itemID}">
                         <div class="col-xxl-5 col-xl-5 col-md-4 col-sm-2 col-3 list_item_name redirect_to_item_info list_item_name redirect_to_item_info" data-item-id="${itemID}">
                             <p class="item_name redirect_to_item_info" data-item-id="${itemID}">${itemName}</p>
                         </div>
