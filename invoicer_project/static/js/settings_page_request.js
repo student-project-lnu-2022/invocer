@@ -135,7 +135,7 @@ function validateUserOldPassword(oldPassword) {
                     newPasswordField.setAttribute("errorText", 'Password and Confirm Password don\'t match');
                     repeatNewPasswordField.setAttribute("error", "true");
                     repeatNewPasswordField.setAttribute("errorText", 'Password and Confirm Password don\'t match');
-            }}})
+            }}});
             actionBasedOnStatusCode(serverResponseStatus['status'], 200, data, allPasswordFields(), "/user/settings/", "PATCH", "/user/user/");
         } else {
             console.log(validationFieldsList)
