@@ -71,7 +71,8 @@ export async function fillFieldsWithData() {
     document.querySelector("#barcode_val").textContent += responseFromServerForItem["barcode"];
     document.querySelector("#price_val").textContent = responseFromServerForItem["price"];
     document.querySelector("#currency_val").textContent = responseFromServerForItem["currency"];
-    document.querySelector("#basic_unit_val").textContent = responseFromServerForItem["basic_unit"];
+    document.querySelector("#basic_unit_val").textContent = i18next.t(responseFromServerForItem["basic_unit"]);
+
     document.querySelector("#amount_in_stock_val").textContent = responseFromServerForItem["amount_in_stock"];
     const unitsArray = responseFromServerForUnit["content"];
     numOfRowsObject.numOfRows += unitsArray.length;
