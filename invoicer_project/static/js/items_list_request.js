@@ -7,7 +7,7 @@ import {
     addDeleteButtonListeners,
     addEditButtonListeners
 } from "./request_utils.js";
-import {initializeI18NextOnDynamicList} from "./items_section_translation.js";
+import {initializeI18NextOnDynamicList, updateContentItems} from "./items_section_translation.js";
 
 function createItemListContent(data) {
     for (let item of data) {
@@ -46,8 +46,8 @@ function createItemListContent(data) {
                         </md-standard-icon-button>
                     </div>
                     <div id="contextmenu-${itemID}" class="contextmenu">
-    <item id="context_menu_edit-${itemID}" class="context_menu_edit-${itemID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">edit</span>Edit</item>
-    <item id="context_menu_delete-${itemID}" class="delete-item" data-element-id="${itemID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
+    <item id="context_menu_edit-${itemID}" class="context_menu_edit-${itemID} context-menu-edit-button"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">edit</span>Edit</item>
+    <item id="context_menu_delete-${itemID}" class="delete-item context-menu-delete-button" data-element-id="${itemID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
 </div>
                     </div>`);
         document.querySelector(`#context_menu_edit-${itemID}`).addEventListener("click", () => {
@@ -62,6 +62,7 @@ async function addElementsDynamically() {
     if (response === 200) {
         createItemListContent(responseFromServer["data"]["content"]);
         initializeI18NextOnDynamicList();
+        updateContentItems();
         addDeleteButtonListeners('.delete-item', `/items/items_list/`);
         addEditButtonListeners('#items_container', 'edit-item', "/items/edit/");
         addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox", "#delete_many_clients", "/items/items_list");
@@ -75,6 +76,7 @@ async function addElementsDynamically() {
             addDeleteButtonListeners('.delete-item', `/items/items_list/`);
             addEditButtonListeners('#items_container', 'edit-item', "/items/edit/");
             addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox", "#delete_many_clients", "/items/items_list");
+            updateContentItems();
         }
     } else {
         window.location.replace(host + '/user/login/');

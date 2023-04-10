@@ -1,3 +1,5 @@
+import {updateContentItems} from "./items_section_translation.js";
+
 const host = "http://127.0.0.1:8000";
 import {
     obtainUserInitials,
@@ -7,6 +9,7 @@ import {
     addDeleteButtonListeners,
     addEditButtonListeners
 } from './request_utils.js';
+import {updateContentClients, translateClientsList} from "./client_section_translation.js";
 
 function createClientListContent(data) {
     for (let i = 0; i < data.length; i++) {
@@ -34,8 +37,8 @@ function createClientListContent(data) {
                     <md-standard-icon-button class="client-info more-client" data-element-id="${clientID}" data-contextmenu="client-context-menu-${clientID}"><span class="material-symbols-outlined">more_vert</span></md-standard-icon-button>
                 </div>
 <div id="contextmenu-${clientID}" class="contextmenu">
-    <item id="context_menu_edit-${clientID}" class="context_menu_edit-${clientID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">edit</span>Edit</item>
-    <item id="context_menu_delete-${clientID}" class="delete-client" data-element-id="${clientID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
+    <item id="context_menu_edit-${clientID}" class="context_menu_edit-${clientID} context-menu-edit-button"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">edit</span>Edit</item>
+    <item id="context_menu_delete-${clientID}" class="delete-client context-menu-delete-button" data-element-id="${clientID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
 </div>
                          </div>`);
         document.querySelector(`#context_menu_edit-${clientID}`).addEventListener("click", () => {
@@ -51,7 +54,8 @@ async function addElementsDynamically() {
         createClientListContent(responseFromServer["data"]["content"]);
         addDeleteButtonListeners('.delete-client', `/clients/client`);
         addEditButtonListeners('#other_elements', 'edit-client', "/clients/edit/");
-        addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox',"#delete_many_clients", `/clients/client`);
+        addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox', "#delete_many_clients", `/clients/client`);
+        translateClientsList();
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -61,7 +65,8 @@ async function addElementsDynamically() {
             createClientListContent(responseFromServer["data"]["content"]);
             addDeleteButtonListeners('.delete-client', `/clients/client`);
             addEditButtonListeners('#other_elements', 'edit-client', "/clients/edit/");
-            addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox',"#delete_many_clients", `/clients/client`);
+            addCheckboxesListener('#other_elements', '.delete_clients_checkbox', 'delete_clients_checkbox', "#delete_many_clients", `/clients/client`);
+            translateClientsList();
         }
     } else {
         window.location.replace(host + '/user/login/');

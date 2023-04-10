@@ -1193,10 +1193,10 @@ body {
 .contextmenu {
     display: none;
     position: absolute;
-    /* Style */
     background-color: rgba(255, 255, 255);
     border-radius: 10px;
-    width: 100px;
+    width: 140px;
+    z-index: 2;
     box-shadow: 0px 0px 5px #888;
 }
 .contextmenu hr {
