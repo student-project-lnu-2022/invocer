@@ -8,6 +8,8 @@ const nameItemMaxLength = 35;
 const passwordMinLength = 8;
 const passwordMaxLength = 15;
 const specialCharsArray = ['!', '"', '#', '$', '%', '&', '(', ')', '*', '+', ',', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '{', '|', '}', '~'];
+const specialCharsArrayWithoutQuotationMarks = ['!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '{', '|', '}', '~'];
+
 
 export function validation(fieldToValidate, fieldRegex) {
     let isFieldValid = '';
@@ -30,6 +32,8 @@ export function validationWithoutNotEmpty(fieldToValidate, fieldRegex) {
         isFieldValid = "";
     } else if (!(fieldRegex.test(fieldToValidate))) {
         isFieldValid = i18next.t("invalid_format_error");
+    } else if (new RegExp(`[${specialCharsArrayWithoutQuotationMarks.join('')}]`).test(fieldToValidate)) {
+        isFieldValid = i18next.t("special_characters_error");
     } else {
         isFieldValid = '';
     }
