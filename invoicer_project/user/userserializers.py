@@ -40,6 +40,7 @@ class UserSettingsSerializer(serializers.ModelSerializer):
         if old_password is not None:
             if user.check_password(old_password) == False:
                 data.append("Invalid old password")
+        if new_password is not None:
             if new_password != repeat_new_password:
                 data.append("Password and Confirm Password don't match")
         if len(data) != 0:
