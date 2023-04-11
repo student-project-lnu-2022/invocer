@@ -162,6 +162,7 @@ i18next.init({
                     "too_much_symbols_error": "Max length - {{passwordMaxLength}} symbols",
                     "few_symbols_error": "Min length - {{passwordMinLength}} symbols",
                     "only_a_z_and_digits_error": "Only A-Z, a-z and 0-9 are allowed",
+                    "digit_in_name_or_surname_error": "Should not contain digits",
                 }
             },
             uk: {
@@ -544,6 +545,7 @@ i18next.init({
                     "at_least_1_digit": "Щонайменше 1 цифра",
                     "from_8_to_15": "Довжина паролю від 8 до 15 символів",
                     "match_error": "Паролі не збігаються",
+                    "digit_in_name_or_surname_error": "Не повинно містити цифр",
                 }
             }
         }
