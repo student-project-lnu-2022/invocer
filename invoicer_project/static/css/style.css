@@ -683,6 +683,15 @@ md-fab-extended {
     color: #979799;
 }
 
+#resend_text{
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 24px;
+    font-size: 13px;
+    font-family: Roboto;
+    margin-top: 15px;
+
+}
 .client_list_item {
     background-color: #fff;
     border-radius: 15px;
