@@ -1,4 +1,11 @@
-import {host} from './utils_items.js'
+import { host } from './utils_items.js'
+import {
+    removeAllErrorAttributes,
+    setErrorAttributesToFields,
+    setMaxFieldContainerHeights,
+    allAreFalse,
+    validatePasswordAsString
+} from './validation_utils.js'
 document.getElementById("send_button_fp").addEventListener("click", onSendCodeClick);
 
 function onSendCodeClick() {
@@ -26,13 +33,13 @@ function onCodeConfirmClick() {
 
 async function sendConfirmationCode(userEmail) {
     let response;
-    const data = {"email": userEmail};
+    const data = { "email": userEmail };
     try {
         response = await fetch(host + '/user/reset_password/', {
             method: "POST",
             body: JSON.stringify(data)
         });
-        
+
     } catch (error) {
         console.error(error);
     }
@@ -40,13 +47,13 @@ async function sendConfirmationCode(userEmail) {
 
 async function confirmCode() {
     let response;
-    const data = {"email": document.getElementById("email_input_fp").value, "code": document.getElementById("confirm_code_fp").value};
+    const data = { "email": document.getElementById("email_input_fp").value, "code": document.getElementById("confirm_code_fp").value };
     try {
         response = await fetch(host + '/user/confirm_password/', {
             method: "POST",
             body: JSON.stringify(data)
         });
-        
+
     } catch (error) {
         console.error(error);
     }
@@ -54,26 +61,48 @@ async function confirmCode() {
 
 document.getElementById("change_btn_fp_pg").addEventListener("click", changePassword);
 
+const newPass = document.getElementById("password_input_fp_pg");
+const repeatNewPass = document.getElementById("repeat_password_input_fp_pg");
+
+const returnAllFields = function () {
+    return [
+        newPass, repeatNewPass
+    ];
+}
+
 async function changePassword() {
-    let response;
-    const newPass = document.getElementById("password_input_fp_pg"); 
-    const repeatNewPass = document.getElementById("repeat_password_input_fp_pg"); 
-    const data = {"email": document.getElementById("email_input_fp").value, "new_password": newPass.value, "repeat_new_password": repeatNewPass.value};
-    try {
-        response = await fetch(host + '/user/reset_password/', {
-            method: "PATCH",
-            body: JSON.stringify(data)
-        });
-    if (response.status === 200) {
-        window.location.href = host + '/user/login/';
+    const validationFieldsList = validateUserPasswordEdit();
+    if (allAreFalse(validationFieldsList)) {
+        let response;
+        const data = { "email": document.getElementById("email_input_fp").value, "new_password": newPass.value, "repeat_new_password": repeatNewPass.value };
+        try {
+            response = await fetch(host + '/user/reset_password/', {
+                method: "PATCH",
+                body: JSON.stringify(data)
+            });
+            if (response.status === 200) {
+                window.location.href = host + '/user/login/';
+            }
+            else if (response.status === 400) {
+                newPass.setAttribute("error", "true");
+                newPass.setAttribute("errorText", 'Password and Confirm Password don\'t match');
+                repeatNewPass.setAttribute("error", "true");
+                repeatNewPass.setAttribute("errorText", 'Password and Confirm Password don\'t match');
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
-    else if (response.status === 400) {
-        newPass.setAttribute("error", "true");
-        newPass.setAttribute("errorText", 'Password and Confirm Password don\'t match');
-        repeatNewPass.setAttribute("error", "true");
-        repeatNewPass.setAttribute("errorText", 'Password and Confirm Password don\'t match');
+    else {
+        setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
-    } catch (error) {
-        console.error(error);
-    }
+}
+
+function validateUserPasswordEdit() {
+    removeAllErrorAttributes(returnAllFields());
+    setMaxFieldContainerHeights(returnAllFields());
+    return {
+        'newPasswordValidationResult': validatePasswordAsString(newPass.value),
+        'repeatNewPasswordValidationResult': validatePasswordAsString(repeatNewPass.value)
+    };
 }
