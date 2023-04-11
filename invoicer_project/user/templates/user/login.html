@@ -48,11 +48,13 @@
                 label="Let's go" data-i18n="lets_go"></md-filled-button>
     </div>
     <div class="row text-center">
-        <a href={% url 'forgot_password' %}><p class="hint_text_lg_pg forgot_password" data-i18n="forgot_password">Forgot password?</p>
+        <a href={% url 'forgot_password' %}><p class="hint_text_lg_pg forgot_password" data-i18n="forgot_password">
+            Forgot password?</p>
         </a>
     </div>
     <div class="row text-center">
-        <a href="{% url 'register' %}"><p class="hint_text_lg_pg create_account" data-i18n="create_an_account">Create an account</p>
+        <a href="{% url 'register' %}"><p class="hint_text_lg_pg create_account" data-i18n="create_an_account">Create an
+            account</p>
         </a>
     </div>
 </div>
@@ -61,6 +63,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
 <script src="{% static 'js/bundle.js' %}"></script>
+<script type="module" src="{% static 'js/init18next.js' %}"></script>
 <script src="{% static 'js/login_and_registration_translation.js' %}"></script>
 <script src="{% static 'js/login_request.js' %}"></script>
 </body>

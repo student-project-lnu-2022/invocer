@@ -28,7 +28,7 @@ export function validationWithoutNotEmpty(fieldToValidate, fieldRegex) {
     if (fieldToValidate === '') {
         isFieldValid = "";
     } else if (!(fieldRegex.test(fieldToValidate))) {
-        isFieldValid = "Invalid format";
+        isFieldValid = i18next.t("invalid_format_error");
     } else {
         isFieldValid = '';
     }
@@ -55,23 +55,22 @@ export function validateNameAndSurnameAsStrings(strToValidate) {
 
 	export function validatePasswordAsString(passwordToValidate) {
     let isPasswordValid;
-    console.log(passwordToValidate)
     if (passwordToValidate === '') {
-        isPasswordValid = "This field can't be empty";
+        isPasswordValid = i18next.t("empty_field_error");
     } else if (passwordToValidate.includes(' ')) {
-        isPasswordValid = "No whitespaces";
+        isPasswordValid = i18next.t("no_whitespaces_error");
     } else if (passwordToValidate.length < passwordMinLength) {
-        isPasswordValid = `Min length – ${passwordMinLength} chars`;
+        isPasswordValid = i18next.t('few_symbols_error', { passwordMinLength });
     } else if (passwordToValidate.length > passwordMaxLength) {
-        isPasswordValid = `Max length – ${passwordMaxLength} chars`;
+        isPasswordValid = i18next.t('too_much_symbols_error', { passwordMaxLength });
     } else if (!(/^[a-z0-9]+$/i.test(passwordToValidate))) {
-        isPasswordValid = "Only A-Z, a-z and 0-9";
+        isPasswordValid = i18next.t("only_a_z_and_digits_error");
     } else if (!(/\d/.test(passwordToValidate))) {
-        isPasswordValid = "At least one number";
+        isPasswordValid = i18next.t("at_least_1_digit");
     } else if (!(/[a-z]/.test(passwordToValidate))) {
-        isPasswordValid = "At least one lowercase";
+        isPasswordValid = i18next.t("at_least_1_lowercase");
     } else if (!(/[A-Z]/.test(passwordToValidate))) {
-        isPasswordValid = "At least one capital";
+        isPasswordValid = i18next.t("at_least_1_uppercase");
     } else {
         isPasswordValid = '';
     }

@@ -44,11 +44,11 @@ function allAreFalse(object) {
 function validateEmail(emailToValidate) {
     let isEmailValid;
     if (emailToValidate === '') {
-        isEmailValid = "This field can't be empty";
+        isEmailValid =  i18next.t("empty_field_error");
     } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(emailToValidate))) {
-        isEmailValid = "Invalid email format";
+        isEmailValid = i18next.t("invalid_format_error");
     } else if (emailToValidate.includes(' ')) {
-        isEmailValid = "No whitespaces";
+        isEmailValid = i18next.t("no_whitespaces_error");
     } else {
         isEmailValid = '';
     }
@@ -66,7 +66,7 @@ function validateRegistration() {
         'repeatPasswordValidationResult': validatePasswordAsString(repeatPasswordField.value),
         'doPasswordsMatch': (() => {
             if (passwordField.value !== repeatPasswordField.value) {
-                return "Passwords don't match!";
+                return i18next.t("match_error");
             } else {
                 return '';
             }
@@ -159,9 +159,9 @@ function showBackEndErrorsAtFrontEnd(status) {
     emailField.setAttribute("error", "true");
     passwordField.setAttribute("error", "true");
     if (status === 400) {
-        passwordField.setAttribute("errorText", "Invalid credentials");
+        passwordField.setAttribute("errorText", i18next.t("incorrect_credentials"));
     } else {
-        passwordField.setAttribute("errorText", "Unknown error");
+        passwordField.setAttribute("errorText",  i18next.t("unknown_error"));
     }
 }
 

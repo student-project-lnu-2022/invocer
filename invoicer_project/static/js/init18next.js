@@ -158,6 +158,10 @@ i18next.init({
                     "at_least_1_uppercase": "At least 1 uppercase character",
                     "at_least_1_digit": "At least 1 digit",
                     "from_8_to_15": "From 8 to 15 characters",
+                    "match_error": "Passwords don't match!",
+                    "too_much_symbols_error": "Max length - {{passwordMaxLength}} symbols",
+                    "few_symbols_error": "Min length - {{passwordMinLength}} symbols",
+                    "only_a_z_and_digits_error": "Only A-Z, a-z and 0-9 are allowed",
                 }
             },
             uk: {
@@ -266,6 +270,9 @@ i18next.init({
                     "special_characters_error": "Спецсимволи заборонені",
                     "invalid_format_error": "Некоректний формат",
                     "range_error": "Кількість цифр має бути від {{min}} до {{max}}",
+                    "too_much_symbols_error": "Кількість цифр повинна не перевищувати {{passwordMaxLength}}",
+                    "few_symbols_error": "Кількість цифр повинна бути не менше {{passwordMinLength}}",
+                    "only_a_z_and_digits_error": "Лише латинські літери та цифри",
                     "Afghanistan": "Афганістан",
                     "Aland Islands": "Аландські острови",
                     "Albania": "Албанія",
@@ -536,6 +543,7 @@ i18next.init({
                     "at_least_1_uppercase": "Щонайменше 1 велика літера",
                     "at_least_1_digit": "Щонайменше 1 цифра",
                     "from_8_to_15": "Довжина паролю від 8 до 15 символів",
+                    "match_error": "Паролі не збігаються",
                 }
             }
         }

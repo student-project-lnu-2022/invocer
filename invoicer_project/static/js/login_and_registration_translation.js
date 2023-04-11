@@ -1,53 +1,6 @@
-i18next.init({
-        lng: navigator.language,
-        fallbackLng: 'en',
-        resources: {
-            en: {
-                translation: {
-                    "log_in": "Log in",
-                    "password": "Password",
-                    "forgot_password": "Forgot password?",
-                    "create_an_account": "Create an account",
-                    "name": "Name",
-                    "surname": "Surname",
-                    "repeat_password": "Repeat password",
-                    "create_profile": "Create profile",
-                    "have_account": "I have an account. Log in.",
-                    "sign_up": "Sign up",
-                    "lets_go": "Let's go",
-                    "invalid_data": "Invalid data",
-                    "incorrect_credentials": "Incorrect credentials",
-                    "unknown_error": "Unknown error",
-                }
-            }
-            ,
-            uk: {
-                translation: {
-                    "log_in": "Вхід",
-                    "password": "Пароль",
-                    "forgot_password": "Забули пароль?",
-                    "create_an_account": "Створити профіль",
-                    "name": "Імʼя",
-                    "surname": "Прізвище",
-                    "repeat_password": "Повторити пароль",
-                    "create_profile": "Зареєструватися",
-                    "have_account": "У мене вже є акаунт. Увійти.",
-                    "sign_up": "Реєстрація",
-                    "lets_go": "Увійти",
-                    "invalid_data": "Некоректні дані",
-                    "incorrect_credentials": "Неправильний пароль або email",
-                    "unknown_error": "Невідома помилка. Оновіть сторінку",
-                }
-            }
-        }
-    },
-
-    function (err, t) {
-        document.addEventListener('DOMContentLoaded', function () {
-            updateContent();
-        });
-    });
-
+document.addEventListener('DOMContentLoaded', function() {
+  updateContent();
+});
 function updateContent() {
     loginTranslation();
     registrationTranslation();
