@@ -1010,6 +1010,8 @@ body {
 .background_change_password {
     margin-left: 0.8vw;
     height: fit-content;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .list_invoice_user_buttons {
