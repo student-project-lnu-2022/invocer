@@ -105,3 +105,16 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         setErrorAttributesToFields(validationFieldsList);
     }
 });
+
+const passwordInput = document.getElementById('password_input_lg_pg');
+const passwordVisibilityToggleButton = document.getElementById('password_visibility_toggle_button');
+
+passwordVisibilityToggleButton.addEventListener('click', function() {
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    passwordVisibilityToggleButton.textContent = 'visibility_off';
+  } else {
+    passwordInput.type = 'password';
+    passwordVisibilityToggleButton.textContent = 'visibility';
+  }
+});
