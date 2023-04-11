@@ -118,6 +118,8 @@ export function validateCity(cityToValidate) {
         isCityValid = i18next.t('capital_letter_error');
     } else if (cityToValidate.length > countryMaxLength) {
         isCityValid = i18next.t('max_length_error', {maxLength: countryMaxLength});
+    } else if (!/^[#./0-9a-zA-ZА-ЯЇІЄҐа-яїієґ\u0400-\u04FF\s,-]+$/.test(cityToValidate)) {
+        isCityValid = i18next.t('special_characters_error');
     } else {
         isCityValid = '';
     }
