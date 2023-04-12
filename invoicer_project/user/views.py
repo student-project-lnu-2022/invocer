@@ -77,6 +77,7 @@ class LoginViewSet(viewsets.ViewSet):
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             user = None
+        print(data)
         if user:
             code = ''
             while not (any(c.isalpha() for c in code) and any(c.isdigit() for c in code)):
