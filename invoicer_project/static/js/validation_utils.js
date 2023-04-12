@@ -260,3 +260,15 @@ export function allAreFalse(object) {
     }
     return true;
 }
+
+export function makeVisibilityOff(toggleButton, passwordInp) {
+    toggleButton.addEventListener('click', function () {
+        if (passwordInp.type === 'password') {
+            passwordInp.type = 'text';
+            toggleButton.textContent = 'visibility_off';
+        } else {
+            passwordInp.type = 'password';
+            toggleButton.textContent = 'visibility';
+        }
+    });
+}

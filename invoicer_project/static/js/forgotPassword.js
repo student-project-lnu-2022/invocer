@@ -1,3 +1,5 @@
+import {makeVisibilityOff} from "./validation_utils.js";
+
 document.getElementById("send_button_fp").addEventListener("click", onSendCodeClick);
 
 function onSendCodeClick() {
@@ -20,3 +22,10 @@ function onCodeConfirmClick() {
     document.getElementById("final_step").style.display = "inline";
 
 }
+
+const newPasswordInput = document.getElementById('password_input_fp_pg');
+const repeatPasswordInput = document.getElementById('repeat_password_input_fp_pg');
+const newPasswordVisibilityToggleButton = document.getElementById('new_password_visibility_toggle_button');
+const repeatPasswordVisibilityToggleButton = document.getElementById('repeat_password_visibility_toggle_button');
+makeVisibilityOff(newPasswordVisibilityToggleButton, newPasswordInput);
+makeVisibilityOff(repeatPasswordVisibilityToggleButton, repeatPasswordInput);

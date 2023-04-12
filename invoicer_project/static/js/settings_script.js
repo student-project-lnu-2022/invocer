@@ -1,3 +1,5 @@
+import {makeVisibilityOff} from "./validation_utils.js";
+
 let listElements = document.querySelectorAll('.dropdown_settings');
 listElements.forEach(listElement => {
     const parentEl = listElement.parentNode;
@@ -50,3 +52,10 @@ input.addEventListener('input', function() {
       lengthCheck.classList.remove('valid');
     }
   });
+
+const passwordInput = document.getElementById('new_password_input_settings');
+const repeatPasswordInput = document.getElementById('repeat_new_password_input_settings');
+const passwordVisibilityToggleButton = document.getElementById('new_password_visibility_toggle_button');
+const repeatPasswordVisibilityToggleButton = document.getElementById('repeat_password_visibility_toggle_button');
+makeVisibilityOff(passwordVisibilityToggleButton, passwordInput);
+makeVisibilityOff(repeatPasswordVisibilityToggleButton, repeatPasswordInput);
