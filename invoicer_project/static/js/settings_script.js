@@ -55,7 +55,10 @@ input.addEventListener('input', function() {
 
 const passwordInput = document.getElementById('new_password_input_settings');
 const repeatPasswordInput = document.getElementById('repeat_new_password_input_settings');
+const oldPasswordInput = document.getElementById('old_password_input_settings');
 const passwordVisibilityToggleButton = document.getElementById('new_password_visibility_toggle_button');
 const repeatPasswordVisibilityToggleButton = document.getElementById('repeat_password_visibility_toggle_button');
+const oldPasswordVisibilityToggleButton = document.getElementById('old_password_visibility_toggle_button');
 makeVisibilityOff(passwordVisibilityToggleButton, passwordInput);
 makeVisibilityOff(repeatPasswordVisibilityToggleButton, repeatPasswordInput);
+makeVisibilityOff(oldPasswordVisibilityToggleButton, oldPasswordInput);
