@@ -204,7 +204,7 @@ i18next.init({
                     "name_of_the_additional_unit": "Назва додаткової одиниці",
                     "amount_of_the_additional_unit_in_basic": "Кількість в основній одиниці",
                     "Select currency": "Оберіть валюту",
-                    "Select unit": "Оберіть основну од. кількості",
+                    "Select unit": "Оберіть основну од. к-сті.",
                     "AUD": "AUD",
                     "AZN": "AZN",
                     "BYN": "BYN",
