@@ -162,6 +162,12 @@ i18next.init({
                     "too_much_symbols_error": "Max length - {{passwordMaxLength}} symbols",
                     "few_symbols_error": "Min length - {{passwordMinLength}} symbols",
                     "only_a_z_and_digits_error": "Only A-Z, a-z and 0-9 are allowed",
+                    "restore_password": "Restore password",
+                    "send_code": "Send code",
+                    "confirmation_sent": "Confirmation of changing password was sent to ",
+                    "resend_confirmation_code": "Resend confirmation code",
+                    "confirm": "Confirm",
+                    "confirmation_code": "Confirmation code",
                 }
             },
             uk: {
@@ -544,6 +550,12 @@ i18next.init({
                     "at_least_1_digit": "Щонайменше 1 цифра",
                     "from_8_to_15": "Довжина паролю від 8 до 15 символів",
                     "match_error": "Паролі не збігаються",
+                    "restore_password": "Відновлення паролю",
+                    "send_code": "Отримати код",
+                    "confirmation_sent": "Код було надіслано на пошту ",
+                    "confirm": "Підтвердити",
+                    "confirmation_code": "Код підтвердження",
+                    "resend_confirmation_code": "Отримати код знову",
                 }
             }
         }
