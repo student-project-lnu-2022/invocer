@@ -163,6 +163,7 @@ i18next.init({
                     "few_symbols_error": "Min length - {{passwordMinLength}} symbols",
                     "only_a_z_and_digits_error": "Only A-Z, a-z and 0-9 are allowed",
                     "digit_in_name_or_surname_error": "Should not contain digits",
+                    "invalid_old_password":"Invalid old password",
                 }
             },
             uk: {
@@ -270,7 +271,7 @@ i18next.init({
                     "lowercase_error": "Повинно містити хоча б одну малу літеру",
                     "special_characters_error": "Спецсимволи заборонені",
                     "invalid_format_error": "Некоректний формат",
-                    "range_error": "Кількість цифр має бути від {{min}} до {{max}}",
+                    "range_error": "Кількість символів має бути від {{min}} до {{max}}",
                     "too_much_symbols_error": "Кількість цифр повинна не перевищувати {{passwordMaxLength}}",
                     "few_symbols_error": "Кількість цифр повинна бути не менше {{passwordMinLength}}",
                     "only_a_z_and_digits_error": "Лише латинські літери та цифри",
@@ -546,6 +547,7 @@ i18next.init({
                     "from_8_to_15": "Довжина паролю від 8 до 15 символів",
                     "match_error": "Паролі не збігаються",
                     "digit_in_name_or_surname_error": "Не повинно містити цифр",
+                    "invalid_old_password":"Неправильний пароль",
                 }
             }
         }
