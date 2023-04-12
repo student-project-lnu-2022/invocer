@@ -4,30 +4,44 @@ import {
     setErrorAttributesToFields,
     setMaxFieldContainerHeights,
     allAreFalse,
-    validatePasswordAsString
+    validatePasswordAsString, 
+    validation,
 } from './validation_utils.js'
+
+const userEmail = document.getElementById("email_input_fp");
+const newPass = document.getElementById("password_input_fp_pg");
+const repeatNewPass = document.getElementById("repeat_password_input_fp_pg");
+
 document.getElementById("send_button_fp").addEventListener("click", onSendCodeClick);
 
 function onSendCodeClick() {
+    const validationResult = validation(userEmail.value, /^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/);
+    if (validationResult !== '') {
+        userEmail.setAttribute("error", "true");
+        userEmail.setAttribute("errorText", validationResult);
+        return;
+    }
     document.getElementById("input_email").style.display = "none";
     document.getElementById("second_step").style.display = "inline";
-    const userEmail = document.getElementById("email_input_fp").value;
     const spanUserEmail = document.querySelector("#confirm_txt span");
     const confirmation_text = document.getElementById("confirm_txt");
     confirmation_text.style.display = "inline";
     confirmation_text.classList.add("animate__animated");
     confirmation_text.classList.add("animate__fadeInLeft");
-    spanUserEmail.textContent = userEmail;
-    sendConfirmationCode(userEmail);
+    spanUserEmail.textContent = userEmail.value;
+    sendConfirmationCode(userEmail.value);
 }
 
 document.getElementById("confirm_btn_fp_pg").addEventListener("click", onCodeConfirmClick);
 
-function onCodeConfirmClick() {
+async function onCodeConfirmClick() {
+    const result = await confirmCode();
+    if (!result) {
+        return;
+    }
     document.getElementById("confirm_txt").style.display = "none";
     document.getElementById("second_step").style.display = "none";
     document.getElementById("final_step").style.display = "inline";
-    confirmCode();
 }
 
 
@@ -39,7 +53,6 @@ async function sendConfirmationCode(userEmail) {
             method: "POST",
             body: JSON.stringify(data)
         });
-
     } catch (error) {
         console.error(error);
     }
@@ -47,22 +60,24 @@ async function sendConfirmationCode(userEmail) {
 
 async function confirmCode() {
     let response;
-    const data = { "email": document.getElementById("email_input_fp").value, "code": document.getElementById("confirm_code_fp").value };
+    const confirmCodeText = document.getElementById("confirm_code_fp");
+    const data = { "email": document.getElementById("email_input_fp").value, "code": confirmCodeText.value };
     try {
         response = await fetch(host + '/user/confirm_password/', {
             method: "POST",
             body: JSON.stringify(data)
         });
-
+        if (response.status !== 200) {
+            confirmCodeText.setAttribute("error", "true");
+            confirmCodeText.setAttribute("errorText", 'Wrong confirmation code');
+        }
     } catch (error) {
         console.error(error);
     }
+    return response.status === 200;
 }
 
 document.getElementById("change_btn_fp_pg").addEventListener("click", changePassword);
-
-const newPass = document.getElementById("password_input_fp_pg");
-const repeatNewPass = document.getElementById("repeat_password_input_fp_pg");
 
 const returnAllFields = function () {
     return [
@@ -106,3 +121,5 @@ function validateUserPasswordEdit() {
         'repeatNewPasswordValidationResult': validatePasswordAsString(repeatNewPass.value)
     };
 }
+
+document.getElementById("resend_text").addEventListener("click", onSendCodeClick);
