@@ -15,7 +15,7 @@ const repeatNewPass = document.getElementById("repeat_password_input_fp_pg");
 document.getElementById("send_button_fp").addEventListener("click", () => {
     setTimeout(function() {
         document.getElementById("resend_text").classList.toggle("no-click");
-    }, 60000);  
+    }, 5000);
     onSendCodeClick();
 });
 
@@ -130,12 +130,17 @@ const mdInputs = document.querySelectorAll('md-outlined-text-field');
 clearErrorAttributes(mdInputs);
 
 document.getElementById("resend_text").addEventListener("click", () => {
-    const resendButton = document.getElementById("resend_text");
-    resendButton.classList.toggle("no-click");
-    resendButton.textContent = 'The code has been sent again. Wait 60 seconds to receive a new one';
-        setTimeout(function() {
-            resendButton.classList.toggle("no-click");
-            resendButton.textContent = 'The code has been sent again';
-        }, 60000);      
-    onSendCodeClick();
+  const resendButton = document.getElementById("resend_text");
+  let seconds = 60;
+  resendButton.textContent = i18next.t('resend_code_text', { seconds });
+  const countdown = setInterval(() => {
+    seconds--;
+    if (seconds > 0) {
+      resendButton.textContent = i18next.t('resend_code_text', { seconds });
+    } else {
+      clearInterval(countdown);
+      resendButton.textContent = i18next.t("resend_confirmation_code");
+    }
+  }, 1000);
+  onSendCodeClick();
 });
