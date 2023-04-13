@@ -4,8 +4,8 @@ import {
     setErrorAttributesToFields,
     setMaxFieldContainerHeights,
     allAreFalse,
-    validatePasswordAsString, 
-    validation,
+    validatePasswordAsString,
+    validation, clearErrorAttributes,
 } from './validation_utils.js'
 
 const userEmail = document.getElementById("email_input_fp");
@@ -100,9 +100,9 @@ async function changePassword() {
             }
             else if (response.status === 400) {
                 newPass.setAttribute("error", "true");
-                newPass.setAttribute("errorText", 'Password and Confirm Password don\'t match');
+                newPass.setAttribute("errorText", i18next.t("match_error"));
                 repeatNewPass.setAttribute("error", "true");
-                repeatNewPass.setAttribute("errorText", 'Password and Confirm Password don\'t match');
+                repeatNewPass.setAttribute("errorText", i18next.t("match_error"));
             }
         } catch (error) {
             console.error(error);
@@ -121,5 +121,6 @@ function validateUserPasswordEdit() {
         'repeatNewPasswordValidationResult': validatePasswordAsString(repeatNewPass.value)
     };
 }
-
+const mdInputs = document.querySelectorAll('md-outlined-text-field');
+clearErrorAttributes(mdInputs);
 document.getElementById("resend_text").addEventListener("click", onSendCodeClick);
