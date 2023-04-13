@@ -69,7 +69,7 @@ async function confirmCode() {
         });
         if (response.status !== 200) {
             confirmCodeText.setAttribute("error", "true");
-            confirmCodeText.setAttribute("errorText", 'Wrong confirmation code');
+            confirmCodeText.setAttribute("errorText", i18next.t("wrong_confirmation_code"));
         }
     } catch (error) {
         console.error(error);
