@@ -12,7 +12,12 @@ const userEmail = document.getElementById("email_input_fp");
 const newPass = document.getElementById("password_input_fp_pg");
 const repeatNewPass = document.getElementById("repeat_password_input_fp_pg");
 
-document.getElementById("send_button_fp").addEventListener("click", onSendCodeClick);
+document.getElementById("send_button_fp").addEventListener("click", () => {
+    setTimeout(function() {
+        document.getElementById("resend_text").classList.toggle("no-click");
+    }, 60000);  
+    onSendCodeClick();
+});
 
 function onSendCodeClick() {
     const validationResult = validation(userEmail.value, /^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/);
@@ -123,4 +128,14 @@ function validateUserPasswordEdit() {
 }
 const mdInputs = document.querySelectorAll('md-outlined-text-field');
 clearErrorAttributes(mdInputs);
-document.getElementById("resend_text").addEventListener("click", onSendCodeClick);
+
+document.getElementById("resend_text").addEventListener("click", () => {
+    const resendButton = document.getElementById("resend_text");
+    resendButton.classList.toggle("no-click");
+    resendButton.textContent = 'The code has been sent again. Wait 60 seconds to receive a new one';
+        setTimeout(function() {
+            resendButton.classList.toggle("no-click");
+            resendButton.textContent = 'The code has been sent again';
+        }, 60000);      
+    onSendCodeClick();
+});
