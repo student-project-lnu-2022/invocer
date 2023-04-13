@@ -32,7 +32,7 @@ hideUnnecessaryElementsInMenu();
 function validateUserOldPassword(oldPassword) {
         let isFieldValid;
         if (oldPassword === '') {
-            isFieldValid = "This field can't be empty";
+            isFieldValid = i18next.t('empty_field_error');
         } else {
             isFieldValid = '';
         }
@@ -144,12 +144,12 @@ function validateUserOldPassword(oldPassword) {
             for(let i = 0; i < messages.length; ++i){
                 if(messages[i] === 'Invalid old password'){
                     oldPasswordField.setAttribute("error", "true");
-                    oldPasswordField.setAttribute("errorText", 'Invalid old password');
+                    oldPasswordField.setAttribute("errorText", i18next.t('invalid_old_password'));
                 } if(messages[i] === 'Password and Confirm Password don\'t match'){
                     newPasswordField.setAttribute("error", "true");
-                    newPasswordField.setAttribute("errorText", 'Password and Confirm Password don\'t match');
+                    newPasswordField.setAttribute("errorText", i18next.t('match_error'));
                     repeatNewPasswordField.setAttribute("error", "true");
-                    repeatNewPasswordField.setAttribute("errorText", 'Password and Confirm Password don\'t match');
+                    repeatNewPasswordField.setAttribute("errorText", i18next.t('match_error'));
             }}});
             actionBasedOnStatusCode(serverResponseStatus['status'], 200, data, allPasswordFields(), "/user/settings/", "PATCH", "/user/user/");
         } else {

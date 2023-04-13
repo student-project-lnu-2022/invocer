@@ -1,3 +1,5 @@
+import {makeVisibilityOff} from "./validation_utils.js";
+
 const host = "http://127.0.0.1:8000";
 const emailField = document.getElementById("email_input_lg_pg");
 const passwordField = document.getElementById("password_input_lg_pg");
@@ -105,3 +107,7 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         setErrorAttributesToFields(validationFieldsList);
     }
 });
+
+const passwordInput = document.getElementById('password_input_lg_pg');
+const passwordVisibilityToggleButton = document.getElementById('password_visibility_toggle_button');
+makeVisibilityOff(passwordVisibilityToggleButton, passwordInput);

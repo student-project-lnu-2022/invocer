@@ -7,6 +7,9 @@ const amountMaxLength = 10;
 const nameItemMaxLength = 35;
 const passwordMinLength = 8;
 const passwordMaxLength = 15;
+const specialCharsArray = ['!', '"', '#', '$', '%', '&', '(', ')', '*', '+', ',', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '{', '|', '}', '~'];
+const specialCharsArrayWithoutQuotationMarks = ['!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '{', '|', '}', '~'];
+
 
 export function validation(fieldToValidate, fieldRegex) {
     let isFieldValid = '';
@@ -29,6 +32,8 @@ export function validationWithoutNotEmpty(fieldToValidate, fieldRegex) {
         isFieldValid = "";
     } else if (!(fieldRegex.test(fieldToValidate))) {
         isFieldValid = i18next.t("invalid_format_error");
+    } else if (new RegExp(`[${specialCharsArrayWithoutQuotationMarks.join('')}]`).test(fieldToValidate)) {
+        isFieldValid = i18next.t("special_characters_error");
     } else {
         isFieldValid = '';
     }
@@ -47,22 +52,26 @@ export function validateNameAndSurnameAsStrings(strToValidate) {
         strValidationResult = i18next.t("capital_letter_error");
     } else if (!/[a-zа-яїієґ\u00E0-\u00F6\u00F8-\u00FE]/.test(strToValidate)) {
         strValidationResult = i18next.t("lowercase_error");
+    } else if (/\d/.test(strToValidate)) {
+        strValidationResult = i18next.t("digit_in_name_or_surname_error");
+    } else if (new RegExp(`[${specialCharsArray.join('')}]`).test(strToValidate)) {
+        strValidationResult = i18next.t("special_characters_error");
     } else {
         strValidationResult = '';
     }
     return strValidationResult;
 }
 
-	export function validatePasswordAsString(passwordToValidate) {
+export function validatePasswordAsString(passwordToValidate) {
     let isPasswordValid;
     if (passwordToValidate === '') {
         isPasswordValid = i18next.t("empty_field_error");
     } else if (passwordToValidate.includes(' ')) {
         isPasswordValid = i18next.t("no_whitespaces_error");
     } else if (passwordToValidate.length < passwordMinLength) {
-        isPasswordValid = i18next.t('few_symbols_error', { passwordMinLength });
+        isPasswordValid = i18next.t('few_symbols_error', {passwordMinLength});
     } else if (passwordToValidate.length > passwordMaxLength) {
-        isPasswordValid = i18next.t('too_much_symbols_error', { passwordMaxLength });
+        isPasswordValid = i18next.t('too_much_symbols_error', {passwordMaxLength});
     } else if (!(/^[a-z0-9]+$/i.test(passwordToValidate))) {
         isPasswordValid = i18next.t("only_a_z_and_digits_error");
     } else if (!(/\d/.test(passwordToValidate))) {
@@ -113,6 +122,8 @@ export function validateCity(cityToValidate) {
         isCityValid = i18next.t('capital_letter_error');
     } else if (cityToValidate.length > countryMaxLength) {
         isCityValid = i18next.t('max_length_error', {maxLength: countryMaxLength});
+    } else if (!/^[#./0-9a-zA-ZА-ЯЇІЄҐа-яїієґ\u0400-\u04FF\s,-]+$/.test(cityToValidate)) {
+        isCityValid = i18next.t('special_characters_error');
     } else {
         isCityValid = '';
     }
@@ -124,7 +135,7 @@ export function validateName(strToValidate) {
     if (!strToValidate) {
         strValidationResult = i18next.t('empty_field_error');
     } else if (strToValidate.length > nameItemMaxLength) {
-        strValidationResult = i18next.t('max_length_error', { maxLength: nameItemMaxLength });
+        strValidationResult = i18next.t('max_length_error', {maxLength: nameItemMaxLength});
     } else if (!(/[A-ZA-ЯІЇЄҐ]/.test(strToValidate.charAt(0)))) {
         strValidationResult = i18next.t('capital_letter_error');
     } else if (!/[a-zа-яїієґ]/.test(strToValidate)) {
@@ -145,10 +156,10 @@ export function validateAdditionalUnits(container, regex) {
 }
 
 export function validationDropdown(dropdownId) {
-    let isFieldValid='';
+    let isFieldValid = '';
     let dropdownElement = document.querySelector('#' + dropdownId);
     if (dropdownElement.value === "") {
-        isFieldValid =  i18next.t('empty_field_error');
+        isFieldValid = i18next.t('empty_field_error');
     }
     return isFieldValid;
 }
@@ -172,7 +183,7 @@ export function validateAmountInStock(amountToValidate) {
     if (amountToValidate === '') {
         isAmountValid = i18next.t('empty_field_error');
     } else if (amountToValidate.length > amountMaxLength) {
-        isAmountValid = i18next.t('max_length_error', { maxLength: amountMaxLength });
+        isAmountValid = i18next.t('max_length_error', {maxLength: amountMaxLength});
     } else if (!(/^\$?\d+(,\d{3})*(\.\d{1,2})?$/.test(amountToValidate))) {
         isAmountValid = i18next.t('invalid_format_error');
     } else {
@@ -186,7 +197,7 @@ export function validateBarcode(barcodeToValidate) {
     if (barcodeToValidate === '') {
         isBarcodeValid = i18next.t('empty_field_error');
     } else if (barcodeToValidate.length > barcodeMaxLength || barcodeToValidate.length < barcodeMinLength) {
-        isBarcodeValid = i18next.t('range_error', { min: barcodeMinLength, max: barcodeMaxLength });
+        isBarcodeValid = i18next.t('range_error', {min: barcodeMinLength, max: barcodeMaxLength});
     } else if (!/^[0-9]+$/.test(barcodeToValidate)) {
         isBarcodeValid = i18next.t('invalid_format_error');
     } else {
@@ -248,4 +259,16 @@ export function allAreFalse(object) {
         }
     }
     return true;
+}
+
+export function makeVisibilityOff(toggleButton, passwordInp) {
+    toggleButton.addEventListener('click', function () {
+        if (passwordInp.type === 'password') {
+            passwordInp.type = 'text';
+            toggleButton.textContent = 'visibility_off';
+        } else {
+            passwordInp.type = 'password';
+            toggleButton.textContent = 'visibility';
+        }
+    });
 }

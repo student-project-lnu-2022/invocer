@@ -1,7 +1,7 @@
 const nameSurnMaxLength = 35;
 const host = "http://127.0.0.1:8000";
 let csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-import { validateNameAndSurnameAsStrings, validatePasswordAsString } from "./validation_utils.js"
+import {makeVisibilityOff, validateNameAndSurnameAsStrings, validatePasswordAsString} from "./validation_utils.js"
 
 const emailField = document.getElementById("email_input_rg_pg");
 const nameField = document.getElementById("name_input_rg_pg");
@@ -221,3 +221,10 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         setErrorAttributesToFields(validationFieldsList);
     }
 });
+
+const passwordInput = document.getElementById('password_input_rg_pg');
+const repeatPasswordInput = document.getElementById('repeat_password_input_rg_pg');
+const passwordVisibilityToggleButton = document.getElementById('password_visibility_toggle_button');
+const repeatPasswordVisibilityToggleButton = document.getElementById('repeat_password_visibility_toggle_button');
+makeVisibilityOff(passwordVisibilityToggleButton, passwordInput);
+makeVisibilityOff(repeatPasswordVisibilityToggleButton, repeatPasswordInput);
