@@ -170,7 +170,7 @@ i18next.init({
                     "confirmation_code": "Confirmation code",
                     "wrong_confirmation_code": "Wrong confirmation code",
                     "resend_code_text": "The code has been sent again. Wait {{seconds}} seconds to receive a new one",
-
+                    "wait_to_receive": "Wait {{seconds}} seconds to receive a new code",
                 }
             },
             uk: {
@@ -560,7 +560,9 @@ i18next.init({
                     "confirmation_code": "Код підтвердження",
                     "resend_confirmation_code": "Отримати код знову",
                     "wrong_confirmation_code": "Неправильний код підтвердження",
-                    "resend_code_text": "Код було надіслано знову. Почекайте {{seconds}}с., щоб отримати новий.",
+                    "resend_code_text": "Код було надіслано знову. Почекайте {{seconds}}с., щоб отримати новий",
+                    "wait_to_receive": "Почекайте {{seconds}}с., щоб отримати новий код",
+
                 }
             }
         }

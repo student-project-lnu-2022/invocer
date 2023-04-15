@@ -1,4 +1,4 @@
-import { host } from './utils_items.js'
+import {host} from './utils_items.js'
 import {
     removeAllErrorAttributes,
     setErrorAttributesToFields,
@@ -13,9 +13,19 @@ const newPass = document.getElementById("password_input_fp_pg");
 const repeatNewPass = document.getElementById("repeat_password_input_fp_pg");
 
 document.getElementById("send_button_fp").addEventListener("click", () => {
-    setTimeout(function() {
-        document.getElementById("resend_text").classList.toggle("no-click");
-    }, 5000);
+    const resendButton = document.getElementById("resend_text");
+    let seconds = 60;
+    resendButton.textContent = i18next.t('wait_to_receive', {seconds});
+    const countdown = setInterval(() => {
+        seconds--;
+        if (seconds > 0) {
+            resendButton.textContent = i18next.t('wait_to_receive', {seconds});
+        } else {
+            clearInterval(countdown);
+            resendButton.textContent = i18next.t("resend_confirmation_code");
+            resendButton.classList.toggle("no-click");
+        }
+    }, 1000);
     onSendCodeClick();
 });
 
@@ -52,7 +62,7 @@ async function onCodeConfirmClick() {
 
 async function sendConfirmationCode(userEmail) {
     let response;
-    const data = { "email": userEmail };
+    const data = {"email": userEmail};
     try {
         response = await fetch(host + '/user/reset_password/', {
             method: "POST",
@@ -66,7 +76,7 @@ async function sendConfirmationCode(userEmail) {
 async function confirmCode() {
     let response;
     const confirmCodeText = document.getElementById("confirm_code_fp");
-    const data = { "email": document.getElementById("email_input_fp").value, "code": confirmCodeText.value };
+    const data = {"email": document.getElementById("email_input_fp").value, "code": confirmCodeText.value};
     try {
         response = await fetch(host + '/user/confirm_password/', {
             method: "POST",
@@ -94,7 +104,11 @@ async function changePassword() {
     const validationFieldsList = validateUserPasswordEdit();
     if (allAreFalse(validationFieldsList)) {
         let response;
-        const data = { "email": document.getElementById("email_input_fp").value, "new_password": newPass.value, "repeat_new_password": repeatNewPass.value };
+        const data = {
+            "email": document.getElementById("email_input_fp").value,
+            "new_password": newPass.value,
+            "repeat_new_password": repeatNewPass.value
+        };
         try {
             response = await fetch(host + '/user/reset_password/', {
                 method: "PATCH",
@@ -102,8 +116,7 @@ async function changePassword() {
             });
             if (response.status === 200) {
                 window.location.href = host + '/user/login/';
-            }
-            else if (response.status === 400) {
+            } else if (response.status === 400) {
                 newPass.setAttribute("error", "true");
                 newPass.setAttribute("errorText", i18next.t("match_error"));
                 repeatNewPass.setAttribute("error", "true");
@@ -112,8 +125,7 @@ async function changePassword() {
         } catch (error) {
             console.error(error);
         }
-    }
-    else {
+    } else {
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
     }
 }
@@ -126,21 +138,24 @@ function validateUserPasswordEdit() {
         'repeatNewPasswordValidationResult': validatePasswordAsString(repeatNewPass.value)
     };
 }
+
 const mdInputs = document.querySelectorAll('md-outlined-text-field');
 clearErrorAttributes(mdInputs);
 
 document.getElementById("resend_text").addEventListener("click", () => {
-  const resendButton = document.getElementById("resend_text");
-  let seconds = 60;
-  resendButton.textContent = i18next.t('resend_code_text', { seconds });
-  const countdown = setInterval(() => {
-    seconds--;
-    if (seconds > 0) {
-      resendButton.textContent = i18next.t('resend_code_text', { seconds });
-    } else {
-      clearInterval(countdown);
-      resendButton.textContent = i18next.t("resend_confirmation_code");
-    }
-  }, 1000);
-  onSendCodeClick();
+    const resendButton = document.getElementById("resend_text");
+    resendButton.classList.toggle("no-click");
+    let seconds = 60;
+    resendButton.textContent = i18next.t('resend_code_text', {seconds});
+    const countdown = setInterval(() => {
+        seconds--;
+        if (seconds > 0) {
+            resendButton.textContent = i18next.t('resend_code_text', {seconds});
+        } else {
+            clearInterval(countdown);
+            resendButton.textContent = i18next.t("resend_confirmation_code");
+            resendButton.classList.toggle("no-click");
+        }
+    }, 1000);
+    onSendCodeClick();
 });
