@@ -163,6 +163,7 @@ function loadDataToEdit(event) {
 function modifyTable(arrayOfColumns) {
     const validationResult = validateAddingItemToTable(returnAllItemsFields());
     if (allAreFalse(validationResult)) {
+        totalPrice.textContent = parseFloat(totalPrice.textContent) - (parseFloat(arrayOfColumns[4].textContent) - parseFloat(amountField.value * priceField.value));
         arrayOfColumns[0].textContent = itemsField.value;
         arrayOfColumns[1].textContent = amountField.value;
         arrayOfColumns[2].textContent = unitField.value;
