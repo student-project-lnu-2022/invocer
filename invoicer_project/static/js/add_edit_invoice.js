@@ -10,6 +10,12 @@ import { hideUnnecessaryElementsInMenu } from "./utils_clients.js";
 
 const addMoreItems = document.querySelector('#item_to_table');
 const saveToTable = document.querySelector('#save_changes');
+const invoiceNameDisplay = document.querySelector('#invoice_name_display');
+const clientPhoneDisplay = document.querySelector('#client_phone_display');
+const clientNameDisplay = document.querySelector('#client_name_display');
+const clientEmailDisplay = document.querySelector('#client_email_display');
+const invoiceCurrencyDisplay = document.querySelector('#invoice_currency_display');
+const totalPrice = document.querySelector('#total_price');
 export const itemsField = document.querySelector('#item-list');
 export const priceField = document.querySelector('#price-field');
 export const unitField = document.querySelector('#unit-list');
@@ -17,8 +23,9 @@ export const amountField = document.querySelector('#item_amount');
 
 export const invoiceTable = document.querySelector('#table');
 export const clientNameField = document.querySelector("#client-field");
-export const currencyField = document.querySelector("#currency");
+export const currencyField = document.querySelector("#currency_input_dropdown");
 export const invoiceNameField = document.querySelector("#invoice_name");
+
 const itemsList = [];
 let clickHandler;
 
@@ -74,6 +81,7 @@ function createAndFillTableRow(valList) {
         tempElem.textContent = valList[i];
         tableRow.appendChild(tempElem);
     }
+    totalPrice.textContent = parseFloat(totalPrice.textContent) + valList.at(-1);
     return tableRow;
 }
 
@@ -180,15 +188,20 @@ async function createItemsList(data) {
 }
 
 
-function loadItemsToDropdown(data) {
+function loadItemsToDropdown(data, currency) {
     const menu = itemsField.parentElement.children[4];
+    while (menu.firstChild) {
+        menu.lastChild.remove();
+    }
     for (let item of data) {
-        const div = document.createElement('div');
-        div.classList.add('item');
-        div.setAttribute('data-id', item.id);
-        div.setAttribute('data-value', item.title);
-        div.textContent = item.title;
-        menu.appendChild(div);
+        if(item.currency === currency){
+            const div = document.createElement('div');
+            div.classList.add('item');
+            div.setAttribute('data-id', item.id);
+            div.setAttribute('data-value', item.title);
+            div.textContent = item.title;
+            menu.appendChild(div);
+        }  
     }
 }
 
@@ -260,6 +273,8 @@ function createClientList(data) {
         div.classList.add('item');
         let stringName = `${client['first_name']} ${client['last_name']}`;
         div.setAttribute('data-value', client.id);
+        div.setAttribute('data-phone', client.phone_number);
+        div.setAttribute('data-email', client.email);
         div.textContent = stringName;
         menu.appendChild(div);
     }
@@ -290,7 +305,40 @@ function removeAllErrorAttrubutes()
     removeDropdownErrors([clientNameField, itemsField, unitField]);
 }
 
+function updateInvoiceName()
+{
+    invoiceNameField.addEventListener('input', ()=>{
+        let text;
+        if (invoiceNameField.value){
+            text = invoiceNameField.value;
+        } else {
+            text = 'Invoice';
+        }
+        invoiceNameDisplay.textContent = text;
+    });
+}
+
+function observeClientAndCurrencyField()
+{
+    const clientObserver = new MutationObserver(() =>{
+        const elem = clientNameField.parentElement.querySelector('.menu').querySelector(`[data-value="${clientNameField.value}"]`);
+        clientNameDisplay.textContent = `Client name: ${elem.textContent}`;
+        clientPhoneDisplay.textContent = `Telephone: ${elem.dataset.phone}`;
+        clientEmailDisplay.textContent = `Email: ${elem.dataset.email}`;
+    });
+    clientObserver.observe(clientNameField, {attributeFilter: ["value"]});
+
+    const currencyObserver = new MutationObserver(()=> {
+        clearAllFields();
+        loadItemsToDropdown(itemsList, currencyField.value);
+        const flagElement = currencyField.parentElement.querySelector('.menu').querySelector(`[data-value="${currencyField.value}"]`);
+        invoiceCurrencyDisplay.innerHTML = `${currencyField.value}<i class="${flagElement.firstElementChild.className}"></i>`;
+    }); 
+    currencyObserver.observe(currencyField, {attributeFilter: ["value"]});
+}
+
 document.addEventListener('DOMContentLoaded', async function () {
+    updateInvoiceName();
     hideUnnecessaryElementsInMenu();
     await obtainUserInitials();
    
@@ -298,8 +346,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     const data = await getUserData('/items/items_list/');
     await createItemsList(data['data']['content']);
     await obtainUserClients();
-    loadItemsToDropdown(itemsList);
     observeUnitAndItemField();
+    observeClientAndCurrencyField();
     addMoreItems.addEventListener('click', () => {
         removeAllErrorAttrubutes();
         hideSaveButton();
@@ -311,7 +359,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             const removeButton = createIconButton('remove');
             tableRow.appendChild(editButton);
             tableRow.appendChild(removeButton);
-            removeButton.addEventListener('click', event1 => event1.target.parentElement.remove());
+            removeButton.addEventListener('click', event1 => {
+                    totalPrice.textContent = parseFloat(totalPrice.textContent) - parseFloat(event1.target.parentElement.children[4].textContent);
+                    event1.target.parentElement.remove();
+                });
             editButton.addEventListener('click', event2 => loadDataToEdit(event2));
             invoiceTable.insertAdjacentElement('beforeend', tableRow);
             clearAllFields();

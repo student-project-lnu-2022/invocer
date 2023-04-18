@@ -39,21 +39,17 @@
                             <div class="row">
                                 <div class="d-flex flex-wrap flex-column col-lg">
                                     <md-outlined-text-field
-                                        class="input_field col-xl-8 pt-1"
+                                        class="input_field col-xl-8 pb-1"
                                         label="Name"
                                         id="invoice_name"
                                         type="text"></md-outlined-text-field>
-                                    <div class="custom_dropdown col col-xl-11 pb-2">
+                                    <div class="custom_dropdown col col-xl-11 pb-3">
                                         {% include "client_dropdown.html" %}
                                     </div>
-                                    <div class="row pt-1">
-                                        <md-outlined-text-field
-                                            class="input_field col-xl-8"
-                                            label="Currency"
-                                            id="currency"
-                                            type="text"></md-outlined-text-field>
+                                    <div class="custom_dropdown col-xl-8 pb-3">
+                                        {% include "currencies_dropdown_input.html" %}
                                     </div>
-                                    <div class="row pb-1 align-items-center">
+                                    <div class="row pb-2 align-items-center">
                                         <md-outlined-text-field
                                             class="input_field col-4 col-sm-4 col-md-4 col-lg-5 col-xl-4 col-xxl-4"
                                             label="Date of invoice"
@@ -114,16 +110,18 @@
                         </div>
                         <div class="container-fluid col-12 col-lg-10 col-xl-7 col-xxl-6">
                             <div id="inv" class="container-fluid text-left mb-3">
-                                <div class="row text-left">
-                                    <h2>Invoice</h2>
+                                <div class="row text-left mb-2" >
+                                    <h2 id="invoice_name_display">Invoice</h2>
                                 </div>
-                                <div class="row text-left">
-                                    <h5>Client: Client name_surname</h5>
+                                <div class="row text-left mb-2">
+                                    <h5 id="client_name_display">Client name: </h5>
                                 </div>
-                                <div class="row text-left">
-                                    <h5>Telephone number:</h5>
+                                <div class="row text-left mb-2">
+                                    <h5 id="client_phone_display">Telephone number:</h5>
                                 </div>
-
+                                <div class="row text-left mb-3">
+                                   <h5 id="client_email_display">Email: </h5>   
+                                </div>
                                 <div class="container-fluid text-left align-items-center" id="table">
                                     <div class="row text-left table-row" data-id="0">
                                         <div class="col-2 first_col items_name">Name</div>
@@ -132,7 +130,13 @@
                                         <div class="col-2 first_col">Price</div>
                                         <div class="col-2 first_col">Total</div>
                                     </div>
+                                    
                                 </div>
+                                <div class="row justify-content-end mt-4">
+                                    <h6 class="col-1">Total: </h6>   
+                                    <h6 class="col-2" id="total_price">0</h6>   
+                                    <h6 class="col-2" id="invoice_currency_display">USD<i class="us flag"></i></h6>   
+                                 </div>
                             </div>
                             <div class="row justify-content-between align-items-center">
                                 <div class="empty_invoice col-auto">
