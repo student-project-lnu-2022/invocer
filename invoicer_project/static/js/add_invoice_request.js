@@ -10,20 +10,20 @@ import {
     validateBarcode,
     setErrorAttributesToFields
 } from './validation_utils.js'
-import { actionBasedOnStatusCode, obtainUserInitials, sendAddEditRequest } from './request_utils.js'
+import {
+    actionBasedOnStatusCode, sendAddEditRequest
+} from './request_utils.js'
 import {
     hideUnnecessaryElementsInMenu,
 } from './utils_clients.js'
-import { itemsField, invoiceTable, clientNameField } from "./add_edit_invoice.js";
+import {
+    itemsField, unitField, amountField, priceField,
+    currencyField, invoiceNameField, invoiceTable, clientNameField
+} from "./add_edit_invoice.js";
 
-const invoiceNameField = document.querySelector("#invoice_name");
-const currencyField = document.querySelector("#currency");
+
 const firstDateOfPaymentField = document.querySelector("#first_date_of_payment");
 const lastDateOfPaymentField = document.querySelector("#last_date_of_payment");
-const nameOfItemField = document.querySelector("#item-list");
-const amountOfItemField = document.querySelector("#item_amount");
-const unitOfItemField = document.querySelector("#unit-list");
-const priceOfItemField = document.querySelector("#price-field");
 
 
 function collectDataFromInvoiceTable() {
@@ -44,6 +44,7 @@ function collectDataFromInvoiceTable() {
 }
 
 document.getElementById("add_invoice_button").addEventListener("click", async () => {
+
     const dataForInvoice = collectDataFromInvoiceTable();
     const totalSum = dataForInvoice.reduce((a, b) => a + b['price'] * b['amount'], 0);
     const data = {
@@ -76,9 +77,6 @@ document.getElementById("add_invoice_button").addEventListener("click", async ()
             await actionBasedOnStatusCode(400, 201, data, fieldsList, '', "POST", "/invoices/invoice/")
         }
     }
-    // } else {
-    //     setErrorAttributesToFields(returnAllFields(), validationFieldsList);
-    // }
 });
 
 async function sendAddInvoiceRequest(url, data, requestMethod) {
