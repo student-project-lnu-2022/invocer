@@ -1,4 +1,4 @@
-export const host = "http://127.0.0.1:8000";
+export const host = "http://104.248.33.20";
 export const nameField = document.getElementById("name_input_client_edit_page");
 export const surnameField = document.getElementById("surname_input_client_edit_page");
 export const emailField = document.getElementById("email_input_client_edit_page");

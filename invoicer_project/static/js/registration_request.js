@@ -1,5 +1,5 @@
 const nameSurnMaxLength = 35;
-const host = "http://127.0.0.1:8000";
+const host = "http://104.248.33.20";
 let csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 import {makeVisibilityOff, validateNameAndSurnameAsStrings, validatePasswordAsString} from "./validation_utils.js"
 

@@ -1,4 +1,4 @@
-export const host = "http://127.0.0.1:8000";
+export const host = "http://104.248.33.20";
 export const nameField = document.getElementById("name");
 export const priceField = document.getElementById("price");
 export const amountInStockField = document.getElementById("amount_in_stock");

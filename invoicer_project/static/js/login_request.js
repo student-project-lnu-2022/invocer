@@ -1,6 +1,6 @@
 import {makeVisibilityOff} from "./validation_utils.js";
 
-const host = "http://127.0.0.1:8000";
+const host = "http://104.248.33.20";
 const emailField = document.getElementById("email_input_lg_pg");
 const passwordField = document.getElementById("password_input_lg_pg");
 

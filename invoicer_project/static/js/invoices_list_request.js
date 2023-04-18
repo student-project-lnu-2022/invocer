@@ -1,4 +1,4 @@
-const host = "http://127.0.0.1:8000";
+const host = "http://104.248.33.20";
 import {obtainUserInitials, obtainNewAccessToken, addCheckboxesListener, getUserData, addDeleteButtonListeners} from './request_utils.js';
 import {search} from './request_utils.js';
 document.getElementById("search_bar").addEventListener('keyup', ()=> { search('invoice_name', 'client_list_item')});
