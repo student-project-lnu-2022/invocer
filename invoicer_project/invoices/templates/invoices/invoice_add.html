@@ -51,21 +51,23 @@
                                     </div>
                                     <div class="row pb-2 align-items-center">
                                         <md-outlined-text-field
+                                        type="date" pattern="\d{4}-\d{2}-\d{2}"
                                             class="input_field col-4 col-sm-4 col-md-4 col-lg-5 col-xl-4 col-xxl-4"
                                             label="Date of invoice"
-                                            id="first_date_of_payment"
+                                            id="date_of_invoice"
                                             type="text"></md-outlined-text-field>
 
-                                        <md-standard-icon-button class="col-auto col-sm-1 mb-3 mr-0 pr-0"
+                                        <md-standard-icon-button id="inv_date_btn" class="col-auto col-sm-1 mb-3 mr-0 pr-0"
                                             ><span>today</span></md-standard-icon-button
                                         >
                                         <md-outlined-text-field
+                                        type="date" pattern="\d{4}-\d{2}-\d{2}"
                                             class="input_field col-4 col-sm-4 col-md-4 col-lg-5 col-xl-4 col-xxl-4"
                                             label="Date of payment"
-                                            id="last_date_of_payment"
+                                            id="date_of_payment"
                                             type="text"></md-outlined-text-field>
 
-                                        <md-standard-icon-button class="col-auto col-sm-1 mb-3 mr-0 pr-0"
+                                        <md-standard-icon-button id="payment_date_btn" class="col-auto col-sm-1 mb-3 mr-0 pr-0"
                                             ><span>today</span></md-standard-icon-button
                                         >
                                     </div>
@@ -136,7 +138,14 @@
                                     <h6 class="col-1">Total: </h6>   
                                     <h6 class="col-2" id="total_price">0</h6>   
                                     <h6 class="col-2" id="invoice_currency_display">USD<i class="us flag"></i></h6>   
-                                 </div>
+                                </div>
+                                <div class="row justify-content-end mt-1">
+                                    <p id="payment_date_display" class="col-5">Date of payment: Input Date</p>
+                                </div>
+                                <div class="row justify-content-end mt-1">
+                                    <p id="inv_date_display" class="col-5">Date of invoice: Input Date</p>
+                                </div>
+                                
                             </div>
                             <div class="row justify-content-between align-items-center">
                                 <div class="empty_invoice col-auto">

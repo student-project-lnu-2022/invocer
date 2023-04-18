@@ -16,6 +16,10 @@ const clientNameDisplay = document.querySelector('#client_name_display');
 const clientEmailDisplay = document.querySelector('#client_email_display');
 const invoiceCurrencyDisplay = document.querySelector('#invoice_currency_display');
 const totalPrice = document.querySelector('#total_price');
+const dateOfInvoiceDisplay = document.querySelector('#inv_date_display');
+const dateOfPaymentDisplay = document.querySelector('#payment_date_display');
+const dateOfInvoiceField = document.querySelector('#date_of_invoice');
+const dateOfPaymentField = document.querySelector('#date_of_payment');
 export const itemsField = document.querySelector('#item-list');
 export const priceField = document.querySelector('#price-field');
 export const unitField = document.querySelector('#unit-list');
@@ -338,7 +342,24 @@ function observeClientAndCurrencyField()
     currencyObserver.observe(currencyField, {attributeFilter: ["value"]});
 }
 
+function manageDateFunctionality()
+{
+    dateOfInvoiceField.addEventListener('change', ()=>{
+        const invoiceDate = new Date(dateOfInvoiceField.value);
+        if (!isNaN(invoiceDate)){
+            dateOfInvoiceDisplay.textContent = `Date of invoice: ${invoiceDate.toLocaleDateString()}`;
+        }
+    });
+    dateOfPaymentField.addEventListener('change', ()=>{
+        const paymentDate = new Date(dateOfPaymentField.value);
+        if (!isNaN(paymentDate)){
+            dateOfPaymentDisplay.textContent = `Date of payment: ${paymentDate.toLocaleDateString()}`;
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', async function () {
+    manageDateFunctionality();
     updateInvoiceName();
     hideUnnecessaryElementsInMenu();
     await obtainUserInitials();
