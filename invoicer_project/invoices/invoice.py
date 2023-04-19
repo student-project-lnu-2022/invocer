@@ -12,16 +12,18 @@ def create_pdf(serializer, items):
     p.setFont('TimesNewRoman', 20)
     default_retreat_x = 40
     p.drawString(default_retreat_x, 740,
-                 f"{serializer.data['name']} від {serializer.data['date_of_payment'].split('-')[2]}.{serializer.data['date_of_payment'].split('-')[1]}.{serializer.data['date_of_payment'].split('-')[0]}р.")
+                 f"{serializer.data['name']} від {serializer.data['date_of_invoice'].split('-')[2]}.{serializer.data['date_of_invoice'].split('-')[1]}.{serializer.data['date_of_invoice'].split('-')[0]}р.")
     p.line(default_retreat_x, 730, 565, 730)
     p.setFont('TimesNewRoman', 13)
     p.drawString(default_retreat_x, 710,
                  f"Постачальник:  {serializer.data['user_first_name']} {serializer.data['user_last_name']}")
     p.drawString(default_retreat_x, 690,
                  f"Покупець:  {serializer.data['client_first_name']} {serializer.data['client_last_name']}")
+    p.drawString(default_retreat_x, 670,
+                 f"Договір:  Договір поставки")
     table_headers = ['№', 'Назва товару', 'К-сть', 'Од.', 'Ціна', 'Сума']
     table_header_x = 40
-    table_header_y = 670
+    table_header_y = 650
     table_row_x = table_header_x
     table_row_y = table_header_y - 30
 
@@ -33,10 +35,12 @@ def create_pdf(serializer, items):
     sum_width = 60
 
     row_height = 20
+    row_height_header = 38
     text_position_height = 5
-    text_position_width = 10
+    text_position_height_header = 14
+    text_position_width = 2
 
-    p.setFont('TimesNewRoman', 11)
+    pdfmetrics.registerFont(TTFont('TimesNewRomanBold', 'static/fonts/Roboto-Black.ttf'))
     for i, data in enumerate(items.data):
         item_id = str(i + 1)
         name = data['item_name']
@@ -46,31 +50,31 @@ def create_pdf(serializer, items):
         sum_price = str(data["price"] * data["amount"])
 
         if i == 0:
-            p.rect(table_row_x, table_row_y, id_width, row_height)
-            p.rect(table_row_x + id_width, table_row_y, name_width, row_height)
-            p.rect(table_row_x + id_width + name_width, table_row_y, amount_width, row_height)
-            p.rect(table_row_x + id_width + name_width + amount_width, table_row_y, unit_width, row_height)
+            p.rect(table_row_x, table_row_y, id_width, row_height_header)
+            p.rect(table_row_x + id_width, table_row_y, name_width, row_height_header)
+            p.rect(table_row_x + id_width + name_width, table_row_y, amount_width, row_height_header)
+            p.rect(table_row_x + id_width + name_width + amount_width, table_row_y, unit_width, row_height_header)
             p.rect(table_row_x + id_width + name_width + amount_width + unit_width, table_row_y, price_width,
-                   row_height)
+                   row_height_header)
             p.rect(table_row_x + id_width + name_width + amount_width + unit_width + price_width, table_row_y,
-                   sum_width, row_height)
-
-            p.drawString(table_row_x + text_position_width, table_row_y + text_position_height, table_headers[0])
-            p.drawString(table_row_x + id_width + text_position_width, table_row_y + text_position_height,
+                   sum_width, row_height_header)
+            p.setFont('TimesNewRomanBold', 12)
+            p.drawString(table_row_x + text_position_width, table_row_y + text_position_height_header, table_headers[0])
+            p.drawString(table_row_x + id_width + text_position_width, table_row_y + text_position_height_header,
                          table_headers[1])
-            p.drawString(table_row_x + id_width + name_width + text_position_width, table_row_y + text_position_height,
+            p.drawString(table_row_x + id_width + name_width + text_position_width, table_row_y + text_position_height_header,
                          table_headers[2])
             p.drawString(table_row_x + id_width + name_width + amount_width + text_position_width,
-                         table_row_y + text_position_height, table_headers[3])
+                         table_row_y + text_position_height_header, table_headers[3])
             p.drawString(table_row_x + id_width + name_width + amount_width + unit_width + text_position_width,
-                         table_row_y + text_position_height,
+                         table_row_y + text_position_height_header,
                          table_headers[4])
             p.drawString(
                 table_row_x + id_width + name_width + amount_width + unit_width + price_width + text_position_width,
-                table_row_y + text_position_height,
+                table_row_y + text_position_height_header,
                 table_headers[5])
             table_row_y -= row_height
-
+        p.setFont('TimesNewRoman', 11)
         p.rect(table_row_x, table_row_y, id_width, row_height)
         p.rect(table_row_x + id_width, table_row_y, name_width, row_height)
         p.rect(table_row_x + id_width + name_width, table_row_y, amount_width, row_height)
