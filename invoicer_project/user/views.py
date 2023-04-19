@@ -77,20 +77,19 @@ class LoginViewSet(viewsets.ViewSet):
             user = User.objects.get(email=email)
         except User.DoesNotExist:
             user = None
-        if user:
-            code = ''
-            while not (any(c.isalpha() for c in code) and any(c.isdigit() for c in code)):
-                code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
-            subject = 'Confirmation Code'
-            message = f'Your confirmation code is {code}. It is valid for 1 minute.'
-            from_email = settings.EMAIL_HOST_USER
-            recipient_list = [email]
-            send_mail(subject, message, from_email, recipient_list)
-            cache.set(f'confirmation_code_{email}', code, timeout=60)
-            return JsonResponse({'message': 'Confirmation code sent'}, status=200)
-        else:
+        if not user:
             return JsonResponse({'error': 'Email address not found'}, status=404)
-        
+        code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        while not (any(c.isalpha() for c in code) and any(c.isdigit() for c in code)):
+            code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
+        subject = 'Confirmation Code'
+        message = f'Your confirmation code is {code}. It is valid for 1 minute.'
+        from_email = settings.EMAIL_HOST_USER
+        recipient_list = [email]
+        send_mail(subject, message, from_email, recipient_list)
+        cache.set(f'confirmation_code_{email}', code, timeout=60)
+        return JsonResponse({'message': 'Confirmation code sent'}, status=200)
+    
     def confirm_code(self, request):
         data = JSONParser().parse(request)
         email = data.get('email')
@@ -110,15 +109,14 @@ class LoginViewSet(viewsets.ViewSet):
             user = None
         data['id'] = user.id
         serializer = UserSettingsSerializer(user, data=data, partial=True)
-        if serializer.is_valid():
-            new_password = serializer.validated_data.get('new_password', None)
-            if new_password != None:
-                user.set_password(new_password)
-                user.save()
-            serializer.save()
-            return JsonResponse(serializer.data, status=200)
-        else:
+        if not serializer.is_valid():
             return JsonResponse({'errors': serializer.errors}, status=400)
+        new_password = serializer.validated_data.get('new_password', None)
+        if new_password != None:
+            user.set_password(new_password)
+            user.save()
+        serializer.save()
+        return JsonResponse(serializer.data, status=200)
 
     @action(detail=False, methods=['post'])
     def logout(self, request):
