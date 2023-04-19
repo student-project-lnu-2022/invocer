@@ -1,3 +1,4 @@
+import {removeStylesFromDropdownElement} from "./dropdown.js";
 const nameSurnMaxLength = 35;
 const countryMaxLength = 35;
 const addressMaxLength = 40;
@@ -175,12 +176,19 @@ export function setErrorAttributeToDropdown(field) {
 
 export function clearErrorAttributes(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        field.addEventListener('input', () => {
-            field.removeAttribute("error");
-            field.removeAttribute("errorText");
-        })
+        if (isADropdown(field)) {
+            field.addEventListener('input', () => {
+                removeStylesFromDropdownElement(field);
+            });
+        } else {
+            field.addEventListener('input', () => {
+                field.removeAttribute("error");
+                field.removeAttribute("errorText");
+            });
+        }
     }
 }
+
 
 export function setMaxFieldContainerHeights(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
@@ -190,8 +198,12 @@ export function setMaxFieldContainerHeights(returnAllFieldsList) {
 
 export function removeAllErrorAttributes(returnAllFieldsList) {
     for (let item of returnAllFieldsList) {
-        item.removeAttribute("error");
-        item.removeAttribute("errorText");
+        if (isADropdown(item)) {
+            removeStylesFromDropdownElement(item);
+        } else {
+            item.removeAttribute("error");
+            item.removeAttribute("errorText");
+        } 
     }
 }
 

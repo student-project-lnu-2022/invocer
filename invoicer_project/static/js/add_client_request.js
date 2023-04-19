@@ -24,7 +24,7 @@ import {
     validation, setErrorAttributeToDropdown,
 } from './validation_utils.js'
 import {obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
-import {removeStylesFromDropdownElements} from "./dropdown.js";
+import {removeStylesFromDropdownElement} from "./dropdown.js";
 
 function validateClientAdd() {
     removeAllErrorAttributes(returnAllFields());
@@ -63,7 +63,7 @@ document.getElementById("request_sender").addEventListener("click", async () => 
         console.log(validationFieldsList);
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
         if (!dropdownValidation) {
-            removeStylesFromDropdownElements();
+            removeStylesFromDropdownElement(countryField);
             setErrorAttributeToDropdown(countryField.parentNode);
             errorCountryFieldText.style.display = "flex";
         }

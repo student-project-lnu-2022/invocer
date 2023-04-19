@@ -20,15 +20,11 @@ document.querySelector(".custom_dropdown").addEventListener("mouseout", () => {
         dropdownText.style.color = "#b3251e";
         dropdownArrow.style.color = "#b3251e";
     }
-
 });
 
-export function removeStylesFromDropdownElements() {
-    let dropdownText = document.querySelector(".ui.dropdown>.text");
-    let dropdownArrow = document.querySelector(".ui.dropdown>.icon");
-    if (dropdownText && dropdownArrow) {
-        document.querySelector(".ui.dropdown>.text").style.color = null;
-        document.querySelector(".ui.dropdown>.icon").style.color = null;
-    }
+export function removeStylesFromDropdownElement(element) {
+    const parent = element.parentElement;
+    parent.classList.remove('error');
+    parent.querySelector('.text').style.color = null;
+    parent.querySelector('.icon').style.color = null;
 }
-

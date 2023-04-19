@@ -1,30 +1,20 @@
 const host = "http://127.0.0.1:8000";
 import {
-    clearErrorAttributes,
     allAreFalse,
-    validateAdditionalUnits,
-    validateName,
-    validatePrice,
+    setErrorAttributesToFields,
     validationDropdown,
-    validateAmountInStock,
-    validateBarcode,
-    setErrorAttributesToFields
+    removeAllErrorAttributes
 } from './validation_utils.js'
+import {sendAddEditRequest} from './request_utils.js'
 import {
-    actionBasedOnStatusCode, sendAddEditRequest
-} from './request_utils.js'
-import {
-    hideUnnecessaryElementsInMenu,
-} from './utils_clients.js'
-import {
-    itemsField, unitField, amountField, priceField,
-    currencyField, invoiceNameField, invoiceTable, clientNameField
+    currencyField, invoiceNameField, invoiceTable, clientNameField,
+    dateOfInvoiceField, dateOfPaymentField
 } from "./add_edit_invoice.js";
 
-
-const firstDateOfPaymentField = document.querySelector("#first_date_of_payment");
-const lastDateOfPaymentField = document.querySelector("#last_date_of_payment");
-
+function allNeededFieldsList() {
+    return [invoiceNameField, clientNameField, currencyField,
+        dateOfInvoiceField, dateOfPaymentField];
+}
 
 function collectDataFromInvoiceTable() {
     const dataList = [];
@@ -43,40 +33,64 @@ function collectDataFromInvoiceTable() {
     return dataList;
 }
 
-document.getElementById("add_invoice_button").addEventListener("click", async () => {
-
-    const dataForInvoice = collectDataFromInvoiceTable();
-    const totalSum = dataForInvoice.reduce((a, b) => a + b['price'] * b['amount'], 0);
-    const data = {
-        name: invoiceNameField.value,
-        client: clientNameField.value,
-        price: totalSum,
-        discount: 0,
-        date_of_invoice: firstDateOfPaymentField.value,
-        date_of_payment: lastDateOfPaymentField.value,
-        currency: currencyField.value,
-    };
-    const addInvoiceStatus = await sendAddInvoiceRequest(host + "/invoices/invoice/", JSON.stringify(data), "POST"); 
-    if (dataForInvoice.length === 0) {
-        document.querySelector('.empty_invoice').style.visibility = 'visible';
-    } else {
-        let responseStatusInvoice = [];
-       
-        const fieldsList = [invoiceNameField, clientNameField, currencyField, firstDateOfPaymentField, lastDateOfPaymentField];
-        for (let i = 0; i < dataForInvoice.length; i++) {
-            dataForInvoice[i].invoice = addInvoiceStatus.id;
-            let stringified = JSON.stringify(dataForInvoice[i]);
-            const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", stringified, "POST");
-            responseStatusInvoice.push(addAdditionalUnitServerResponseStatus);
-        }
-        if (responseStatusInvoice.every((elem) => elem === 201)) {
-            await actionBasedOnStatusCode(201, 201, data, fieldsList, '', "POST", "/invoices/invoice/")
-        } else if (responseStatusInvoice.some((elem) => elem === 401)) {
-            await actionBasedOnStatusCode(401, 201, data, fieldsList, '', "POST", "/invoices/invoice/")
-        } else {
-            await actionBasedOnStatusCode(400, 201, data, fieldsList, '', "POST", "/invoices/invoice/")
-        }
+function validateDates(invoiceDate, paymentDate)
+{
+    const dateValidationResult = [];
+    const invoiceDateObj = new Date(invoiceDate.value);
+    const paymentDateObj = new Date(paymentDate.value);
+    dateValidationResult.push(isNaN(invoiceDateObj) ? 'Invalid date' : '');
+    dateValidationResult.push(isNaN(paymentDateObj) ? 'Invalid date' : '');
+    if (dateValidationResult.every(elem => elem === '')) {
+        dateValidationResult[1] = (invoiceDateObj < paymentDateObj) ? 'Can\'t be lower than invoice date' : '';
     }
+    return dateValidationResult; 
+}
+
+function validateBeforeCreatingInvoice()
+{
+    const dateValidation = validateDates(dateOfInvoiceField, dateOfPaymentField);
+    return {
+        'nameValidation' : invoiceNameField.value ? '' : 'Can\'t be empty',
+        'clientValidation':validationDropdown('client-field'),
+        'currencyValidation':validationDropdown('currency_input_dropdown'),
+        'dateOfInvoiceValidation': dateValidation[0],
+        'dateOfPaymentValidation':dateValidation[1]};
+}
+
+
+document.getElementById("add_invoice_button").addEventListener("click", async () => {
+    removeAllErrorAttributes(allNeededFieldsList());
+    const validationOfInvoiceData = validateBeforeCreatingInvoice();
+    if (allAreFalse(validationOfInvoiceData)) {
+        const dataForInvoice = collectDataFromInvoiceTable();
+        const totalSum = dataForInvoice.reduce((a, b) => a + b['price'] * b['amount'], 0);
+        const data = {
+            name: invoiceNameField.value,
+            client: clientNameField.value,
+            price: totalSum,
+            discount: 0,
+            date_of_invoice: dateOfInvoiceField.value,
+            date_of_payment: dateOfPaymentField.value,
+            currency: currencyField.value
+        };
+        const addInvoiceStatus = await sendAddInvoiceRequest(host + "/invoices/invoice/", JSON.stringify(data), "POST"); 
+        if (dataForInvoice.length === 0) {
+            document.querySelector('.empty_invoice').style.visibility = 'visible';
+        } else {
+            let responseStatusInvoice = [];
+            for (let i = 0; i < dataForInvoice.length; i++) {
+                dataForInvoice[i].invoice = addInvoiceStatus.id;
+                let stringified = JSON.stringify(dataForInvoice[i]);
+                const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", stringified, "POST");
+                responseStatusInvoice.push(addAdditionalUnitServerResponseStatus);
+            }
+            console.log(responseStatusInvoice);
+        }
+    } else {
+        console.log('Error attributes');
+        console.log(validationOfInvoiceData);
+        setErrorAttributesToFields(validationOfInvoiceData, allNeededFieldsList());
+}  
 });
 
 async function sendAddInvoiceRequest(url, data, requestMethod) {
@@ -94,8 +108,6 @@ async function sendAddInvoiceRequest(url, data, requestMethod) {
         });
         responseData = await response.json();
         status = response.status;
-        console.log(`Status code: ${status}`);
-
     } catch (error) {
         console.error(error);
     }

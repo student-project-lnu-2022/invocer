@@ -4,9 +4,10 @@ import {
     validateAmountInStock as validateAmount, validatePrice,
     allAreFalse, setErrorAttributesToFields,
     clearErrorAttributes, validationDropdown,
-    removeAllErrorAttributes as removeNotDropdownErrors
+    removeAllErrorAttributes
 } from './validation_utils.js';
 import { hideUnnecessaryElementsInMenu } from "./utils_clients.js";
+import {removeStylesFromDropdownElement} from "./dropdown.js";
 
 const addMoreItems = document.querySelector('#item_to_table');
 const saveToTable = document.querySelector('#save_changes');
@@ -18,8 +19,8 @@ const invoiceCurrencyDisplay = document.querySelector('#invoice_currency_display
 const totalPrice = document.querySelector('#total_price');
 const dateOfInvoiceDisplay = document.querySelector('#inv_date_display');
 const dateOfPaymentDisplay = document.querySelector('#payment_date_display');
-const dateOfInvoiceField = document.querySelector('#date_of_invoice');
-const dateOfPaymentField = document.querySelector('#date_of_payment');
+export const dateOfInvoiceField = document.querySelector('#date_of_invoice');
+export const dateOfPaymentField = document.querySelector('#date_of_payment');
 export const itemsField = document.querySelector('#item-list');
 export const priceField = document.querySelector('#price-field');
 export const unitField = document.querySelector('#unit-list');
@@ -37,6 +38,12 @@ function returnAllItemsFields() {
     return [itemsField, unitField, amountField, priceField];
 }
 
+function returnAllFieldsList() {
+     return [invoiceNameField, clientNameField, currencyField,
+        dateOfInvoiceField, dateOfPaymentField,
+        itemsField, unitField, amountField, priceField];
+}
+
 function validateAmountInStock(amountValue)
 {
     const firstValidation = validateAmount(amountValue);
@@ -45,7 +52,7 @@ function validateAmountInStock(amountValue)
 }
 
 function validateAddingItemToTable() {
-    clearErrorAttributes(returnAllItemsFields());
+    removeAllErrorAttributes(returnAllItemsFields());
     return [
         validationDropdown("item-list"),
         validationDropdown("unit-list"),
@@ -152,6 +159,7 @@ function loadDataToEdit(event) {
     const columns = tableRow.querySelectorAll('div');
     loadValueToItemDropdown(tableRow.dataset.item_id);
     loadValuetoUnitDropdown(columns[2].textContent);
+    removeAllErrorAttributes(returnAllItemsFields());
     addMoreItems.style.visibility = 'hidden';
     saveToTable.style.visibility = 'visible';
     clickHandler = function () {
@@ -237,12 +245,12 @@ function createUnitDropdownRow(unitName, numInUnit, basicUnitName, notFirst) {
 }
 
 async function observeUnitAndItemField() {
-    const itemObserver = new MutationObserver((mutations) => {
+    const itemObserver = new MutationObserver(() => {
         const selectedMenuItem = itemsField.parentElement.querySelector('.menu').querySelector('.active');
         let id;
         if (selectedMenuItem) {
             id = selectedMenuItem.dataset.id;
-            removeErrorFromDropdown(itemsField);
+            removeStylesFromDropdownElement(itemsField);
             setDefaultToDropdown(unitField, 'Select unit');
         } else {
           id = -1;
@@ -257,8 +265,7 @@ async function observeUnitAndItemField() {
     if (item && unitField.value === item.basicUnit) {
             priceField.value = item.price;
             amountField.value = item.inStock;
-            removeErrorFromDropdown(unitField);
-            removeNotDropdownErrors([amountField, priceField]);
+            removeAllErrorAttributes([unitField, amountField, priceField]);
         } else if (item) {
             for (let key in item.additionalUnits) {
                 if (key === unitField.value) {
@@ -293,23 +300,6 @@ async function obtainUserClients() {
     }
 }
 
-function removeErrorFromDropdown(elem)
-{
-    elem.parentElement.classList.remove('error');
-}
-
-function removeDropdownErrors(dropdowns) {
-    for (let field of dropdowns) {
-        removeErrorFromDropdown(field);
-    }
-}
-
-function removeAllErrorAttrubutes()
-{
-    removeNotDropdownErrors([invoiceNameField, currencyField, amountField, priceField]);
-    removeDropdownErrors([clientNameField, itemsField, unitField]);
-}
-
 function updateInvoiceName()
 {
     invoiceNameField.addEventListener('input', ()=>{
@@ -330,6 +320,7 @@ function observeClientAndCurrencyField()
         clientNameDisplay.textContent = `Client name: ${elem.textContent}`;
         clientPhoneDisplay.textContent = `Telephone: ${elem.dataset.phone}`;
         clientEmailDisplay.textContent = `Email: ${elem.dataset.email}`;
+        removeStylesFromDropdownElement(clientNameField);
     });
     clientObserver.observe(clientNameField, {attributeFilter: ["value"]});
 
@@ -338,6 +329,7 @@ function observeClientAndCurrencyField()
         loadItemsToDropdown(itemsList, currencyField.value);
         const flagElement = currencyField.parentElement.querySelector('.menu').querySelector(`[data-value="${currencyField.value}"]`);
         invoiceCurrencyDisplay.innerHTML = `${currencyField.value}<i class="${flagElement.firstElementChild.className}"></i>`;
+        removeStylesFromDropdownElement(currencyField);
     }); 
     currencyObserver.observe(currencyField, {attributeFilter: ["value"]});
 }
@@ -350,7 +342,7 @@ function manageDateFunctionality()
             dateOfInvoiceDisplay.textContent = `Date of invoice: ${invoiceDate.toLocaleDateString()}`;
         }
     });
-    dateOfPaymentField.addEventListener('change', ()=>{
+    dateOfPaymentField.addEventListener('change', ()=> {
         const paymentDate = new Date(dateOfPaymentField.value);
         if (!isNaN(paymentDate)){
             dateOfPaymentDisplay.textContent = `Date of payment: ${paymentDate.toLocaleDateString()}`;
@@ -359,19 +351,19 @@ function manageDateFunctionality()
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
+    await obtainUserInitials();
+    clearErrorAttributes(returnAllFieldsList());
     manageDateFunctionality();
     updateInvoiceName();
     hideUnnecessaryElementsInMenu();
-    await obtainUserInitials();
-   
     //function for incapsulating request status check!!!
     const data = await getUserData('/items/items_list/');
+
     await createItemsList(data['data']['content']);
     await obtainUserClients();
     observeUnitAndItemField();
     observeClientAndCurrencyField();
-    addMoreItems.addEventListener('click', () => {
-        removeAllErrorAttrubutes();
+    addMoreItems.addEventListener('click', () => {  
         hideSaveButton();
         const validationResult = validateAddingItemToTable();
         if (allAreFalse(validationResult)) {
