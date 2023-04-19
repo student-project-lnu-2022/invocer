@@ -31,7 +31,7 @@ export const clientNameField = document.querySelector("#client-field");
 export const currencyField = document.querySelector("#currency_input_dropdown");
 export const invoiceNameField = document.querySelector("#invoice_name");
 
-const itemsList = [];
+export const itemsList = [];
 let clickHandler;
 
 function returnAllItemsFields() {
@@ -190,9 +190,10 @@ function modifyTable(arrayOfColumns) {
 }
 
 async function createItemsList(data) {
-
+    console.log(data);
     for (let item of data) {
         const request = await getUserData(`/items/additional_units_for_item/${item.id}`);
+        console.log(request);
         //without request status ckeck for now!
         //write function for incapsulating request status check!!!
         const obj = new Item(item, request['data']['content']);

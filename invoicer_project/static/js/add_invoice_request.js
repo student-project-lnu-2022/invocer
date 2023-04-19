@@ -8,7 +8,7 @@ import {
 import {sendAddEditRequest} from './request_utils.js'
 import {
     currencyField, invoiceNameField, invoiceTable, clientNameField,
-    dateOfInvoiceField, dateOfPaymentField
+    dateOfInvoiceField, dateOfPaymentField, itemsList
 } from "./add_edit_invoice.js";
 
 function allNeededFieldsList() {
@@ -21,15 +21,29 @@ function collectDataFromInvoiceTable() {
     const allRows = invoiceTable.children;
     for (let i = 1; i < allRows.length; ++i) {
         const allRowColumns = allRows[i].children;
+        let amountInBasic;
+        const item = itemsList.find(elem => elem.id == allRows[i].dataset.item_id);
+        if (item.basicUnit !== allRowColumns[2].textContent) {
+            for (let unit in item.additionalUnits) {
+                if (unit === allRowColumns[2].textContent) {
+                    amountInBasic = item.additionalUnits[unit];
+                    break;
+                }
+            }
+        } else {
+            amount = 1;
+        }
         const data = {
             invoice: null,
             item: allRows[i].dataset.item_id,
             amount: allRowColumns[1].textContent,
             unit: allRowColumns[2].textContent,
-            price: allRowColumns[3].textContent
+            price: allRowColumns[3].textContent,
+            amount_in_unit: allRowColumns[1].textContent * amountInBasic
         };
         dataList.push(data);
     }
+    console.log(dataList);
     return dataList;
 }
 
@@ -41,7 +55,7 @@ function validateDates(invoiceDate, paymentDate)
     dateValidationResult.push(isNaN(invoiceDateObj) ? 'Invalid date' : '');
     dateValidationResult.push(isNaN(paymentDateObj) ? 'Invalid date' : '');
     if (dateValidationResult.every(elem => elem === '')) {
-        dateValidationResult[1] = (invoiceDateObj < paymentDateObj) ? 'Can\'t be lower than invoice date' : '';
+        dateValidationResult[1] = (invoiceDateObj > paymentDateObj) ? 'Can\'t be lower than invoice date' : '';
     }
     return dateValidationResult; 
 }
