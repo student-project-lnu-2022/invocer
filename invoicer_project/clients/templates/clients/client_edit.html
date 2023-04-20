@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 {% load static %}
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit client</title>
-    <script src="https://unpkg.com/i18next@22.4.12/dist/umd/i18next.min.js"></script>
     <script src="{% static 'js/jquery-3.6.4.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/fomantic.min.css' %}"/>
     <link
@@ -27,15 +25,13 @@
 
 <body id="log_in_page">
 {% include "menu_nav.html" %}
-{% include "menu_nav_mobile.html" %}
-
 <div id="wrapper" class="toggled-2">
     {% include "menu_wrapper.html" %}
     <div id="page-content-wrapper">
         <div class="container-fluid xyz" id="other_elements">
             <div class="container-fluid">
                 <div class="row">
-                    <p class="client_header_text" id="client_edit_text" data-i18n="client_edit">Edit client</p>
+                    <p id="client_edit_text">Edit client</p>
                 </div>
 
                 <div class="d-flex row" id="background_input_client_edit_page">
@@ -43,27 +39,27 @@
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="name_input_client_edit_page"
-                                    label="Name" data-i18n="name"></md-outlined-text-field>
+                                    label="Name"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="surname_input_client_edit_page"
-                                    label="Surname" data-i18n="surname"></md-outlined-text-field>
+                                    label="Surname"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="email_input_client_edit_page"
-                                    label="Email" data-i18n="email"></md-outlined-text-field>
+                                    label="Email"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="telephone_input_client_edit_page"
-                                    label="Telephone number" data-i18n="telephone_number"></md-outlined-text-field>
+                                    label="Telephone number"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="zip_input_client_edit_page"
-                                    label="ZIP code" data-i18n="zip_code"></md-outlined-text-field>
+                                    label="ZIP code"></md-outlined-text-field>
                         </div>
                     </div>
                     <div class="col-xxl-4 col-xl-4 col-lg-5 col-md-5">
@@ -75,29 +71,32 @@
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="city_input_client_edit_page"
-                                    label="City" data-i18n="city"></md-outlined-text-field>
+                                    label="City"></md-outlined-text-field>
                         </div>
                         <div class="row input_user_edit">
                             <md-outlined-text-field
                                     id="address_input_client_edit_page"
-                                    label="Address" data-i18n="address"></md-outlined-text-field>
+                                    label="Address"></md-outlined-text-field>
                         </div>
                     </div>
                     <div class="col-xxl-4 col-xl-4 col-lg-2 col-md-2"></div>
                     <div class="row" id="save_button_edit_client_page">
-                        <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-10 col-7"></div>
-                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-5">
+                        <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-10 col-8"></div>
+                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-4">
                             <md-fab-extended
                                     icon="save"
                                     label="Save changes"
-                                    id="request_edit_sender" data-i18n="save_changes"></md-fab-extended>
+                                    id="request_edit_sender"></md-fab-extended>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 </div>
+
 
 <script type="module" src="{% static 'js/index.js' %}"></script>
 <script type="module" src="{% static 'js/index_extension.js' %}"></script>
@@ -105,7 +104,6 @@
 <script type="module" src="{% static 'js/edit_client_request.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.2/dist/semantic.min.js"></script>
 <script type="module" src="{% static 'js/dropdown.js' %}"></script>
-<script type="module" src="{% static 'js/init18next.js' %}"></script>
-<script type="module" src="{% static 'js/client_section_translation.js' %}"></script>
+
 </body>
 </html>

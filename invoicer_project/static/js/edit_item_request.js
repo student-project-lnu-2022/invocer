@@ -6,8 +6,6 @@ import {
     amountInStockField,
     barcodeField,
     additionalFieldsContainer,
-    currencyField,
-    basicUnitField,
     amountAdditionalFieldsContainer,
     itemId,
     fillFieldsWithData,
@@ -31,13 +29,11 @@ import {
 
 function validateItemEdit() {
     removeAllErrorAttributes(returnAllFields());
-    clearErrorAttributes(additionalFieldsContainer);
-    clearErrorAttributes(amountAdditionalFieldsContainer);
     return {
         'nameValidationResult': validateName(nameField.value),
         'priceValidationResult': validatePrice(priceField.value),
-        'currencyValidationResult': validationDropdown("currency_input_dropdown"),
-        'basicUnitValidationResult': validationDropdown("units_input_dropdown"),
+        'currencyValidationResult': validationDropdown("currency"),
+        'basicUnitValidationResult': validationDropdown("basic_unit"),
         'amountInStockValidationResult': validateAmountInStock(amountInStockField.value),
         'barcodeValidationResult': validateBarcode(barcodeField.value)
     };
@@ -57,8 +53,10 @@ function validateAdditionalUnits() {
             'additionalUnitNameValidationResult': validation(additionalUnitName, /^[a-zа-яіїєґA-ZA-ЯІЇЄҐ]+$/),
             'additionalUnitQuantityValidationResult': validateAmountInStock(additionalUnitQuantity)
         };
+
         validationResults.push(validationResult);
     }
+
     return validationResults;
 }
 
@@ -66,11 +64,9 @@ function validateAdditionalUnits() {
 document.getElementById("edit_item_button").addEventListener("click", async () => {
     const validationFieldsList = validateItemEdit();
     const validationAdditionalUnitsFieldsList = validateAdditionalUnits();
-
-    let currencyValue = currencyField.value;
-    let basicUnitValue = basicUnitField.value;
-
-    if (allAreFalse(validationFieldsList) && validationAdditionalUnitsFieldsList.every(allAreFalse)) {
+    let currencyValue = document.getElementById("currency").value;
+    let basicUnitValue = document.getElementById("basic_unit").value
+    if (allAreFalse(validationFieldsList) && validationAdditionalUnitsFieldsList.every(allAreFalse)){
         const data = JSON.stringify({
             name: nameField.value,
             price: parseFloat(priceField.value),
@@ -82,6 +78,7 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
 
         const updateItemServerResponseStatus = await sendAddEditRequest(host + "/items/items_list/" + itemId, data, "PATCH");
         await checkUserSessionStatus(200, updateItemServerResponseStatus, data, "PATCH", host + "/items/items_list/" + itemId);
+
 
         let additionalUnitsFields = document.querySelectorAll(".d-flex.additional_unit");
 
@@ -137,11 +134,11 @@ document.getElementById("edit_item_button").addEventListener("click", async () =
     } else {
         setErrorAttributesToFields(validationFieldsList, returnAllFields());
         for (let i = 0; i < validationAdditionalUnitsFieldsList.length; i++) {
-            let additionalUnitFields = [];
-            additionalUnitFields.push(document.getElementById(`AU${i + 1}`));
-            additionalUnitFields.push(document.getElementById(`amount_AU${i + 1}`));
-            setErrorAttributesToFields(validationAdditionalUnitsFieldsList[i], additionalUnitFields);
-        }
+                        let additionalUnitFields = [];
+                        additionalUnitFields.push(document.getElementById(`AU${i + 1}`));
+                        additionalUnitFields.push(document.getElementById(`amount_AU${i + 1}`));
+                        setErrorAttributesToFields(validationAdditionalUnitsFieldsList[i], additionalUnitFields);
+                    }
     }
 });
 

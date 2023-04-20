@@ -66,32 +66,3 @@ document.querySelector("#log_out_button").addEventListener("click", async () => 
 });
 
 
-const navMobile = document.querySelector('.nav_mobile');
-const sidebarWrapper = document.querySelector("#wrapper");
-const searchAndAddButton = document.querySelector(".additional_navigation_elements");
-const userNameAndIcon = document.querySelector('#user_name_and_icon_column');
-
-function setNavMobileDisplay() {
-
-    if (window.innerWidth <= 940) {
-        searchAndAddButton.classList.remove("col-7");
-        searchAndAddButton.classList.add("col-8");
-    } else {
-        searchAndAddButton.classList.remove("col-8");
-        searchAndAddButton.classList.add("col-7");
-    }
-
-    if (window.innerWidth <= 830) {
-        navMobile.style.display = 'flex';
-        searchAndAddButton.classList.remove("col-7");
-        searchAndAddButton.classList.add("col-12");
-        searchAndAddButton.classList.add("justify-content-center")
-    } else {
-        navMobile.style.display = 'none';
-        searchAndAddButton.classList.add("col-7");
-        searchAndAddButton.classList.remove("col-12");
-        searchAndAddButton.classList.remove("justify-content-center")
-    }
-
-
-}

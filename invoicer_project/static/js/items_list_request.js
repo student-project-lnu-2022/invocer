@@ -7,7 +7,7 @@ import {
     addDeleteButtonListeners,
     addEditButtonListeners
 } from "./request_utils.js";
-import {initializeI18NextOnDynamicList, updateContentItems} from "./items_section_translation.js";
+
 
 function createItemListContent(data) {
     if (data.length === 0) {
@@ -25,9 +25,9 @@ function createItemListContent(data) {
                         <div class="col-md-6 col-sm-6 col-7 list_item_name redirect_to_item_info" data-item-id="${itemID}">
                             <p class="item_name redirect_to_item_info" data-item-id="${itemID}">${itemName}</p>
                         </div>
-                        <div class="d-flex flex-wrap flex-row justify-content-end col-xxl-7 col-xl-7 col-md-8 col-sm-8 col-7 redirect_to_item_info" data-item-id="${itemID}">
+                        <div class="d-flex flex-wrap flex-row justify-content-end col-md-6 col-sm-6 col-5 redirect_to_item_info" data-item-id="${itemID}">
                             <div class="d-flex flex-wrap flex-column list_item_info_block redirect_to_item_info" data-item-id="${itemID}">
-                                <p class="additional_text redirect_to_item_info price_per_unit_text" data-item-id="${itemID}" data-i18n="price_per_unit_text">Price per unit</p>
+                                <p class="additional_text redirect_to_item_info" data-item-id="${itemID}">Price per unit</p>
                                 <p class="main_text redirect_to_item_info" data-item-id="${itemID}">${priceAndCurrency}</p>
                             </div>
                             <div class="d-flex flex-wrap flex-column list_item_info_block redirect_to_item_info" data-item-id="${itemID}">
@@ -35,27 +35,22 @@ function createItemListContent(data) {
                                 <p class="main_text redirect_to_item_info" data-item-id="${itemID}">${basicUnit}</p>
                             </div>
                             <div class="list_item_user_buttons">
-                                 <md-standard-icon-button class="edit-item" data-element-id="${itemID}">
-                            <span class="material-symbols-outlined">edit</span>
-                        </md-standard-icon-button>
-                        <md-standard-icon-button class="delete-item" data-element-id="${itemID}">
-                            <span class="material-symbols-outlined">delete</span>
-                              </md-standard-icon-button>
-                        <md-checkbox class="delete_items_checkbox" id="list_item_user_delete" data-element-id="${itemID}"></md-checkbox>
-                              </div>
+                                 <md-standard-icon-button class="edit-item" data-element-id="${itemID}"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
+                                <md-standard-icon-button class="delete-item" data-element-id="${itemID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
+                                <md-checkbox class="delete_items_checkbox" id="list_item_user_delete"  data-element-id="${itemID}"></md-checkbox>
+                            </div>
                         </div>
                     </div>`);
         }
     }
 }
 
+
 async function addElementsDynamically() {
     let responseFromServer = await getUserData('/items/items_list/');
     const response = responseFromServer["responseStatus"];
     if (response === 200) {
         createItemListContent(responseFromServer["data"]["content"]);
-        initializeI18NextOnDynamicList();
-        updateContentItems();
         addDeleteButtonListeners('.delete-item', `/items/items_list/`);
         addEditButtonListeners('#items_container', 'edit-item', "/items/edit/");
         addCheckboxesListener('#items_container', ".delete_items_checkbox", "delete_items_checkbox", "#delete_many_clients", "/items/items_list");
@@ -78,6 +73,7 @@ async function addElementsDynamically() {
 document.addEventListener('DOMContentLoaded', async () => {
     await obtainUserInitials();
     addElementsDynamically();
+    document.querySelector("#adder").label = "Add item";
 });
 
 document.querySelector('#adder').addEventListener('click', () => {
