@@ -1,4 +1,3 @@
-import {removeStylesFromDropdownElement} from "./dropdown.js";
 const nameSurnMaxLength = 35;
 const countryMaxLength = 35;
 const addressMaxLength = 40;
@@ -102,11 +101,15 @@ export function validateAddress(addressToValidate) {
 }
 
 export function validateCountry(countryToValidate) {
-    if (countryToValidate === "") {
-        return "Country field can't be empty";
-    }
-    else {
-        return "";
+    let isCountryValid;
+    if (countryToValidate === '') {
+        isCountryValid = i18next.t('empty_field_error');
+    } else if (!(/^[A-ZА-ЯЇІЄҐ\u00C0-\u00D6\u00D8-\u00DE]/.test(countryToValidate.charAt(0)))) {
+        isCountryValid = i18next.t('capital_letter_error');
+    } else if (countryToValidate.length > countryMaxLength) {
+        isCountryValid = i18next.t('max_length_error', {maxLength: countryMaxLength});
+    } else {
+        isCountryValid = '';
     }
     return isCountryValid;
 }
@@ -153,11 +156,12 @@ export function validateAdditionalUnits(container, regex) {
 }
 
 export function validationDropdown(dropdownId) {
+    let isFieldValid = '';
     let dropdownElement = document.querySelector('#' + dropdownId);
     if (dropdownElement.value === "") {
-        return "This field can't be empty";
+        isFieldValid = i18next.t('empty_field_error');
     }
-    return '';
+    return isFieldValid;
 }
 
 export function validatePrice(priceToValidate) {
@@ -202,44 +206,38 @@ export function validateBarcode(barcodeToValidate) {
     return isBarcodeValid;
 }
 
-function isADropdown(field) {
-    return field.tagName !== 'MD-OUTLINED-TEXT-FIELD';
-}
 export function setErrorAttributesToFields(errorsObject, fields) {
     let fieldIndex = 0;
     for (let error in errorsObject) {
         if (errorsObject[error]) {
-            if (isADropdown(fields[fieldIndex])) {
-                setErrorAttributeToDropdown(fields[fieldIndex].parentElement);
-            } else {
-                fields[fieldIndex].setAttribute("error", "true");
-                fields[fieldIndex].setAttribute("errorText", errorsObject[error]);
-            }
+            fields[fieldIndex].setAttribute("error", "true");
+            fields[fieldIndex].setAttribute("errorText", errorsObject[error]);
         }
         fieldIndex++;
     }
 }
 
-export function setErrorAttributeToDropdown(field) {
-    field.parentElement.querySelector('.text').style.color =  "#b3251e";
-    field.parentElement.querySelector('.icon').style.color =  "#b3251e";
+export function clearErrorToDropdown(field) {
+    field.addEventListener('click', () => {
+        field.querySelector(".dropdown__button").classList.remove("dropdown__button_error");
+    });
 }
 
 export function clearErrorAttributes(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        if (isADropdown(field)) {
-            field.parentElement.querySelector('.search').addEventListener('input', () => {
-                removeStylesFromDropdownElement(field);
-            });
-        } else {
-            field.addEventListener('input', () => {
-                field.removeAttribute("error");
-                field.removeAttribute("errorText");
-            });
+        if (field.classList.contains("dropdown_list")) {
+            clearErrorToDropdown(field);
         }
+        field.addEventListener('input', () => {
+            field.removeAttribute("error");
+            field.removeAttribute("errorText");
+        })
     }
 }
 
+export function setErrorAttributeToDropdown(field) {
+    field.classList.add("error");
+}
 
 export function setMaxFieldContainerHeights(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
@@ -249,12 +247,8 @@ export function setMaxFieldContainerHeights(returnAllFieldsList) {
 
 export function removeAllErrorAttributes(returnAllFieldsList) {
     for (let item of returnAllFieldsList) {
-        if (isADropdown(item)) {
-            removeStylesFromDropdownElement(item);
-        } else {
-            item.removeAttribute("error");
-            item.removeAttribute("errorText");
-        } 
+        item.removeAttribute("error");
+        item.removeAttribute("errorText");
     }
 }
 
