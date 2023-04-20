@@ -52,8 +52,8 @@ function validateDates(invoiceDate, paymentDate)
     const dateValidationResult = [];
     const invoiceDateObj = new Date(invoiceDate.value);
     const paymentDateObj = new Date(paymentDate.value);
-    dateValidationResult.push(isNaN(invoiceDateObj) ? 'Invalid date' : '');
-    dateValidationResult.push(isNaN(paymentDateObj) ? 'Invalid date' : '');
+    dateValidationResult.push((isNaN(invoiceDateObj) || (parseInt(Math.log10(invoiceDateObj.getFullYear())) + 1) > 4) ? 'Invalid date' : '');
+    dateValidationResult.push((isNaN(paymentDateObj) || (parseInt(Math.log10(paymentDateObj.getFullYear())) + 1) > 4) ? 'Invalid date' : '');
     if (dateValidationResult.every(elem => elem === '')) {
         dateValidationResult[1] = (invoiceDateObj > paymentDateObj) ? 'Can\'t be lower than invoice date' : '';
     }

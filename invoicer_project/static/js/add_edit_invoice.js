@@ -339,15 +339,23 @@ function manageDateFunctionality()
 {
     dateOfInvoiceField.addEventListener('change', ()=>{
         const invoiceDate = new Date(dateOfInvoiceField.value);
-        if (!isNaN(invoiceDate)){
-            dateOfInvoiceDisplay.textContent = `Date of invoice: ${invoiceDate.toLocaleDateString()}`;
+        let invoiceDateText = 'Date of invoice: ';
+        if (!isNaN(invoiceDate) && String(invoiceDate.getFullYear()).length <= 4){
+            invoiceDateText += invoiceDate.toLocaleDateString(); 
+        } else {
+            invoiceDateText += 'Invalid date';
         }
+        dateOfInvoiceDisplay.textContent = invoiceDateText;
     });
-    dateOfPaymentField.addEventListener('change', ()=> {
+    dateOfPaymentField.addEventListener('change', () => {
+        let paymentDateText = 'Date of payment: ';
         const paymentDate = new Date(dateOfPaymentField.value);
-        if (!isNaN(paymentDate)){
-            dateOfPaymentDisplay.textContent = `Date of payment: ${paymentDate.toLocaleDateString()}`;
+        if (!isNaN(paymentDate) && String(paymentDate.getFullYear()).length <= 4) {
+            paymentDateText += paymentDate.toLocaleDateString();
+        } else {
+            paymentDateText += 'Invalid date';
         }
+        dateOfPaymentDisplay.textContent = paymentDateText;
     });
 }
 
