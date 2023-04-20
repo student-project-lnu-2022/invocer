@@ -23,24 +23,22 @@
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
 </head>
 
-        <link href="https://fonts.googleapis.com" rel="preconnect" />
-        <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
-        <link rel="icon" href="{% static 'img/svg.svg' %}">
-    </head>
+<body>
+{% include "menu_nav.html" %}
+{% include "menu_nav_mobile.html" %}
+{% include "fab_mobile_item.html" %}
+<div id="wrapper" class="toggled-2">
+    {% include "menu_wrapper.html" %}
+    <div id="page-content-wrapper">
+        <div class="container-fluid xyz" id="items_container"></div>
+    </div>
+</div>
 
-    <body>
-        {% include "menu_nav.html" %}
-        <div id="wrapper" class="toggled-2">
-            {% include "menu_wrapper.html" %}
-            <div id="page-content-wrapper">
-                <div class="container-fluid xyz" id="items_container"></div>
-            </div>
-        </div>
-
-        <script src="{% static 'js/bundle.js' %}"></script>
-        <script type="module" src="{% static 'js/index.js' %}"></script>
-        <script type="module" src="{% static 'js/index_extension.js' %}"></script>
-        <script type="module" src="{% static 'js/items_list.js' %}"></script>
-        <script type="module" src="{% static 'js/items_list_request.js' %}"></script>
-    </body>
+<script defer src="{% static 'js/bundle.js' %}"></script>
+<script defer type="module" src="{% static 'js/index.js' %}"></script>
+<script defer type="module" src="{% static 'js/items_list.js' %}"></script>
+<script defer type="module" src="{% static 'js/items_list_request.js' %}"></script>
+<script defer type="module" src="{% static 'js/init18next.js' %}"></script>
+<script defer type="module" src="{% static 'js/items_section_translation.js' %}"></script>
+</body>
 </html>
