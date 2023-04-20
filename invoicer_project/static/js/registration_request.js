@@ -1,9 +1,7 @@
-const passwordMinLength = 8;
-const passwordMaxLength = 15;
 const nameSurnMaxLength = 35;
 const host = "http://127.0.0.1:8000";
 let csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-import { validateNameAndSurnameAsStrings } from "./validation_utils.js"
+import {makeVisibilityOff, validateNameAndSurnameAsStrings, validatePasswordAsString} from "./validation_utils.js"
 
 const emailField = document.getElementById("email_input_rg_pg");
 const nameField = document.getElementById("name_input_rg_pg");
@@ -46,37 +44,15 @@ function allAreFalse(object) {
 function validateEmail(emailToValidate) {
     let isEmailValid;
     if (emailToValidate === '') {
-        isEmailValid = "This field can't be empty";
+        isEmailValid =  i18next.t("empty_field_error");
     } else if (!(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(emailToValidate))) {
-        isEmailValid = "Invalid email format";
+        isEmailValid = i18next.t("invalid_format_error");
     } else if (emailToValidate.includes(' ')) {
-        isEmailValid = "No whitespaces";
+        isEmailValid = i18next.t("no_whitespaces_error");
     } else {
         isEmailValid = '';
     }
     return isEmailValid;
-}
-
-function validatePasswordAsString(passwordToValidate) {
-    let isPasswordValid;
-    if (passwordToValidate.includes(' ')) {
-        isPasswordValid = "No whitespaces";
-    } else if (passwordToValidate.length < passwordMinLength) {
-        isPasswordValid = `Min length – ${passwordMinLength} chars`;
-    } else if (passwordToValidate.length > passwordMaxLength) {
-        isPasswordValid = `Max length – ${passwordMaxLength} chars`;
-    } else if (!(/^[a-z0-9]+$/i.test(passwordToValidate))) {
-        isPasswordValid = "Only A-Z, a-z and 0-9";
-    } else if (!(/\d/.test(passwordToValidate))) {
-        isPasswordValid = "At least one number";
-    } else if (!(/[a-z]/.test(passwordToValidate))) {
-        isPasswordValid = "At least one lowercase";
-    } else if (!(/[A-Z]/.test(passwordToValidate))) {
-        isPasswordValid = "At least one capital";
-    } else {
-        isPasswordValid = '';
-    }
-    return isPasswordValid;
 }
 
 function validateRegistration() {
@@ -90,7 +66,7 @@ function validateRegistration() {
         'repeatPasswordValidationResult': validatePasswordAsString(repeatPasswordField.value),
         'doPasswordsMatch': (() => {
             if (passwordField.value !== repeatPasswordField.value) {
-                return "Passwords don't match!";
+                return i18next.t("match_error");
             } else {
                 return '';
             }
@@ -159,7 +135,7 @@ async function actionAfterRegisterRequest(registerStatusCode, dataToSend) {
     if (registerStatusCode === 200) {
         const tokenObtainStatusCode = await obtainAndSaveTokens(host + '/user/login/', JSON.stringify(dataToSend));
         if (tokenObtainStatusCode === 200) {
-            window.location.replace(host);
+            window.location.replace(host + '/clients/home/');
         } else {
             showBackEndErrorsAtFrontEnd(tokenObtainStatusCode);
         }
@@ -183,9 +159,9 @@ function showBackEndErrorsAtFrontEnd(status) {
     emailField.setAttribute("error", "true");
     passwordField.setAttribute("error", "true");
     if (status === 400) {
-        passwordField.setAttribute("errorText", "Invalid credentials");
+        passwordField.setAttribute("errorText", i18next.t("incorrect_credentials"));
     } else {
-        passwordField.setAttribute("errorText", "Unknown error");
+        passwordField.setAttribute("errorText",  i18next.t("unknown_error"));
     }
 }
 
@@ -245,3 +221,10 @@ document.getElementById("sign_up_confirm_btn_rg_pg").addEventListener("click", a
         setErrorAttributesToFields(validationFieldsList);
     }
 });
+
+const passwordInput = document.getElementById('password_input_rg_pg');
+const repeatPasswordInput = document.getElementById('repeat_password_input_rg_pg');
+const passwordVisibilityToggleButton = document.getElementById('password_visibility_toggle_button');
+const repeatPasswordVisibilityToggleButton = document.getElementById('repeat_password_visibility_toggle_button');
+makeVisibilityOff(passwordVisibilityToggleButton, passwordInput);
+makeVisibilityOff(repeatPasswordVisibilityToggleButton, repeatPasswordInput);

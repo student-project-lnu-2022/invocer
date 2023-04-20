@@ -1,50 +1,35 @@
-import {nameField, priceField, amountInStockField, barcodeField, additionalFieldsContainer, amountAdditionalFieldsContainer,
-    maxNumOfUnits, additionalUnitCell, additionalUnits, amountAdditionalUnitField, inputBarcodeVal, inputNameVal, inputAmountInStockVal,
-    inputBasicUnitVal, inputCurrencyVal, inputPriceVal, inputBasicUnit, inputCurrency, numOfRowsObject} from './utils_items.js'
-import { removeAllErrorAttributes } from './validation_utils.js';
-
-document.querySelectorAll('.dropdown_list').forEach(function (dropdownWrapper) {
-    const dropdownBtn = dropdownWrapper.querySelector('.dropdown__button');
-    const dropdownArrow = dropdownWrapper.querySelector(".arrow-up");
-    const dropdownList = dropdownWrapper.querySelector('.dropdown__list');
-    const dropdownInput = dropdownWrapper.querySelector('.dropdown__input_hidden');
-    dropdownWrapper.addEventListener('click', function (e) {
-        const target = e.target;
-        if(target.nodeName === 'BUTTON') {
-            dropdownArrow.classList.toggle("arrow-up");
-            dropdownArrow.classList.toggle("arrow-up-active");
-            dropdownList.classList.toggle('dropdown__list_visible');
-            dropdownBtn.classList.toggle('dropdown__button_active');
-        }
-        if(target.nodeName === 'LI') {
-            target.classList.add('dropdown__list-item_active');
-            dropdownBtn.innerText = target.innerText;
-            dropdownInput.setAttribute("value", target.dataset.value);
-            input_currency_table();
-            input_basic_unit_table();
-            dropdownArrow.classList.add("arrow-up");
-            dropdownArrow.classList.remove("arrow-up-active");
-            dropdownList.classList.remove('dropdown__list_visible');
-        }
-        if (target !== dropdownBtn) {
-            dropdownArrow.classList.add("arrow-up");
-            dropdownArrow.classList.remove("arrow-up-active");
-            dropdownBtn.classList.remove('dropdown__button_active');
-            dropdownList.classList.remove('dropdown__list_visible');
-        }
-        });
-    })
-
+import {
+    nameField,
+    priceField,
+    amountInStockField,
+    barcodeField,
+    additionalFieldsContainer,
+    amountAdditionalFieldsContainer,
+    maxNumOfUnits,
+    additionalUnitCell,
+    additionalUnits,
+    amountAdditionalUnitField,
+    inputBarcodeVal,
+    inputNameVal,
+    inputAmountInStockVal,
+    inputBasicUnitVal,
+    inputCurrencyVal,
+    inputPriceVal,
+    inputBasicUnit,
+    inputCurrency,
+    numOfRowsObject
+} from './utils_items.js'
+import {removeAllErrorAttributes} from './validation_utils.js';
 
 for (let i = 0; i < maxNumOfUnits; i++) {
     amountAdditionalUnitField[i].addEventListener("input", () => {
         const inputRowVal = document.querySelector(`#AU${i + 1}_val`);
-        setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + " " + inputBasicUnit.value);
+        setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + " " + retrieveNameOfBasicUnitFromDropdown());
     });
-    additionalUnits[i].addEventListener("input", ()=> {
+    additionalUnits[i].addEventListener("input", () => {
         let data1 = document.querySelector(`#AU${i + 1}`).value;
         setTextToTable(document.querySelector(`#Aditional_unit_${i + 1}`), data1);
-});
+    });
 }
 
 function addLabels() {
@@ -79,11 +64,15 @@ function removeLabels(index) {
 }
 
 const closeButton = document.querySelectorAll(".close_btn");
-for (let i=0; i<closeButton.length; i++) {
-    closeButton[i].addEventListener('click', ()=>{removeLabels(i)});
+for (let i = 0; i < closeButton.length; i++) {
+    closeButton[i].addEventListener('click', () => {
+        removeLabels(i)
+    });
 }
 
-document.querySelector("#additional_item_button").addEventListener("click", () => { addLabels() });
+document.querySelector("#additional_item_button").addEventListener("click", () => {
+    addLabels()
+});
 
 function setTextToTable(inputElement, inputData) {
     inputElement.setAttribute('data-text', inputData);
@@ -103,25 +92,23 @@ function isFieldEmpty(input_field, fieldLabel, resultValue) {
     return data;
 }
 
-priceField.addEventListener('input', () => { setTextToTable(inputPriceVal, priceField.value) });
-
-function input_currency_table() {
-    let data = isFieldEmpty(inputCurrency, "Currency", "");
-    setTextToTable(inputCurrencyVal, data);
-}
-
+priceField.addEventListener('input', () => {
+    setTextToTable(inputPriceVal, priceField.value)
+});
 
 amountInStockField.addEventListener('input', () => {
-    let data = isFieldEmpty(inputBasicUnit, "Basic unit", "");
-    setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + data);
+    let basicUnitDataFromDropdown = retrieveNameOfBasicUnitFromDropdown();
+    setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + basicUnitDataFromDropdown);
 });
 
 nameField.addEventListener('input', () => {
-    let data = isFieldEmpty(nameField, "", "Name of item");
+    let data = isFieldEmpty(nameField, "", i18next.t("name_of_the_item"));
     setTextToTable(inputNameVal, data);
 });
 
-barcodeField.addEventListener('input', () => { setTextToTable(inputBarcodeVal, `Barcode: ${barcodeField.value}`) });
+barcodeField.addEventListener('input', () => {
+    setTextToTable(inputBarcodeVal, i18next.t("barcode_") + barcodeField.value);
+});
 
 
 function input_basic_unit_table() {
@@ -143,3 +130,35 @@ function input_basic_unit_table() {
         setTextToTable(field, data + " " + basicUnitData);
     }
 }
+
+
+const currencyDropdown = document.querySelector('.currency_dropdown');
+currencyDropdown.addEventListener('change', function () {
+    let selectedCurrency = document.querySelector('#currency_input_dropdown').value;
+    setTextToTable(inputCurrencyVal, selectedCurrency);
+});
+
+const unitDropdown = document.querySelector('.units_dropdown');
+unitDropdown.addEventListener('change', function () {
+    let selectedUnit = i18next.t(document.querySelector('#units_input_dropdown').value);
+    setTextToTable(inputBasicUnitVal, selectedUnit);
+    setTextToTable(inputAmountInStockVal, amountInStockField.value + " " + selectedUnit);
+    updateAdditionalUnitsOnBasicUnitChanged();
+});
+
+function retrieveNameOfBasicUnitFromDropdown() {
+    if (document.querySelector('#units_input_dropdown').value) {
+        return i18next.t(document.querySelector('#units_input_dropdown').value);
+    }
+    return "";
+}
+
+function updateAdditionalUnitsOnBasicUnitChanged() {
+    for (let i = 0; i < maxNumOfUnits; i++) {
+        let inputRowVal = document.querySelector(`#AU${i + 1}_val`);
+        if (inputRowVal) {
+            setTextToTable(inputRowVal, amountAdditionalUnitField[i].value + " " + retrieveNameOfBasicUnitFromDropdown());
+        }
+    }
+}
+

@@ -1,3 +1,5 @@
+import {makeVisibilityOff} from "./validation_utils.js";
+
 const host = "http://127.0.0.1:8000";
 const emailField = document.getElementById("email_input_lg_pg");
 const passwordField = document.getElementById("password_input_lg_pg");
@@ -10,12 +12,12 @@ function removeAllErrorAttributes() {
 }
 
 function validatePassword(valueToValidate) {
-    return ((valueToValidate === '') ? 'Invalid data' : '');
+    return ((valueToValidate === '') ? i18next.t("invalid_data") : '');
 }
 
 function validateEmail(valueToValidate) {
     return (valueToValidate.includes(' ') || !(/^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/.test(valueToValidate))) ?
-        'Invalid data' : '';
+        i18next.t("invalid_data") : '';
 }
 
 function validateLoginDataOnFrontEnd() {
@@ -42,9 +44,9 @@ function backEndNegativeResponse(status) {
     emailField.setAttribute('error', 'true');
     passwordField.setAttribute('error', 'true');
     if (status === 400) {
-        errorString = "Incorrect credentials";
+        errorString = i18next.t("incorrect_credentials");
     } else {
-        errorString = "Unknown error";
+        errorString = i18next.t("unknown_error");
     }
     passwordField.setAttribute("errorText", errorString);
 }
@@ -105,3 +107,7 @@ document.getElementById("log_in_confirmation_button_log_in_page").addEventListen
         setErrorAttributesToFields(validationFieldsList);
     }
 });
+
+const passwordInput = document.getElementById('password_input_lg_pg');
+const passwordVisibilityToggleButton = document.getElementById('password_visibility_toggle_button');
+makeVisibilityOff(passwordVisibilityToggleButton, passwordInput);

@@ -20,3 +20,29 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         obj = User.objects.create_user(**validated_data)
         return obj
+
+
+class UserSettingsSerializer(serializers.ModelSerializer):
+    old_password = serializers.CharField(max_length=100, write_only=True)
+    new_password = serializers.CharField(max_length=100, write_only=True)
+    id = serializers.IntegerField(write_only=True)
+    repeat_new_password = serializers.CharField(max_length=100, write_only=True)
+    class Meta:
+        model = User
+        fields = ("id", "first_name", "last_name", "email", "password", "company_name", "country", "city", "address", 'old_password', 'new_password', 'repeat_new_password')
+
+    def validate(self, attrs):
+        data = []
+        old_password = attrs.get('old_password', None)
+        new_password = attrs.get('new_password', None)
+        repeat_new_password = attrs.get('repeat_new_password', None)
+        user = User.objects.get(id=attrs['id'])
+        if old_password is not None:
+            if user.check_password(old_password) == False:
+                data.append("Invalid old password")
+        if new_password is not None:
+            if new_password != repeat_new_password:
+                data.append("Password and Confirm Password don't match")
+        if len(data) != 0:
+            raise serializers.ValidationError(data)
+        return attrs

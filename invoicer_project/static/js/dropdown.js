@@ -2,15 +2,18 @@ jQuery('.ui.dropdown')
     .dropdown();
 
 
-document.querySelector(".custom_dropdown").addEventListener("mouseover", () => {
-    let dropdownText = document.querySelector(".ui.dropdown.error>.text");
-    let dropdownArrow = document.querySelector(".ui.dropdown.error>.icon");
+let dropdowns = document.querySelectorAll(".custom_dropdown");
 
-    if (dropdownText && dropdownArrow) {
-        dropdownText.style.color = "rgb(73 69 79)";
-        dropdownArrow.style.color = "rgb(73 69 79)";
-    }
+dropdowns.forEach(dropdown => {
+    dropdown.addEventListener("mouseover", () => {
+        let dropdownText = dropdown.querySelector(".ui.dropdown.error>.text");
+        let dropdownArrow = dropdown.querySelector(".ui.dropdown.error>.icon");
 
+        if (dropdownText && dropdownArrow) {
+            dropdownText.style.color = "rgb(73 69 79)";
+            dropdownArrow.style.color = "rgb(73 69 79)";
+        }
+    })
 });
 
 document.querySelector(".custom_dropdown").addEventListener("mouseout", () => {
