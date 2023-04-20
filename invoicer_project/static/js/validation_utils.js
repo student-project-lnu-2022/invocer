@@ -170,14 +170,15 @@ export function setErrorAttributesToFields(errorsObject, fields) {
 }
 
 export function setErrorAttributeToDropdown(field) {
-    field.classList.add("error");
+    field.parentElement.querySelector('.text').style.color =  "#b3251e";
+    field.parentElement.querySelector('.icon').style.color =  "#b3251e";
 }
 
 
 export function clearErrorAttributes(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
         if (isADropdown(field)) {
-            field.addEventListener('input', () => {
+            field.parentElement.querySelector('.search').addEventListener('input', () => {
                 removeStylesFromDropdownElement(field);
             });
         } else {

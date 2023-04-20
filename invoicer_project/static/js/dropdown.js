@@ -1,5 +1,4 @@
-jQuery('.ui.dropdown')
-    .dropdown();
+
 
 
 document.querySelector(".custom_dropdown").addEventListener("mouseover", () => {
@@ -28,3 +27,7 @@ export function removeStylesFromDropdownElement(element) {
     parent.querySelector('.text').style.color = null;
     parent.querySelector('.icon').style.color = null;
 }
+
+document.addEventListener('DOMContentLoaded', ()=>{
+    jQuery('.ui.dropdown').dropdown();
+});
