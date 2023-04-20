@@ -12,13 +12,19 @@ import {
 import {updateContentClients, translateClientsList} from "./client_section_translation.js";
 
 function createClientListContent(data) {
-    for (let i = 0; i < data.length; i++) {
-        let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
-        let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
-        let clientID = data[i]['id'];
-        let clientDebt = data[i]['debt'];
-        document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item clickable_item align-items-center justify-content-between" data-element-id="${clientID}">
-                <div class="col-xxl-1 col-xl-1 col-1 clickable_item list_item_user_icon_initials" data-element-id="${clientID}">
+    if (data.length === 0) {
+        const message = document.getElementById("other_elements");
+        message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
+        <p class="emptyMessageText">No clients have been added yet...</p>
+        </div>`);
+    } else {
+        for (let i = 0; i < data.length; i++) {
+            let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
+            let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
+            let clientID = data[i]['id'];
+            let clientDebt = data[i]['debt'];
+            document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item clickable_item align-items-center justify-content-between" data-element-id="${clientID}">
+                <div class="col-xxl-1 col-xl-1 col-1 clickable_item list_item_user_icon_initials">
                     <p class="list_item_user_icon_initials_text" data-element-id="${clientID}">${clientInitials}</p>
                 </div>
                 <div class="col-xxl-3 col-xl-3 col-md-3 col-sm-3 col-4 clickable_item list_item_user_name" data-element-id="${clientID}">
@@ -33,17 +39,8 @@ function createClientListContent(data) {
                     <md-standard-icon-button class="client-info delete-client" data-element-id="${clientID}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                     <md-checkbox class="delete_clients_checkbox" id="list_item_user_delete" data-element-id="${clientID}"></md-checkbox>
                 </div>
-                <div class="col-2 list_item_more_button">
-                    <md-standard-icon-button class="client-info more-client" data-element-id="${clientID}" data-contextmenu="client-context-menu-${clientID}"><span class="material-symbols-outlined">more_vert</span></md-standard-icon-button>
-                </div>
-<div id="contextmenu-${clientID}" class="contextmenu">
-    <item id="context_menu_edit-${clientID}" class="context_menu_edit-${clientID} context-menu-edit-button"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">edit</span>Edit</item>
-    <item id="context_menu_delete-${clientID}" class="delete-client context-menu-delete-button" data-element-id="${clientID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
-</div>
-                         </div>`);
-        document.querySelector(`#context_menu_edit-${clientID}`).addEventListener("click", () => {
-            window.location.href = host + "/clients/edit/" + clientID;
-        });
+            </div>`)
+        }
     }
 }
 

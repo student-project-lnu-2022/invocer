@@ -1,5 +1,5 @@
-import {host} from "./utils_clients.js";
-import {obtainUserInitials, obtainNewAccessToken} from "./request_utils.js";
+import { host } from "./utils_clients.js";
+import { obtainUserInitials, obtainNewAccessToken } from "./request_utils.js";
 
 document.querySelector("#menu-toggle").addEventListener("click", function (e) {
     e.preventDefault();
@@ -26,9 +26,6 @@ function initMenu() {
 
 window.addEventListener('DOMContentLoaded', function () {
     initMenu();
-    checkMenuItemBasedOnSection();
-    window.addEventListener('resize', setNavMobileDisplay);
-    window.addEventListener('load', setNavMobileDisplay);
 });
 
 document.querySelector("#log_out_button").addEventListener("click", async () => {
@@ -68,24 +65,6 @@ document.querySelector("#log_out_button").addEventListener("click", async () => 
     }
 });
 
-function checkMenuItemBasedOnSection() {
-    const urlSection = new URL(window.location.href).pathname.split("/")[1];
-    const menuItems = document.querySelectorAll("#menu li");
-    const menuItemsMobile = document.querySelectorAll(".nav_mobile a");
-
-    menuItems.forEach((item) => {
-        item.classList.remove("active");
-    });
-
-    menuItemsMobile.forEach((item) => {
-        item.classList.remove("nav__link_mobile--active");
-    });
-
-    const urlSections = ['', 'clients', 'items', 'statistics', 'user'];
-
-    menuItems[urlSections.indexOf(urlSection)].classList.add('active');
-    menuItemsMobile[urlSections.indexOf(urlSection)].classList.add('nav__link_mobile--active');
-}
 
 const navMobile = document.querySelector('.nav_mobile');
 const sidebarWrapper = document.querySelector("#wrapper");

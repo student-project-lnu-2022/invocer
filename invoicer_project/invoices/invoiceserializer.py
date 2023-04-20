@@ -9,6 +9,7 @@ class OrderedItemSerializer(serializers.ModelSerializer):
     item_price = serializers.SerializerMethodField()
     item_barcode = serializers.SerializerMethodField()
     item_currency = serializers.SerializerMethodField()
+    amount_in_unit = serializers.FloatField(write_only = True)
 
     class Meta:
         model = OrderedItem
@@ -25,6 +26,13 @@ class OrderedItemSerializer(serializers.ModelSerializer):
 
     def get_item_currency(self, obj):
         return obj.item.currency
+    
+    def create(self, validated_data):
+        amount = validated_data.pop('amount_in_unit')
+        ordered_item = OrderedItem.objects.create(**validated_data)
+        ordered_item.update_item(amount)
+        ordered_item.save()
+        return ordered_item
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
