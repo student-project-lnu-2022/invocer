@@ -1,7 +1,6 @@
 jQuery('.ui.dropdown')
     .dropdown();
 
-
 document.querySelector(".custom_dropdown").addEventListener("mouseover", () => {
     let dropdownText = document.querySelector(".ui.dropdown.error>.text");
     let dropdownArrow = document.querySelector(".ui.dropdown.error>.icon");
