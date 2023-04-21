@@ -91,18 +91,19 @@ document.getElementById("add_invoice_button").addEventListener("click", async ()
         if (dataForInvoice.length === 0) {
             document.querySelector('.empty_invoice').style.visibility = 'visible';
         } else {
-            let responseStatusInvoice = [];
+            const responseStatusInvoice = [];
             for (let i = 0; i < dataForInvoice.length; i++) {
                 dataForInvoice[i].invoice = addInvoiceStatus.id;
                 let stringified = JSON.stringify(dataForInvoice[i]);
                 const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", stringified, "POST");
                 responseStatusInvoice.push(addAdditionalUnitServerResponseStatus);
             }
-            console.log(responseStatusInvoice);
+            if (!responseStatusInvoice.every(responseStatus => responseStatus === 201)){
+                alert('The error occured during invoice creation');
+            }
+            window.location.href = host;
         }
     } else {
-        console.log('Error attributes');
-        console.log(validationOfInvoiceData);
         setErrorAttributesToFields(validationOfInvoiceData, allNeededFieldsList());
 }  
 });
