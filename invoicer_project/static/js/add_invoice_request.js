@@ -43,7 +43,6 @@ function collectDataFromInvoiceTable() {
         };
         dataList.push(data);
     }
-    console.log(dataList);
     return dataList;
 }
 

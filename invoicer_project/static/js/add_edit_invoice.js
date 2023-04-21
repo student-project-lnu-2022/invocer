@@ -269,7 +269,7 @@ async function observeUnitAndItemField() {
         } else if (item) {
             for (let key in item.additionalUnits) {
                 if (key === unitField.value) {
-                    priceField.value = item.additionalUnits[key] * item.price;
+                    priceField.value = Math.round((item.additionalUnits[key] * item.price + Number.EPSILON) * 100) / 100;
                     amountField.value = Math.round(item.inStock / item.additionalUnits[key]);
                 }
             }
