@@ -206,37 +206,43 @@ export function validateBarcode(barcodeToValidate) {
     return isBarcodeValid;
 }
 
+function isADropdown(field) {
+    return field.tagName !== 'MD-OUTLINED-TEXT-FIELD';
+}
+
 export function setErrorAttributesToFields(errorsObject, fields) {
     let fieldIndex = 0;
     for (let error in errorsObject) {
         if (errorsObject[error]) {
-            fields[fieldIndex].setAttribute("error", "true");
-            fields[fieldIndex].setAttribute("errorText", errorsObject[error]);
+            if (isADropdown(fields[fieldIndex])) {
+                setErrorAttributeToDropdown(fields[fieldIndex].parentElement);
+            } else {
+                fields[fieldIndex].setAttribute("error", "true");
+                fields[fieldIndex].setAttribute("errorText", errorsObject[error]);
+            }
         }
         fieldIndex++;
     }
 }
 
-export function clearErrorToDropdown(field) {
-    field.addEventListener('click', () => {
-        field.querySelector(".dropdown__button").classList.remove("dropdown__button_error");
-    });
-}
-
 export function clearErrorAttributes(returnAllFieldsList) {
     for (let field of returnAllFieldsList) {
-        if (field.classList.contains("dropdown_list")) {
-            clearErrorToDropdown(field);
+        if (isADropdown(field)) {
+            field.parentElement.querySelector('.search').addEventListener('input', () => {
+                removeStylesFromDropdownElement(field);
+            });
+        } else {
+            field.addEventListener('input', () => {
+                field.removeAttribute("error");
+                field.removeAttribute("errorText");
+            });
         }
-        field.addEventListener('input', () => {
-            field.removeAttribute("error");
-            field.removeAttribute("errorText");
-        })
     }
 }
 
 export function setErrorAttributeToDropdown(field) {
-    field.classList.add("error");
+    field.parentElement.querySelector('.text').style.color =  "#b3251e";
+    field.parentElement.querySelector('.icon').style.color =  "#b3251e";
 }
 
 export function setMaxFieldContainerHeights(returnAllFieldsList) {
@@ -247,8 +253,12 @@ export function setMaxFieldContainerHeights(returnAllFieldsList) {
 
 export function removeAllErrorAttributes(returnAllFieldsList) {
     for (let item of returnAllFieldsList) {
-        item.removeAttribute("error");
-        item.removeAttribute("errorText");
+        if (isADropdown(item)) {
+            removeStylesFromDropdownElement(item);
+        } else {
+            item.removeAttribute("error");
+            item.removeAttribute("errorText");
+        }
     }
 }
 
@@ -271,4 +281,12 @@ export function makeVisibilityOff(toggleButton, passwordInp) {
             toggleButton.textContent = 'visibility';
         }
     });
+}
+
+
+export function removeStylesFromDropdownElement(element) {
+    const parent = element.parentElement;
+    parent.classList.remove('error');
+    parent.querySelector('.text').style.color = null;
+    parent.querySelector('.icon').style.color = null;
 }

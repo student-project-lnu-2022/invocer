@@ -17,14 +17,13 @@ import {
     validatePrice,
     validationDropdown,
     validateAmountInStock,
-    validateBarcode, setErrorAttributeToDropdown,
+    validateBarcode, setErrorAttributeToDropdown, removeStylesFromDropdownElement
 } from './validation_utils.js'
 import {actionBasedOnStatusCode, obtainUserInitials, sendAddEditRequest} from './request_utils.js'
 import {
     countryField,
     hideUnnecessaryElementsInMenu,
 } from './utils_clients.js'
-import {removeStylesFromDropdownElements} from "./dropdown.js";
 
 
 function validateItemAdd() {

@@ -12,12 +12,18 @@ import {
 import {updateContentClients, translateClientsList} from "./client_section_translation.js";
 
 function createClientListContent(data) {
-    for (let i = 0; i < data.length; i++) {
-        let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
-        let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
-        let clientID = data[i]['id'];
-        let clientDebt = data[i]['debt'];
-        document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item clickable_item align-items-center justify-content-between" data-element-id="${clientID}">
+    if (data.length === 0) {
+        const message = document.getElementById("other_elements");
+        message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
+        <p class="emptyMessageText">No clients have been added yet...</p>
+        </div>`);
+    } else {
+        for (let i = 0; i < data.length; i++) {
+            let fullName = data[i]['last_name'] + " " + data[i]['first_name'];
+            let clientInitials = data[i]['last_name'][0] + data[i]['first_name'][0];
+            let clientID = data[i]['id'];
+            let clientDebt = data[i]['debt'];
+            document.getElementById("other_elements").insertAdjacentHTML('afterbegin', `<div class="row client_list_item clickable_item align-items-center justify-content-between" data-element-id="${clientID}">
                 <div class="col-xxl-1 col-xl-1 col-1 clickable_item list_item_user_icon_initials" data-element-id="${clientID}">
                     <p class="list_item_user_icon_initials_text" data-element-id="${clientID}">${clientInitials}</p>
                 </div>
@@ -41,11 +47,13 @@ function createClientListContent(data) {
     <item id="context_menu_delete-${clientID}" class="delete-client context-menu-delete-button" data-element-id="${clientID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
 </div>
                          </div>`);
-        document.querySelector(`#context_menu_edit-${clientID}`).addEventListener("click", () => {
-            window.location.href = host + "/clients/edit/" + clientID;
-        });
+            document.querySelector(`#context_menu_edit-${clientID}`).addEventListener("click", () => {
+                window.location.href = host + "/clients/edit/" + clientID;
+            });
+        }
     }
 }
+
 
 async function addElementsDynamically() {
     let responseFromServer = await getUserData("/clients/client/");
