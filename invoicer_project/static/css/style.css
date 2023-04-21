@@ -1257,3 +1257,99 @@ item:not([state*="gray"]):last-child:hover {
 .emptyMessageText{
     text-align: center;
 }
+
+/* The Modal (background) */
+.modal {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+    cursor: auto;
+}
+
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+}
+
+.close {
+    --md-icon-color: red;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recipient-email-input {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+@keyframes animate_error {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes animate_success {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.errorMessage {
+  color: #f44336;
+  animation-name: animate_error;
+  animation-duration: 2s;
+  margin-top: 10px;
+  font-size: 18px;
+  animation-fill-mode: forwards;
+}
+
+.successMessage {
+  color: #4CAF50;
+  font-size: 18px;
+  margin-top: 10px;
+  animation-name: animate_success;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.emptyMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.emptyMessageText {
+  font-size: 18px;
+    color: #3b3b3b;
+}
+.empty_invoice {
+    color: #cd2219;
+    visibility: hidden;
+}
