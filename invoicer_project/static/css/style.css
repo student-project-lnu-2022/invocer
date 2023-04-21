@@ -1353,3 +1353,25 @@ item:not([state*="gray"]):last-child:hover {
     color: #cd2219;
     visibility: hidden;
 }
+
+.invoice_list_item {
+    background-color: #fff;
+    border-radius: 15px;
+    height: 6%;
+    margin-left: 0;
+    width: 90%;
+}
+
+.invoice_list_item:hover{
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .invoice_list_item {
+        width: 100%;
+    }
+}
+
+.invoice_list_item {
+    margin-bottom: 10px;
+}
