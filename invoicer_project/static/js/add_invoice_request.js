@@ -98,7 +98,7 @@ document.getElementById("add_invoice_button").addEventListener("click", async ()
                 responseStatusInvoice.push(addAdditionalUnitServerResponseStatus);
             }
             if (!responseStatusInvoice.every(responseStatus => responseStatus === 201)){
-                alert('The error occured during invoice creation');
+                alert('The error occurred during invoice creation');
             }
             window.location.href = host;
         }

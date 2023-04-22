@@ -35,10 +35,17 @@ class InvoiceViewSet(viewsets.ViewSet):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+    def update_client_debt(self, invoice):
+        client = invoice.client
+        client.debt -= invoice.price
+        client.save(update_fields=["debt"])
+
     def destroy(self, request):
         user = get_user_from_jwt(request.headers)
         invoice_ids = request.data['elementsIds']
         invoices = Invoice.objects.filter(id__in=invoice_ids, user_id=user['user_id'])
+        for invoice in invoices:
+            self.update_client_debt(invoice)
         invoices.delete()
         return JsonResponse({}, status=204)
 
@@ -82,6 +89,8 @@ class InvoiceViewSet(viewsets.ViewSet):
         except:
             return JsonResponse({'message': 'Failed to send email!'})
         return JsonResponse({'message': 'PDF was sent!'})
+
+
 
 class OrderedItemViewSet(viewsets.ViewSet):
     model = OrderedItem
