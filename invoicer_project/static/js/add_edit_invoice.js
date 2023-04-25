@@ -1,4 +1,4 @@
-import { getUserData, obtainUserInitials } from "./request_utils.js";
+import { getUserData, obtainNewAccessToken, obtainUserInitials } from "./request_utils.js";
 import { Item } from "./item.js";
 import {
     validateAmountInStock as validateAmount, validatePrice,
@@ -7,6 +7,7 @@ import {
     removeAllErrorAttributes, removeStylesFromDropdownElement
 } from './validation_utils.js';
 import { hideUnnecessaryElementsInMenu } from "./utils_clients.js";
+import { host } from "./utils_clients.js";
 
 const addMoreItems = document.querySelector('#item_to_table');
 const saveToTable = document.querySelector('#save_changes');
@@ -188,19 +189,6 @@ function modifyTable(arrayOfColumns) {
     return allAreFalse(validationResult);
 }
 
-async function createItemsList(data) {
-    console.log(data);
-    for (let item of data) {
-        const request = await getUserData(`/items/additional_units_for_item/${item.id}`);
-        console.log(request);
-        //without request status ckeck for now!
-        //write function for incapsulating request status check!!!
-        const obj = new Item(item, request['data']['content']);
-        itemsList.push(obj);
-    }
-}
-
-
 function loadItemsToDropdown(data, currency) {
     const menu = itemsField.parentElement.children[4];
     while (menu.firstChild) {
@@ -358,17 +346,55 @@ function manageDateFunctionality()
     });
 }
 
-document.addEventListener('DOMContentLoaded', async function () {
+async function createItemsList(data) {
+    console.log(data);
+    for (let item of data) {
+        const request = await getUserData(`/items/additional_units_for_item/${item.id}`);
+        console.log(request);
+        //without request status ckeck for now!
+        //write function for incapsulating request status check!!!
+        const obj = new Item(item, request['data']['content']);
+        itemsList.push(obj);
+    }
+}
+
+async function obtainUserItems()
+{
+    let responseFromServer = await getUserData('/items/items_list/');
+    const response = responseFromServer.responseStatus;
+    if (response === 200) {
+        await createItemsList(responseFromServer['data']['content']);
+    } else if (response === 401) {
+        const obtainedToken = await obtainNewAccessToken();
+        if (obtainedToken) {
+            responseFromServer = await getUserData('/items/items_list/');
+            if (responseFromServer.responseStatus !== 200) {
+                window.location.href = host + '/user/login/';
+            }
+            await createItemsList(responseFromServer['data']['content']);
+        } else {
+            window.location.href = host + '/user/login/';
+        }
+    } else {
+        alert();
+        window.location.href = host + '/user/login/';
+    }    
+}
+
+async function obtainAll()
+{
     await obtainUserInitials();
+    await obtainUserItems();
+    await obtainUserClients();
+}
+
+document.addEventListener('DOMContentLoaded', async function () {
+    await obtainAll();
+    hideUnnecessaryElementsInMenu();
     clearErrorAttributes(returnAllFieldsList());
     manageDateFunctionality();
     updateInvoiceName();
-    hideUnnecessaryElementsInMenu();
-    //function for incapsulating request status check!!!
-    const data = await getUserData('/items/items_list/');
-
-    await createItemsList(data['data']['content']);
-    await obtainUserClients();
+    
     observeUnitAndItemField();
     observeClientAndCurrencyField();
     addMoreItems.addEventListener('click', () => {  
