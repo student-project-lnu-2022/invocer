@@ -5,7 +5,7 @@ import {
     validationDropdown,
     removeAllErrorAttributes
 } from './validation_utils.js'
-import {sendAddEditRequest} from './request_utils.js'
+import {obtainNewAccessToken, sendAddEditRequest} from './request_utils.js'
 import {
     currencyField, invoiceNameField, invoiceTable, clientNameField,
     dateOfInvoiceField, dateOfPaymentField, itemsList
@@ -86,15 +86,31 @@ document.getElementById("add_invoice_button").addEventListener("click", async ()
             date_of_payment: dateOfPaymentField.value,
             currency: currencyField.value
         };
-        const addInvoiceStatus = await sendAddInvoiceRequest(host + "/invoices/invoice/", JSON.stringify(data), "POST"); 
+        let addInvoiceStatus = await sendAddInvoiceRequest(host + "/invoices/invoice/", JSON.stringify(data), "POST"); 
+        console.log(addInvoiceStatus);
+        if (addInvoiceStatus[1] === 401) {
+            if (await obtainNewAccessToken()){
+                addInvoiceStatus = await sendAddInvoiceRequest(host + "/invoices/invoice/", JSON.stringify(data), "POST"); 
+            } else {
+                alert('Authorization error');
+                window.location.href = host + '/user/login/';
+            }
+        }
         if (dataForInvoice.length === 0) {
             document.querySelector('.empty_invoice').style.visibility = 'visible';
         } else {
             const responseStatusInvoice = [];
             for (let i = 0; i < dataForInvoice.length; i++) {
-                dataForInvoice[i].invoice = addInvoiceStatus.id;
+                dataForInvoice[i].invoice = addInvoiceStatus[0].id;
                 let stringified = JSON.stringify(dataForInvoice[i]);
-                const addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", stringified, "POST");
+                let addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", stringified, "POST");
+                if (addAdditionalUnitServerResponseStatus === 401) {
+                    if (!(await obtainNewAccessToken())){
+                        window.location.href = host + '/user/login/';
+                    } else {
+                        addAdditionalUnitServerResponseStatus = await sendAddEditRequest(host + "/invoices/ordered_items/", stringified, "POST");
+                    }
+                }
                 responseStatusInvoice.push(addAdditionalUnitServerResponseStatus);
             }
             if (!responseStatusInvoice.every(responseStatus => responseStatus === 201)){
@@ -125,5 +141,5 @@ async function sendAddInvoiceRequest(url, data, requestMethod) {
     } catch (error) {
         console.error(error);
     }
-    return responseData;
+    return [responseData, status];
 }

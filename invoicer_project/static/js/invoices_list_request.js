@@ -9,7 +9,7 @@ import {
 } from './request_utils.js';
 
 document.getElementById("search_bar").addEventListener('keyup', () => {
-    search('invoice_name', 'client_list_item')
+    search('invoice_name', 'invoice_list_item')
 });
 
 function createInvoiceListContent(data) {

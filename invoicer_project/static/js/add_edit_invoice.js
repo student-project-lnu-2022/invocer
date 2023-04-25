@@ -92,7 +92,7 @@ function createAndFillTableRow(valList) {
         tempElem.textContent = valList[i];
         tableRow.appendChild(tempElem);
     }
-    totalPrice.textContent = parseFloat(totalPrice.textContent) + valList.at(-1);
+    totalPrice.textContent = parseFloat(totalPrice.textContent) + parseFloat(Math.round((valList.at(-1) + Number.EPSILON) * 100) / 100);
     return tableRow;
 }
 
@@ -280,13 +280,6 @@ function createClientList(data) {
     }
 }
 
-async function obtainUserClients() {
-    let responseFromServer = await getUserData("/clients/client/");
-    const response = responseFromServer.responseStatus;
-    if (response === 200) {
-        createClientList(responseFromServer['data']['content']);
-    }
-}
 
 function updateInvoiceName()
 {
@@ -347,23 +340,31 @@ function manageDateFunctionality()
 }
 
 async function createItemsList(data) {
-    console.log(data);
     for (let item of data) {
-        const request = await getUserData(`/items/additional_units_for_item/${item.id}`);
-        console.log(request);
-        //without request status ckeck for now!
-        //write function for incapsulating request status check!!!
-        const obj = new Item(item, request['data']['content']);
-        itemsList.push(obj);
+        let request = await getUserData(`/items/additional_units_for_item/${item.id}`);
+        if (request.responseStatus === 200){
+            itemsList.push(new Item(item, request['data']['content']));
+        } else if (request.responseStatus === 401) {
+            const obtainedToken = await obtainNewAccessToken();
+            if (obtainedToken){
+                request = await getUserData(`/items/additional_units_for_item/${item.id}`);
+                if (request.responseStatus !== 200){
+                    window.location.href = host + '/user/login/';
+                }
+                itemsList.push(new Item(item, request['data']['content']));
+            }
+        } else {
+            window.location.href = host + '/user/login/';
+        }
     }
 }
 
-async function obtainUserItems()
+async function obtainDataWithCheks(endPointLink, createFromData)
 {
-    let responseFromServer = await getUserData('/items/items_list/');
+    let responseFromServer = await getUserData(endPointLink);
     const response = responseFromServer.responseStatus;
     if (response === 200) {
-        await createItemsList(responseFromServer['data']['content']);
+        await createFromData(responseFromServer['data']['content']);
     } else if (response === 401) {
         const obtainedToken = await obtainNewAccessToken();
         if (obtainedToken) {
@@ -371,14 +372,24 @@ async function obtainUserItems()
             if (responseFromServer.responseStatus !== 200) {
                 window.location.href = host + '/user/login/';
             }
-            await createItemsList(responseFromServer['data']['content']);
+            await createFromData(responseFromServer['data']['content']);
         } else {
             window.location.href = host + '/user/login/';
         }
     } else {
-        alert();
+        alert("Unknown error happened");
         window.location.href = host + '/user/login/';
-    }    
+    }      
+}
+
+async function obtainUserItems()
+{
+    await obtainDataWithCheks('/items/items_list/', createItemsList);
+}
+
+async function obtainUserClients() 
+{
+    await obtainDataWithCheks('/clients/client/', createClientList);
 }
 
 async function obtainAll()
