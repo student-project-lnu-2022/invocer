@@ -91,6 +91,7 @@ function translateInvoicesList() {
     if (addItemMobileButton) {
         addItemMobileButton.label = getI18NDataFromAttribute(addItemMobileButton);
     }
+
 }
 
 function translateInvoiceAdd() {
