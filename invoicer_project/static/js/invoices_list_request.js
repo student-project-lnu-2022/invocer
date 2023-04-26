@@ -7,6 +7,7 @@ import {
     obtainUserInitials,
     search
 } from './request_utils.js';
+import {updateContent} from "./invoices_section_translation.js";
 
 document.getElementById("search_bar").addEventListener('keyup', () => {
     search('invoice_name', 'invoice_list_item')
@@ -48,9 +49,9 @@ function createInvoiceListContent(data) {
                                     <md-standard-icon-button class="close">close</md-standard-icon-button>
                                 </div>
                                 <div class="modal-body">
-                                    <md-outlined-text-field type="email" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
-                                    <md-fab-extended class="send-email-btn" icon="send" label="Send PDF" data-element-id="${invoiceId}"></md-fab-extended>
-                                    <div id="errorMessage" data-element-id="${invoiceId}"></div>                       
+                                    <md-outlined-text-field type="email" data-i18n="recipient_email_input" class='recipient-email-input' placeholder="Recipient email"></md-outlined-text-field>
+                                    <md-fab-extended class="send-email-btn" icon="send" data-i18n="send_pdf" label="Send PDF" data-element-id="${invoiceId}"></md-fab-extended>
+                                    <div id="errorMessage" data-i18n="error_message_invoices" data-element-id="${invoiceId}"></div>                       
                                 </div>
                               </div>
                             </div>
@@ -82,6 +83,7 @@ async function addElementsDynamically() {
         addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox', "#delete_many_clients", "/invoices/invoice/");
         addDownloadButtonListeners('.download');
         addUploadButtonListeners('.upload', '.recipient-email-input', '.send-email-btn');
+        updateContent();
     } else if (response === 401) {
         const successfulTokenObtaining = await obtainNewAccessToken();
         if (!successfulTokenObtaining) {
@@ -93,6 +95,7 @@ async function addElementsDynamically() {
             addCheckboxesListener('#other_elements_invoices', '.delete_invoices_checkbox', 'delete_invoices_checkbox', "#delete_many_clients", "/invoices/invoice/");
             addDownloadButtonListeners('.download');
             addUploadButtonListeners('.upload', '.recipient-email-input', '.send-email-btn');
+            updateContent();
         }
     } else {
         window.location.replace(host + '/user/login/');
@@ -165,11 +168,11 @@ async function sendPdfEmailRequest(invoiceId, recipientEmail) {
 
 function actionBasedOnSendEmailRequest(messageFromServer, messageElement) {
     if (messageFromServer === 'PDF was sent!') {
-        messageElement.textContent = messageFromServer;
+        messageElement.textContent = i18next.t("success_message_field");
         messageElement.classList.remove("errorMessage");
         messageElement.classList.add("successMessage");
     } else {
-        messageElement.textContent =  messageFromServer;
+        messageElement.textContent =  i18next.t("error_message_field");
         messageElement.classList.remove("successMessage")
         messageElement.classList.add("errorMessage")
     }
@@ -191,7 +194,7 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
                 if (recipientEmailInput.value === '') {
                     let message = emailField.querySelector('#errorMessage');
                     message.setAttribute('data-element-id', invoiceId);
-                    message.textContent = 'Field is empty';
+                    message.textContent = i18next.t("empty_field");
                     message.classList.remove("successMessage")
                     message.classList.add("errorMessage")
                 } else {
@@ -221,7 +224,7 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
                 sendEmailButton.removeEventListener('click', sendPdfEmailRequestHandler);
                 recipientEmailInput.value = '';
                 let message = document.getElementById('errorMessage');
-                if (message.innerHTML.includes('Field is empty')) {
+                if (message.innerHTML.includes(i18next.t("empty_field"))) {
                     message.textContent = '';
                 }
             });
