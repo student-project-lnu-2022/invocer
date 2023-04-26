@@ -25,7 +25,7 @@ function createInvoiceListContent(data) {
                 client_first_name: clientFirstName, client_last_name: clientLastName, currency: invoiceCurrency
             } = data[i];
             document.getElementById("other_elements_invoices").insertAdjacentHTML('afterbegin', `<div class="row invoice_list_item align-items-center justify-content-around" data-element-id="${invoiceId}">
-                    <div class="col-md-6 col-sm-6 col-7 list_item_name">
+                    <div class="col-xxl-5 col-xl-4 col-md-3 col-sm-3 col-4 list_item_name">
                     <div class="d-flex flex-wrap flex-column list_item_info_block">
                         <p class="invoice_name" data-element-id="${invoiceId}">${invoiceName}</p>
                         <div class="invoice_bottom_info">
@@ -34,7 +34,7 @@ function createInvoiceListContent(data) {
                         </div>
                     </div>
                     </div>
-                    <div class="d-flex flex-wrap flex-row justify-content-end col-md-6 col-sm-6 col-5">
+                    <div class="d-flex flex-wrap flex-row justify-content-end col-xxl-7 col-xl-8 col-md-9 col-sm-9 col-6">
                         <div class="d-flex flex-wrap flex-column list_item_info_block">
                             <p class="currency_text" data-element-id="${invoiceId}">${invoicePrice} ${invoiceCurrency}</p>
                         </div>
@@ -57,8 +57,17 @@ function createInvoiceListContent(data) {
                             <md-standard-icon-button class="download" data-element-id="${invoiceId}"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
                             <md-checkbox class="delete_invoices_checkbox" id="list_item_user_delete" data-element-id="${invoiceId}"></md-checkbox>
                         </div>
+                        </div>
+                        <div class="col-2 list_item_more_button">
+                        <md-standard-icon-button class="more-invoice" data-element-id="${invoiceId}" data-contextmenu="invoice-context-menu-${invoiceId}"><span class="material-symbols-outlined">more_vert</span></md-standard-icon-button>
                     </div>
-                </div>`);
+    <div id="contextmenu-${invoiceId}" class="contextmenu">
+        <item id="context_menu_edit-${invoiceId}" class="context_menu_edit-${invoiceId} context-menu-edit-button"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">edit</span>Edit</item>
+        <item id="context_menu_delete-${invoiceId}" class="delete-invoice context-menu-delete-button" data-element-id="${invoiceId}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
+        <item id="context_menu_upload-${invoiceId}" class="context_menu_upload-${invoiceId} context-menu-upload-button upload" data-element-id="${invoiceId}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">upload</span>Upload</item>
+        <item id="context_menu_download-${invoiceId}" class="context_menu_download-${invoiceId} context-menu-download-button download" data-element-id="${invoiceId}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">download</span>Download</item>
+    </div>
+                             </div>`);
         }
     }
 }
@@ -100,9 +109,13 @@ document.querySelector("#adder").addEventListener('click', () => {
     window.location.href = host + '/invoices/add';
 });
 
+document.querySelector('#add_invoice_mobile').addEventListener('click', () => {
+    window.location.href = host + "/invoices/add";
+})
+
 document.querySelector("#sort_asc").addEventListener("click", () => {
     const parent = document.querySelector("#other_elements_invoices");
-    const divs = parent.querySelectorAll('.client_list_item');
+    const divs = parent.querySelectorAll('.invoice_list_item');
     const sortedDivs = Array.from(divs).sort((a, b) => a.querySelector(".invoice_name").textContent.localeCompare(b.querySelector(".invoice_name").textContent));
     parent.innerHTML = '';
     for (const div of sortedDivs) {
@@ -215,3 +228,48 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
         });
     });
 }
+
+
+(function () {
+
+    window.mouseX = 0;
+    window.mouseY = 0;
+
+    document.onmousemove = function (e) {
+        window.mouseX = e.clientX || 0;
+        window.mouseY = e.clientY || 0;
+    };
+
+    document.onclick = function (e) {
+        if (e.target.classList.contains('more-invoice')) {
+            e.preventDefault();
+
+            const contextMenus = document.querySelectorAll(".contextmenu");
+            contextMenus.forEach(menu => {
+                menu.style.display = 'none';
+            });
+
+            const elementId = e.target.getAttribute("data-element-id");
+            document.querySelector(`#contextmenu-${elementId}`).style.display = 'inline-block';
+            document.querySelector(`#contextmenu-${elementId}`).style.top = (window.mouseY - 55) + 'px';
+            document.querySelector(`#contextmenu-${elementId}`).style.left = (window.mouseX - 130) + 'px';
+        } else {
+            const contextMenus = document.querySelectorAll("[id^='contextmenu-']");
+            contextMenus.forEach(menu => {
+                menu.style.display = 'none';
+            });
+        }
+    };
+    var context_items = document.getElementsByTagName('item'),
+        i,
+        context_action = function () {
+            if ((this.getAttribute('state') || '').indexOf('gray') === -1 && this.getAttribute('action') in funcs) {
+                funcs[this.getAttribute('action')]();
+            }
+        };
+
+    for (i = 0; i < context_items.length; i += 1) {
+        context_items[i].onclick = context_action;
+    }
+
+}());

@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoices</title>
     <script src="https://unpkg.com/i18next@22.4.12/dist/umd/i18next.min.js"></script>
     <link
@@ -26,18 +27,19 @@
 </head>
 
 <body>
-{% include "menu_nav.html" %}
-{% include "menu_nav_mobile.html" %}
+    {% include "menu_nav.html" %}
+    {% include "menu_nav_mobile.html" %}
+    {% include "fab_mobile_invoice.html" %}
 <div id="wrapper" class="toggled-2">
     {% include "menu_wrapper.html" %}
     <div id="page-content-wrapper">
         <div class="container-fluid xyz" id="other_elements_invoices"></div>
     </div>
 </div>
-<script src="{% static 'js/bundle.js' %}"></script>
-<script type="module" src="{% static 'js/index.js' %}"></script>
-<script type="module" src="{% static 'js/invoices_list_request.js' %}"></script>
-<script type="module" src="{% static 'js/invoices_section_translation.js' %}"></script>
+<script defer src="{% static 'js/bundle.js' %}"></script>
+<script defer type="module" src="{% static 'js/index.js' %}"></script>
+<script defer type="module" src="{% static 'js/invoices_list_request.js' %}"></script>
+<script defer type="module" src="{% static 'js/invoices_section_translation.js' %}"></script>
 
 </body>
 </html>
