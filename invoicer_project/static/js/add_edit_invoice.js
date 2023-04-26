@@ -19,6 +19,7 @@ const invoiceCurrencyDisplay = document.querySelector('#invoice_currency_display
 const totalPrice = document.querySelector('#total_price');
 const dateOfInvoiceDisplay = document.querySelector('#inv_date_display');
 const dateOfPaymentDisplay = document.querySelector('#payment_date_display');
+const noUnitsText = document.querySelector('#not_enough_text');
 export const dateOfInvoiceField = document.querySelector('#date_of_invoice');
 export const dateOfPaymentField = document.querySelector('#date_of_payment');
 export const itemsField = document.querySelector('#item-list');
@@ -30,7 +31,7 @@ export const invoiceTable = document.querySelector('#table');
 export const clientNameField = document.querySelector("#client-field");
 export const currencyField = document.querySelector("#currency_input_dropdown");
 export const invoiceNameField = document.querySelector("#invoice_name");
-
+const totalInBasicInInvoice = {};
 export const itemsList = [];
 let clickHandler;
 
@@ -66,7 +67,7 @@ function arrayWithData() {
     amountField.value,
     unitField.value,
     priceField.value,
-    priceField.value * amountField.value]
+    Math.round((priceField.value * amountField.value + Number.EPSILON) * 100) / 100];
 }
 
 function hideSaveButton() {
@@ -83,8 +84,25 @@ function findItemIdForTableRow() {
 function createAndFillTableRow(valList) {
     const tableRow = document.createElement('div');
     tableRow.classList.add('row', 'text-left', 'table-row', 'align-items-center');
-    const found = findItemIdForTableRow();
-    tableRow.setAttribute('data-item_id', found);
+    const foundItemId = findItemIdForTableRow();
+    const foundItem = itemsList.find(item => item.id == foundItemId);
+    let amountInBasic;
+    if (foundItem.basicUnit === valList[2]){
+        amountInBasic = Math.round((parseFloat(valList[1]) + Number.EPSILON) * 100) / 100;
+    } else {
+        for (let additionalUnit in foundItem.additionalUnits){
+            if (additionalUnit === valList[2]){
+                amountInBasic = Math.round(parseFloat((valList[1]) * foundItem.additionalUnits[additionalUnit] + Number.EPSILON) * 100) / 100; 
+                break;
+            }
+        }
+    }
+    if (amountInBasic > Math.round((foundItem.inStock - totalInBasicInInvoice[foundItemId] + Number.EPSILON) * 100) / 100){
+        return false;
+    }
+    tableRow.setAttribute('data-item_id', foundItemId);
+    tableRow.setAttribute('data-total_in_basic', amountInBasic);
+    totalInBasicInInvoice[foundItemId] += amountInBasic;
     for (let i = 0; i < 5; ++i) {
         const rowIdentifier = (i === 5) ? 'second_col' : 'first_col';
         const tempElem = document.createElement('div');
@@ -156,6 +174,7 @@ function loadValueToItemDropdown(itemId) {
 
 function loadDataToEdit(event) {
     const tableRow = event.target.parentElement;
+    totalInBasicInInvoice[tableRow.dataset.item_id] -= parseFloat(tableRow.dataset.total_in_basic);
     const columns = tableRow.querySelectorAll('div');
     loadValueToItemDropdown(tableRow.dataset.item_id);
     loadValuetoUnitDropdown(columns[2].textContent);
@@ -164,9 +183,12 @@ function loadDataToEdit(event) {
     saveToTable.style.visibility = 'visible';
     clickHandler = function () {
         if (modifyTable(columns)) {
+            displayNoUnitsError(false);
             saveToTable.removeEventListener('click', clickHandler);
             saveToTable.style.visibility = 'hidden';
             addMoreItems.style.visibility = 'visible';
+        } else {
+            displayNoUnitsError(true);
         }
     }
     saveToTable.addEventListener('click', clickHandler);
@@ -175,13 +197,33 @@ function loadDataToEdit(event) {
 function modifyTable(arrayOfColumns) {
     const validationResult = validateAddingItemToTable(returnAllItemsFields());
     if (allAreFalse(validationResult)) {
-        totalPrice.textContent = parseFloat(totalPrice.textContent) - (parseFloat(arrayOfColumns[4].textContent) - parseFloat(amountField.value * priceField.value));
+        const tableRow = arrayOfColumns[0].parentElement;
+        const amountBackup = parseFloat(tableRow.dataset.total_in_basic);
+        const foundItem = itemsList.find(item => item.id == findItemIdForTableRow()); 
+        let amountInBasic;
+        if (unitField.value === foundItem.basicUnit){
+            amountInBasic = Math.round((parseFloat(amountField.value) + Number.EPSILON) * 100) / 100;
+        } else {
+            for (let additionalUnit in foundItem.additionalUnits){
+                if (additionalUnit === unitField.value){
+                    amountInBasic = Math.round((parseFloat(amountField.value * foundItem.additionalUnits[additionalUnit]) + Number.EPSILON) * 100) / 100; 
+                    break;
+                }
+            }
+        }
+        if (amountInBasic > Math.round((foundItem.inStock - totalInBasicInInvoice[foundItem.id] + Number.EPSILON) * 100) / 100) {
+            return false;
+        }
+        
+        totalInBasicInInvoice[foundItem.id] += amountInBasic;
+        tableRow.setAttribute('data-item_id', foundItem.id);
+        tableRow.setAttribute('data-total_in_basic', amountInBasic);
+        totalPrice.textContent = Math.round((parseFloat(totalPrice.textContent) - (parseFloat(arrayOfColumns[4].textContent) - parseFloat(amountField.value * priceField.value)) + Number.EPSILON) * 100) / 100;
         arrayOfColumns[0].textContent = itemsField.value;
         arrayOfColumns[1].textContent = amountField.value;
         arrayOfColumns[2].textContent = unitField.value;
         arrayOfColumns[3].textContent = priceField.value;
-        arrayOfColumns[4].textContent = amountField.value * priceField.value;
-        arrayOfColumns[0].parentElement.dataset.item_id = findItemIdForTableRow();
+        arrayOfColumns[4].textContent = Math.round((amountField.value * priceField.value + Number.EPSILON) * 100) / 100;
         clearAllFields();
     } else {
         setErrorAttributesToFields(validationResult, returnAllItemsFields());
@@ -252,13 +294,13 @@ async function observeUnitAndItemField() {
     const item = itemsList.find(elem => elem.id == currentItemId);
     if (item && unitField.value === item.basicUnit) {
             priceField.value = item.price;
-            amountField.value = item.inStock;
+            amountField.value = item.inStock - totalInBasicInInvoice[currentItemId];
             removeAllErrorAttributes([unitField, amountField, priceField]);
         } else if (item) {
             for (let key in item.additionalUnits) {
                 if (key === unitField.value) {
                     priceField.value = Math.round((item.additionalUnits[key] * item.price + Number.EPSILON) * 100) / 100;
-                    amountField.value = Math.round(item.inStock / item.additionalUnits[key]);
+                    amountField.value = parseInt((item.inStock - totalInBasicInInvoice[currentItemId]) / item.additionalUnits[key]);
                 }
             }
         }        
@@ -279,7 +321,6 @@ function createClientList(data) {
         menu.appendChild(div);
     }
 }
-
 
 function updateInvoiceName()
 {
@@ -344,6 +385,7 @@ async function createItemsList(data) {
         let request = await getUserData(`/items/additional_units_for_item/${item.id}`);
         if (request.responseStatus === 200){
             itemsList.push(new Item(item, request['data']['content']));
+            totalInBasicInInvoice[itemsList.at(-1).id] = 0;
         } else if (request.responseStatus === 401) {
             const obtainedToken = await obtainNewAccessToken();
             if (obtainedToken){
@@ -352,6 +394,7 @@ async function createItemsList(data) {
                     window.location.href = host + '/user/login/';
                 }
                 itemsList.push(new Item(item, request['data']['content']));
+                totalInBasicInInvoice[itemsList.at(-1).id] = 0;
             }
         } else {
             window.location.href = host + '/user/login/';
@@ -399,32 +442,43 @@ async function obtainAll()
     await obtainUserClients();
 }
 
+function displayNoUnitsError(flag)
+{
+    noUnitsText.style.display = flag? "block" : "none";
+}
 document.addEventListener('DOMContentLoaded', async function () {
     await obtainAll();
     hideUnnecessaryElementsInMenu();
     clearErrorAttributes(returnAllFieldsList());
     manageDateFunctionality();
     updateInvoiceName();
-    
+   
     observeUnitAndItemField();
     observeClientAndCurrencyField();
     addMoreItems.addEventListener('click', () => {  
         hideSaveButton();
+        displayNoUnitsError(false);
         const validationResult = validateAddingItemToTable();
         if (allAreFalse(validationResult)) {
             document.querySelector('.empty_invoice').style.visibility = 'hidden';
             const tableRow = createAndFillTableRow(arrayWithData());
-            const editButton = createIconButton('edit');
+            if (tableRow) {
+                const editButton = createIconButton('edit');
             const removeButton = createIconButton('remove');
             tableRow.appendChild(editButton);
             tableRow.appendChild(removeButton);
             removeButton.addEventListener('click', event1 => {
+                    totalInBasicInInvoice[event1.target.parentElement.dataset.item_id] -= parseFloat(event1.target.parentElement.dataset.total_in_basic);
                     totalPrice.textContent = parseFloat(totalPrice.textContent) - parseFloat(event1.target.parentElement.children[4].textContent);
                     event1.target.parentElement.remove();
                 });
             editButton.addEventListener('click', event2 => loadDataToEdit(event2));
             invoiceTable.insertAdjacentElement('beforeend', tableRow);
             clearAllFields();
+            displayNoUnitsError(false);
+            } else {
+                displayNoUnitsError(true);   
+            }
         } else {
             setErrorAttributesToFields(validationResult, returnAllItemsFields());
         }
