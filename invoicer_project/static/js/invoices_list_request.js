@@ -35,7 +35,7 @@ function createInvoiceListContent(data) {
                         </div>
                     </div>
                     </div>
-                    <div class="d-flex flex-wrap flex-row justify-content-end col-xxl-7 col-xl-8 col-md-9 col-sm-9 col-6">
+                    <div class="d-flex flex-wrap flex-row justify-content-end col-xxl-7 col-xl-8 col-md-9 col-sm-7 col-6">
                         <div class="d-flex flex-wrap flex-column list_item_info_block">
                             <p class="currency_text" data-element-id="${invoiceId}">${invoicePrice} ${invoiceCurrency}</p>
                         </div>
