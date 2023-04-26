@@ -3,6 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Add invoice</title>
         <script src="https://unpkg.com/i18next@22.4.12/dist/umd/i18next.min.js"></script>
         <script src="{% static 'js/jquery-3.6.4.min.js' %}"></script>
@@ -27,13 +28,14 @@
     </head>
 
     <body>
-        {% include "menu_nav.html" %} {% include "menu_nav_mobile.html" %}
+        {% include "menu_nav.html" %} 
+        {% include "menu_nav_mobile.html" %}
         <div id="wrapper" class="toggled-2">
             {% include "menu_wrapper.html" %}
             <div id="page-content-wrapper">
                 <div class="container-fluid xyz">
                     <div class="row text-left">
-                        <p id="new_item_text">New invoice</p>
+                        <p id="new_item_text" data-i18n="new_invoice">New invoice</p>
                     </div>
                     <div class="row d-flex flex-wrap flex-row background_input_item_in_page">
                         <div class="container-fluid col-12 col-xl-5 col-xxl-5">
@@ -43,6 +45,7 @@
                                         class="input_field col-xl-8 pb-1"
                                         label="Name"
                                         id="invoice_name"
+                                        data-i18n="name_for_ii"
                                         type="text"></md-outlined-text-field>
                                     <div class="custom_dropdown col col-xl-11 pb-3">
                                         {% include "client_dropdown.html" %}
@@ -57,6 +60,7 @@
                                             class="input_field col-4 col-sm-4 col-md-4 col-lg-5 col-xl-4 col-xxl-4"
                                             label="Date of invoice"
                                             id="date_of_invoice"
+                                            data-i18n="date_invoice"
                                             type="text"></md-outlined-text-field>
 
                                         <md-standard-icon-button
@@ -70,6 +74,7 @@
                                             class="input_field col-4 col-sm-4 col-md-4 col-lg-5 col-xl-4 col-xxl-4"
                                             label="Date of payment"
                                             id="date_of_payment"
+                                            data-i18n="date_payment"
                                             type="text"></md-outlined-text-field>
 
                                         <md-standard-icon-button
@@ -79,7 +84,7 @@
                                         >
                                     </div>
                                     <div class="row col-11 text-left pt-3 pb-3" id="add-items-text" style="margin: 0px">
-                                        <h4 class="col">Add items</h4>
+                                        <h4 class="col" id="add_items_id" data-i18n="add_items">Add items</h4>
                                     </div>
                                     <div class="row col-11 text-left pb-3" id="not_enough_text" style="color: #0044ff; margin: 0; display: none">
                                         <h5 class="col">Insufficient amount in stock</h5>
@@ -95,12 +100,16 @@
                                             class="input_field col-5"
                                             label="Amount"
                                             type="text"
-                                            id="item_amount"></md-outlined-text-field>
+                                            id="item_amount"
+                                            data-i18n="amount"
+                                        ></md-outlined-text-field>
                                         <md-outlined-text-field
                                             class="input_field offset-1 col-6 col-xl-5"
                                             label="Price"
                                             type="text"
-                                            id="price-field"></md-outlined-text-field>
+                                            id="price-field"
+                                            data-i18n="price"
+                                        ></md-outlined-text-field>
                                     </div>
                                     <div
                                         id="to_insert"
@@ -115,7 +124,8 @@
                                             icon="add"
                                             class="col-6 col-sm-auto px-0"
                                             id="item_to_table"
-                                            label="Add item to invoice"></md-fab-extended>
+                                            label="Add item to invoice"
+                                            data-i18n="add_item_to_invoice"></md-fab-extended>
                                     </div>
                                 </div>
                             </div>
@@ -123,35 +133,39 @@
                         <div class="container-fluid col-12 col-lg-10 col-xl-7 col-xxl-6">
                             <div id="inv" class="container-fluid text-left mb-3">
                                 <div class="row text-left mb-2">
-                                    <h2 id="invoice_name_display">Invoice</h2>
+                                    <h2 id="invoice_name_display" data-i18n="invoice_name">Invoice</h2>
                                 </div>
                                 <div class="row text-left mb-2">
-                                    <h5 id="client_name_display">Client name:</h5>
+                                    <h5 id="client_name_display" data-i18n="client_name">Client name:</h5>
                                 </div>
                                 <div class="row text-left mb-2">
-                                    <h5 id="client_phone_display">Telephone number:</h5>
+                                    <h5 id="client_phone_display" data-i18n="client_phone">Telephone number:</h5>
                                 </div>
                                 <div class="row text-left mb-2">
-                                    <h5 id="client_email_display">Email:</h5>
+                                    <h5 id="client_email_display" data-i18n="client_email">Email:</h5>
                                 </div>
                                 <div class="row mb-1">
-                                    <h6 id="payment_date_display" class="col-5">Date of payment:</h6>
+                                    <h6 id="payment_date_display" data-i18n="date_payment_" class="col-5">Date of payment:</h6>
                                 </div>
                                 <div class="row mb-3">
-                                    <h6 id="inv_date_display" class="col-5">Date of invoice:</h6>
+                                    <h6 id="inv_date_display" data-i18n="date_invoice_" class="col-5">Date of invoice:</h6>
                                 </div>
                                 <div class="row justify-content-end mt-4">
-                                    <h5 class="col-auto">Total:</h5>
+                                    <h5 class="col-auto" id="invoice_total" data-i18n="total">Total:</h5>
                                     <h5 class="col-2" id="total_price">0</h5>
                                     <h5 class="col-auto" id="invoice_currency_display">USD<i class="us flag"></i></h5>
                                 </div>
                                 <div class="container-fluid text-left align-items-center" id="table">
                                     <div class="row text-left table-row">
-                                        <div class="col-2 first_col items_name">Name</div>
-                                        <div class="col-2 first_col items_amount">Amount</div>
-                                        <div class="col-2 first_col items_unit">Unit</div>
-                                        <div class="col-2 first_col">Price</div>
-                                        <div class="col-2 first_col">Total</div>
+                                        <div class="col-2 first_col items_name" id="invoice_name_" data-i18n="name_for_ii">Name</div>
+                                        <div class="col-2 first_col items_amount" id="item_amount_"
+                                            data-i18n="amount">Amount</div>
+                                        <div class="col-2 first_col items_unit" id="item_unit_"
+                                            data-i18n="unit">Unit</div>
+                                        <div class="col-2 first_col" id="item_price_"
+                                            data-i18n="price">Price</div>
+                                        <div class="col-2 first_col" id="item_total_"
+                                            data-i18n="total">Total</div>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +177,8 @@
                                     class="input_field md-fab col-auto"
                                     icon="Save"
                                     label="Save invoice"
-                                    id="add_invoice_button">
+                                    id="add_invoice_button"
+                                    data-i18n="add_invoice_btn">
                                 </md-fab-extended>
                             </div>
                         </div>
@@ -179,5 +194,6 @@
         <script type="module" src="{% static 'js/dropdown.js' %}"></script>
         <script type="module" src="{% static 'js/add_invoice_request.js' %}"></script>
         <script type="module" src="{% static 'js/init18next.js' %}"></script>
+        <script defer type="module" src="{% static 'js/invoices_section_translation.js' %}"></script>
     </body>
 </html>

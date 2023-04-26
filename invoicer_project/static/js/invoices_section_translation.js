@@ -1,171 +1,11 @@
-i18next.init({
-    lng: navigator.language,
-    fallbackLng: 'en',
-    resources: {
-        en: {
-            translation: {
-                "invoices":
-                    "Invoices",
-                "clients":
-                    "Clients",
-                "items":
-                    "Items",
-                "statistics":
-                    "Statistics",
-                "settings":
-                    "Settings",
-                "search_input_text":
-                    "Search...",
-                "a_z_sort":
-                    "A-Z by name",
-                "add_item":
-                    "Add item",
-                "new_item":
-                    "New item",
-                "edit_item":
-                    "Edit item",
-                "item_edit":
-                    "Item edit",
-                "save_changes":
-                    "Save changes",
-                "item_info":
-                    "Client info",
-                "name":
-                    "Name",
-                "name_of_the_item":
-                    "Name of the item",
-                "price":
-                    "Price",
-                "currency":
-                    "Currency",
-                "basic_unit":
-                    "Basic unit",
-                "amount_in_stock":
-                    "Amount in stock",
-                "barcode":
-                    "Barcode",
-                "barcode_":
-                    "Barcode: ",
-                "add_new_additional_unit":
-                    "Add new additional unit",
-                "price_per_unit_text":
-                    "Price per unit",
-                "additional_unit":
-                    "Additional unit",
-                "name_of_the_additional_unit":
-                    "Name of the additional unit",
-                "amount_of_the_additional_unit_in_basic":
-                    "Amount in basic unit",
-                "empty_field_error":
-                    "This field can't be empty",
-                "no_whitespaces_error":
-                    "No whitespaces",
-                "max_length_error":
-                    "Max length – {{maxLength}} chars",
-                "capital_letter_error":
-                    "Has to begin with capital",
-                "lowercase_error":
-                    "At least one lowercase",
-                "special_characters_error":
-                    "Special characters aren't allowed",
-                "invalid_format_error":
-                    "Invalid format",
-                "range_error":
-                    "Amount of digits must be in [{{min}}, {{max}}]",
-                "add_invoice":
-                    "Add invoice"
-            }
-        }
-        ,
-        uk: {
-            translation: {
-                "invoices":
-                    "Накладні",
-                "clients":
-                    "Клієнти",
-                "items":
-                    "Товари",
-                "statistics":
-                    "Статистика",
-                "settings":
-                    "Налаштування",
-                "search_input_text":
-                    "Пошук...",
-                "a_z_sort":
-                    "А-Я",
-                "add_item":
-                    "Додати продукт",
-                "new_item":
-                    "Новий продукт",
-                "edit_item":
-                    "Внести зміни",
-                "item_edit":
-                    "Редагування продукту",
-                "save_changes":
-                    "Зберегти",
-                "item_info":
-                    "Інформація про продукт",
-                "name":
-                    "Назва",
-                "name_of_the_item":
-                    "Назва продукту",
-                "price":
-                    "Ціна",
-                "currency":
-                    "Валюта",
-                "basic_unit":
-                    "Основна одиниця",
-                "amount_in_stock":
-                    "К-cть в наявності",
-                "barcode":
-                    "Артикул",
-                "barcode_":
-                    "Артикул: ",
-                "add_new_additional_unit":
-                    "Створити додаткову одиницю к-сті",
-                "price_per_unit_text":
-                    "Ціна за од.",
-                "additional_unit":
-                    "Додаткова одиниця кількості",
-                "name_of_the_additional_unit":
-                    "Назва додаткової одиниці",
-                "amount_of_the_additional_unit_in_basic":
-                    "Кількість в основній одиниці",
-                "empty_field_error":
-                    "Поле не може бути порожнім",
-                "no_whitespaces_error":
-                    "Без пробілів",
-                "max_length_error":
-                    "Максимальна довжина – {{maxLength}} символів",
-                "capital_letter_error":
-                    "Повинно починатися з великої літери",
-                "lowercase_error":
-                    "Повинно містити хоча б одну малу літеру",
-                "special_characters_error":
-                    "Спецсимволи заборонені",
-                "invalid_format_error":
-                    "Некоректний формат",
-                "range_error":
-                    "Кількість цифр має бути від {{min}} до {{max}}",
-                "add_invoice":
-                    "Додати накладну"
-            }
-        }
-    }
-},
-
-function (err, t) {
-    document.addEventListener('DOMContentLoaded', function () {
-        updateContent();
-    });
+window.onload = function () {
+    updateContent();
 }
 
-)
-;
-
-function updateContent() {
+export function updateContent() {
     translateMenu();
-    translateItemsList();
+    translateInvoicesList();
+    translateInvoiceAdd();
 }
 
 function getI18NDataFromAttribute(element) {
@@ -181,9 +21,14 @@ function translateMenu() {
             menuItem.textContent = getI18NDataFromAttribute(menuItem);
         }
     }
+
+    let addInvoiceButton = document.querySelector("#adder");
+    if (addInvoiceButton) {
+        addInvoiceButton.label = i18next.t("add_invoice");
+    }
 }
 
-function translateItemsList() {
+function translateInvoicesList() {
     const searchInput = document.querySelector("#search_bar");
     if (searchInput) {
         searchInput.placeholder = getI18NDataFromAttribute(searchInput);
@@ -197,5 +42,195 @@ function translateItemsList() {
     let addItemButton = document.querySelector("#adder");
     if (addItemButton) {
         addItemButton.label = i18next.t("add_invoice");
+    }
+
+       const recipientEmailInput = document.querySelectorAll(".recipient-email-input");
+       if (recipientEmailInput) {
+           for(let recipientEmail of recipientEmailInput) {
+               recipientEmail.label = getI18NDataFromAttribute(recipientEmail);
+               recipientEmail.placeholder = getI18NDataFromAttribute(recipientEmail);
+           }
+    }
+
+       const sendPDFs = document.querySelectorAll(".send-email-btn");
+       if (sendPDFs) {
+           for(let sendPDF of sendPDFs) {
+               sendPDF.label = getI18NDataFromAttribute(sendPDF);
+           }
+    }
+
+       let contextMenuEditButtons = document.querySelectorAll(".context-menu-edit-button");
+    if (contextMenuEditButtons) {
+        for (let contextMenuEditButton of contextMenuEditButtons) {
+            contextMenuEditButton.childNodes[1].nodeValue = i18next.t("edit");
+        }
+    }
+
+    let contextMenuDeleteButtons = document.querySelectorAll(".context-menu-delete-button");
+    if (contextMenuDeleteButtons) {
+        for (let contextMenuDeleteButton of contextMenuDeleteButtons) {
+            contextMenuDeleteButton.childNodes[1].nodeValue = i18next.t("delete");
+        }
+    }
+
+    let contextMenuUploadButtons = document.querySelectorAll(".context-menu-upload-button");
+    if (contextMenuUploadButtons) {
+        for (let contextMenuUploadButton of contextMenuUploadButtons) {
+            contextMenuUploadButton.childNodes[1].nodeValue = i18next.t("upload");
+        }
+    }
+
+    let contextMenuDownloadButtons = document.querySelectorAll(".context-menu-download-button");
+    if (contextMenuDownloadButtons) {
+        for (let contextMenuDownloadButton of contextMenuDownloadButtons) {
+            contextMenuDownloadButton.childNodes[1].nodeValue = i18next.t("download");
+        }
+    }
+
+    const addItemMobileButton = document.querySelector("#add_invoice_mobile");
+    if (addItemMobileButton) {
+        addItemMobileButton.label = getI18NDataFromAttribute(addItemMobileButton);
+    }
+
+}
+
+function translateInvoiceAdd() {
+    const addInvoiceHeaderText = document.querySelector("#new_item_text");
+    if (addInvoiceHeaderText) {
+        addInvoiceHeaderText.textContent = getI18NDataFromAttribute(addInvoiceHeaderText);
+    }
+
+    const nameInput = document.querySelector("#invoice_name");
+    if (nameInput) {
+        nameInput.label = getI18NDataFromAttribute(nameInput);
+    }
+
+    const selectClientText = document.querySelector("#select_client_div");
+    if (selectClientText) {
+        selectClientText.textContent = getI18NDataFromAttribute(selectClientText)
+    }
+
+    const selectCurrencyText = document.querySelector("#select_currency_div");
+    if (selectCurrencyText) {
+        selectCurrencyText.textContent = getI18NDataFromAttribute(selectCurrencyText)
+    }
+
+    const currencyDivs = document.querySelectorAll('.currency_menu .item');
+    if (currencyDivs) {
+        for (let i = 0; i < currencyDivs.length; i++) {
+            currencyDivs[i].childNodes[1].textContent = i18next.t(currencyDivs[i].getAttribute('data-value'));
+        }
+    }
+
+    const dateOfInvoice = document.querySelector("#date_of_invoice");
+    if (dateOfInvoice) {
+        dateOfInvoice.label = getI18NDataFromAttribute(dateOfInvoice)
+    }
+
+    const dateOfPayment = document.querySelector("#date_of_payment");
+    if (dateOfPayment) {
+        dateOfPayment.label = getI18NDataFromAttribute(dateOfPayment)
+    }
+
+    const selectItemText = document.querySelector("#select_item_div");
+    if (selectItemText) {
+        selectItemText.textContent = getI18NDataFromAttribute(selectItemText)
+    }
+
+    const selectUnitText = document.querySelector("#select_unit_div");
+    if (selectUnitText) {
+        selectUnitText.textContent = getI18NDataFromAttribute(selectUnitText)
+    }
+
+    const unitDivs = document.querySelectorAll('.units_item');
+    if (unitDivs) {
+        for (let i = 0; i < unitDivs.length; i++) {
+            unitDivs[i].textContent = i18next.t(unitDivs[i].getAttribute('data-value'));
+        }
+    }
+
+    const addItems = document.querySelector("#add_items_id");
+    if (addItems) {
+        addItems.textContent = getI18NDataFromAttribute(addItems)
+    }
+
+    const amountOfItem = document.querySelector("#item_amount");
+    if (amountOfItem) {
+        amountOfItem.label = getI18NDataFromAttribute(amountOfItem)
+    }
+
+    const priceOfItem = document.querySelector("#price-field");
+    if (priceOfItem) {
+        priceOfItem.label = getI18NDataFromAttribute(priceOfItem)
+    }
+
+    const addItemButton = document.querySelector("#item_to_table");
+    if (addItemButton) {
+        addItemButton.label = getI18NDataFromAttribute(addItemButton)
+    }
+
+    const invoiceName = document.querySelector("#invoice_name_display");
+    if (invoiceName) {
+        invoiceName.textContent = getI18NDataFromAttribute(invoiceName)
+    }
+
+    const clientName = document.querySelector("#client_name_display");
+    if (clientName) {
+        clientName.textContent = getI18NDataFromAttribute(clientName)
+    }
+
+    const clientEmail = document.querySelector("#client_email_display");
+    if (clientEmail) {
+        clientEmail.textContent = getI18NDataFromAttribute(clientEmail)
+    }
+
+    const clientPhone = document.querySelector("#client_phone_display");
+    if (clientPhone) {
+        clientPhone.textContent = getI18NDataFromAttribute(clientPhone)
+    }
+
+    const dateOfInvoiceTable = document.querySelector("#inv_date_display");
+    if (dateOfInvoiceTable) {
+        dateOfInvoiceTable.textContent = getI18NDataFromAttribute(dateOfInvoiceTable)
+    }
+
+    const dateOfPaymentTable = document.querySelector("#payment_date_display");
+    if (dateOfPaymentTable) {
+        dateOfPaymentTable.textContent = getI18NDataFromAttribute(dateOfPaymentTable)
+    }
+
+    const total = document.querySelector("#invoice_total");
+    if (total) {
+        total.textContent = getI18NDataFromAttribute(total)
+    }
+
+    const invoiceNameTable = document.querySelector("#invoice_name_");
+    if (invoiceNameTable) {
+        invoiceNameTable.textContent = getI18NDataFromAttribute(invoiceNameTable)
+    }
+
+    const invoiceAmountTable = document.querySelector("#item_amount_");
+    if (invoiceAmountTable) {
+        invoiceAmountTable.textContent = getI18NDataFromAttribute(invoiceAmountTable)
+    }
+
+    const invoiceUnitTable = document.querySelector("#item_unit_");
+    if (invoiceUnitTable) {
+        invoiceUnitTable.textContent = getI18NDataFromAttribute(invoiceUnitTable)
+    }
+
+    const invoicePriceTable = document.querySelector("#item_price_");
+    if (invoicePriceTable) {
+        invoicePriceTable.textContent = getI18NDataFromAttribute(invoicePriceTable)
+    }
+
+    const invoiceTotalTable = document.querySelector("#item_total_");
+    if (invoiceTotalTable) {
+        invoiceTotalTable.textContent = getI18NDataFromAttribute(invoiceTotalTable)
+    }
+
+        const addInvoiceButton = document.querySelector("#add_invoice_button");
+    if (addInvoiceButton) {
+        addInvoiceButton.label = getI18NDataFromAttribute(addInvoiceButton)
     }
 }

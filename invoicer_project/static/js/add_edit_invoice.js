@@ -138,8 +138,8 @@ function setDefaultToDropdown(element, text) {
 function clearAllFields() {
     amountField.value = "";
     priceField.value = "";
-    setDefaultToDropdown(itemsField, "Select item");
-    setDefaultToDropdown(unitField, "Select unit");
+    setDefaultToDropdown(itemsField, i18next.t("select_item"));
+    setDefaultToDropdown(unitField, i18next.t("Select unit"));
 }
 
 
@@ -154,7 +154,7 @@ function loadValuetoUnitDropdown(loadedValue) {
         return;
     }
     allDropdownchildren[0].classList.add('noselection');
-    allDropdownchildren[3].textContent = "Select unit";
+    allDropdownchildren[3].textContent = i18next.t("Select unit");
 }
 
 function loadValueToItemDropdown(itemId) {
@@ -169,7 +169,7 @@ function loadValueToItemDropdown(itemId) {
         return;
     }
     allDropdownchildren[0].classList.add('noselection');
-    allDropdownchildren[2].textContent = "Select item";
+    allDropdownchildren[2].textContent = i18next.t("select_item");
 }
 
 function loadDataToEdit(event) {
@@ -281,7 +281,7 @@ async function observeUnitAndItemField() {
         if (selectedMenuItem) {
             id = selectedMenuItem.dataset.id;
             removeStylesFromDropdownElement(itemsField);
-            setDefaultToDropdown(unitField, 'Select unit');
+            setDefaultToDropdown(unitField, i18next.t("Select unit"));
         } else {
           id = -1;
         }

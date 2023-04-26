@@ -173,6 +173,12 @@ i18next.init({
                     "wrong_confirmation_code": "Wrong confirmation code",
                     "resend_code_text": "The code has been sent again. Wait {{seconds}} seconds to receive a new one",
                     "wait_to_receive": "Wait {{seconds}} seconds to receive a new code",
+                    "error_message_invoices": "PDF was sent",
+                    "recipient_email_input": "Recipient email",
+                    "send_pdf": "Send PDF",
+                    "empty_field": "Field is empty",
+                    "success_message_field": "PDF was sent",
+                    "error_message_field": "PDF was not sent",
                 }
             },
             uk: {
@@ -566,7 +572,34 @@ i18next.init({
                     "wrong_confirmation_code": "Неправильний код підтвердження",
                     "resend_code_text": "Код було надіслано знову. Почекайте {{seconds}}с., щоб отримати новий",
                     "wait_to_receive": "Почекайте {{seconds}}с., щоб отримати новий код",
-
+                    "add_invoice": "Додати накладну",
+                    "error_message_invoices": "Успішно надіслано на пошту",
+                    "recipient_email_input": "Введіть пошту отримувача",
+                    "send_pdf": "Надіслати пдф",
+                    "empty_field": "Поле є порожнім",
+                    "success_message_field": "ПДФ успішно надіслано",
+                    "error_message_field": "Не вдалося надіслати пдф",
+                    // нові функції
+                    "new_invoice": "Нова накладна",
+                    "name_for_ii": "Назва",
+                    "select_client": "Оберіть клієнта",
+                    "date_invoice": "Дата створення",
+                    "date_payment": "Дата оплати",
+                    "select_item": "Виберіть продукт",
+                    "add_items": "Додати товар",
+                    "amount": "Кількість",
+                    "add_item_to_invoice": "Додати товар до накладної",
+                    "invoice_name": "Назва накладної",
+                    "client_name": "Ім'я клієнта",
+                    "client_phone": "Номер клієнта",
+                    "client_email": "Email клієнта",
+                    "total": "Сума:",
+                    "date_invoice_": "Дата створення:",
+                    "date_payment_": "Дата оплати:",
+                    "unit": "Од.",
+                    "add_invoice_btn": "Додати накладну",
+                    "upload": "Відправити",
+                    "download": "Завантажити"
                 }
             }
         }

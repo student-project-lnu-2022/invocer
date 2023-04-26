@@ -159,11 +159,12 @@ a {
     padding: 15px;
     width: 100%;
     overflow-x: hidden;
+    min-height: 400px;
 }
 
 .xyz {
     min-width: 320px;
-    margin-bottom: 60px;
+    margin-bottom: 135px;
 }
 
 #wrapper.toggled #page-content-wrapper {
@@ -1035,6 +1036,8 @@ body {
 }
 
 .invoice_info_text {
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: #46464F;
     font-size: 14px;
     padding-right: 16px;
@@ -1050,6 +1053,8 @@ body {
 }
 
 .invoice_name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: #46464F;
     font-size: 17px;
     font-weight: 500;
@@ -1209,7 +1214,7 @@ body {
     position: absolute;
     background-color: rgba(255, 255, 255);
     border-radius: 10px;
-    width: 140px;
+    width: 145px;
     z-index: 2;
     box-shadow: 0px 0px 5px #888;
 }
@@ -1374,4 +1379,33 @@ item:not([state*="gray"]):last-child:hover {
 
 .invoice_list_item {
     margin-bottom: 10px;
+}
+
+@media screen and (max-width: 596px) {
+    .list_item_empty_block {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 596px) {
+    .list_invoice_user_buttons, .invoice_info_text:last-child {
+        display: none;
+    }
+    .currency_text {
+        margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 597px) {
+    .list_invoice_more_button {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 596px) {
+    .list_invoice_more_button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
