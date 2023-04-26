@@ -159,11 +159,12 @@ a {
     padding: 15px;
     width: 100%;
     overflow-x: hidden;
+    min-height: 400px;
 }
 
 .xyz {
     min-width: 320px;
-    margin-bottom: 60px;
+    margin-bottom: 135px;
 }
 
 #wrapper.toggled #page-content-wrapper {
