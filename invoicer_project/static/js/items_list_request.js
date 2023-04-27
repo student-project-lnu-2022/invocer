@@ -13,7 +13,7 @@ function createItemListContent(data) {
     if (data.length === 0) {
         const message = document.getElementById("items_container");
         message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
-        <p class="emptyMessageText">No items have been added yet...</p>
+        <p class="emptyMessageText">${i18next.t("no_items_text")}</p>
         </div>`);
     } else {
         for (let item of data) {
