@@ -51,10 +51,10 @@ function validateDates(invoiceDate, paymentDate)
     const dateValidationResult = [];
     const invoiceDateObj = new Date(invoiceDate.value);
     const paymentDateObj = new Date(paymentDate.value);
-    dateValidationResult.push((isNaN(invoiceDateObj) || (parseInt(Math.log10(invoiceDateObj.getFullYear())) + 1) > 4) ? 'Invalid date' : '');
-    dateValidationResult.push((isNaN(paymentDateObj) || (parseInt(Math.log10(paymentDateObj.getFullYear())) + 1) > 4) ? 'Invalid date' : '');
+    dateValidationResult.push((isNaN(invoiceDateObj) || (parseInt(Math.log10(invoiceDateObj.getFullYear())) + 1) > 4) ? i18next.t("Invalid_date") : '');
+    dateValidationResult.push((isNaN(paymentDateObj) || (parseInt(Math.log10(paymentDateObj.getFullYear())) + 1) > 4) ? i18next.t("Invalid_date") : '');
     if (dateValidationResult.every(elem => elem === '')) {
-        dateValidationResult[1] = (invoiceDateObj > paymentDateObj) ? 'Can\'t be lower than invoice date' : '';
+        dateValidationResult[1] = (invoiceDateObj > paymentDateObj) ? i18next.t("lower_date_error") : '';
     }
     return dateValidationResult; 
 }
@@ -63,7 +63,7 @@ function validateBeforeCreatingInvoice()
 {
     const dateValidation = validateDates(dateOfInvoiceField, dateOfPaymentField);
     return {
-        'nameValidation' : invoiceNameField.value ? '' : 'Can\'t be empty',
+        'nameValidation' : invoiceNameField.value ? '' : i18next.t("empty_field_error"),
         'clientValidation':validationDropdown('client-field'),
         'currencyValidation':validationDropdown('currency_input_dropdown'),
         'dateOfInvoiceValidation': dateValidation[0],

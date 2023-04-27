@@ -86,6 +86,8 @@ i18next.init({
                         "Has to begin with capital",
                     "lowercase_error":
                         "At least one lowercase",
+                    "lower_date_error":
+                        "Can\'t be lower than invoice date",
                     "special_characters_error":
                         "Special characters aren't allowed",
                     "invalid_format_error":
@@ -163,7 +165,7 @@ i18next.init({
                     "few_symbols_error": "Min length - {{passwordMinLength}} symbols",
                     "only_a_z_and_digits_error": "Only A-Z, a-z and 0-9 are allowed",
                     "digit_in_name_or_surname_error": "Should not contain digits",
-                    "invalid_old_password":"Invalid old password",
+                    "invalid_old_password": "Invalid old password",
                     "restore_password": "Restore password",
                     "send_code": "Send code",
                     "confirmation_sent": "Confirmation of changing password was sent to ",
@@ -199,7 +201,8 @@ i18next.init({
                     "unit": "Unit",
                     "add_invoice_btn": "Add invoice",
                     "upload": "Send",
-                    "download": "Download"
+                    "download": "Download",
+                    "Invalid_date": "Invalid date",
                 }
             },
             uk: {
@@ -583,7 +586,7 @@ i18next.init({
                     "from_8_to_15": "Довжина паролю від 8 до 15 символів",
                     "match_error": "Паролі не збігаються",
                     "digit_in_name_or_surname_error": "Не повинно містити цифр",
-                    "invalid_old_password":"Неправильний пароль",
+                    "invalid_old_password": "Неправильний пароль",
                     "restore_password": "Відновлення паролю",
                     "send_code": "Отримати код",
                     "confirmation_sent": "Код було надіслано на пошту ",
@@ -621,7 +624,10 @@ i18next.init({
                     "add_invoice_btn": "Додати накладну",
                     "upload": "Відправити",
                     "download": "Завантажити",
-                    "invalid_date": "некоректна дата",
+                    "invalid_date": " некоректна дата",
+                    "Invalid_date": "Некоректна дата",
+                    "lower_date_error":
+                        "Повинна бути пізніше ніж дата створення",
                 }
             }
         }
