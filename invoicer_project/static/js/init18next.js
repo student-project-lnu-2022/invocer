@@ -179,6 +179,7 @@ i18next.init({
                     "empty_field": "Field is empty",
                     "success_message_field": "PDF was sent",
                     "error_message_field": "PDF was not sent",
+                    "invalid_date": "invalid date",
                 }
             },
             uk: {
@@ -599,7 +600,8 @@ i18next.init({
                     "unit": "Од.",
                     "add_invoice_btn": "Додати накладну",
                     "upload": "Відправити",
-                    "download": "Завантажити"
+                    "download": "Завантажити",
+                    "invalid_date": "некоректна дата",
                 }
             }
         }

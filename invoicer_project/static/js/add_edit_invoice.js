@@ -339,8 +339,8 @@ function observeClientAndCurrencyField()
 {
     const clientObserver = new MutationObserver(() =>{
         const elem = clientNameField.parentElement.querySelector('.menu').querySelector(`[data-value="${clientNameField.value}"]`);
-        clientNameDisplay.textContent = `Client name: ${elem.textContent}`;
-        clientPhoneDisplay.textContent = `Telephone: ${elem.dataset.phone}`;
+        clientNameDisplay.textContent = `${i18next.t("client_name")}: ${elem.textContent}`;
+        clientPhoneDisplay.textContent = `${i18next.t("telephone_number")}: ${elem.dataset.phone}`;
         clientEmailDisplay.textContent = `Email: ${elem.dataset.email}`;
         removeStylesFromDropdownElement(clientNameField);
     });
@@ -360,21 +360,21 @@ function manageDateFunctionality()
 {
     dateOfInvoiceField.addEventListener('change', ()=>{
         const invoiceDate = new Date(dateOfInvoiceField.value);
-        let invoiceDateText = 'Date of invoice: ';
+        let invoiceDateText = i18next.t("date_invoice")+': ';
         if (!isNaN(invoiceDate) && String(invoiceDate.getFullYear()).length <= 4){
             invoiceDateText += invoiceDate.toLocaleDateString(); 
         } else {
-            invoiceDateText += 'Invalid date';
+            invoiceDateText += i18next.t("invalid_date");
         }
         dateOfInvoiceDisplay.textContent = invoiceDateText;
     });
     dateOfPaymentField.addEventListener('change', () => {
-        let paymentDateText = 'Date of payment: ';
+        let paymentDateText =  i18next.t("date_payment")+': ';
         const paymentDate = new Date(dateOfPaymentField.value);
         if (!isNaN(paymentDate) && String(paymentDate.getFullYear()).length <= 4) {
             paymentDateText += paymentDate.toLocaleDateString();
         } else {
-            paymentDateText += 'Invalid date';
+            paymentDateText += i18next.t("invalid_date");
         }
         dateOfPaymentDisplay.textContent = paymentDateText;
     });

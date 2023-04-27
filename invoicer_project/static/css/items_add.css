@@ -61,11 +61,8 @@ md-fab-extended {
 .background_input_item_in_page {
     background-color: white;
     border-radius: 15px;
-    padding-top: 15px;
-    padding-right: 15px;
-    padding-bottom: 15px;
-    padding-left: 15px;
-    margin-top: 20px;
+    padding: 15px;
+    margin: 0.5vw;
     height: fit-content;
 }
 
