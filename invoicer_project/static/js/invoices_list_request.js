@@ -197,6 +197,13 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
                     message.textContent = i18next.t("empty_field");
                     message.classList.remove("successMessage")
                     message.classList.add("errorMessage")
+                }else if (!/[a-zA-z]/.test(recipientEmailInput.value)) {
+                    let message = emailField.querySelector('#errorMessage');
+                    message.setAttribute('data-element-id', invoiceId);
+                    message.textContent = i18next.t("symbols_eror_field");
+                    message.classList.remove("successMessage")
+                    message.classList.add("errorMessage")
+                    recipientEmailInput.value = '';
                 } else {
                     const recipientEmail = recipientEmailInput.value;
                     const data = await sendPdfEmailRequest(invoiceId, recipientEmail);
