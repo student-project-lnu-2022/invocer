@@ -43,7 +43,14 @@ function createInvoiceListContent(data) {
                             <md-standard-icon-button class="edit-item"><span class="material-symbols-outlined">edit</span></md-standard-icon-button>
                             <md-standard-icon-button class="delete-invoice" data-element-id="${invoiceId}"><span class="material-symbols-outlined">delete</span></md-standard-icon-button>
                             <md-standard-icon-button class="upload" data-element-id="${invoiceId}"><span class="material-symbols-outlined">upload</span></md-standard-icon-button>
-                            <div class="modal">
+                            <md-standard-icon-button class="download" data-element-id="${invoiceId}"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
+                            <md-checkbox class="delete_invoices_checkbox" id="list_item_user_delete" data-element-id="${invoiceId}"></md-checkbox>
+                        </div>
+                        </div>
+                        <div class="col-2 list_item_more_button">
+                        <md-standard-icon-button class="more-invoice" data-element-id="${invoiceId}" data-contextmenu="invoice-context-menu-${invoiceId}"><span class="material-symbols-outlined">more_vert</span></md-standard-icon-button>
+                    </div>
+                    <div class="modal" id="modal-${invoiceId}">
                               <div class="modal-content d-flex">
                                 <div class="row">
                                     <md-standard-icon-button class="close">close</md-standard-icon-button>
@@ -55,13 +62,6 @@ function createInvoiceListContent(data) {
                                 </div>
                               </div>
                             </div>
-                            <md-standard-icon-button class="download" data-element-id="${invoiceId}"><span class="material-symbols-outlined">download</span></md-standard-icon-button>
-                            <md-checkbox class="delete_invoices_checkbox" id="list_item_user_delete" data-element-id="${invoiceId}"></md-checkbox>
-                        </div>
-                        </div>
-                        <div class="col-2 list_item_more_button">
-                        <md-standard-icon-button class="more-invoice" data-element-id="${invoiceId}" data-contextmenu="invoice-context-menu-${invoiceId}"><span class="material-symbols-outlined">more_vert</span></md-standard-icon-button>
-                    </div>
     <div id="contextmenu-${invoiceId}" class="contextmenu">
         <item id="context_menu_edit-${invoiceId}" class="context_menu_edit-${invoiceId} context-menu-edit-button"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">edit</span>Edit</item>
         <item id="context_menu_delete-${invoiceId}" class="delete-invoice context-menu-delete-button" data-element-id="${invoiceId}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
@@ -183,8 +183,8 @@ function addUploadButtonListeners(uploadSelector, recipientEmailSelector, sendBu
     uploadButtons.forEach(button => {
         button.addEventListener('click', () => {
             const invoiceId = button.getAttribute('data-element-id');
-
-            const emailField = button.nextElementSibling;
+            console.log(document.querySelector(`#modal-${invoiceId}`))
+            const emailField = document.querySelector(`#modal-${invoiceId}`);
             emailField.style.display = 'block';
             const recipientEmailInput = emailField.querySelector(recipientEmailSelector);
             const sendEmailButton = emailField.querySelector(sendButtonSelector);
