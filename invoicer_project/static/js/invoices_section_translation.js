@@ -44,22 +44,22 @@ function translateInvoicesList() {
         addItemButton.label = i18next.t("add_invoice");
     }
 
-       const recipientEmailInput = document.querySelectorAll(".recipient-email-input");
-       if (recipientEmailInput) {
-           for(let recipientEmail of recipientEmailInput) {
-               recipientEmail.label = getI18NDataFromAttribute(recipientEmail);
-               recipientEmail.placeholder = getI18NDataFromAttribute(recipientEmail);
-           }
+    const recipientEmailInput = document.querySelectorAll(".recipient-email-input");
+    if (recipientEmailInput) {
+        for (let recipientEmail of recipientEmailInput) {
+            recipientEmail.label = getI18NDataFromAttribute(recipientEmail);
+            recipientEmail.placeholder = getI18NDataFromAttribute(recipientEmail);
+        }
     }
 
-       const sendPDFs = document.querySelectorAll(".send-email-btn");
-       if (sendPDFs) {
-           for(let sendPDF of sendPDFs) {
-               sendPDF.label = getI18NDataFromAttribute(sendPDF);
-           }
+    const sendPDFs = document.querySelectorAll(".send-email-btn");
+    if (sendPDFs) {
+        for (let sendPDF of sendPDFs) {
+            sendPDF.label = getI18NDataFromAttribute(sendPDF);
+        }
     }
 
-       let contextMenuEditButtons = document.querySelectorAll(".context-menu-edit-button");
+    let contextMenuEditButtons = document.querySelectorAll(".context-menu-edit-button");
     if (contextMenuEditButtons) {
         for (let contextMenuEditButton of contextMenuEditButtons) {
             contextMenuEditButton.childNodes[1].nodeValue = i18next.t("edit");
@@ -234,8 +234,13 @@ function translateInvoiceAdd() {
         invoiceTotalTable.textContent = getI18NDataFromAttribute(invoiceTotalTable)
     }
 
-        const addInvoiceButton = document.querySelector("#add_invoice_button");
+    const addInvoiceButton = document.querySelector("#add_invoice_button");
     if (addInvoiceButton) {
         addInvoiceButton.label = getI18NDataFromAttribute(addInvoiceButton)
+    }
+
+    const saveItemChanges = document.querySelector("#save_changes");
+    if (saveItemChanges) {
+        saveItemChanges.label = getI18NDataFromAttribute(saveItemChanges)
     }
 }
