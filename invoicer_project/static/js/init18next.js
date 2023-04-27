@@ -203,6 +203,8 @@ i18next.init({
                     "upload": "Send",
                     "download": "Download",
                     "Invalid_date": "Invalid date",
+                    "insufficient_amount": "Insufficient amount in stock",
+                    "zero_amount_error": "Amount can't be 0"
                 }
             },
             uk: {
@@ -628,6 +630,8 @@ i18next.init({
                     "Invalid_date": "Некоректна дата",
                     "lower_date_error":
                         "Повинна бути пізніше ніж дата створення",
+                    "insufficient_amount": "Товару недостатньо на складі",
+                    "zero_amount_error": "К-сть не може бути 0"
                 }
             }
         }

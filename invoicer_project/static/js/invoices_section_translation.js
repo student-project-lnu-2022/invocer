@@ -137,6 +137,11 @@ function translateInvoiceAdd() {
         selectItemText.textContent = getI18NDataFromAttribute(selectItemText)
     }
 
+    const insufficientAmount = document.querySelector("#not_enough_text");
+    if (insufficientAmount) {
+        insufficientAmount.querySelector(".col").textContent = getI18NDataFromAttribute(insufficientAmount.querySelector(".col"))
+    }
+
     const selectUnitText = document.querySelector("#select_unit_div");
     if (selectUnitText) {
         selectUnitText.textContent = getI18NDataFromAttribute(selectUnitText)

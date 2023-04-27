@@ -49,7 +49,7 @@ function validateAmountInStock(amountValue)
 {
     const firstValidation = validateAmount(amountValue);
     if (firstValidation) return firstValidation;
-    return (amountValue != 0) ? '' : "Amount can't be 0";
+    return (amountValue != 0) ? '' : i18next.t("zero_amount_error");
 }
 
 function validateAddingItemToTable() {
