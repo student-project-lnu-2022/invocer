@@ -27,7 +27,7 @@ barcode_validation = RegexValidator(
 
 class Item(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='items')
-    name = models.CharField(max_length=35, validators=[string_validation])
+    name = models.CharField(max_length=100)
     price = models.FloatField(validators=[float_number_validation])
     currency = models.CharField(max_length=7, validators=[currency_validation])
     basic_unit = models.CharField(max_length=10, validators=[unit_validation])
