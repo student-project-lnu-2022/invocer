@@ -25,6 +25,19 @@ export function validation(fieldToValidate, fieldRegex) {
     return isFieldValid;
 }
 
+export function specialClientEditNameValidation(fieldToValidate, fieldRegex) {
+     let isFieldValid = '';
+    if (fieldToValidate === '') {
+        isFieldValid = i18next.t("empty_field_error");
+    } else if (!(fieldRegex.test(fieldToValidate))) {
+        isFieldValid = i18next.t("invalid_format_error");
+    } else if (new RegExp(`[${specialCharsArrayWithoutQuotationMarks.join('')}]`).test(fieldToValidate)) {
+        isFieldValid = i18next.t("special_characters_error");
+    } else {
+        isFieldValid = '';
+    }
+    return isFieldValid;
+}
 
 export function validationWithoutNotEmpty(fieldToValidate, fieldRegex) {
     let isFieldValid;
