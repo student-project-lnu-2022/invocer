@@ -71,7 +71,7 @@ function arrayWithData() {
 }
 
 function hideSaveButton() {
-    saveToTable.style.visibility = 'hidden';
+    saveToTable.style.display = 'none';
     saveToTable.removeEventListener('click', clickHandler);
 }
 
@@ -180,12 +180,12 @@ function loadDataToEdit(event) {
     loadValuetoUnitDropdown(columns[2].textContent);
     removeAllErrorAttributes(returnAllItemsFields());
     addMoreItems.style.visibility = 'hidden';
-    saveToTable.style.visibility = 'visible';
+    saveToTable.style.display = 'block';
     clickHandler = function () {
         if (modifyTable(columns)) {
             displayNoUnitsError(false);
             saveToTable.removeEventListener('click', clickHandler);
-            saveToTable.style.visibility = 'hidden';
+            saveToTable.style.display = 'none';
             addMoreItems.style.visibility = 'visible';
         } else {
             displayNoUnitsError(true);
