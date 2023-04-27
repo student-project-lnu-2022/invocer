@@ -8,6 +8,8 @@
 }
 
 .first_col {
+    overflow: hidden;
+    white-space: nowrap;
     overflow-x: hidden;
     padding: 5px;
     border-top: 1px solid rgba(0, 68, 255, 0.11);

@@ -1055,6 +1055,8 @@ body {
 }
 
 .invoice_name {
+    width: 100%;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     color: #46464F;
