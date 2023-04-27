@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('load', setNavMobileDisplay);
 });
 
-document.querySelector("#log_out_button").addEventListener("click", async () => {
+export async function logout() {
     try {
         const refreshToken = window.localStorage.getItem('refreshToken');
         const response = await fetch(host + '/user/logout/', {
@@ -66,7 +66,9 @@ document.querySelector("#log_out_button").addEventListener("click", async () => 
         localStorage.removeItem('refreshToken');
         window.location.replace(host + '/user/login/');
     }
-});
+}
+
+document.querySelector("#log_out_button").addEventListener("click", logout);
 
 function checkMenuItemBasedOnSection() {
     const urlSection = new URL(window.location.href).pathname.split("/")[1];

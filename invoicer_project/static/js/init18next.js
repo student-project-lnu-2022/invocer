@@ -49,7 +49,7 @@ i18next.init({
                     "save_changes":
                         "Save changes",
                     "item_info":
-                        "Client info",
+                        "Item info",
                     "name":
                         "Name",
                     "edit": "Edit",
@@ -149,7 +149,7 @@ i18next.init({
                     "Personal information": "Personal information",
                     "*Name": "*Name",
                     "*Surname": "*Surname",
-                    "*Company name": "*Company name",
+                    "Company name": "Company name",
                     "download_all_data": "Download all data",
                     "Change password": "Change password",
                     "Old password": "Old password",
@@ -205,7 +205,11 @@ i18next.init({
                     "Invalid_date": "Invalid date",
                     "insufficient_amount": "Insufficient amount in stock",
                     "zero_amount_error": "Amount can't be 0",
-                    "symbols_eror_field": "Invalid email"
+                    "symbols_eror_field": "Invalid email",
+                    "no_invoices_text": "No invoices have been added yet...",
+                    "no_clients_text": "No clients have been added yet....",
+                    "no_items_text": "No items have been added yet...",
+                    "logout": "Logout"
                 }
             },
             uk: {
@@ -576,7 +580,7 @@ i18next.init({
                     "Personal information": "Особиста інформація",
                     "*Name": "*Імʼя",
                     "*Surname": "*Прізвище",
-                    "*Company name": "*Компанія",
+                    "Company name": "Компанія",
                     "download_all_data": "Завантажити всі дані",
                     "Change password": "Змінити пароль",
                     "Old password": "Старий пароль",
@@ -633,7 +637,11 @@ i18next.init({
                         "Повинна бути пізніше ніж дата створення",
                     "insufficient_amount": "Товару недостатньо на складі",
                     "zero_amount_error": "К-сть не може бути 0",
-                    "symbols_eror_field": "Некоректна пошта"
+                    "symbols_eror_field": "Некоректна пошта",
+                    "no_invoices_text": "Ще не було додано жодної накладної...",
+                    "no_clients_text": "Ще не було додано жодного клієнта...",
+                    "no_items_text": "Ще не було додано жодного товару...",
+                    "logout": "Вийти",
                 }
             }
         }

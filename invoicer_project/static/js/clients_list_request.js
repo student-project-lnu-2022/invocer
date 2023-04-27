@@ -15,7 +15,7 @@ function createClientListContent(data) {
     if (data.length === 0) {
         const message = document.getElementById("other_elements");
         message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
-        <p class="emptyMessageText">No clients have been added yet...</p>
+        <p class="emptyMessageText">${i18next.t("no_clients_text")}</p>
         </div>`);
     } else {
         for (let i = 0; i < data.length; i++) {

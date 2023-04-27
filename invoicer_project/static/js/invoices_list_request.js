@@ -17,7 +17,7 @@ function createInvoiceListContent(data) {
     if (data.length === 0) {
         const message = document.getElementById("other_elements_invoices");
         message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
-        <p class="emptyMessageText">No invoices have been added yet...</p>
+        <p class="emptyMessageText">${i18next.t("no_invoices_text")}</p>
         </div>`);
     } else {
         for (let i = 0; i < data.length; i++) {

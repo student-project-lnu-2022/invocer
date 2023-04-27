@@ -17,6 +17,7 @@ import {
     sendAddEditRequest,
     getUserData, addDeleteButtonListeners, addCheckboxesListener
 } from './request_utils.js'
+import {logout} from './index.js'
 
 const nameField = document.getElementById("name_input_settings");
 const surnameField = document.getElementById("surname_input_settings");
@@ -103,6 +104,8 @@ function validateUserOldPassword(oldPassword) {
     })
 
     document.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('resize', setNavMobile);
+    window.addEventListener('load', setNavMobile);
         obtainUserInitials();
     });
 
@@ -182,3 +185,16 @@ async function sendAddEditRequestSettings() {
     }
     return {'status': status, 'data': jsonData};
 }
+
+const logbtn = document.querySelector("#log_out_button-mobile");
+
+logbtn.addEventListener("click", logout);
+
+function setNavMobile() {
+    if (window.innerWidth <= 940) {
+        logbtn.style.display = "flex";
+    } else {
+        logbtn.style.display = "none";
+    }
+}
+

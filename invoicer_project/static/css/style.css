@@ -1055,6 +1055,8 @@ body {
 }
 
 .invoice_name {
+    width: 100%;
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     color: #46464F;
@@ -1455,4 +1457,8 @@ item:not([state*="gray"]):last-child:hover {
   .modal-content {
     width: auto;
   }
+}
+
+#log_out_button-mobile {
+    display: none;
 }

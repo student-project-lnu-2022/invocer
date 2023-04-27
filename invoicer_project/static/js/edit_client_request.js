@@ -22,7 +22,7 @@ import {
     validateCity,
     validateCountry,
     validateNameAndSurnameAsStrings,
-    validation,
+    validation, validationWithoutNotEmpty,
 } from './validation_utils.js'
 import {actionBasedOnStatusCode, obtainUserInitials, sendAddEditRequest} from './request_utils.js'
 
@@ -30,8 +30,8 @@ function validateClientEdit() {
     removeAllErrorAttributes(returnAllFields());
     setMaxFieldContainerHeights(returnAllFields());
     return {
-        'nameValidationResult': validateNameAndSurnameAsStrings(nameField.value),
-        'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
+        'nameValidationResult': validationWithoutNotEmpty(nameField.value, /^[a-zA-Zа-яА-ЯіїєІЇЄ\s"']+$/),
+        'surnameValidationResult': validationWithoutNotEmpty(surnameField.value, /^[a-zA-Zа-яА-ЯіїєІЇЄ\s"']+$/),
         'emailValidationResult': validation(emailField.value, /^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/),
         'telephoneValidationResult': validation(telephoneField.value, /^\+?1?\d{9,15}$/),
         'zipValidationResult': validation(zipField.value, /^\d{5}(?:-\d{4})?$/),
