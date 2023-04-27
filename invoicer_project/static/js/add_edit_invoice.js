@@ -63,7 +63,11 @@ function validateAddingItemToTable() {
 }
 
 function arrayWithData() {
-    return [itemsField.value,
+    let itemStr = itemsField.value;
+    while (itemStr.includes('&quot;')) {
+        itemStr = itemStr.replace('&quot;', '"');
+    }
+    return [itemStr,
     amountField.value,
     unitField.value,
     priceField.value,
