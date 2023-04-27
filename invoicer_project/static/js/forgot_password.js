@@ -6,6 +6,7 @@ import {
     allAreFalse,
     validatePasswordAsString,
     validation, clearErrorAttributes,
+    makeVisibilityOff
 } from './validation_utils.js'
 
 const userEmail = document.getElementById("email_input_fp");
@@ -159,3 +160,10 @@ document.getElementById("resend_text").addEventListener("click", () => {
     }, 1000);
     onSendCodeClick();
 });
+
+
+const passwordVisibilityToggleButton = document.getElementById('new_password_visibility_toggle_button');
+const repeatPasswordVisibilityToggleButton = document.getElementById('repeat_password_visibility_toggle_button');
+
+makeVisibilityOff(passwordVisibilityToggleButton, newPass);
+makeVisibilityOff(repeatPasswordVisibilityToggleButton, repeatNewPass);
