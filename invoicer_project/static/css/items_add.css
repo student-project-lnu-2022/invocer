@@ -208,6 +208,12 @@ md-fab-extended {
 
 /* invoice page */
 #inv {
+  padding: 10px;
   background-color: rgba(221, 228, 246, 1);
   border-radius: 15px;
+}
+
+#table_end {
+  margin-left: -1px;
+  width: 83.5%;
 }

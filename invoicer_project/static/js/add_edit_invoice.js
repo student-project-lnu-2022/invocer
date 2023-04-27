@@ -104,7 +104,7 @@ function createAndFillTableRow(valList) {
     tableRow.setAttribute('data-total_in_basic', amountInBasic);
     totalInBasicInInvoice[foundItemId] += amountInBasic;
     for (let i = 0; i < 5; ++i) {
-        const rowIdentifier = (i === 5) ? 'second_col' : 'first_col';
+        const rowIdentifier = (i === 4) ? 'second_col' : 'first_col';
         const tempElem = document.createElement('div');
         tempElem.classList.add('col-2', rowIdentifier);
         tempElem.textContent = valList[i];
