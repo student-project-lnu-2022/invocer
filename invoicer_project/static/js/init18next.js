@@ -209,6 +209,7 @@ i18next.init({
                     "no_invoices_text": "No invoices have been added yet...",
                     "no_clients_text": "No clients have been added yet....",
                     "no_items_text": "No items have been added yet...",
+                    "logout": "Logout"
                 }
             },
             uk: {
@@ -640,6 +641,7 @@ i18next.init({
                     "no_invoices_text": "Ще не було додано жодної накладної...",
                     "no_clients_text": "Ще не було додано жодного клієнта...",
                     "no_items_text": "Ще не було додано жодного товару...",
+                    "logout": "Вийти",
                 }
             }
         }

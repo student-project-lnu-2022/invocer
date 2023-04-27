@@ -97,4 +97,9 @@ function updateContentSettings() {
     if (from8to15Text) {
         from8to15Text.textContent = getI18NDataFromAttribute(from8to15Text);
     }
+
+    const logout = document.querySelector("#log_out_button-mobile");
+    if (logout) {
+        logout.label = getI18NDataFromAttribute(logout);
+    }
 }
