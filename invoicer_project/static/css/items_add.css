@@ -35,7 +35,9 @@
     margin-bottom: 1.5vh;
 }
 
-#additional_item_button {
+#additional_item_button,
+#item_to_table,
+#save_changes {
     --_container-height: 40px;
     --_label-text-color: rgba(87, 86, 86, 0.911);
     --_label-text-weight: 400;
@@ -202,4 +204,16 @@ md-fab-extended {
 
 .close_btn {
   width: fit-content;
+}
+
+/* invoice page */
+#inv {
+  padding: 10px;
+  background-color: rgba(221, 228, 246, 1);
+  border-radius: 15px;
+}
+
+#table_end {
+  margin-left: -1px;
+  width: 83.5%;
 }

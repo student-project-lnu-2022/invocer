@@ -81,10 +81,14 @@ function checkMenuItemBasedOnSection() {
         item.classList.remove("nav__link_mobile--active");
     });
 
-    const urlSections = ['', 'clients', 'items', 'statistics', 'user'];
-
-    menuItems[urlSections.indexOf(urlSection)].classList.add('active');
-    menuItemsMobile[urlSections.indexOf(urlSection)].classList.add('nav__link_mobile--active');
+    const urlSections = ['invoices', 'clients', 'items', 'statistics', 'user'];
+    if (urlSection) {
+        menuItems[urlSections.indexOf(urlSection)].classList.add('active');
+        menuItemsMobile[urlSections.indexOf(urlSection)].classList.add('nav__link_mobile--active');
+    } else {
+        menuItems[0].classList.add('active');
+        menuItemsMobile[0].classList.add('nav__link_mobile--active');
+    }
 }
 
 const navMobile = document.querySelector('.nav_mobile');

@@ -10,18 +10,24 @@ import {
 import {initializeI18NextOnDynamicList, updateContentItems} from "./items_section_translation.js";
 
 function createItemListContent(data) {
-    for (let item of data) {
-        let itemName = item['name'];
-        let priceAndCurrency = item['price'] + " " + item['currency'];
-        let itemUnit = i18next.t(item['basic_unit']);
-        let itemID = item['id'];
+    if (data.length === 0) {
+        const message = document.getElementById("items_container");
+        message.insertAdjacentHTML('afterbegin', `<div class="emptyMessage">
+        <p class="emptyMessageText">No items have been added yet...</p>
+        </div>`);
+    } else {
+        for (let item of data) {
+            let itemName = item['name'];
+            let priceAndCurrency = item['price'] + " " + item['currency'];
+            let itemUnit = i18next.t(item['basic_unit']);
+            let itemID = item['id'];
 
-        document.getElementById("items_container").insertAdjacentHTML('afterbegin', `
+            document.getElementById("items_container").insertAdjacentHTML('afterbegin', `
                     <div class="row items_list_item client_list_item align-items-center justify-content-around redirect_to_item_info" data-item-id="${itemID}">
-                        <div class="col-xxl-5 col-xl-5 col-md-4 col-sm-2 col-3 list_item_name redirect_to_item_info list_item_name redirect_to_item_info" data-item-id="${itemID}">
+                        <div class="col-xxl-5 col-xl-5 col-md-4 col-sm-4 col-2 list_item_name redirect_to_item_info list_item_name redirect_to_item_info" data-item-id="${itemID}">
                             <p class="item_name redirect_to_item_info" data-item-id="${itemID}">${itemName}</p>
                         </div>
-                        <div class="d-flex flex-wrap flex-row justify-content-end col-xxl-7 col-xl-7 col-md-8 col-sm-8 col-7 redirect_to_item_info" data-item-id="${itemID}">
+                        <div class="d-flex flex-wrap flex-row justify-content-end col-xxl-7 col-xl-7 col-md-8 col-sm-8 col-8 redirect_to_item_info" data-item-id="${itemID}">
                             <div class="d-flex flex-wrap flex-column list_item_info_block redirect_to_item_info" data-item-id="${itemID}">
                                 <p class="additional_text redirect_to_item_info price_per_unit_text" data-item-id="${itemID}" data-i18n="price_per_unit_text">Price per unit</p>
                                 <p class="main_text redirect_to_item_info" data-item-id="${itemID}">${priceAndCurrency}</p>
@@ -50,11 +56,13 @@ function createItemListContent(data) {
     <item id="context_menu_delete-${itemID}" class="delete-item context-menu-delete-button" data-element-id="${itemID}"><span class="material-symbols-outlined" style="font-size: 20px; margin-right: 5px;">delete</span>Delete</item>
 </div>
                     </div>`);
-        document.querySelector(`#context_menu_edit-${itemID}`).addEventListener("click", () => {
-            window.location.href = host + "/items/edit/" + itemID;
-        });
+            document.querySelector(`#context_menu_edit-${itemID}`).addEventListener("click", () => {
+                window.location.href = host + "/items/edit/" + itemID;
+            });
+        }
     }
 }
+
 
 async function addElementsDynamically() {
     let responseFromServer = await getUserData('/items/items_list/');

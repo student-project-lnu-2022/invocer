@@ -159,11 +159,12 @@ a {
     padding: 15px;
     width: 100%;
     overflow-x: hidden;
+    min-height: 400px;
 }
 
 .xyz {
     min-width: 320px;
-    margin-bottom: 60px;
+    margin-bottom: 135px;
 }
 
 #wrapper.toggled #page-content-wrapper {
@@ -376,6 +377,7 @@ p {
     padding-bottom: 10px;
     padding-left: 20px;
     padding-right: 5px;
+
 }
 
 .input_user_edit {
@@ -681,6 +683,17 @@ md-fab-extended {
     font-size: 20px;
     font-family: Roboto, serif;
     color: #979799;
+}
+
+#resend_text {
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 24px;
+    font-size: 13px;
+    font-family: Roboto;
+    margin-top: 15px;
+
 }
 
 .client_list_item {
@@ -1025,6 +1038,8 @@ body {
 }
 
 .invoice_info_text {
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: #46464F;
     font-size: 14px;
     padding-right: 16px;
@@ -1040,6 +1055,8 @@ body {
 }
 
 .invoice_name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: #46464F;
     font-size: 17px;
     font-weight: 500;
@@ -1086,7 +1103,6 @@ body {
     height: 18px;
     align-content: space-around;
 }
-
 
 
 body {
@@ -1159,7 +1175,7 @@ body {
     }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 580px) {
     #adder {
         display: none;
     }
@@ -1182,13 +1198,13 @@ body {
     cursor: pointer;
 }
 
-@media (max-width: 429px) {
+@media (max-width: 580px) {
     #float_button {
         display: flex;
     }
 }
 
-@media (min-width: 430px) {
+@media (min-width: 581px) {
     #float_button {
         display: none;
     }
@@ -1199,15 +1215,17 @@ body {
     position: absolute;
     background-color: rgba(255, 255, 255);
     border-radius: 10px;
-    width: 140px;
-    z-index: 2;
+    width: 150px;
+    z-index: 12;
     box-shadow: 0px 0px 5px #888;
 }
+
 .contextmenu hr {
-    border:1px solid #CCC;
+    border: 1px solid #CCC;
 }
+
 item {
-    font-family:'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 500;
     color: black;
     font-size: 16px;
@@ -1217,26 +1235,224 @@ item {
     padding-top: 5px;
     padding-bottom: 8px;
 }
+
 item:first-child {
     padding-top: 8px;
 }
+
 item:last-child {
     padding-bottom: 8px;
 }
+
 item[state*="gray"] {
     color: #AAA;
 }
+
 item:not([state*="gray"]):hover {
     cursor: pointer;
 }
+
 item:not([state*="gray"]):hover {
     color: #003aff;
     background-color: rgba(44, 44, 44, 0.02);
 }
+
 item:not([state*="gray"]):first-child:hover {
     /*border-radius: 5px 5px 0px 0px;*/
 }
+
 item:not([state*="gray"]):last-child:hover {
     /*border-radius: 0px 0px 5px 5px;*/
 }
 
+#change_btn_fp_pg {
+    margin-top: 15px;
+}
+
+.emptyMessageText {
+    text-align: center;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    cursor: auto;
+}
+
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px;
+}
+
+.close {
+    --md-icon-color: red;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.recipient-email-input {
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+@keyframes animate_error {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes animate_success {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.errorMessage {
+    color: #f44336;
+    animation-name: animate_error;
+    animation-duration: 2s;
+    margin-top: 10px;
+    font-size: 18px;
+    animation-fill-mode: forwards;
+}
+
+.successMessage {
+    color: #4CAF50;
+    font-size: 18px;
+    margin-top: 10px;
+    animation-name: animate_success;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+}
+
+.emptyMessage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+.emptyMessageText {
+    font-size: 18px;
+    color: #3b3b3b;
+}
+
+.empty_invoice {
+    color: #cd2219;
+    visibility: hidden;
+}
+
+.invoice_list_item {
+    background-color: #fff;
+    border-radius: 15px;
+    height: 6%;
+    margin-left: 0;
+    width: 90%;
+}
+
+.invoice_list_item:hover {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 860px) {
+    .invoice_list_item {
+        width: 100%;
+    }
+}
+
+.invoice_list_item {
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 596px) {
+    .list_item_empty_block {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 596px) {
+    .list_invoice_user_buttons, .invoice_info_text:last-child {
+        display: none;
+    }
+
+    .currency_text {
+        margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 597px) {
+    .list_invoice_more_button {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 596px) {
+    .list_invoice_more_button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.background_input_invoice_in_page {
+    background-color: white;
+    border-radius: 15px;
+    padding-top: 15px;
+    padding-right: 5px;
+    padding-bottom: 15px;
+    padding-left: 5px;
+    margin-top: 15px;
+    height: fit-content;
+}
+
+#add_items_id {
+    padding-left: 0;
+}
+
+#to_insert {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#invoice_name_display {
+    padding-top: 10px;
+}
+
+.custom_dropdown_invoice{
+    margin-bottom: 1rem;
+}
+
+
+@media (max-width: 720px) {
+  .modal-content {
+    width: auto;
+  }
+}

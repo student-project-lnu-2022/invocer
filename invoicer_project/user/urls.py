@@ -9,6 +9,8 @@ refresh_methods = RefreshViewSet.as_view({'post': 'create'})
 decode_methods = RefreshViewSet.as_view({'post': 'decode'})
 logout_method = LoginViewSet.as_view({'post': 'logout'})
 settings_method = UserSettingsViewSet.as_view({'get': 'retrieve', 'patch': 'partial_update'})
+forgot_password_method = LoginViewSet.as_view({'post': 'send_confirmation_code', 'patch': 'partial_update'})
+confirm_password_method = LoginViewSet.as_view({'post': 'confirm_code'})
 
 urlpatterns = [
     path("register/", register_methods, name='register'),
@@ -19,4 +21,6 @@ urlpatterns = [
     path('logout/', logout_method, name='logout'),
     path('settings/', TemplateView.as_view(template_name="user/settings.html"), name='settings'),
     path("user/", settings_method),
+    path('reset_password/', forgot_password_method),
+    path('confirm_password/', confirm_password_method)
 ]

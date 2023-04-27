@@ -7,6 +7,10 @@ from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse
 from .invoice import create_pdf
+from django.core.mail import EmailMessage
+from django.http import HttpResponse
+from django.conf import settings
+import os
 
 
 class InvoiceViewSet(viewsets.ViewSet):
@@ -31,10 +35,17 @@ class InvoiceViewSet(viewsets.ViewSet):
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+    def update_client_debt(self, invoice):
+        client = invoice.client
+        client.debt -= invoice.price
+        client.save(update_fields=["debt"])
+
     def destroy(self, request):
         user = get_user_from_jwt(request.headers)
         invoice_ids = request.data['elementsIds']
         invoices = Invoice.objects.filter(id__in=invoice_ids, user_id=user['user_id'])
+        for invoice in invoices:
+            self.update_client_debt(invoice)
         invoices.delete()
         return JsonResponse({}, status=204)
 
@@ -53,6 +64,32 @@ class InvoiceViewSet(viewsets.ViewSet):
         response = HttpResponse(pdf, content_type='application/pdf')
         response['Content-Disposition'] = f"attachment; filename=Invoice-{serializer.data['id']}.pdf"
         return response
+
+    def send_email(self, request, invoice_id, recipient_email):
+        try:
+            user = get_user_from_jwt(request.headers)
+            invoice = Invoice.objects.get(id=invoice_id, user_id=user['user_id'])
+            ordered_items = OrderedItem.objects.filter(invoice=invoice_id)
+        except Invoice.DoesNotExist:
+            return JsonResponse({'error': 'Invoice not found'}, status=404)
+
+        serializer = InvoiceSerializer(invoice)
+        items = OrderedItemSerializer(ordered_items, many=True)
+        pdf = create_pdf(serializer, items)
+
+        email = EmailMessage(
+            subject=f"{serializer.data['name']}",
+            body='Насолоджуйтесь вашою накладною',
+            from_email=settings.EMAIL_HOST_USER,
+            to=[recipient_email],
+        )
+        email.attach(f"Invoice-{invoice_id}.pdf", pdf, 'application/pdf')
+        try:
+            email.send()
+        except:
+            return JsonResponse({'message': 'Failed to send email!'})
+        return JsonResponse({'message': 'PDF was sent!'})
+
 
 
 class OrderedItemViewSet(viewsets.ViewSet):

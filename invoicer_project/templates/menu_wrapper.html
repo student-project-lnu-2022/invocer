@@ -1,12 +1,12 @@
 {% load static %}
 <div id="sidebar-wrapper">
     <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-        <li>
+        <li class="active">
             <a href="{% url 'invoices_render' %}" class="translation" data-i18n="invoices"><span
                     class="fa-stack fa-lg pull-left invoices_icon"><img class="icon_menu" alt="invoices_icon"
                                                                         src="{% static 'img/invoice.png' %}"/></span><span class="translation" data-i18n="invoices">Invoices</span></a>
         </li>
-        <li class="active">
+        <li>
             <a href="{% url 'home' %}" class="translation" data-i18n="clients"><span
                     class="fa-stack fa-lg pull-left clients_icon"><img class="icon_menu"
                                                                        alt="clients_icon"
