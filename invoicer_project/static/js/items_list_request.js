@@ -24,10 +24,10 @@ function createItemListContent(data) {
 
             document.getElementById("items_container").insertAdjacentHTML('afterbegin', `
                     <div class="row items_list_item client_list_item align-items-center justify-content-around redirect_to_item_info" data-item-id="${itemID}">
-                        <div class="col-xxl-5 col-xl-5 col-md-4 col-sm-2 col-3 list_item_name redirect_to_item_info list_item_name redirect_to_item_info" data-item-id="${itemID}">
+                        <div class="col-xxl-5 col-xl-5 col-md-4 col-sm-4 col-2 list_item_name redirect_to_item_info list_item_name redirect_to_item_info" data-item-id="${itemID}">
                             <p class="item_name redirect_to_item_info" data-item-id="${itemID}">${itemName}</p>
                         </div>
-                        <div class="d-flex flex-wrap flex-row justify-content-end col-xxl-7 col-xl-7 col-md-8 col-sm-8 col-7 redirect_to_item_info" data-item-id="${itemID}">
+                        <div class="d-flex flex-wrap flex-row justify-content-end col-xxl-7 col-xl-7 col-md-8 col-sm-8 col-8 redirect_to_item_info" data-item-id="${itemID}">
                             <div class="d-flex flex-wrap flex-column list_item_info_block redirect_to_item_info" data-item-id="${itemID}">
                                 <p class="additional_text redirect_to_item_info price_per_unit_text" data-item-id="${itemID}" data-i18n="price_per_unit_text">Price per unit</p>
                                 <p class="main_text redirect_to_item_info" data-item-id="${itemID}">${priceAndCurrency}</p>
