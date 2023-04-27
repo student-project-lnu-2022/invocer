@@ -21,6 +21,7 @@ import {
     validateCity,
     validateAddress,
     validateNameAndSurnameAsStrings,
+    validationWithoutNotEmpty,
     validation, setErrorAttributeToDropdown,removeStylesFromDropdownElement
 } from './validation_utils.js'
 import {obtainNewAccessToken, obtainUserInitials, actionBasedOnStatusCode, sendAddEditRequest} from './request_utils.js'
@@ -30,8 +31,8 @@ function validateClientAdd() {
     setMaxFieldContainerHeights(returnAllFields());
     removeErrorAttributeFromDropdown();
     return {
-        'nameValidationResult': validateNameAndSurnameAsStrings(nameField.value),
-        'surnameValidationResult': validateNameAndSurnameAsStrings(surnameField.value),
+        'nameValidationResult': validationWithoutNotEmpty(nameField.value, /^[a-zA-Zа-яА-ЯіїєІЇЄ\s"']+$/),
+        'surnameValidationResult': validationWithoutNotEmpty(surnameField.value, /^[a-zA-Zа-яА-ЯіїєІЇЄ\s"']+$/),
         'emailValidationResult': validation(emailField.value, /^[a-zA-Z0-9.]{3,20}@(?:[a-zA-Z0-9]{2,20}\.){1,30}[a-zA-Z]{2,10}$/),
         'telephoneValidationResult': validation(telephoneField.value, /^\+?1?\d{9,15}$/),
         'zipValidationResult': validation(zipField.value, /^[0-9]{5}(?:-[0-9]{4})?$/),
