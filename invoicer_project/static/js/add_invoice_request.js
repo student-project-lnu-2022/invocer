@@ -76,7 +76,7 @@ document.getElementById("add_invoice_button").addEventListener("click", async ()
     const validationOfInvoiceData = validateBeforeCreatingInvoice();
     if (allAreFalse(validationOfInvoiceData)) {
         const dataForInvoice = collectDataFromInvoiceTable();
-        const totalSum = dataForInvoice.reduce((a, b) => a + b['price'] * b['amount'], 0);
+        const totalSum = Math.round( (dataForInvoice.reduce((a, b) => a + b['price'] * b['amount'], 0) + Number.EPSILON) * 100 ) / 100;
         const data = {
             name: invoiceNameField.value,
             client: clientNameField.value,
