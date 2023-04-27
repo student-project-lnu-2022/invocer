@@ -1175,7 +1175,7 @@ body {
     }
 }
 
-@media (max-width: 540px) {
+@media (max-width: 580px) {
     #adder {
         display: none;
     }
@@ -1198,13 +1198,13 @@ body {
     cursor: pointer;
 }
 
-@media (max-width: 540px) {
+@media (max-width: 580px) {
     #float_button {
         display: flex;
     }
 }
 
-@media (min-width: 541px) {
+@media (min-width: 581px) {
     #float_button {
         display: none;
     }
@@ -1448,4 +1448,11 @@ item:not([state*="gray"]):last-child:hover {
 
 .custom_dropdown_invoice{
     margin-bottom: 1rem;
+}
+
+
+@media (max-width: 720px) {
+  .modal-content {
+    width: auto;
+  }
 }
